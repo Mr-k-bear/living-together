@@ -1,0 +1,33 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "alwaysStrict": true,
+        "strict": true,
+        "sourceMap": true,
+        "jsx": "react-jsx",
+        "lib": [
+            "ESNext", 
+            "DOM"
+        ],
+        "baseUrl": "./",
+        "paths": {
+            "@Behavior/*": [
+                "./source/Behavior/*"
+            ],
+            "@Group/*": [
+                "./source/Group/*"
+            ],
+            "@Model/*": [
+                "./source/Model/*"
+            ]
+        }
+    },
+    "include": [
+        "source/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "build",
+        "config"
+    ]
+}
