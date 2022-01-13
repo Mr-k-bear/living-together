@@ -1,4 +1,4 @@
-import { Component, ReactNode } from "react";
+import { Component, ReactNode, StrictMode } from "react";
 import { render } from "react-dom";
 import { Group } from "@Model/Group";
 import "./Laboratory.scss";
@@ -13,7 +13,7 @@ class Test extends Component {
 }
 
 render(
-    <Test></Test>, 
+    <StrictMode><Test></Test></StrictMode>, 
     document.getElementById("root")
 );
 
