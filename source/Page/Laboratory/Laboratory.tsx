@@ -1,6 +1,6 @@
 import { Component, ReactNode, StrictMode } from "react";
-import { render } from "react-dom";
 import { Group } from "@Model/Group";
+import { Entry } from "../Entry/Entry";
 import "./Laboratory.scss";
 
 class Test extends Component {
@@ -12,9 +12,6 @@ class Test extends Component {
     }
 }
 
-render(
-    <StrictMode><Test></Test></StrictMode>, 
-    document.getElementById("root")
-);
+Entry.renderComponent(Test);
 
 console.log(new Group);
