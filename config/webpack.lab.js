@@ -15,10 +15,18 @@ module.exports = (env) => {
             LaboratoryPage: AllEntry.LaboratoryPage
         },
 
-        output: Output("[name].js"),
+        output: Output("[name].[contenthash].js"),
         devtool: 'source-map',
         mode: "development",
         resolve: resolve(),
+
+        optimization: {
+            chunkIds: 'named',
+            moduleIds: 'named',
+            splitChunks: {
+                minSize: 1000,
+            }
+        },
 
         module: {
             rules: [
@@ -32,30 +40,6 @@ module.exports = (env) => {
             CssPlugin(),
             AutoFixCssPlugin()
         ],
-
-        optimization: {
-            splitChunks: {
-                chunks: 'async',
-                minSize: 20000,
-                minRemainingSize: 0,
-                minChunks: 1,
-                maxAsyncRequests: 30,
-                maxInitialRequests: 30,
-                enforceSizeThreshold: 50000,
-                cacheGroups: {
-                    defaultVendors: {
-                        test: /[\\/]node_modules[\\/]/,
-                        priority: -10,
-                        reuseExistingChunk: true,
-                    },
-                    default: {
-                        minChunks: 2,
-                        priority: -20,
-                        reuseExistingChunk: true,
-                    }
-                }
-            }
-        },
         
         devServer: {
             static: {
