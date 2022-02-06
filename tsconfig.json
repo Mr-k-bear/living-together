@@ -5,8 +5,9 @@
         "strict": true,
         "sourceMap": true,
         "jsx": "react-jsx",
+        "target": "ES5",
         "lib": [
-            "ESNext", 
+            "ESNext",
             "DOM"
         ],
         "baseUrl": "./",
@@ -19,6 +20,12 @@
             ],
             "@Model/*": [
                 "./source/Model/*"
+            ],
+            "@Common/*": [
+                "./source/Common/*"
+            ],
+            "@GLRender/*": [
+                "./source/GLRender/*"
             ]
         }
     },
