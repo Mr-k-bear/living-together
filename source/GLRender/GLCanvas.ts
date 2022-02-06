@@ -1,7 +1,7 @@
-import { Emitter } from "../Common/Emitter";
+import { Emitter } from "@Common/Emitter";
 import { ResizeObserver as Polyfill } from '@juggle/resize-observer';
 
-export { GLCanvas, GLCanvasOption};
+export { GLCanvas, GLCanvasOption };
 
 /**
  * GLCanvas 的设置
