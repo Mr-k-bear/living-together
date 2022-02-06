@@ -1,4 +1,4 @@
-# living-together
+# Living Together
 
 An art interactive works for graduation design.
 
@@ -76,7 +76,7 @@ Breed Hive collects free digital artworks, mostly abstract art. They use digital
 > d) The formation of groups is spontaneous and self-organizing. \
 > e) The types of groups are diverse and the structure is unstable. \
 > f) The way of information exchange among members in a group is often of a diversified nature. \
-> g) The group has the binary property of both globality and locality. \
+> g) The group has the binary property of both globality and locality.
 
 ### 3.2 Pros and cons of groups
  
@@ -85,14 +85,14 @@ Breed Hive collects free digital artworks, mostly abstract art. They use digital
 > a) Helps to avoid predators \
 > b) more efficient access to resources \
 > c) Facilitate the exchange of information \
-> d) More breeding opportunities \
+> d) More breeding opportunities
 
 #### 3.2.2 The disadvantages of groups in nature
 
 > a) may lead to the spread of disease \
 > b) Causes competition for survival resources within the group \
 > c) It is easy to cause conflicts within the population \
-> d) It is easy to reveal whereabouts and be hunted and killed \
+> d) It is easy to reveal whereabouts and be hunted and killed
  
 ### 3.3 Mathematical model
 
@@ -127,7 +127,7 @@ Interdisciplinary knowledge used in this topic.
 > a) Use mathematical modeling to abstract the laws of groups into mathematical models. \
 > b) Simulation programming using computer science. \
 > c) Graphical rendering using computer graphics. \
-> d) Graphical research using design. \
+> d) Graphical research using design.
 
 ### 4.2 Concept innovation
 
@@ -143,5 +143,5 @@ Let the viewer experience the beauty of harmony of all things.
 > [1] Li Baoguo, Hou Rong, Zhang He, Chen Guoliang, Fang Gu. Research progress and prospect of animal behavior and behavioral ecology in China [J]. Journal of Animal Science, 2021, 41(05): 525-536. DOI: 10.16829/j.slxb.150529. \
 > [2] Wang Jisheng. Learning from nature makes human beings the spirit of all things [N]. Guangming Daily, 2001-03-29 (C02). DOI: 10.28273/n.cnki.ngmrb.2001.000450. \
 > [3] Shi Guangtian. The Complete Works of Chinese Art and Design Classification, Digital Image Research [M]. Liaoning Fine Arts Publishing House, 2014. \
-> [4] An Jiale, Liu Xiaonan, He Ming, Song Huichao. Overview of Quantum Swarm Intelligent Optimization Algorithms [J/OL]. Computer Engineering and Applications: 1-15 [2021-12-12]. http://kns.cnki.net /kcms/detail/11.2127.tp.20211201.2057.008.html. \
+> [4] An Jiale, Liu Xiaonan, He Ming, Song Huichao. Overview of Quantum Swarm Intelligent Optimization Algorithms [J/OL]. Computer Engineering and Applications: 1-15 [2021-12-12]. \
 > [5] Luo Ren, Li Zixuan. 3D real-time rendering engine based on OpenGL [J]. Information and Computer (Theoretical Edition), 2021, 33(18): 112-115.
