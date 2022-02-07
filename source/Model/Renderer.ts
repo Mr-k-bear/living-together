@@ -47,13 +47,45 @@ type ObjectID = Symbol | string | number;
  */
 type ObjectData = Array<number> | Float32Array | Float64Array;
 
+interface IRendererConstructor<
+	M extends IAnyObject = {}
+> {
+	new (canvas: HTMLCanvasElement, param?: M): AbstractRenderer<
+		IRendererParam, IAnyObject, Record<EventType, any>
+	>
+}
+
 /**
  * 渲染器 API
  */
 abstract class AbstractRenderer<
-	P extends IRendererParam,
+	P extends IRendererParam = {},
+	M extends IAnyObject = {},
 	E extends Record<EventType, any> = {}
 > extends Emitter<E> {
+
+	/**
+	 * 渲染器参数
+	 */
+	abstract param: M;
+
+	/**
+	 * 类型断言
+	 */
+	get isRenderer() {
+		return true;
+	}
+
+	/**
+	 * 断言对象是否是渲染器
+	 */
+	public static isRenderer(render: any): render is AbstractRenderer {
+		if (render instanceof Object) {
+			return !!(render as AbstractRenderer).isRenderer;
+		} else {
+			return false;
+		}
+	};
 
 	/**
 	 * @function start 
@@ -87,4 +119,4 @@ abstract class AbstractRenderer<
 }
 
 export default AbstractRenderer;
-export { AbstractRenderer };
+export { AbstractRenderer, ObjectID, ICommonParam, ObjectData, IRendererConstructor };

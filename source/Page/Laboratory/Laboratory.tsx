@@ -1,6 +1,5 @@
 import { Component, ReactNode, createRef } from "react";
-import { GLCanvas } from "@GLRender/GLCanvas";
-import { Group } from "@Model/Group";
+import { ClassicRenderer } from "@GLRender/ClassicRenderer";
 import { Entry } from "../Entry/Entry";
 import "./Laboratory.scss";
 
@@ -17,18 +16,19 @@ class Laboratory extends Component {
             throw new Error("Laboratory: 无法获取到 Canvas 容器节点");
         }
 
-        if (this.canvasContRef.current.getElementsByTagName("canvas").length > 0) {
+        if (this.canvasContRef.current.querySelector("*")) {
             throw new Error("Laboratory: 重复引用 canvas 节点");
         }
 
-        const glCanvas = new GLCanvas(undefined, {
-            autoResize: true,
-            mouseEvent: true,
-            eventLog: false
+        const canvas = document.createElement("canvas");
+
+        const renderer = new ClassicRenderer(canvas, {
+            clasName: "canvas"
         });
 
-        glCanvas.dom.className = "canvas";
-        this.canvasContRef.current.appendChild(glCanvas.dom);
+        console.log(renderer);
+
+        this.canvasContRef.current.appendChild(renderer.canvas.dom);
     }
 }
 

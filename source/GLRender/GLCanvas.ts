@@ -22,7 +22,12 @@ interface GLCanvasOption {
      * 调试时使用
      * 打印事件
      */
-    eventLog?: boolean
+    eventLog?: boolean,
+
+    /**
+     * 节点类名
+     */
+    clasName?: string
 }
 
 type GLCanvasEvent = {
@@ -265,6 +270,7 @@ class GLCanvas extends Emitter<GLCanvasEvent> {
         this.canvas = ele ?? document.createElement("canvas");
         
         this.div = document.createElement("div");
+        this.div.className = opt.clasName ?? "";
         this.div.appendChild(this.canvas);
 
         this.canvas.style.width = "100%";
