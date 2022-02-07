@@ -1,5 +1,5 @@
 
-import { Emitter, EventType } from "@Common/Emitter";
+import { Emitter, EventType } from "@Model/Emitter";
 
 export type GLContext = WebGL2RenderingContext | WebGLRenderingContext;
 

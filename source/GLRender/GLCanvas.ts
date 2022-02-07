@@ -1,4 +1,4 @@
-import { Emitter } from "@Common/Emitter";
+import { Emitter } from "@Model/Emitter";
 import { ResizeObserver as Polyfill } from '@juggle/resize-observer';
 
 export { GLCanvas, GLCanvasOption };

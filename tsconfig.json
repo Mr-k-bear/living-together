@@ -21,9 +21,6 @@
             "@Model/*": [
                 "./source/Model/*"
             ],
-            "@Common/*": [
-                "./source/Common/*"
-            ],
             "@GLRender/*": [
                 "./source/GLRender/*"
             ]

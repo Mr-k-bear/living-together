@@ -1,4 +1,4 @@
-import { EventType } from "@Common/Emitter";
+import { EventType } from "@Model/Emitter";
 import { GLContextObject } from "./GLContext"
 
 /**
