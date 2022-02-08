@@ -1,10 +1,14 @@
 import { EventType } from "@Model/Emitter";
 import { GLContextObject } from "./GLContext"
 
+type IAnyObject = Record<string, any>;
+
 /**
  * Shader类
  */
 abstract class GLShader<
+    A extends IAnyObject = {},
+    U extends IAnyObject = {},
 	E extends Record<EventType, any> = {}
 > extends GLContextObject<E> {
 
@@ -60,33 +64,35 @@ abstract class GLShader<
         this.fragmentShader = this.gl.createShader(this.gl.FRAGMENT_SHADER);
 
         // 绑定源代码
-        this.gl.shaderSource(!this.vertexShader, this.vertexShaderSource);
-        this.gl.shaderSource(!this.fragmentShader, this.fragmentShaderSource);
+        this.gl.shaderSource(this.vertexShader!, this.vertexShaderSource);
+        this.gl.shaderSource(this.fragmentShader!, this.fragmentShaderSource);
 
         // 编译
-        this.gl.compileShader(!this.vertexShader);
-        this.gl.compileShader(!this.fragmentShader);
+        this.gl.compileShader(this.vertexShader!);
+        this.gl.compileShader(this.fragmentShader!);
 
         // 检测编译错误
-        if(!this.gl.getShaderParameter(!this.vertexShader, this.gl.COMPILE_STATUS)){
-            console.error("vertex:\r\n" + this.gl.getShaderInfoLog(!this.vertexShader));
+        if(!this.gl.getShaderParameter(this.vertexShader!, this.gl.COMPILE_STATUS)){
+            return console.error("vertex:\r\n" + this.gl.getShaderInfoLog(this.vertexShader!));
         }
 
-        if(!this.gl.getShaderParameter(!this.fragmentShader, this.gl.COMPILE_STATUS)){
-            console.error("fragment:\r\n" + this.gl.getShaderInfoLog(!this.fragmentShader));
+        if(!this.gl.getShaderParameter(this.fragmentShader!, this.gl.COMPILE_STATUS)){
+            return console.error("fragment:\r\n" + this.gl.getShaderInfoLog(this.fragmentShader!));
         }
 
         // 附加到程序
-        this.gl.attachShader(!this.program, !this.vertexShader);
-        this.gl.attachShader(!this.program, !this.fragmentShader);
+        this.gl.attachShader(this.program!, this.vertexShader!);
+        this.gl.attachShader(this.program!, this.fragmentShader!);
 
         // 连接程序
-        this.gl.linkProgram(!this.program);
+        this.gl.linkProgram(this.program!);
 
         // 检测链接错误
-        if(!this.gl.getProgramParameter(!this.program, this.gl.LINK_STATUS)){
-            console.error("link:\r\n" + this.gl.getProgramInfoLog(!this.program));
+        if(!this.gl.getProgramParameter(this.program!, this.gl.LINK_STATUS)){
+            return console.error("link:\r\n" + this.gl.getProgramInfoLog(this.program!));
         }
+
+        console.log("shader compile success");
 
         return this;
     }
@@ -104,15 +110,15 @@ abstract class GLShader<
     /**
      * 获取 attribLocation
      */
-    public attribLocate(attr: string){
+    public attribLocate<T extends keyof A>(attr: T){
 
         // 获取缓存
-        let cache = this.attribLocationCache.get(attr);
+        let cache = this.attribLocationCache.get(attr as string);
 
         // 缓存搜索
         if (cache === undefined || cache <= -1){
 
-            cache = this.gl.getAttribLocation(!this.program, attr);
+            cache = this.gl.getAttribLocation(!this.program, attr as string);
 
             if (cache === undefined || cache <= -1) {
                 console.error("Attrib: can not get locate of " + attr);
@@ -120,7 +126,7 @@ abstract class GLShader<
                 this.gl.enableVertexAttribArray(cache);
             }
             
-            this.attribLocationCache.set(attr, cache);
+            this.attribLocationCache.set(attr as string, cache);
 
             return cache;
         }
@@ -136,19 +142,19 @@ abstract class GLShader<
     /**
      * 获取 attribLocation
      */
-    public uniformLocate(uni: string) {
+    public uniformLocate<T extends keyof U>(uni: T) {
 
         // 获取缓存
-        let cache: WebGLUniformLocation | null = this.uniformLocationCache.get(uni) as any;
+        let cache: WebGLUniformLocation | null = this.uniformLocationCache.get(uni as string) as any;
 		if (cache === undefined) cache = null;
 
         // 缓存搜索
         if (!cache) {
 
-            cache = this.gl.getUniformLocation(!this.program, uni);
+            cache = this.gl.getUniformLocation(!this.program, uni as string);
             if (!cache) console.error("Uniform: can not get locate of " + uni);
 
-            this.uniformLocationCache.set(uni, cache as any);
+            this.uniformLocationCache.set(uni as string, cache as any);
 
             return cache;
         }

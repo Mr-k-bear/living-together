@@ -24,5 +24,7 @@ export abstract class GLContextObject<
 	/**
 	 * 初始化生命周期
 	 */
-	public abstract onLoad(context: GLContext): any;
+	public onLoad(context: GLContext): any {
+        this.gl = context;
+    };
 }

@@ -1,13 +1,21 @@
 import { ObjectID, ObjectData, ICommonParam } from "@Model/Renderer";
 import { BasicRenderer, IRendererParams } from "./BasicRenderer";
+import { BasicsShader } from "./BasicShader";
 
 interface IClassicRendererParams {}
 
 class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
 
     onLoad(param: Partial<IClassicRendererParams & IRendererParams>): void {
-        this.run();
+        
+        // 自动调节分辨率
         this.autoResize();
+
+        let shader = new BasicsShader();
+        !shader.isLoad && shader.onLoad(this.gl);
+        
+        // 运行
+        this.run();
     }
 
     clean(id?: ObjectID | ObjectID[]): this {
@@ -22,7 +30,7 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
         throw new Error("Method not implemented.");
     }
 
-    loop(): void {
+    loop(t: number): void {
         this.cleanCanvas();
     }
 }

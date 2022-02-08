@@ -45,7 +45,7 @@ type ObjectID = Symbol | string | number;
 /**
  * 接收的数据类型
  */
-type ObjectData = Array<number> | Float32Array | Float64Array;
+type ObjectData = Array<number> | Float32Array;
 
 interface IRendererConstructor<
 	M extends IAnyObject = {}
