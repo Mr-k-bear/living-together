@@ -23,7 +23,7 @@ class Laboratory extends Component {
         const canvas = document.createElement("canvas");
 
         const renderer = new ClassicRenderer(canvas, {
-            clasName: "canvas"
+            className: "canvas"
         });
 
         console.log(renderer);

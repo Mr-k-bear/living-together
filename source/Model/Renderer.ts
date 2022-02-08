@@ -57,6 +57,9 @@ interface IRendererConstructor<
 
 /**
  * 渲染器 API
+ * @template P 渲染器绘制参数
+ * @template M 渲染器参数
+ * @template E 渲染器事件
  */
 abstract class AbstractRenderer<
 	P extends IRendererParam = {},
@@ -67,7 +70,7 @@ abstract class AbstractRenderer<
 	/**
 	 * 渲染器参数
 	 */
-	abstract param: M;
+	abstract param: Partial<M>;
 
 	/**
 	 * 类型断言
@@ -119,4 +122,8 @@ abstract class AbstractRenderer<
 }
 
 export default AbstractRenderer;
-export { AbstractRenderer, ObjectID, ICommonParam, ObjectData, IRendererConstructor };
+export { 
+    AbstractRenderer, ObjectID, IAnyObject,
+    ICommonParam, IRendererParam, 
+    ObjectData, IRendererConstructor 
+};

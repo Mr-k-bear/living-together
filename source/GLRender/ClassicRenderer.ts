@@ -1,49 +1,30 @@
-import { AbstractRenderer, ObjectID, ObjectData, ICommonParam } from "@Model/Renderer";
-import { GLCanvas, GLCanvasOption } from "./GLCanvas";
+import { ObjectID, ObjectData, ICommonParam } from "@Model/Renderer";
+import { BasicRenderer, IRendererParams } from "./BasicRenderer";
 
-interface IRendererOwnParams {}
+interface IClassicRendererParams {}
 
-/**
- * 渲染器参数
- */
-type IRendererParams = IRendererOwnParams & GLCanvasOption;
+class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
 
-class ClassicRenderer extends AbstractRenderer<{}, IRendererParams> {
+    onLoad(param: Partial<IClassicRendererParams & IRendererParams>): void {
+        this.run();
+        this.autoResize();
+    }
 
-	/**
-	 * 渲染器参数
-	 */
-	public param: IRendererParams;
+    clean(id?: ObjectID | ObjectID[]): this {
+        throw new Error("Method not implemented.");
+    }
 
-	/**
-	 * 使用的画布
-	 */
-	public canvas: GLCanvas;
+    points(id: ObjectID, position: ObjectData, param?: ICommonParam): this {
+        throw new Error("Method not implemented.");
+    }
 
-	public constructor(canvas: HTMLCanvasElement, param: IRendererParams = {}) {
-		super();
+    cube(id: ObjectID, position: ObjectData, param?: ICommonParam): this {
+        throw new Error("Method not implemented.");
+    }
 
-		// 初始化参数
-		this.param = {
-			autoResize: param.autoResize ?? true,
-			mouseEvent: param.autoResize ?? true,
-			eventLog: param.eventLog ?? false,
-			clasName: param.clasName ?? ""
-		}
-		
-		// 实例化画布对象
-		this.canvas = new GLCanvas(canvas, this.param);
-	}
-
-	clean(id?: ObjectID | ObjectID[]): this {
-		throw new Error("Method not implemented.");
-	}
-	points(id: ObjectID, position: ObjectData, param?: ICommonParam): this {
-		throw new Error("Method not implemented.");
-	}
-	cube(id: ObjectID, position: ObjectData, param?: ICommonParam): this {
-		throw new Error("Method not implemented.");
-	}
+    loop(): void {
+        this.cleanCanvas();
+    }
 }
 
 export default ClassicRenderer;
