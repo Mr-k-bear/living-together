@@ -1,5 +1,6 @@
 import { Emitter, EventType } from "@Model/Emitter";
 import BasicRenderer from "./BasicRenderer";
+import Camera from "./Camera";
 
 export type GLContext = WebGL2RenderingContext | WebGLRenderingContext;
 
@@ -13,7 +14,16 @@ export abstract class GLContextObject<
 	/**
 	 * GL 上下文
 	 */
-	protected gl: GLContext = undefined as any;
+	protected get gl(): GLContext {
+		return this.renderer.gl;
+	};
+
+	/**
+	 * 相机
+	 */
+	protected get camera(): Camera {
+		return this.renderer.camera;
+	}
 
     /**
      * 使用的渲染器
@@ -32,7 +42,6 @@ export abstract class GLContextObject<
      */
     public bindRenderer(renderer: BasicRenderer): this {
         this.renderer = renderer;
-        this.gl = this.renderer.gl;
         this.onLoad();
         return this;
     }
