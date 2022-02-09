@@ -2,6 +2,7 @@ import { AbstractRenderer, IRendererParam, IAnyObject } from "@Model/Renderer";
 import { EventType } from "@Model/Emitter";
 import { GLCanvas, GLCanvasOption } from "./GLCanvas";
 import { GLContext } from "./GLContext";
+import { Camera } from "./Camera";
 import { Clock } from "@Model/Clock";
 
 interface IRendererOwnParams {}
@@ -28,6 +29,11 @@ abstract class BasicRenderer<
     public canvas: GLCanvas;
 
     /**
+     * 主相机
+     */
+    public camera: Camera;
+
+    /**
      * 渲染时钟
      */
     protected clock: Clock;
@@ -45,6 +51,9 @@ abstract class BasicRenderer<
 		
 		// 实例化画布对象
 		this.canvas = new GLCanvas(canvas, this.param);
+
+        // 实例化摄像机
+        this.camera = new Camera(this.canvas);
 
         // 尝试 webgl2
         this.gl = this.canvas.can.getContext("webgl2") as any;

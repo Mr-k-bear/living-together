@@ -11,8 +11,7 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
         // 自动调节分辨率
         this.autoResize();
 
-        let shader = new BasicsShader();
-        !shader.isLoad && shader.onLoad(this.gl);
+        let shader = new BasicsShader().bindRenderer(this);
         
         // 运行
         this.run();

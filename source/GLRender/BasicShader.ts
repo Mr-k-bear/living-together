@@ -21,9 +21,7 @@ interface IBasicsShaderUniform {
  */
 class BasicsShader extends GLShader<IBasicsShaderAttribute, IBasicsShaderUniform>{
 
-    public onLoad(context: GLContext) {
-
-        super.onLoad(context);
+    public onLoad() {
 
         // 顶点着色
         const vertex = `
