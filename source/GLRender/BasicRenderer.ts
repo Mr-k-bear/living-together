@@ -79,11 +79,6 @@ abstract class BasicRenderer<
          * 实例化时钟
          */
         this.clock = new Clock();
-
-        /**
-         * 初始化
-         */
-        this.onLoad(param);
 	}
 
     /**
@@ -137,9 +132,8 @@ abstract class BasicRenderer<
 
     /**
      * 初始化
-     * @param param 渲染器参数
      */
-    abstract onLoad(param: Partial<M & IRendererParams>): void;
+    abstract onLoad(): void;
 
     /**
      * 渲染器执行

@@ -118,7 +118,7 @@ abstract class GLShader<
         // 缓存搜索
         if (cache === undefined || cache <= -1){
 
-            cache = this.gl.getAttribLocation(!this.program, attr as string);
+            cache = this.gl.getAttribLocation(this.program!, attr as string);
 
             if (cache === undefined || cache <= -1) {
                 console.error("Attrib: can not get locate of " + attr);
@@ -151,7 +151,7 @@ abstract class GLShader<
         // 缓存搜索
         if (!cache) {
 
-            cache = this.gl.getUniformLocation(!this.program, uni as string);
+            cache = this.gl.getUniformLocation(this.program!, uni as string);
             if (!cache) console.error("Uniform: can not get locate of " + uni);
 
             this.uniformLocationCache.set(uni as string, cache as any);

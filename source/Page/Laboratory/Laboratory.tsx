@@ -26,6 +26,8 @@ class Laboratory extends Component {
             className: "canvas"
         });
 
+        renderer.onLoad();
+
         console.log(renderer);
 
         this.canvasContRef.current.appendChild(renderer.canvas.dom);
