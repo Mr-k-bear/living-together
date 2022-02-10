@@ -1,7 +1,8 @@
 import { ObjectID, ObjectData, ICommonParam } from "@Model/Renderer";
-import { BasicRenderer, IRendererParams } from "./BasicRenderer";
+import { BasicRenderer } from "./BasicRenderer";
 import { BasicsShader } from "./BasicShader";
 import { Axis } from "./Axis";
+import { BaseCube } from "./BaseCube";
 
 interface IClassicRendererParams {}
 
@@ -9,6 +10,7 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
 
     private basicShader: BasicsShader = undefined as any;
     private axisObject: Axis = undefined as any;
+    private cubeObject: BaseCube = undefined as any;
 
     public onLoad(): void {
         
@@ -18,6 +20,8 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
         this.basicShader = new BasicsShader().bindRenderer(this);
 
         this.axisObject = new Axis().bindRenderer(this);
+
+        this.cubeObject = new BaseCube().bindRenderer(this);
 
         this.canvas.on("mousemove", () => {
 
@@ -43,6 +47,7 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
         this.cleanCanvas();
         this.camera.generateMat();
         this.axisObject.draw(this.basicShader);
+        this.cubeObject.draw(this.basicShader);
     }
 
     clean(id?: ObjectID | ObjectID[]): this {

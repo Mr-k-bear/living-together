@@ -75,6 +75,9 @@ abstract class BasicRenderer<
             }
         }
 
+        // 开启深度测试
+        this.gl.enable(this.gl.DEPTH_TEST);
+
         /**
          * 实例化时钟
          */
