@@ -1,5 +1,4 @@
 import { GLContextObject } from "./GLContext";
-import { Camera } from "./Camera";
 import { BasicsShader } from "./BasicShader";
 
 class BaseCube extends GLContextObject{

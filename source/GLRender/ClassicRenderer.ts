@@ -2,7 +2,7 @@ import { ObjectID, ObjectData, ICommonParam } from "@Model/Renderer";
 import { BasicRenderer } from "./BasicRenderer";
 import { BasicsShader } from "./BasicShader";
 import { Axis } from "./Axis";
-import { BaseCube } from "./BaseCube";
+import { BaseCube } from "./BasicCube";
 
 interface IClassicRendererParams {}
 
