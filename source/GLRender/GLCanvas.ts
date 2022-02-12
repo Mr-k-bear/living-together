@@ -34,6 +34,7 @@ type GLCanvasEvent = {
 	mouseup: GLCanvas,
 	mousemove: GLCanvas,
 	mousedown: GLCanvas,
+    mousewheel: GLCanvas,
 	resize: GLCanvas,
 };
 
@@ -245,6 +246,11 @@ class GLCanvas extends Emitter<GLCanvasEvent> {
     public mouseDown:boolean = false;
 
     /**
+     * 鼠标滚动参数
+     */
+    public wheelDelta: number = 0;
+
+    /**
      * 检测 canvas 变化
      */
     private readonly obs?: ResizeObserver;
@@ -363,6 +369,11 @@ class GLCanvas extends Emitter<GLCanvasEvent> {
                 if (this.calcMouseDataFromTouchEvent(e)) this.emit("mousemove", this);
 
             });
+
+            this.canvas.addEventListener("mousewheel", (e) => {
+                this.wheelDelta = (e as any)?.wheelDelta ?? 0;
+                this.emit("mousewheel", this);
+            })
 
         }
         

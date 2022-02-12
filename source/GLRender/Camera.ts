@@ -132,6 +132,27 @@ class Camera{
     public angleY:number = 0;
 
     /**
+     * 视点距离
+     */
+    public get eyeDist(): number {
+        return vec3.length(this.eye);
+    }
+
+    /**
+     * 视点缩放
+     */
+    public eyeScale(scale: number): this {
+        let dis = this.eyeDist;
+        if ((dis + scale) < 0) scale = .1 - dis;
+        vec3.set(this.eye,
+            (this.eye[0] / dis) * scale + this.eye[0],
+            (this.eye[1] / dis) * scale + this.eye[1],
+            (this.eye[2] / dis) * scale + this.eye[2]
+        );
+        return this;
+    }
+
+    /**
      * 通过角度设置视点
      */
     public setEyeFromAngle(){
@@ -140,7 +161,7 @@ class Camera{
         vec3.sub(this.eye, this.eye, this.target);
 
         // 计算视点距离
-        let dis = vec3.length(this.eye);
+        let dis = this.eyeDist;
 
         // 计算方向角
         let anDir = vec3.create();

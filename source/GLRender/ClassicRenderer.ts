@@ -37,7 +37,11 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
 
         this.canvas.on("mouseup", () => {
             this.canvas.can.style.cursor = "grab"
-        })
+        });
+
+        this.canvas.on("mousewheel", () => {
+            this.camera.eyeScale(this.canvas.wheelDelta / 100);
+        });
         
         // 运行
         this.run();
