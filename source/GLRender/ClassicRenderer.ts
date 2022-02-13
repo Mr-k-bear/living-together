@@ -3,6 +3,8 @@ import { BasicRenderer } from "./BasicRenderer";
 import { BasicsShader } from "./BasicShader";
 import { Axis } from "./Axis";
 import { BaseCube } from "./BasicCube";
+import { GroupShader } from "./GroupShader";
+import { BasicGroup } from "./BasicGroup";
 
 interface IClassicRendererParams {}
 
@@ -11,6 +13,8 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
     private basicShader: BasicsShader = undefined as any;
     private axisObject: Axis = undefined as any;
     private cubeObject: BaseCube = undefined as any;
+    private groupShader: GroupShader = undefined as any;
+    private basicGroup: BasicGroup = undefined as any;
 
     public onLoad(): void {
         
@@ -18,10 +22,13 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
         this.autoResize();
 
         this.basicShader = new BasicsShader().bindRenderer(this);
-
         this.axisObject = new Axis().bindRenderer(this);
-
         this.cubeObject = new BaseCube().bindRenderer(this);
+        this.groupShader = new GroupShader().bindRenderer(this);
+        this.basicGroup = new BasicGroup().bindRenderer(this);
+
+        // 生成随机数据测试
+        this.basicGroup.upLoadData(new Array(100 * 3).fill(0).map(() => (Math.random() - .5) * 2));
 
         this.canvas.on("mousemove", () => {
 
@@ -52,6 +59,7 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
         this.camera.generateMat();
         this.axisObject.draw(this.basicShader);
         this.cubeObject.draw(this.basicShader);
+        this.basicGroup.draw(this.groupShader);
     }
 
     clean(id?: ObjectID | ObjectID[]): this {
