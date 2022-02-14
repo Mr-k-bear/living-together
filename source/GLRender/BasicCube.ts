@@ -50,7 +50,7 @@ class BaseCube extends GLContextObject{
     /**
      * 颜色
      */
-    public color = [.5, .5, .5];
+    public color = [1, 1, 1];
 
     /**
      * 绘制立方体
@@ -78,6 +78,9 @@ class BaseCube extends GLContextObject{
 
         // 指定颜色
         shader.color(this.color);
+
+        shader.fogColor(this.renderer.fogColor);
+        shader.fogDensity(this.renderer.fogDensity);
 
         // 开始绘制
         this.gl.drawElements(this.gl.LINES, 24, this.gl.UNSIGNED_SHORT, 0);

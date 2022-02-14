@@ -47,9 +47,10 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
         });
 
         const cubeRadius = 2**.5;
+        const farFogLine = 2.5;
         this.fogDensity = [
             this.fogDensity[0], this.camera.eye[2] - cubeRadius, 
-            this.camera.eye[2] + cubeRadius + 4
+            this.camera.eye[2] + cubeRadius + farFogLine
         ];
 
         this.canvas.on("mousewheel", () => {
@@ -57,12 +58,17 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
             let dist = this.camera.eyeDist;
             this.fogDensity = [
                 this.fogDensity[0], dist - cubeRadius, 
-                dist + cubeRadius + 4
+                dist + cubeRadius + farFogLine
             ];
         });
         
         // 运行
         this.run();
+
+        // 测试数据传递
+        // setInterval(() => {
+        //     this.basicGroup.upLoadData(new Array(100 * 3).fill(0).map(() => (Math.random() - .5) * 2));
+        // }, 500);
     }
 
     loop(t: number): void {

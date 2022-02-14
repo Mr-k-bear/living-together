@@ -54,6 +54,9 @@ class Axis extends GLContextObject{
         shader.radius([this.r, this.r, this.r]);
         shader.position(this.pos);
 
+        shader.fogColor(this.renderer.fogColor);
+        shader.fogDensity(this.renderer.fogDensity);
+
         // 绘制 X 轴
         shader.color([1, 0, 0]);
         this.gl.drawArrays(this.gl.LINES, 0, 2);

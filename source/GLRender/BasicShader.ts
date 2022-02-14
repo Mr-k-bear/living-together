@@ -12,7 +12,9 @@ interface IBasicsShaderUniform {
     uRadius: ObjectData,
     uMvp: ObjectData,
     uPosition: ObjectData,
-    uColor: ObjectData
+    uColor: ObjectData,
+    uFogColor: ObjectData,
+    uFogDensity: ObjectData
 }
 
 /**
@@ -31,8 +33,11 @@ class BasicsShader extends GLShader<IBasicsShaderAttribute, IBasicsShaderUniform
             uniform mat4 uMvp;
             uniform vec3 uPosition;
 
+            varying vec3 vPosition;
+
             void main(){
                 gl_Position = uMvp * vec4(aPosition * uRadius + uPosition, 1.);
+                vPosition = gl_Position.xyz;
             }
         `;
 
@@ -40,10 +45,18 @@ class BasicsShader extends GLShader<IBasicsShaderAttribute, IBasicsShaderUniform
         const fragment = `
             precision lowp float;
             
+            uniform vec3 uFogColor;
             uniform vec3 uColor;
+            uniform vec3 uFogDensity;
+
+            varying vec3 vPosition;
         
             void main(){
-                gl_FragColor = vec4(uColor, 1.);
+                float disClamp = clamp(vPosition.z, uFogDensity.y, uFogDensity.z);
+                float disNormal = (disClamp - uFogDensity.y) / (uFogDensity.z - uFogDensity.y);
+                float vFogPower = clamp(disNormal * uFogDensity.x, 0., 1.);
+                
+                gl_FragColor = vec4(mix(uColor, uFogColor, vFogPower), 1.);
             }
         `;
 
@@ -91,5 +104,23 @@ class BasicsShader extends GLShader<IBasicsShaderAttribute, IBasicsShaderUniform
         this.gl.uniform3fv(
             this.uniformLocate("uColor"), rgb
         );
+    }
+
+    /**
+     * 雾颜色
+     */
+    public fogColor(rgb: ObjectData) {
+        this.gl.uniform3fv(
+            this.uniformLocate("uFogColor"), rgb
+        )
+    }
+
+    /**
+     * 雾强度
+     */
+    public fogDensity(rgb: ObjectData) {
+        this.gl.uniform3fv(
+            this.uniformLocate("uFogDensity"), rgb
+        )
     }
 }
