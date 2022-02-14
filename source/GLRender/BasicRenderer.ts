@@ -113,6 +113,25 @@ abstract class BasicRenderer<
     public cleanColor: [number, number, number, number] = [.1, .1, .1, 1.];
 
     /**
+     * 雾颜色
+     */
+    public get fogColor() {
+        return [
+            this.cleanColor[0],
+            this.cleanColor[1],
+            this.cleanColor[2]
+        ]
+    }
+
+    /**
+     * 雾强度
+     * 参数一：浓度系数
+     * 参数二：起始位置
+     * 参数三：结束位置
+     */
+    public fogDensity: [number, number, number] = [1, 5, 20];
+
+    /**
      * 清屏
      */
     public cleanCanvas(){

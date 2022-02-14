@@ -33,7 +33,7 @@ class BasicGroup extends GLContextObject{
 	/**
 	 * 大小
 	 */
-	public size = 100;
+	public size = 50;
 
     /**
      * 颜色
@@ -64,6 +64,9 @@ class BasicGroup extends GLContextObject{
 
         // 指定颜色
         shader.color(this.color);
+
+        shader.fogColor(this.renderer.fogColor);
+        shader.fogDensity(this.renderer.fogDensity);
 
         // 开始绘制
         this.gl.drawArrays(this.gl.POINTS, 0, this.pointVecCount);

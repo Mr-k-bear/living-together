@@ -46,8 +46,19 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
             this.canvas.can.style.cursor = "grab"
         });
 
+        const cubeRadius = 2**.5;
+        this.fogDensity = [
+            this.fogDensity[0], this.camera.eye[2] - cubeRadius, 
+            this.camera.eye[2] + cubeRadius + 4
+        ];
+
         this.canvas.on("mousewheel", () => {
             this.camera.eyeScale(this.canvas.wheelDelta / 100);
+            let dist = this.camera.eyeDist;
+            this.fogDensity = [
+                this.fogDensity[0], dist - cubeRadius, 
+                dist + cubeRadius + 4
+            ];
         });
         
         // 运行
