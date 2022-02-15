@@ -97,7 +97,6 @@ abstract class BasicRenderer<
      */
     protected resize() {
         this.loop(0);
-        this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
     }
 
     /**

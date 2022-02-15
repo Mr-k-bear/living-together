@@ -66,8 +66,13 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
     }
 
     loop(t: number): void {
+
+        // 常规绘制窗口
+        this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+
         this.camera.dynamics(t);
 
+        // 自动计算最佳雾参数
         let dist = this.camera.eyeDist;
         if (Math.abs(this.lastScale - dist) > this.camera.EL) {
             this.lastScale = dist;
@@ -79,9 +84,18 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
         
         this.cleanCanvas();
 
-        this.axisObject.draw(this.basicShader);
         this.cubeObject.draw(this.basicShader);
         this.basicGroup.draw(this.groupShader);
+
+        // 右上角绘制坐标轴
+        const position = 120;
+        this.gl.viewport(
+            this.canvas.width - position * this.camera.ratio + (this.camera.ratio - 1) * position / 2, 
+            this.canvas.height - position, 
+            position * this.camera.ratio, 
+            position
+        );
+        this.axisObject.draw(this.basicShader);
     }
 
     clean(id?: ObjectID | ObjectID[]): this {
