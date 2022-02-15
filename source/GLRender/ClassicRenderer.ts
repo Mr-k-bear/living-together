@@ -16,6 +16,13 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
     private groupShader: GroupShader = undefined as any;
     private basicGroup: BasicGroup = undefined as any;
 
+    /**
+     * 是否完成缩放
+     */
+    private lastScale: number = 0;
+    private readonly cubeRadius = 2**.5;
+    private readonly farFogLine = 2.5;
+
     public onLoad(): void {
         
         // 自动调节分辨率
@@ -28,14 +35,13 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
         this.basicGroup = new BasicGroup().bindRenderer(this);
 
         // 生成随机数据测试
-        this.basicGroup.upLoadData(new Array(100 * 3).fill(0).map(() => (Math.random() - .5) * 2));
+        this.basicGroup.upLoadData(new Array(1000 * 3).fill(0).map(() => (Math.random() - .5) * 2));
 
         this.canvas.on("mousemove", () => {
 
             // 相机旋转
             if (this.canvas.mouseDown)
-            this.camera.ctrl(this.canvas.mouseMotionX, this.canvas.mouseMotionY);
-
+            this.camera.ctrlInertia(this.canvas.mouseMotionX, this.canvas.mouseMotionY);
         });
 
         this.canvas.on("mousedown", () => {
@@ -46,20 +52,8 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
             this.canvas.can.style.cursor = "grab"
         });
 
-        const cubeRadius = 2**.5;
-        const farFogLine = 2.5;
-        this.fogDensity = [
-            this.fogDensity[0], this.camera.eye[2] - cubeRadius, 
-            this.camera.eye[2] + cubeRadius + farFogLine
-        ];
-
         this.canvas.on("mousewheel", () => {
-            this.camera.eyeScale(this.canvas.wheelDelta / 100);
-            let dist = this.camera.eyeDist;
-            this.fogDensity = [
-                this.fogDensity[0], dist - cubeRadius, 
-                dist + cubeRadius + farFogLine
-            ];
+            this.camera.eyeInertia(this.canvas.wheelDelta);
         });
         
         // 运行
@@ -72,8 +66,19 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
     }
 
     loop(t: number): void {
-        this.cleanCanvas();
+        this.camera.dynamics(t);
+
+        let dist = this.camera.eyeDist;
+        if (Math.abs(this.lastScale - dist) > this.camera.EL) {
+            this.lastScale = dist;
+            this.fogDensity[1] = dist - this.cubeRadius;
+            this.fogDensity[2] = dist + this.cubeRadius + this.farFogLine;
+        }
+
         this.camera.generateMat();
+        
+        this.cleanCanvas();
+
         this.axisObject.draw(this.basicShader);
         this.cubeObject.draw(this.basicShader);
         this.basicGroup.draw(this.groupShader);

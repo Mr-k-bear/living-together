@@ -191,15 +191,17 @@ class Camera{
     /**
      * 控制灵敏度
      */
-    public sensitivity:number = .5;
+    public sensitivity: number[] = [.5, .5];
+    public sensitivityInertia: number[] = [20, 20];
+    public scaleSensitivity: number = .001;
 
     /**
      * 摄像机控制函数
      */
     public ctrl(x:number, y:number) {
 
-        this.angleX += x * this.sensitivity;
-        this.angleY += y * this.sensitivity;
+        this.angleX += x * this.sensitivity[0];
+        this.angleY += y * this.sensitivity[1];
 
         if (this.angleX > 360) this.angleX = this.angleX - 360;
         if (this.angleX < 0) this.angleX = 360 + this.angleX;
@@ -208,6 +210,52 @@ class Camera{
         if (this.angleY < -90) this.angleY = -90;
 
         this.setEyeFromAngle();
+    }
+
+    /**
+     * 摄像机动力学
+     */
+    private angleSpeed = [0, 0];
+    private scaleSpeed = 0;
+
+    /**
+     * 惯性控制
+     */
+    public ctrlInertia(x: number, y: number) {
+        this.angleSpeed[0] += x * this.sensitivityInertia[0];
+        this.angleSpeed[1] += y * this.sensitivityInertia[1];
+    }
+
+    /**
+     * 惯性缩放
+     */
+    public eyeInertia(x: number) {
+        this.scaleSpeed += x * this.scaleSensitivity;
+    }
+
+    /**
+     * 摄像机动力学
+     */
+    public dynamics(t: number) {
+        // 阻力
+        this.angleSpeed[0] /= 1.2;
+        this.angleSpeed[1] /= 1.2;
+        this.scaleSpeed /= 1.2;
+
+        // 防抖
+        const e = .000001;
+        if (Math.abs(this.angleSpeed[0]) <= e) {
+            this.angleSpeed[0] = 0;
+        }
+        if (Math.abs(this.angleSpeed[1]) <= e) {
+            this.angleSpeed[1] = 0;
+        }
+        if (Math.abs(this.scaleSpeed) <= e) {
+            this.scaleSpeed = 0;
+        }
+
+        this.ctrl(this.angleSpeed[0] * t, this.angleSpeed[1] * t);
+        this.eyeScale(this.scaleSpeed);
     }
 
     /**
