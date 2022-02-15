@@ -143,7 +143,7 @@ class Camera{
      */
     public eyeScale(scale: number): this {
         let dis = this.eyeDist;
-        if ((dis + scale) < 0) scale = .1 - dis;
+        if ((dis + scale) < 0) scale = this.EL - dis;
         vec3.set(this.eye,
             (this.eye[0] / dis) * scale + this.eye[0],
             (this.eye[1] / dis) * scale + this.eye[1],
