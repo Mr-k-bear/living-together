@@ -2,7 +2,7 @@ import { DisplayObject } from "./DisplayObject";
 import { GroupShader } from "./GroupShader";
 import { ObjectData } from "@Model/Renderer";
 
-class BasicGroup extends DisplayObject{
+class BasicGroup extends DisplayObject<GroupShader> {
 
 	private pointVertexBuffer: WebGLBuffer | null = null;
 	private pointVecMaxCount: number = 100 * 3;
@@ -16,6 +16,10 @@ class BasicGroup extends DisplayObject{
         // 绑定缓冲区
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.pointVertexBuffer);
         this.gl.bufferData(this.gl.ARRAY_BUFFER, this.pointVecMaxCount, this.gl.DYNAMIC_DRAW);
+    }
+
+    public clean(): void {
+        this.gl.deleteBuffer(this.pointVertexBuffer);
     }
 
 	/**
@@ -43,33 +47,39 @@ class BasicGroup extends DisplayObject{
     /**
      * 绘制立方体
      */
-    public draw(shader: GroupShader){
+    public draw(){
 
         // 使用程序
-        shader.use();
+        this.shader.use();
 
         // 绑定缓冲区
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.pointVertexBuffer);
 
         // 指定指针数据
         this.gl.vertexAttribPointer(
-            shader.attribLocate("aPosition"),
+            this.shader.attribLocate("aPosition"),
             3, this.gl.FLOAT, false, 0, 0);
 
         // mvp参数传递
-        shader.mvp(this.camera.transformMat);
+        this.shader.mvp(this.camera.transformMat);
 
         // 半径传递
-        shader.radius(this.size);
+        this.shader.radius(this.size);
 
         // 指定颜色
-        shader.color(this.color);
+        this.shader.color(this.color);
 
-        shader.fogColor(this.renderer.fogColor);
-        shader.fogDensity(this.renderer.fogDensity);
+        this.shader.fogColor(this.renderer.fogColor);
+        this.shader.fogDensity(this.renderer.fogDensity);
 
         // 开始绘制
         this.gl.drawArrays(this.gl.POINTS, 0, this.pointVecCount);
+    }
+    
+    public isGroup: boolean = true;
+
+    public static isGroup(object: DisplayObject): object is BasicGroup {
+        return !!(object as BasicGroup).isGroup;
     }
 }
 

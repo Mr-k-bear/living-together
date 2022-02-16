@@ -30,11 +30,6 @@ interface ICommonParam {
 	 * 颜色
 	 */
 	color?: ObjectData;
-
-	/**
-	 * 半径
-	 */
-	radius?: number;
 }
 
 /**
@@ -108,7 +103,7 @@ abstract class AbstractRenderer<
 	 * @param id 使用的标识符
 	 * @param position 做标集合
 	 */
-	abstract points(id: ObjectID, position: ObjectData, param?: P["points"] & ICommonParam): this;
+	abstract points(id: ObjectID, position?: ObjectData, param?: Readonly<P["points"] & ICommonParam>): this;
 
 	/**
 	 * @function cube 绘制立方体
@@ -118,7 +113,7 @@ abstract class AbstractRenderer<
 	 * 
 	 * 注意: 这里的半径指的是立方体重心与立方体任意一面几何中心的距离
 	 */
-	abstract cube(id: ObjectID, position: ObjectData, param?: P["cube"] & ICommonParam): this;
+	abstract cube(id: ObjectID, position?: ObjectData, param?: Readonly<P["cube"] & ICommonParam>): this;
 }
 
 export default AbstractRenderer;
