@@ -12,9 +12,7 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
 
     private basicShader: BasicsShader = undefined as any;
     private axisObject: Axis = undefined as any;
-    private cubeObject: BaseCube = undefined as any;
     private groupShader: GroupShader = undefined as any;
-    private basicGroup: BasicGroup = undefined as any;
 
     /**
      * 是否完成缩放
@@ -23,19 +21,36 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
     private readonly cubeRadius = 2**.5;
     private readonly farFogLine = 2.5;
 
+    /**
+     * 点存储池数组
+     */
+    private groupPool = new Map<ObjectID, BasicGroup>();
+
+    /**
+     * 立方体储池数组
+     */
+    private cubePool = new Map<ObjectID, BaseCube>();
+
     public onLoad(): void {
         
         // 自动调节分辨率
         this.autoResize();
 
         this.basicShader = new BasicsShader().bindRenderer(this);
-        this.axisObject = new Axis().bindRenderer(this);
-        this.cubeObject = new BaseCube().bindRenderer(this);
         this.groupShader = new GroupShader().bindRenderer(this);
-        this.basicGroup = new BasicGroup().bindRenderer(this);
+        this.axisObject = new Axis().bindRenderer(this);
+        
+        // 测试渲染器
+        if (true) {
+            let cubeObject = new BaseCube().bindRenderer(this);
+            let basicGroup = new BasicGroup().bindRenderer(this);
 
-        // 生成随机数据测试
-        this.basicGroup.upLoadData(new Array(1000 * 3).fill(0).map(() => (Math.random() - .5) * 2));
+            // 生成随机数据测试
+            basicGroup.upLoadData(new Array(1000 * 3).fill(0).map(() => (Math.random() - .5) * 2));
+
+            this.cubePool.set("1", cubeObject);
+            this.groupPool.set("1", basicGroup);
+        }
 
         this.canvas.on("mousemove", () => {
 
@@ -84,8 +99,17 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
         
         this.cleanCanvas();
 
-        this.cubeObject.draw(this.basicShader);
-        this.basicGroup.draw(this.groupShader);
+        // 绘制全部立方体
+        this.cubePool.forEach((cube) => {
+            if (cube.isDraw) cube.draw(this.basicShader);
+            else cube.drawEmptyFrame ++;
+        });
+
+        // 绘制全部点
+        this.groupPool.forEach((group) => {
+            if (group.isDraw) group.draw(this.groupShader);
+            else group.drawEmptyFrame ++;
+        });
 
         // 右上角绘制坐标轴
         const position = 120;

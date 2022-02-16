@@ -1,8 +1,8 @@
-import { GLContextObject } from "./GLContext";
+import { DisplayObject } from "./DisplayObject";
 import { GroupShader } from "./GroupShader";
 import { ObjectData } from "@Model/Renderer";
 
-class BasicGroup extends GLContextObject{
+class BasicGroup extends DisplayObject{
 
 	private pointVertexBuffer: WebGLBuffer | null = null;
 	private pointVecMaxCount: number = 100 * 3;

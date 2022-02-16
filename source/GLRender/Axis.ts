@@ -1,7 +1,7 @@
 import { BasicsShader } from "./BasicShader";
-import { GLContextObject } from "./GLContext";
+import { DisplayObject } from "./DisplayObject";
 
-class Axis extends GLContextObject{
+class Axis extends DisplayObject{
 
     /**
      * 坐标轴数据

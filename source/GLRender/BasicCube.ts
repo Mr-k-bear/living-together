@@ -1,7 +1,7 @@
-import { GLContextObject } from "./GLContext";
+import { DisplayObject } from "./DisplayObject";
 import { BasicsShader } from "./BasicShader";
 
-class BaseCube extends GLContextObject{
+class BaseCube extends DisplayObject{
 
     /**
      * 立方体数据
