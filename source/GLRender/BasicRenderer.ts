@@ -3,7 +3,7 @@ import { EventType } from "@Model/Emitter";
 import { GLCanvas, GLCanvasOption } from "./GLCanvas";
 import { GLContext } from "./GLContext";
 import { Camera } from "./Camera";
-import { Clock } from "@Model/Clock";
+import { Clock } from "@GLRender/Clock";
 
 interface IRendererOwnParams {}
 
