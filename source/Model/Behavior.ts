@@ -7,7 +7,8 @@ import type { Group } from "./Group";
  * 群体的某种行为
  */
 abstract class Behavior<
-    P extends IAnyObject, E extends Record<EventType, any>
+    P extends IAnyObject = {},
+    E extends Record<EventType, any> = {}
 > extends Emitter<E> {
 
     /**

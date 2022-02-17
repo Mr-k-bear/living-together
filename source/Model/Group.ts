@@ -1,4 +1,5 @@
 import { Individual } from "./Individual";
+import type { Behavior } from "./Behavior"; 
 
 /**
  * 群体类型
@@ -75,6 +76,41 @@ class Group {
         }));
         return result;
     }
+
+	/**
+	 * 行为列表
+	 */
+	public behaviors: Behavior[] = [];
+
+	/**
+	 * 添加行为
+	 * @param behavior 添加行为 
+	 */
+	public addBehavior(behavior: Behavior | Behavior[]): this {
+		if (Array.isArray(behavior)) {
+			this.behaviors = this.behaviors.concat(behavior);
+		} else {
+			this.behaviors.push(behavior);
+		}
+
+		// 按照优先级
+		this.behaviors = this.behaviors.sort((b1, b2) => {
+			return (b1.priority ?? 0) - (b2.priority ?? 0)
+		});
+		return this;
+	}
+
+	/**
+     * 运行效果器
+	 * @param
+     */
+	public runner(t: number): void {
+		this.individuals.forEach((individual) => {
+			for(let j = 0; j < this.behaviors.length; j++) {
+				this.behaviors[j].effect(individual, this, t);
+			}
+		});
+	}
 }
 
 export default Group;
