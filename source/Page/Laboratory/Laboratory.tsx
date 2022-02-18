@@ -1,6 +1,7 @@
 import { Component, ReactNode, createRef } from "react";
 import { ClassicRenderer } from "@GLRender/ClassicRenderer";
 import { Entry } from "../Entry/Entry";
+import { Model } from "@Model/Model";
 import "./Laboratory.scss";
 
 class Laboratory extends Component {
@@ -21,12 +22,14 @@ class Laboratory extends Component {
         }
 
         const canvas = document.createElement("canvas");
-
-        const renderer = new ClassicRenderer(canvas, {
-            className: "canvas"
-        });
+        const renderer = new ClassicRenderer(canvas, { className: "canvas" });
+        this.canvasContRef.current.appendChild(renderer.canvas.dom);
 
         renderer.onLoad();
+
+        let model = new Model();
+        model.addGroup();
+        model.addGroup();
 
         // 测试渲染器
         if (true) {
@@ -49,8 +52,7 @@ class Laboratory extends Component {
         }
 
         (window as any).renderer = renderer;
-
-        this.canvasContRef.current.appendChild(renderer.canvas.dom);
+        (window as any).model = model;
     }
 }
 
