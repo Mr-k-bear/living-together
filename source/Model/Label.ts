@@ -44,20 +44,20 @@ class LabelObject {
     /**
      * 标签集合
      */
-    private labels: Set<Label> = new Set();
+    private labels: Label[] = [];
 
     /**
      * 获取全部 Label
      */
     public allLabels(): Label[] {
-        return Array.from(this.labels);
+        return this.labels.concat([]);
     }
 
     /**
      * 添加标签
      */
     public addLabel(label: Label): this {
-        this.labels.add(label);
+        this.labels.push(label);
         return this;
     }
 
@@ -65,7 +65,9 @@ class LabelObject {
      * 移除标签
      */
     public removeLabel(label: Label): this {
-        this.labels.delete(label);
+        this.labels = this.labels.filter((localLabel) => {
+            return !localLabel.equal(label);
+        });
         return this;
     }
 

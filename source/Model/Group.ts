@@ -1,12 +1,12 @@
 import { Individual } from "./Individual";
-import { LabelObject } from "./Label";
+import { CtrlObject } from "./CtrlObject";
 import type { Behavior } from "./Behavior"; 
 import type { Model } from "./Model";
 
 /**
  * 群体类型
  */
-class Group extends LabelObject {
+class Group extends CtrlObject {
 
 	/**
 	 * 所有个体
@@ -112,10 +112,10 @@ class Group extends LabelObject {
      * 执行行为影响
 	 * @param
      */
-	public runner(model: Model, t: number): void {
+	public runner(t: number): void {
 		this.individuals.forEach((individual) => {
 			for(let j = 0; j < this.behaviors.length; j++) {
-				this.behaviors[j].effect(individual, this, model, t);
+				this.behaviors[j].effect(individual, this, this.model, t);
 			}
 		});
 	}
