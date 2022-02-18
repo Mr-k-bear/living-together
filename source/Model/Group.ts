@@ -15,11 +15,17 @@ class Group {
 	 * 创建个体
      * @param count 创建数量
 	 */
-	public new(count: number = 1): this {
+	public new(count: number = 1): Individual {
+        let newIndividual: Individual | undefined;
 		for (let i = 0; i < count; i++) {
-			this.individuals.add(new Individual(this));
+            newIndividual = new Individual(this);
+			this.individuals.add(newIndividual);
 		}
-        return this;
+        if (newIndividual) {
+            return newIndividual;
+        } else {
+            return new Individual(this);
+        }
 	}
 
     /**
@@ -101,7 +107,7 @@ class Group {
 	}
 
 	/**
-     * 运行效果器
+     * 执行行为影响
 	 * @param
      */
 	public runner(t: number): void {

@@ -1,4 +1,5 @@
 import type { Group } from "./Group";
+import { ObjectID } from "./Renderer";
 
 /**
  * 群中的个体类型
@@ -107,6 +108,26 @@ class Individual {
      */
     public distanceTo(position: Individual | number[]): number {
         return Individual.vectorLength(this.vectorTo(position));
+    }
+
+    /**
+     * 保存提供给 Behavior 使用的数据
+     */
+    private metaData: Map<ObjectID, any> = new Map();
+
+    /**
+     * 获取元数据
+     */
+    public getData<T = any>(key: ObjectID): T {
+        return this.metaData.get(key);
+    }
+
+    /**
+     * 设置元数据
+     */
+    public setData<T = any>(key: ObjectID, value: T): T {
+        this.metaData.set(key, value);
+        return value;
     }
 }
 

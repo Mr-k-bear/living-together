@@ -27,7 +27,7 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
      */
     private lastScale: number = 0;
     private readonly cubeRadius = 2**.5;
-    private readonly farFogLine = 2.5;
+    private readonly farFogLine = 2.2;
 
     /**
      * 对象储池数组
