@@ -80,3 +80,5 @@ class LabelObject {
         return has;
     }
 }
+
+export { Label, LabelObject };

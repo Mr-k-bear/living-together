@@ -1,11 +1,12 @@
 import { Individual } from "./Individual";
+import { LabelObject } from "./Label";
 import type { Behavior } from "./Behavior"; 
 import type { Model } from "./Model";
 
 /**
  * 群体类型
  */
-class Group {
+class Group extends LabelObject {
 
 	/**
 	 * 所有个体
