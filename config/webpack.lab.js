@@ -11,6 +11,7 @@ module.exports = (env) => {
     const config = {
 
         entry: {
+            GLRender: AllEntry.GLRender,
             Model: AllEntry.Model,
             LaboratoryPage: AllEntry.LaboratoryPage
         },
@@ -21,10 +22,12 @@ module.exports = (env) => {
         resolve: resolve(),
 
         optimization: {
+            runtimeChunk: 'single',
             chunkIds: 'named',
             moduleIds: 'named',
             splitChunks: {
-                minSize: 1000,
+                chunks: 'all',
+                minSize: 1000
             }
         },
 

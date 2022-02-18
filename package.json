@@ -5,7 +5,7 @@
   "main": "./source/LivingTogether.ts",
   "scripts": {
     "clean": "rimraf ./build/*",
-    "lab": "webpack serve --open --config ./config/webpack.lab.js",
+    "hmr-lab": "webpack serve --open --config ./config/webpack.lab.js",
     "build-lab": "npm run clean & webpack --mode development --config ./config/webpack.lab.js",
     "release-lab": "npm run clean & webpack --mode production --no-devtool --config ./config/webpack.lab.js"
   },
