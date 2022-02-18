@@ -2,6 +2,7 @@ import { IAnyObject } from "./Renderer";
 import { Emitter, EventType } from "./Emitter";
 import type { Individual } from "./Individual";
 import type { Group } from "./Group";
+import type { Model } from "./Model";
 
 /**
  * 群体的某种行为
@@ -43,7 +44,7 @@ abstract class Behavior<
      * @param group 影响组
      * @param t 经过时间
      */
-    abstract effect(individual: Individual, group: Group, t: number): void;
+    abstract effect(individual: Individual, group: Group, model: Model, t: number): void;
 
 }
 
