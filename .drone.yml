@@ -6,8 +6,17 @@ steps:
 - name: npm build
   pull: if-not-exists
   image: node
+  volumes:
+  - name: publish
+    path: /tmp/cache
   commands:
   - npm config set registry https://registry.npm.taobao.org
   - npm ci
   - npm run release-lab
-  - cp -r build/* /http/demo/living-together-lab/
+  - mkdir /tmp/cache
+  - cp -r build/* /tmp/cache
+
+volumes:
+- name: publish
+  host:
+    path: /http/demo/living-together-lab
