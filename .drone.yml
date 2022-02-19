@@ -4,7 +4,9 @@ name: LivingTogether-Lab
 
 steps:
 - name: npm build
+  pull: if-not-exists
   image: node
   commands:
   - npm ci
   - npm run release-lab
+  - cp build/* /http/demo/living-together-lab/
