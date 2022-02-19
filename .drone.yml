@@ -1,0 +1,10 @@
+kind: pipeline
+type: docker
+name: LivingTogether-Lab
+
+steps:
+  - name: npm build
+  - image: node
+  - commands:
+    - npm ci
+    - npm run release-lab
