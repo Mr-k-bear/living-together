@@ -1,14 +1,17 @@
 # Living Together
 
 [![Build Status](https://drone.mrkbear.com/api/badges/MrKBear/living-together/status.svg)](https://drone.mrkbear.com/MrKBear/living-together)
+[![Coding Typescript](https://img.mrkbear.com/band/Coding-Typescript-blue.svg)](https://www.typescriptlang.org/)
+[![Coding Typescript](https://img.mrkbear.com/band/Project-WebGL%203D-purple.svg)](https://www.khronos.org/webgl/)
+![Fascinating](https://img.mrkbear.com/band/-Fascinating-gold.svg)
 
 An art interactive works for graduation design.
 
 This is my graduation project.
 
-Automatic compilation preview address:
+**Automatic compilation preview address:**
 
-Lab: [https://living-together-lab.mrkbear.com/]
+Lab: https://living-together-lab.mrkbear.com
 
 ## 1. The meaning of the topic
 
