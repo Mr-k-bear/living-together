@@ -39,7 +39,7 @@ module.exports = (env) => {
         },
         
         plugins: [
-            HTMLPage("Laboratory.html", "Living Together | Laboratory"),
+            HTMLPage("index.html", "Living Together | Laboratory"),
             CssPlugin(),
             AutoFixCssPlugin()
         ],

@@ -2,6 +2,9 @@ kind: pipeline
 type: docker
 name: LivingTogether-Lab
 
+workspace:
+  path: /drone/src
+
 steps:
 - name: npm build
   pull: if-not-exists
@@ -9,6 +12,8 @@ steps:
   volumes:
   - name: publish
     path: /tmp/cache
+  - name: node_modules
+    path: /drone/src/node_modules
   commands:
   - npm config set registry https://registry.npm.taobao.org
   - npm ci
@@ -20,3 +25,6 @@ volumes:
 - name: publish
   host:
     path: /http/demo/living-together-lab
+- name: node_modules
+  host:
+    path: /tmp/node_modules/living-together
