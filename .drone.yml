@@ -26,3 +26,7 @@ volumes:
 - name: node_modules
   host:
     path: /tmp/node_modules/living-together
+
+trigger:
+  branch:
+  - master

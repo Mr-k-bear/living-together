@@ -1,8 +1,14 @@
 # Living Together
 
+[![Build Status](https://drone.mrkbear.com/api/badges/MrKBear/living-together/status.svg)](https://drone.mrkbear.com/MrKBear/living-together)
+
 An art interactive works for graduation design.
 
 This is my graduation project.
+
+Automatic compilation preview address:
+
+Lab: [https://living-together-lab.mrkbear.com/]
 
 ## 1. The meaning of the topic
 
