@@ -8,6 +8,21 @@ import type { ObjectID } from "./Renderer";
 class CtrlObject extends LabelObject {
 
     /**
+     * 颜色
+     */
+    public color: number[] = [.5, .5, .5];
+
+    /**
+     * 是否显示
+     */
+    public display: boolean = true;
+
+    /**
+     * 是否更新
+     */
+    public update: boolean = true;
+
+    /**
      * 唯一标识符
      */
     public id: ObjectID;
@@ -24,6 +39,13 @@ class CtrlObject extends LabelObject {
         super();
         this.model = model;
         this.id = id;
+    }
+
+    /**
+     * 移除
+     */
+    public delete() {
+        this.model.deleteObject([this]);
     }
 }
 

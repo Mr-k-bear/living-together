@@ -39,12 +39,31 @@ abstract class Behavior<
     abstract parameter?: P;
 
     /**
+     * 全部影响作用前
+     * @param individual 影响个体
+     * @param group 影响组
+     * @param model 模型
+     * @param t 经过时间
+     */
+    public beforeEffect(individual: Individual, group: Group, model: Model, t: number): void {};
+
+    /**
      * 作用影响于个体
      * @param individual 影响个体
      * @param group 影响组
+     * @param model 模型
      * @param t 经过时间
      */
-    abstract effect(individual: Individual, group: Group, model: Model, t: number): void;
+    public effect(individual: Individual, group: Group, model: Model, t: number): void {};
+
+    /**
+     * 全部影响作用后
+     * @param individual 影响个体
+     * @param group 影响组
+     * @param model 模型
+     * @param t 经过时间
+     */
+    public afterEffect(individual: Individual, group: Group, model: Model, t: number): void {};
 
 }
 

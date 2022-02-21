@@ -37,9 +37,11 @@ class Group extends CtrlObject {
     public add(individual: Individual[] | Individual): this {
         if (Array.isArray(individual)) {
             for (let i = 0; i < individual.length; i++) {
+                individual[i].group = this;
                 this.individuals.add(individual[i]);
             }
         } else {
+            individual.group = this;
             this.individuals.add(individual);
         }
         return this;
@@ -112,13 +114,32 @@ class Group extends CtrlObject {
      * 执行行为影响
 	 * @param
      */
-	public runner(t: number): void {
+	public runner(t: number, effectType: "beforeEffect" | "effect" | "afterEffect" ): void {
 		this.individuals.forEach((individual) => {
 			for(let j = 0; j < this.behaviors.length; j++) {
-				this.behaviors[j].effect(individual, this, this.model, t);
+				this.behaviors[j][effectType](individual, this, this.model, t);
 			}
 		});
 	}
+
+    /**
+     * 导出坐标数据
+     */
+    public exportPositionData(): Float32Array {
+        let index = 0;
+        let dataBuffer = new Float32Array(this.individuals.size * 3);
+        this.individuals.forEach((individual) => {
+            dataBuffer[index ++] = individual.position[0];
+            dataBuffer[index ++] = individual.position[1];
+            dataBuffer[index ++] = individual.position[2];
+        });
+        return dataBuffer;
+    }
+
+    /**
+     * 绘制大小 
+     */
+    public size: number = 60;
 }
 
 export default Group;

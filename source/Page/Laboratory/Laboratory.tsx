@@ -24,15 +24,23 @@ class Laboratory extends Component {
         const canvas = document.createElement("canvas");
         const renderer = new ClassicRenderer(canvas, { className: "canvas" });
         this.canvasContRef.current.appendChild(renderer.canvas.dom);
-
         renderer.onLoad();
 
-        let model = new Model();
-        model.addGroup();
-        model.addGroup();
+        let model = new Model().bindRenderer(renderer);
+        let group = model.addGroup();
+        let range = model.addRange();
+        range.color = [.1, .5, .9];
+        group.new(100);
+        group.color = [.8, .1, .6];
+        group.individuals.forEach((individual) => {
+            individual.position[0] = (Math.random() - .5) * 2;
+            individual.position[1] = (Math.random() - .5) * 2;
+            individual.position[2] = (Math.random() - .5) * 2;
+        })
+        model.update(0);
 
         // 测试渲染器
-        if (true) {
+        if (false) {
             renderer.points("0");
             renderer.points("1", new Array(100 * 3).fill(0).map(() => (Math.random() - .5) * 2));
             renderer.points("2", new Array(100 * 3).fill(0).map(() => (Math.random() - .5) * 2), {
