@@ -10,6 +10,11 @@ class Range extends CtrlObject {
      */
     public position: number[] = [];
 
+    /**
+     * 半径
+     */
+    public radius: number[] = [1, 1, 1];
+
 }
 
 export default Range;
