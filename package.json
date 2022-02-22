@@ -7,7 +7,10 @@
     "clean": "rimraf ./build/*",
     "hmr-lab": "webpack serve --open --config ./config/webpack.lab.js",
     "build-lab": "npm run clean & webpack --mode development --config ./config/webpack.lab.js",
-    "release-lab": "npm run clean & webpack --mode production --no-devtool --config ./config/webpack.lab.js"
+    "release-lab": "npm run clean & webpack --mode production --no-devtool --config ./config/webpack.lab.js",
+    "hmr-web": "webpack serve --open --config ./config/webpack.web.js",
+    "build-web": "npm run clean & webpack --mode development --config ./config/webpack.web.js",
+    "release-web": "npm run clean & webpack --mode production --no-devtool --config ./config/webpack.web.js"
   },
   "keywords": [
     "artwork",
