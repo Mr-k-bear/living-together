@@ -65,6 +65,11 @@ const Entry = () => ({
     LaboratoryPage: {
         import: source("./Page/Laboratory/Laboratory.tsx"),
         dependOn: ["Model", "GLRender"]
+    },
+
+    SimulatorWeb: {
+        import: source("./Page/SimulatorWeb/SimulatorWeb.tsx"),
+        dependOn: ["Model", "GLRender"]
     }
 });
 
