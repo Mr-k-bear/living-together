@@ -1,3 +1,6 @@
+import type { Model } from "./Model";
+import { ObjectID } from "./Renderer";
+
 /**
  * 数据标签
  */
@@ -6,7 +9,7 @@ class Label {
     /**
      * 唯一标识符
      */
-    public id: string;
+    public id: ObjectID;
 
     /**
      * 用户定义的名称
@@ -19,11 +22,17 @@ class Label {
     public color?: string;
 
     /**
+     * 所属模型
+     */
+    public model: Model;
+
+    /**
      * 构造器
      * @param id 标签 ID
      * @param name 用户定义的名称
      */
-    public constructor(id: string, name?: string) {
+    public constructor(model:Model, id: ObjectID, name?: string) {
+        this.model = model;
         this.id = id;
         this.name = name;
     }
@@ -33,6 +42,16 @@ class Label {
      */
     public equal(label: Label): boolean {
         return this === label || this.id === label.id;
+    }
+
+    /**
+     * 是否被删除
+     */
+    public isDeleted(): boolean {
+        for (let i = 0; i < this.model.labelPool.length; i++) {
+            if (this.model.labelPool[i].equal(this)) return false;
+        }
+        return true;
     }
 }
 

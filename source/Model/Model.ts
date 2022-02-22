@@ -5,10 +5,14 @@ import { Range } from "./Range";
 import { Emitter, EventType, EventMixin } from "./Emitter";
 import { CtrlObject } from "./CtrlObject";
 import { ObjectID, AbstractRenderer } from "./Renderer";
+import { Label } from "./Label";
 
 type ModelEvent = {
     groupAdd: Group;
     rangeAdd: Range;
+    labelAdd: Label;
+    labelDelete: Label;
+    labelChange: Label[];
     objectAdd: CtrlObject;
     objectDelete: CtrlObject[];
     objectChange: CtrlObject[];
@@ -31,6 +35,51 @@ class Model extends Emitter<ModelEvent> {
      * 对象列表
      */
     public objectPool: CtrlObject[] = [];
+
+    /**
+     * 标签列表
+     */
+    public labelPool: Label[] = [];
+
+    /**
+     * 添加标签
+     */
+    public addLabel(name: string): Label {
+        console.log(`Model: Creat label with id ${this.idIndex}`);
+        let label = new Label(this, this.nextId, name);
+        this.labelPool.push(label);
+        this.emit("labelAdd", label);
+        this.emit("labelChange", this.labelPool);
+        return label;
+    }
+
+    /**
+     * 搜索并删除一个 Label
+     * @param name 搜索值
+     */
+    public deleteLabel(name: Label | ObjectID) {
+        let deletedLabel: Label | undefined;
+        let index = 0;
+
+        for (let i = 0; i < this.labelPool.length; i++) {
+            if (name instanceof Label) {
+                if (this.labelPool[i].equal(name)) {
+                    deletedLabel = this.labelPool[i];
+                    index = i;
+                }
+            } else if (name === this.labelPool[i].id) {
+                deletedLabel = this.labelPool[i];
+                index = i;
+            }
+        }
+
+        if (deletedLabel) {
+            this.labelPool.splice(index, 1);
+            console.log(`Model: Delete label ${deletedLabel.name ?? deletedLabel.id}`);
+            this.emit("labelDelete", deletedLabel);
+            this.emit("labelChange", this.labelPool);
+        }
+    }
 
     /**
      * 添加组
