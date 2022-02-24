@@ -1,6 +1,8 @@
 {
     "compileOnSave": true,
     "compilerOptions": {
+        "experimentalDecorators": true,
+        "resolveJsonModule": true,
         "alwaysStrict": true,
         "strict": true,
         "sourceMap": true,
@@ -23,6 +25,12 @@
             ],
             "@GLRender/*": [
                 "./source/GLRender/*"
+            ],
+            "@Context/*": [
+                "./source/Context/*"
+            ],
+            "@Component/*": [
+                "./source/Component/*"
             ]
         }
     },

@@ -5,7 +5,9 @@ import { GLContext } from "./GLContext";
 import { Camera } from "./Camera";
 import { Clock } from "@GLRender/Clock";
 
-interface IRendererOwnParams {}
+interface IRendererOwnParams {
+    canvas: HTMLCanvasElement;
+}
 
 /**
  * 渲染器参数
@@ -38,7 +40,7 @@ abstract class BasicRenderer<
      */
     protected clock: Clock;
 
-    public constructor(canvas: HTMLCanvasElement, param: Partial<M & IRendererParams> = {}) {
+    public constructor(param: Partial<M & IRendererParams> = {}) {
 		super();
 
 		// 初始化参数
@@ -50,7 +52,7 @@ abstract class BasicRenderer<
 		} as M & IRendererParams;
 		
 		// 实例化画布对象
-		this.canvas = new GLCanvas(canvas, this.param);
+		this.canvas = new GLCanvas(param.canvas, this.param);
 
         // 实例化摄像机
         this.camera = new Camera(this.canvas);
@@ -154,7 +156,7 @@ abstract class BasicRenderer<
     /**
      * 初始化
      */
-    abstract onLoad(): void;
+    abstract onLoad(): this;
 
     /**
      * 渲染器执行
