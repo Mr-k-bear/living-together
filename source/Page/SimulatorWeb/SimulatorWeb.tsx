@@ -46,6 +46,8 @@ class SimulatorWeb extends Component {
             })
             this.status.model.update(0);
         }
+
+        (window as any).s = this;
     }
 
     public render(): ReactNode {
@@ -57,17 +59,12 @@ class SimulatorWeb extends Component {
     }
 
     private renderContent(): ReactNode {
-        return <div className="app-root">
-            <HeaderBar/>
-            <Theme 
-                className="test" 
-                fontLevel={FontLevel.Level2}
-                backgroundLevel={BackgroundLevel.Level1}
-            >
-                Theme
-            </Theme>
-            <Localization i18nKey="EN_US"/>
-        </div>
+        return <Theme 
+            className="app-root"
+            backgroundLevel={BackgroundLevel.Level5}
+        >
+            <HeaderBar height={45}/>
+        </Theme>
     }
 }
 
