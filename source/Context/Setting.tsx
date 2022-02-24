@@ -9,6 +9,8 @@ enum Themes {
     dark = 2
 }
 
+type Language = "ZH_CN" | "EN_US";
+
 class Setting extends Emitter<
     Setting & {change: keyof Setting}
 > {
@@ -16,7 +18,12 @@ class Setting extends Emitter<
     /**
      * 主题
      */
-    public themes: Themes = Themes.light;
+    public themes: Themes = Themes.dark;
+
+    /**
+     * 语言
+     */
+    public language: Language = "EN_US";
 
     /**
      * 设置参数
@@ -53,6 +60,6 @@ function useSetting<R extends RenderComponent>(components: R): R {
 }
 
 export {
-    Themes, Setting, SettingContext, useSetting, 
+    Themes, Setting, SettingContext, useSetting, Language,
     IMixinSettingProps, SettingProvider, SettingConsumer
 };

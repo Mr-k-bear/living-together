@@ -2,6 +2,7 @@
     "compileOnSave": true,
     "compilerOptions": {
         "experimentalDecorators": true,
+        "resolveJsonModule": true,
         "alwaysStrict": true,
         "strict": true,
         "sourceMap": true,

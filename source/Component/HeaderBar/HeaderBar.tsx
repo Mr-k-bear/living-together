@@ -14,6 +14,9 @@ class HeaderBar extends Component<IHeaderBarProps & IMixinSettingProps> {
             this.props.setting.setProps("themes", 
                 this.props.setting.themes === Themes.dark ? Themes.light : Themes.dark
             );
+            this.props.setting.setProps("language", 
+                this.props.setting.language === "EN_US" ?'ZH_CN' : "EN_US"
+            );
         }
     }
 

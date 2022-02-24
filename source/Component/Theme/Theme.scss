@@ -1,0 +1,80 @@
+@import "@fluentui/react/dist/sass/References";
+
+$lt-font-size-normal: $ms-font-size-14;
+$lt-font-size-lvl3: $ms-font-size-18;
+$lt-font-size-lvl2: $ms-font-size-24;
+$lt-font-size-lvl1: $ms-font-size-32;
+
+$lt-font-weight-normal: $ms-font-weight-regular;
+$lt-font-weight-lvl3: $ms-font-weight-semibold;
+$lt-font-weight-lvl2: $ms-font-weight-semibold;
+$lt-font-weight-lvl1: $ms-font-weight-bold;
+
+// 背景颜色
+$lt-bg-color-lvl1-dark: $ms-color-gray140;
+$lt-bg-color-lvl2-dark: $ms-color-gray150;
+$lt-bg-color-lvl3-dark: $ms-color-gray160;
+$lt-bg-color-lvl4-dark: $ms-color-gray180;
+$lt-bg-color-lvl5-dark: $ms-color-gray200;
+
+// 文字颜色
+$lt-font-color-normal-dark: $ms-color-gray110;
+$lt-font-color-lvl3-dark: $ms-color-gray100;
+$lt-font-color-lvl2-dark: $ms-color-gray100;
+$lt-font-color-lvl1-dark: $ms-color-gray90;
+
+// 背景颜色
+$lt-bg-color-lvl1-light: $ms-color-gray10;
+$lt-bg-color-lvl2-light: $ms-color-gray20;
+$lt-bg-color-lvl3-light: $ms-color-gray30;
+$lt-bg-color-lvl4-light: $ms-color-gray50;
+$lt-bg-color-lvl5-light: $ms-color-gray70;
+
+// 文字颜色
+$lt-font-color-normal-light: $ms-color-gray130;
+$lt-font-color-lvl3-light: $ms-color-gray140;
+$lt-font-color-lvl2-light: $ms-color-gray140;
+$lt-font-color-lvl1-light: $ms-color-gray150;
+
+div.dark, div.light {
+    transition: all 300ms ease-in-out;
+}
+
+div.dark.background-lvl1 { background-color: $lt-bg-color-lvl1-dark; }
+div.dark.background-lvl2 { background-color: $lt-bg-color-lvl2-dark; }
+div.dark.background-lvl3 { background-color: $lt-bg-color-lvl3-dark; }
+div.dark.background-lvl4 { background-color: $lt-bg-color-lvl4-dark; }
+div.dark.background-lvl5 { background-color: $lt-bg-color-lvl5-dark; }
+
+div.light.background-lvl1 { background-color: $lt-bg-color-lvl1-light; }
+div.light.background-lvl2 { background-color: $lt-bg-color-lvl2-light; }
+div.light.background-lvl3 { background-color: $lt-bg-color-lvl3-light; }
+div.light.background-lvl4 { background-color: $lt-bg-color-lvl4-light; }
+div.light.background-lvl5 { background-color: $lt-bg-color-lvl5-light; }
+
+div.font-normal {
+    font-size: $lt-font-size-normal;
+    font-weight: $lt-font-weight-normal;
+}
+div.font-lvl3 {
+    font-size: $lt-font-size-lvl3;
+    font-weight: $lt-font-weight-lvl3;
+}
+div.font-lvl2 {
+    font-size: $lt-font-size-lvl2;
+    font-weight: $lt-font-weight-lvl2;
+}
+div.font-lvl1 {
+    font-size: $lt-font-size-lvl1;
+    font-weight: $lt-font-weight-lvl1;
+}
+
+div.dark.font-normal { color: $lt-font-color-normal-dark; }
+div.dark.font-lvl3 { color: $lt-font-color-lvl3-dark; }
+div.dark.font-lvl2 { color: $lt-font-color-lvl2-dark; }
+div.dark.font-lvl1 { color: $lt-font-color-lvl1-dark; }
+
+div.light.font-normal { color: $lt-font-color-normal-light; }
+div.light.font-lvl3 { color: $lt-font-color-lvl3-light; }
+div.light.font-lvl2 { color: $lt-font-color-lvl2-light; }
+div.light.font-lvl1 { color: $lt-font-color-lvl1-light; }
