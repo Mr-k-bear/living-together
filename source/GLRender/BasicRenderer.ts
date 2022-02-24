@@ -156,7 +156,7 @@ abstract class BasicRenderer<
     /**
      * 初始化
      */
-    abstract onLoad(): void;
+    abstract onLoad(): this;
 
     /**
      * 渲染器执行

@@ -34,7 +34,7 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
      */
     private objectPool = new Map<ObjectID, DisplayObject>();
 
-    public onLoad(): void {
+    public onLoad(): this {
         
         // 自动调节分辨率
         this.autoResize();
@@ -69,6 +69,8 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
         // setInterval(() => {
         //     this.basicGroup.upLoadData(new Array(100 * 3).fill(0).map(() => (Math.random() - .5) * 2));
         // }, 500);
+
+        return this;
     }
 
     loop(t: number): void {
