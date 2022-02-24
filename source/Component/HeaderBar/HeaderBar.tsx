@@ -1,6 +1,7 @@
 import { Component, ReactNode } from "react";
 import { useStatus, IMixinStatusProps } from "@Context/Status";
 import { Theme, BackgroundLevel, FontLevel } from "@Component/Theme/Theme";
+import "./HeaderBar.scss";
 
 interface IHeaderBarProps {
     height: number;
@@ -31,7 +32,7 @@ class HeaderBar extends Component<IHeaderBarProps & IMixinStatusProps> {
             fontLevel={FontLevel.Level3}
             style={{ height: this.props.height }}
         >
-            Living Together | Web
+            <div>Living Together | Web</div>
         </Theme>
     }
 }
