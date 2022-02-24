@@ -21,8 +21,7 @@ class Laboratory extends Component {
             throw new Error("Laboratory: 重复引用 canvas 节点");
         }
 
-        const canvas = document.createElement("canvas");
-        const renderer = new ClassicRenderer(canvas, { className: "canvas" });
+        const renderer = new ClassicRenderer({ className: "canvas" });
         this.canvasContRef.current.appendChild(renderer.canvas.dom);
         renderer.onLoad();
 
