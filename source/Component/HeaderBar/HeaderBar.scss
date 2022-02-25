@@ -1,5 +1,5 @@
 div.header-bar {
-    padding: 0 20px;
+    padding: 0 3px;
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -7,13 +7,13 @@ div.header-bar {
     user-select: none;
 
     div.title > i, div.fps-view > i {
-        font-size: larger;
-        vertical-align: text-bottom;
-        padding-right: 5px;
+        font-size: 25px;
+        vertical-align: middle;
+        padding-right: 8px;
     }
-    
+
     div.ms-TooltipHost {
-        padding: 0 5px;
+        padding: 0 8px;
         overflow: hidden;
         flex-shrink: 1;
         

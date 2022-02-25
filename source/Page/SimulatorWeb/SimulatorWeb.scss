@@ -1,6 +1,11 @@
 div.app-root {
     width: 100%;
     height: 100%;
-    position: absolute;
+    position: fixed;
     overflow: hidden;
+
+    div.app-root-space {
+        height: 100%;
+        display: flex;
+    }
 }

@@ -1,15 +1,15 @@
 import { Component, ReactNode } from "react";
 import { SettingProvider, Setting } from "@Context/Setting";
 import { HeaderBar } from "@Component/HeaderBar/HeaderBar";
-import { Theme, FontLevel, BackgroundLevel } from "@Component/Theme/Theme";
-import { Localization } from "@Component/Localization/Localization";
+import { Theme, BackgroundLevel, FontLevel } from "@Component/Theme/Theme";
 import { Entry } from "../Entry/Entry";
 import { StatusProvider, Status } from "@Context/Status";
 import { ClassicRenderer } from "@GLRender/ClassicRenderer";
 import { initializeIcons } from '@fluentui/font-icons-mdl2';
 import "./SimulatorWeb.scss";
+import { CommandBar } from "@Component/CommandBar/CommandBar";
 
-initializeIcons();
+initializeIcons("http://cdn.mrkbear.com/fabric-cdn-prod_20210407.001/");
 
 class SimulatorWeb extends Component {
     
@@ -65,8 +65,15 @@ class SimulatorWeb extends Component {
         return <Theme 
             className="app-root"
             backgroundLevel={BackgroundLevel.Level5}
+            fontLevel={FontLevel.Level3}
         >
             <HeaderBar height={45}/>
+            <div className="app-root-space" style={{
+                height: `calc( 100% - ${45}px)`
+            }}>
+                <CommandBar width={45}/>
+                <div></div>
+            </div>
         </Theme>
     }
 }

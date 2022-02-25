@@ -8,6 +8,6 @@ const ZH_CN = {
     "Header.Bar.File.Save.Status.Saved": "已保存",
     "Header.Bar.File.Save.Status.Unsaved": "未保存",
     "Header.Bar.Fps": "帧率: {renderFps} | {physicsFps}",
-    "Header.Bar.Fps.Info": "左侧为渲染帧率 ({renderFps} / fps), 右侧为模拟帧率 ({physicsFps} / fps)。",
+    "Header.Bar.Fps.Info": "左侧为渲染帧率 ({renderFps} fps), 右侧为模拟帧率 ({physicsFps} fps)。",
 }
 export default ZH_CN;

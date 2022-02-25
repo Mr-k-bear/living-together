@@ -1,0 +1,39 @@
+div.command-bar {
+    height: 100%;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+    button.ms-Button.command-button {
+        width: 100%;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        color:  inherit;
+        
+        span.ms-Button-flexContainer i.ms-Icon {
+            font-size: 25px;
+        }
+    }
+
+    button.ms-Button.command-button.on-end {
+        align-self: flex-end;
+    }
+}
+
+button.ms-Button.command-button.active {
+    color: aqua !important;
+}
+
+div.command-bar.dark button.ms-Button.command-button.active,
+div.command-bar.dark button.ms-Button.command-button:hover {
+    background-color: rgba($color: #FFFFFF, $alpha: .2);
+    color: rgba($color: #FFFFFF, $alpha: 1);
+}
+
+div.command-bar.light button.ms-Button.command-button.active,
+div.command-bar.light button.ms-Button.command-button:hover {
+    background-color: rgba($color: #000000, $alpha: .08);
+    color: rgba($color: #000000, $alpha: 1);
+}

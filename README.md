@@ -11,7 +11,9 @@ This is my graduation project.
 
 **Automatic compilation preview address:**
 
-Lab: https://living-together-lab.mrkbear.com
+Simulator: [living-together.mrkbear.com](https://living-together.mrkbear.com)
+
+Laboratory: [living-together-lab.mrkbear.com](https://living-together-lab.mrkbear.com)
 
 ## 1. The meaning of the topic
 
