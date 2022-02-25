@@ -8,6 +8,7 @@ import { ObjectID, AbstractRenderer } from "./Renderer";
 import { Label } from "./Label";
 
 type ModelEvent = {
+    loop: number;
     groupAdd: Group;
     rangeAdd: Range;
     labelAdd: Label;
@@ -205,6 +206,8 @@ class Model extends Emitter<ModelEvent> {
                 } as any);
             }
         }
+
+        this.emit("loop", t);
     }
 }
 

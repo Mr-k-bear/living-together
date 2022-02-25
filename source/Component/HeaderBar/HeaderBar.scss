@@ -3,4 +3,25 @@ div.header-bar {
     box-sizing: border-box;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    user-select: none;
+
+    div.title > i, div.fps-view > i {
+        font-size: larger;
+        vertical-align: text-bottom;
+        padding-right: 5px;
+    }
+    
+    div.ms-TooltipHost {
+        padding: 0 5px;
+        overflow: hidden;
+        flex-shrink: 1;
+        
+        div {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: keep-all;
+            white-space: nowrap;
+        }
+    }
 }

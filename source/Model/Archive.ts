@@ -21,6 +21,11 @@ class Archive<
     public fileName?: string;
 
     /**
+     * 是否保存
+     */
+    public isSaved: boolean = false;
+
+    /**
      * 文件数据
      */
     public fileData?: M;

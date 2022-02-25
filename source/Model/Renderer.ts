@@ -46,8 +46,13 @@ interface IRendererConstructor<
 	M extends IAnyObject = {}
 > {
 	new (canvas: HTMLCanvasElement, param?: M): AbstractRenderer<
-		IRendererParam, IAnyObject, Record<EventType, any>
+		IRendererParam, IAnyObject, AbstractRendererEvent
 	>
+}
+
+type AbstractRendererEvent = {
+    [x: EventType]: any;
+    loop: number;
 }
 
 /**
@@ -59,7 +64,7 @@ interface IRendererConstructor<
 abstract class AbstractRenderer<
 	P extends IRendererParam = {},
 	M extends IAnyObject = {},
-	E extends Record<EventType, any> = {}
+	E extends AbstractRendererEvent = {loop: number}
 > extends Emitter<E> {
 
 	/**
