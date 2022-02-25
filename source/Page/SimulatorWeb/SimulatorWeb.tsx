@@ -9,7 +9,7 @@ import { initializeIcons } from '@fluentui/font-icons-mdl2';
 import "./SimulatorWeb.scss";
 import { CommandBar } from "@Component/CommandBar/CommandBar";
 
-initializeIcons();
+initializeIcons("http://cdn.mrkbear.com/fabric-cdn-prod_20210407.001/");
 
 class SimulatorWeb extends Component {
     
@@ -68,8 +68,11 @@ class SimulatorWeb extends Component {
             fontLevel={FontLevel.Level3}
         >
             <HeaderBar height={45}/>
-            <div className="app-root-space">
+            <div className="app-root-space" style={{
+                height: `calc( 100% - ${45}px)`
+            }}>
                 <CommandBar width={45}/>
+                <div></div>
             </div>
         </Theme>
     }
