@@ -75,6 +75,8 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
 
     loop(t: number): void {
 
+        this.emit("loop", t);
+
         // 常规绘制窗口
         this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
 

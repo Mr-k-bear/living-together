@@ -15,8 +15,14 @@ interface ILocalizationProps {
     options?: Record<string, string>;
 }
 
-function I18N(language: Language, key: keyof typeof EN_US, values?: Record<string, string>) {
-    let i18nValue = LanguageDataBase[language][key];
+function I18N(language: Language | IMixinSettingProps, key: keyof typeof EN_US, values?: Record<string, string>) {
+    let lang: Language;
+    if (typeof language === "string") {
+        lang = language;
+    } else {
+        lang = language.setting?.language ?? "EN_US";
+    }
+    let i18nValue = LanguageDataBase[lang][key];
     if (values) {
         for (let valueKey in values) {
             i18nValue = i18nValue.replaceAll(new RegExp(`\\{\\s*${valueKey}\\s*\\}`, "g"), values[valueKey]);

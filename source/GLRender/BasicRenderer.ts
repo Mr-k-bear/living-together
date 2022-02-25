@@ -18,7 +18,7 @@ abstract class BasicRenderer<
     P extends IRendererParam = {},
     M extends IAnyObject = {},
     E extends Record<EventType, any> = {}
-> extends AbstractRenderer<P, M & IRendererParams, E> {
+> extends AbstractRenderer<P, M & IRendererParams, E & {loop: number}> {
 
     /**
 	 * 渲染器参数

@@ -6,7 +6,10 @@ import { Localization } from "@Component/Localization/Localization";
 import { Entry } from "../Entry/Entry";
 import { StatusProvider, Status } from "@Context/Status";
 import { ClassicRenderer } from "@GLRender/ClassicRenderer";
+import { initializeIcons } from '@fluentui/font-icons-mdl2';
 import "./SimulatorWeb.scss";
+
+initializeIcons();
 
 class SimulatorWeb extends Component {
     
