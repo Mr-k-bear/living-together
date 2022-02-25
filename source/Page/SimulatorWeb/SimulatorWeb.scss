@@ -3,4 +3,9 @@ div.app-root {
     height: 100%;
     position: absolute;
     overflow: hidden;
+
+    div.app-root-space {
+        height: 100%;
+        display: flex;
+    }
 }

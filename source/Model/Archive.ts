@@ -8,7 +8,7 @@ interface IArchiveEvent {
 class Archive<
     M extends any = any,
     E extends Record<EventType, any> = {}
-> extends Emitter<E> {
+> extends Emitter<E & IArchiveEvent> {
 
     /**
      * 是否为新文件

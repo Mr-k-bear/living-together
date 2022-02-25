@@ -8,6 +8,6 @@ const EN_US = {
     "Header.Bar.File.Save.Status.Saved": "Saved",
     "Header.Bar.File.Save.Status.Unsaved": "UnSaved",
     "Header.Bar.Fps": "FPS: {renderFps} | {physicsFps}",
-    "Header.Bar.Fps.Info": "The rendering frame rate ({renderFps} / fps) is on the left, and the simulation frame rate ({physicsFps} / fps) is on the right.",
+    "Header.Bar.Fps.Info": "The rendering frame rate ({renderFps} fps) is on the left, and the simulation frame rate ({physicsFps} fps) is on the right.",
 }
 export default EN_US;

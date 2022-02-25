@@ -60,6 +60,7 @@ class HeaderBar extends Component<
             setting.on("language", this.changeListener);
         }
         if (status) {
+            status.archive.on("save", this.changeListener);
             status.model.on("loop", this.physicsFpsCalc);
             status.renderer.on("loop", this.renderFpsCalc);
         }
@@ -71,6 +72,7 @@ class HeaderBar extends Component<
             setting.off("language", this.changeListener);
         }
         if (status) {
+            status.archive.off("save", this.changeListener);
             status.model.off("loop", this.physicsFpsCalc);
             status.renderer.off("loop", this.renderFpsCalc);
         }
