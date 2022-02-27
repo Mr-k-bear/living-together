@@ -9,5 +9,15 @@ const EN_US = {
     "Header.Bar.File.Save.Status.Unsaved": "UnSaved",
     "Header.Bar.Fps": "FPS: {renderFps} | {physicsFps}",
     "Header.Bar.Fps.Info": "The rendering frame rate ({renderFps} fps) is on the left, and the simulation frame rate ({physicsFps} fps) is on the right.",
+    "Command.Bar.Save.Info": "Save",
+    "Command.Bar.Play.Info": "Start simulation",
+    "Command.Bar.Drag.Info": "Drag and drop to move the camera",
+    "Command.Bar.Select.Info": "Select object",
+    "Command.Bar.Add.Group.Info": "Add group object",
+    "Command.Bar.Add.Range.Info": "Add scope object",
+    "Command.Bar.Add.Behavior.Info": "Add behavior object",
+    "Command.Bar.Add.Tag.Info": "Add label object",
+    "Command.Bar.Camera.Info": "Renderer settings",
+    "Command.Bar.Setting.Info": "Global Settings",
 }
 export default EN_US;
