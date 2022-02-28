@@ -6,7 +6,8 @@ import { Entry } from "../Entry/Entry";
 import { StatusProvider, Status } from "@Context/Status";
 import { ClassicRenderer } from "@GLRender/ClassicRenderer";
 import { initializeIcons } from '@fluentui/font-icons-mdl2';
-import { Container, ContaineLayout } from "@Component/Container/Container";
+import { Container } from "@Component/Container/Container";
+import { LayoutDirection } from "@Model/Layout";
 import "./SimulatorWeb.scss";
 import { CommandBar } from "@Component/CommandBar/CommandBar";
 
@@ -76,28 +77,28 @@ class SimulatorWeb extends Component {
                 <Container items={[
                         {
                             items: [
-                                {panles: ["A", "Aa Bb", "aaa"]},
+                                {panles: ["Label A", "Label Aa Bb", "Label aaa"]},
                                 {
-                                    items: [{panles: ["b", "Bb", "bbb"]}, {panles: ["c", "cc", "ccc"]}],
+                                    items: [{panles: ["Label b", "Label bbb"]}, {panles: ["C"]}],
                                     scale: 80,
-                                    layout: ContaineLayout.X
+                                    layout: LayoutDirection.X
                                 }
                             ],
                             scale: 60,
-                            layout: ContaineLayout.Y
+                            layout: LayoutDirection.Y
                         },
                         {
                             items: [{
-                                panles: ["d"]
+                                panles: ["Label d"]
                             }, {
-                                items: [{panles: ["e", "ee"]}, {panles: ["f", "ff", "fff"]}],
-                                layout: ContaineLayout.Y
+                                items: [{panles: ["Label e", "ee"]}, {panles: ["F"]}],
+                                layout: LayoutDirection.Y
                             }],
-                            layout: ContaineLayout.Y
+                            layout: LayoutDirection.Y
                         }
                     ]}
                     scale={60}
-                    layout={ContaineLayout.X}
+                    layout={LayoutDirection.X}
                     isRoot={true}
                 />
             </div>

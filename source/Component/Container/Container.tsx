@@ -1,18 +1,10 @@
-import Theme, { BackgroundLevel, FontLevel } from "@Component/Theme/Theme";
+import { Theme, BackgroundLevel, FontLevel } from "@Component/Theme/Theme";
+import { ILayout, LayoutDirection } from "@Model/Layout";
 import { Component, ReactNode } from "react";
 import "./Container.scss";
 
-enum ContaineLayout {
-	X = 1,
-	Y = 2
-}
-
-interface IContainerProps {
-	items?: [IContainerProps, IContainerProps];
+interface IContainerProps extends ILayout {
 	showBar?: boolean;
-	panles?: string[];
-	layout?: ContaineLayout;
-	scale?: number;
 	isRoot?: boolean;
 }
 
@@ -45,13 +37,13 @@ class Container extends Component<IContainerProps> {
 	private renderContainer(
 		props: IContainerProps, 
 		selfScale: number = 50, 
-		selfLayout: ContaineLayout = ContaineLayout.Y
+		selfLayout: LayoutDirection = LayoutDirection.Y
 	) {
 
 		const items: [IContainerProps, IContainerProps] | undefined = props.items;
 		const showBar: boolean = props.showBar ?? true;
 		const panles: string[] = props.panles ?? [];
-		const layout: ContaineLayout = props.layout ?? ContaineLayout.Y;
+		const layout: LayoutDirection = props.layout ?? LayoutDirection.Y;
 		const scale: number = props.scale ?? 50;
 		const isRoot: boolean = !!props.isRoot;
 
@@ -60,13 +52,22 @@ class Container extends Component<IContainerProps> {
 			backgroundLevel={BackgroundLevel.Level4}
 			fontLevel={FontLevel.normal}
 			style={{
-				flexDirection: layout === ContaineLayout.Y ? "column" : undefined,
-				width: isRoot ? "100%" : selfLayout === ContaineLayout.X ? `${selfScale}%` : undefined,
-				height: isRoot ? "100%" : selfLayout === ContaineLayout.Y ? `${selfScale}%` : undefined
+				flexDirection: layout === LayoutDirection.Y ? "column" : undefined,
+				width: isRoot ? "100%" : selfLayout === LayoutDirection.X ? `${selfScale}%` : undefined,
+				height: isRoot ? "100%" : selfLayout === LayoutDirection.Y ? `${selfScale}%` : undefined
 			}}
 		>
 			{panles.length > 0 && !items ? this.renderPanel(panles, showBar) : null}
 			{items && items[0] ? this.renderContainer(items[0], scale, layout) : null}
+			{items && items[1] ? <div className="drag-bar" style={{
+				width: layout === LayoutDirection.Y ? "100%" : 0,
+				height: layout === LayoutDirection.X ? "100%" : 0
+			}}>
+				<div style={{
+					cursor: layout === LayoutDirection.Y ? "n-resize" : "e-resize"
+				}}>
+				</div>
+			</div> : null}
 			{items && items[1] ? this.renderContainer(items[1], 100 - scale, layout) : null}
 		</Theme>
 	}
@@ -76,4 +77,4 @@ class Container extends Component<IContainerProps> {
 	}
 }
 
-export { Container, ContaineLayout };
+export { Container };

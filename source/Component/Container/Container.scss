@@ -10,6 +10,22 @@ div.app-container {
 	justify-content: center;
 	box-sizing: border-box;
 
+	div.drag-bar {
+		width: 0;
+		height: 0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		div {
+			position: relative;
+			z-index: 10;
+			width: 100%;
+			height: 100%;
+			border: 4.5px solid rgba($color: #000000, $alpha: 0);
+		}
+	}
+
 	div.app-tab-header {
 		height: $container-header-tab-bar-height;
 		flex-shrink: 0;
@@ -85,10 +101,6 @@ div.dark.app-container.end-containe {
 	div.app-tab-header-item:hover {
 		background-color: $lt-bg-color-lvl4-dark;
 		color: rgba($color: #FFFFFF, $alpha: .85);
-
-		div.border-view::after {
-			background-color: $lt-bg-color-lvl4-dark;
-		}
 	}
 	
 	div.app-tab-header-item.active {
@@ -103,7 +115,6 @@ div.light.app-container.end-containe {
 
 	div.app-tab-header-item.active,
 	div.app-tab-header-item:hover {
-		background-color: $lt-bg-color-lvl4-light;
 		color: rgba($color: #000000, $alpha: .85);
 	}
 
