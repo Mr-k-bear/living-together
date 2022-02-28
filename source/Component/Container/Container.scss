@@ -1,0 +1,126 @@
+@import "../Theme/Theme.scss";
+
+$container-header-tab-bar-height: 32px;
+
+div.app-container {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	overflow: hidden;
+	justify-content: center;
+	box-sizing: border-box;
+
+	div.drag-bar {
+		width: 0;
+		height: 0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		div {
+			position: relative;
+			z-index: 10;
+			width: 100%;
+			height: 100%;
+			border: 4.5px solid rgba($color: #000000, $alpha: 0);
+		}
+	}
+
+	div.app-tab-header {
+		height: $container-header-tab-bar-height;
+		flex-shrink: 0;
+		display: flex;
+		user-select: none;
+		
+		div.app-tab-header-item {
+			height: 100%;
+			box-sizing: border-box;
+			display: flex;
+			border: .8px solid rgba($color: #000000, $alpha: 0);
+			justify-content: space-between;
+			align-items: stretch;
+			flex-direction: column;
+			cursor: pointer;
+
+			div.border-view {
+				position: relative;
+				display: flex;
+				justify-content: center;
+				flex-direction: row;
+				max-height: 0;
+				height: 0;
+			}
+
+			div.border-view::after {
+				content: "";
+				width: 100%;
+				box-sizing: border-box;
+				height: 32.8px;
+				border: .8px solid rgba($color: #000000, $alpha: 0);
+				transition: all 300ms ease-in-out;
+			}
+
+			div.title-view {
+				padding: 0 10px;
+				display: inline-block;
+				vertical-align: middle;
+				position: relative;
+				transition: all 300ms ease-in-out;
+				z-index: 1;
+			}
+		}
+
+		div.app-tab-header-item.active {
+			border: .8px solid blue;
+		}
+
+		div.app-tab-header-item::after {
+			content: "";
+			width: 0;
+			height: 0;
+			display: block;
+		}
+	}
+
+	div.app-panel {
+		width: 100%;
+		height: 100%;
+		box-sizing: border-box;
+		border: .8px solid rgba($color: #000000, $alpha: 0);
+	}
+
+	div.app-panel.active {
+		border: .8px solid blue !important;
+	}
+}
+
+div.dark.app-container.end-containe {
+	border: .8px solid $lt-bg-color-lvl3-dark;
+
+	div.app-tab-header-item.active,
+	div.app-tab-header-item:hover {
+		background-color: $lt-bg-color-lvl4-dark;
+		color: rgba($color: #FFFFFF, $alpha: .85);
+	}
+	
+	div.app-tab-header-item.active {
+		div.border-view::after {
+			background-color: $lt-bg-color-lvl4-dark;
+		}
+	}
+}
+
+div.light.app-container.end-containe {
+	border: .8px solid $lt-bg-color-lvl3-light;
+
+	div.app-tab-header-item.active,
+	div.app-tab-header-item:hover {
+		color: rgba($color: #000000, $alpha: .85);
+	}
+
+	div.app-tab-header-item.active {
+		div.border-view::after {
+			background-color: $lt-bg-color-lvl4-light;
+		}
+	}
+}

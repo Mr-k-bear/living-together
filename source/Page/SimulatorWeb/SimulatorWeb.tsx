@@ -6,6 +6,8 @@ import { Entry } from "../Entry/Entry";
 import { StatusProvider, Status } from "@Context/Status";
 import { ClassicRenderer } from "@GLRender/ClassicRenderer";
 import { initializeIcons } from '@fluentui/font-icons-mdl2';
+import { Container } from "@Component/Container/Container";
+import { LayoutDirection } from "@Model/Layout";
 import "./SimulatorWeb.scss";
 import { CommandBar } from "@Component/CommandBar/CommandBar";
 
@@ -72,7 +74,33 @@ class SimulatorWeb extends Component {
                 height: `calc( 100% - ${45}px)`
             }}>
                 <CommandBar width={45}/>
-                <div></div>
+                <Container items={[
+                        {
+                            items: [
+                                {panles: ["Label A", "Label Aa Bb", "Label aaa"]},
+                                {
+                                    items: [{panles: ["Label b", "Label bbb"]}, {panles: ["C"]}],
+                                    scale: 80,
+                                    layout: LayoutDirection.X
+                                }
+                            ],
+                            scale: 60,
+                            layout: LayoutDirection.Y
+                        },
+                        {
+                            items: [{
+                                panles: ["Label d"]
+                            }, {
+                                items: [{panles: ["Label e", "ee"]}, {panles: ["F"]}],
+                                layout: LayoutDirection.Y
+                            }],
+                            layout: LayoutDirection.Y
+                        }
+                    ]}
+                    scale={60}
+                    layout={LayoutDirection.X}
+                    isRoot={true}
+                />
             </div>
         </Theme>
     }

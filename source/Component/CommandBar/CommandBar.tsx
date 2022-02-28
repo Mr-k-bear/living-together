@@ -14,7 +14,7 @@ class CommandBar extends Component<ICommandBarProps> {
     render(): ReactNode {
         return <Theme
             className="command-bar"
-            backgroundLevel={BackgroundLevel.Level3}
+            backgroundLevel={BackgroundLevel.Level2}
             style={{ width: this.props.width }}
         >
             <div>
@@ -43,7 +43,7 @@ class CommandBar extends Component<ICommandBarProps> {
             i18nKey={param.i18NKey}
             directionalHint={DirectionalHint.rightCenter}
         >
-            <IconButton 
+            <IconButton
                 style={{ height: this.props.width }}
                 iconProps={{ iconName: param.iconName }}
                 onClick={ param.click }

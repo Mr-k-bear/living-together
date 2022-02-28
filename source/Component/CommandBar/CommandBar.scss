@@ -10,6 +10,7 @@ div.command-bar {
         text-align: center;
         display: flex;
         justify-content: center;
+        transition: all 100ms ease-in-out;
         color:  inherit;
         
         span.ms-Button-flexContainer i.ms-Icon {
