@@ -9,5 +9,15 @@ const ZH_CN = {
     "Header.Bar.File.Save.Status.Unsaved": "未保存",
     "Header.Bar.Fps": "帧率: {renderFps} | {physicsFps}",
     "Header.Bar.Fps.Info": "左侧为渲染帧率 ({renderFps} fps), 右侧为模拟帧率 ({physicsFps} fps)。",
+    "Command.Bar.Save.Info": "保存",
+    "Command.Bar.Play.Info": "开始仿真",
+    "Command.Bar.Drag.Info": "拖拽进行视角移动",
+    "Command.Bar.Select.Info": "选择对象",
+    "Command.Bar.Add.Group.Info": "添加群对象",
+    "Command.Bar.Add.Range.Info": "添加范围对象",
+    "Command.Bar.Add.Behavior.Info": "添加行为对象",
+    "Command.Bar.Add.Tag.Info": "添加标签对象",
+    "Command.Bar.Camera.Info": "渲染器设置",
+    "Command.Bar.Setting.Info": "全局设置",
 }
 export default ZH_CN;

@@ -3,6 +3,7 @@ import { useStatus, IMixinStatusProps } from "@Context/Status";
 import { useSetting, IMixinSettingProps } from "@Context/Setting";
 import { Theme, BackgroundLevel, FontLevel } from "@Component/Theme/Theme";
 import { Icon } from '@fluentui/react/lib/Icon';
+import { LocalizationTooltipHost } from "../Localization/LocalizationTooltipHost";
 import { I18N } from "../Localization/Localization";
 import "./HeaderBar.scss";
 import { Tooltip, TooltipHost } from "@fluentui/react";
@@ -100,29 +101,31 @@ class HeaderBar extends Component<
             fontLevel={FontLevel.Level3}
             style={{ height: this.props.height }}
         >
-            <TooltipHost content={I18N(this.props, "Header.Bar.Title.Info")}>
+            <LocalizationTooltipHost i18nKey="Header.Bar.Title.Info">
                 <div className="title">
                     <Icon iconName="HomeGroup"></Icon>
                     <span>{I18N(this.props, "Header.Bar.Title")}</span>
                 </div>
-            </TooltipHost>
-            <TooltipHost content={I18N(this.props, "Header.Bar.File.Name.Info", {
-                file: isNewFile ? I18N(this.props, "Header.Bar.New.File.Name") : fileName,
-                status: isSaved ? I18N(this.props, "Header.Bar.File.Save.Status.Saved") : 
-                    I18N(this.props, "Header.Bar.File.Save.Status.Unsaved")
-            })}>
+            </LocalizationTooltipHost>
+            <LocalizationTooltipHost i18nKey="Header.Bar.File.Name.Info"
+                options={{
+                    file: isNewFile ? I18N(this.props, "Header.Bar.New.File.Name") : fileName,
+                    status: isSaved ? I18N(this.props, "Header.Bar.File.Save.Status.Saved") : 
+                        I18N(this.props, "Header.Bar.File.Save.Status.Unsaved")
+                }}
+            >
                 <div className="file-name">{
                     isNewFile ? I18N(this.props, "Header.Bar.New.File.Name") : fileName
                 }{
                     isSaved ? "" : "*"
                 }</div>
-            </TooltipHost>
-            <TooltipHost content={I18N(this.props, "Header.Bar.Fps.Info", fpsInfo)}>
+            </LocalizationTooltipHost>
+            <LocalizationTooltipHost i18nKey="Header.Bar.Fps.Info" options={fpsInfo}>
                 <div className="fps-view">
                     <Icon iconName="SpeedHigh"></Icon>
                     <span>{I18N(this.props, "Header.Bar.Fps", fpsInfo)}</span>
                 </div>
-            </TooltipHost>
+            </LocalizationTooltipHost>
         </Theme>
     }
 }

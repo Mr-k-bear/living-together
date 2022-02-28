@@ -9,7 +9,7 @@ import { initializeIcons } from '@fluentui/font-icons-mdl2';
 import "./SimulatorWeb.scss";
 import { CommandBar } from "@Component/CommandBar/CommandBar";
 
-initializeIcons("http://cdn.mrkbear.com/fabric-cdn-prod_20210407.001/");
+initializeIcons("https://img.mrkbear.com/fabric-cdn-prod_20210407.001/");
 
 class SimulatorWeb extends Component {
     

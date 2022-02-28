@@ -9,9 +9,11 @@ const LanguageDataBase = {
     EN_US, ZH_CN
 }
 
+type AllI18nKeys = keyof typeof EN_US;
+
 interface ILocalizationProps {
     className?: string;
-    i18nKey: keyof typeof EN_US;
+    i18nKey: AllI18nKeys;
     options?: Record<string, string>;
 }
 
@@ -73,4 +75,4 @@ class Localization extends Component<ILocalizationProps & IMixinSettingProps &
     }
 }
 
-export { Localization, I18N };
+export { Localization, I18N, LanguageDataBase, AllI18nKeys };
