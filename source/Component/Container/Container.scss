@@ -7,7 +7,6 @@ div.app-container {
 	height: 100%;
 	display: flex;
 	overflow: hidden;
-	justify-content: center;
 	box-sizing: border-box;
 
 	div.drag-bar {
@@ -22,13 +21,20 @@ div.app-container {
 			z-index: 10;
 			width: 100%;
 			height: 100%;
-			border: 4.5px solid rgba($color: #000000, $alpha: 0);
+			border: 2px solid rgba($color: #000000, $alpha: 0);
+			transition: all 300ms ease-in-out;
+		}
+
+		div:hover {
+			background-color: blue;
 		}
 	}
 
 	div.app-tab-header {
 		height: $container-header-tab-bar-height;
-		flex-shrink: 0;
+		min-height: $container-header-tab-bar-height;
+		flex-shrink: 1;
+		width: 100%;
 		display: flex;
 		user-select: none;
 		
@@ -66,6 +72,10 @@ div.app-container {
 				vertical-align: middle;
 				position: relative;
 				transition: all 300ms ease-in-out;
+				word-break: keep-all;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
 				z-index: 1;
 			}
 		}
@@ -92,6 +102,15 @@ div.app-container {
 	div.app-panel.active {
 		border: .8px solid blue !important;
 	}
+}
+
+div.app-panel {
+	overflow: scroll;
+	-ms-overflow-style: none;
+}
+div.app-panel::-webkit-scrollbar {
+	width: 0 !important;
+	height: 0 !important;
 }
 
 div.dark.app-container.end-containe {

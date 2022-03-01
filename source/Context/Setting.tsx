@@ -1,5 +1,6 @@
 import { createContext, Component, FunctionComponent } from "react";
 import { Emitter } from "@Model/Emitter";
+import { Layout } from "@Model/Layout";
 
 /**
  * 主题模式
@@ -24,6 +25,11 @@ class Setting extends Emitter<
      * 语言
      */
     public language: Language = "EN_US";
+
+    /**
+     * 布局
+     */
+    public layout: Layout = new Layout();
 
     /**
      * 设置参数
