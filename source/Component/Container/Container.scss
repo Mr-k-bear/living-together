@@ -43,6 +43,7 @@ div.app-container {
 			box-sizing: border-box;
 			display: flex;
 			border: .8px solid rgba($color: #000000, $alpha: 0);
+			// transition: all 300ms ease-in-out;
 			justify-content: space-between;
 			align-items: stretch;
 			flex-direction: column;
@@ -63,7 +64,7 @@ div.app-container {
 				box-sizing: border-box;
 				height: 32.8px;
 				border: .8px solid rgba($color: #000000, $alpha: 0);
-				transition: all 300ms ease-in-out;
+				// transition: all 300ms ease-in-out;
 			}
 
 			div.title-view {
@@ -82,6 +83,7 @@ div.app-container {
 
 		div.app-tab-header-item.active {
 			border: .8px solid blue;
+			transition: none;
 		}
 
 		div.app-tab-header-item::after {
@@ -92,11 +94,38 @@ div.app-container {
 		}
 	}
 
+	div.app-panel.has-padding {
+		padding: 10px;
+	}
+
 	div.app-panel {
 		width: 100%;
 		height: 100%;
 		box-sizing: border-box;
+		overflow: scroll;
+		-ms-overflow-style: none;
 		border: .8px solid rgba($color: #000000, $alpha: 0);
+	}
+
+	div.app-panel.hide-scrollbar::-webkit-scrollbar {
+		width : 0;  /*高宽分别对应横竖滚动条的尺寸*/
+		height: 0;
+	}
+	
+	div.app-panel::-webkit-scrollbar {
+		width : 8px;  /*高宽分别对应横竖滚动条的尺寸*/
+  		height: 0;
+	}
+
+	div.app-panel::-webkit-scrollbar-thumb {
+		/*滚动条里面小方块*/
+		border-radius: 8px;
+	}
+
+	div.app-panel::-webkit-scrollbar-track {
+		/*滚动条里面轨道*/
+		border-radius: 8px;
+		background-color: rgba($color: #000000, $alpha: 0);
 	}
 
 	div.app-panel.active {
@@ -104,20 +133,13 @@ div.app-container {
 	}
 }
 
-div.app-panel {
-	overflow: scroll;
-	-ms-overflow-style: none;
-}
-div.app-panel::-webkit-scrollbar {
-	width: 0 !important;
-	height: 0 !important;
-}
-
 div.dark.app-container.end-containe {
 	border: .8px solid $lt-bg-color-lvl3-dark;
 
+	div.app-tab-header-item.tab,
 	div.app-tab-header-item.active,
 	div.app-tab-header-item:hover {
+		transition: none;
 		background-color: $lt-bg-color-lvl4-dark;
 		color: rgba($color: #FFFFFF, $alpha: .85);
 	}
@@ -125,21 +147,33 @@ div.dark.app-container.end-containe {
 	div.app-tab-header-item.active {
 		div.border-view::after {
 			background-color: $lt-bg-color-lvl4-dark;
+			transition: none;
 		}
+	}
+
+	div.app-panel::-webkit-scrollbar-thumb {
+		background-color: $lt-bg-color-lvl1-dark;
 	}
 }
 
 div.light.app-container.end-containe {
 	border: .8px solid $lt-bg-color-lvl3-light;
 
+	div.app-tab-header-item.tab,
 	div.app-tab-header-item.active,
 	div.app-tab-header-item:hover {
+		transition: none;
 		color: rgba($color: #000000, $alpha: .85);
 	}
 
 	div.app-tab-header-item.active {
 		div.border-view::after {
 			background-color: $lt-bg-color-lvl4-light;
+			transition: none;
 		}
+	}
+
+	div.app-panel::-webkit-scrollbar-thumb {
+		background-color: $lt-bg-color-lvl1-light;
 	}
 }

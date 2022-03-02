@@ -19,5 +19,9 @@ const ZH_CN = {
     "Command.Bar.Add.Tag.Info": "添加标签对象",
     "Command.Bar.Camera.Info": "渲染器设置",
     "Command.Bar.Setting.Info": "全局设置",
+    "Panel.Title.Notfound": "找不到面板: {id}",
+    "Panel.Info.Notfound": "这个编号为 {id} 的面板无法找到!",
+    "Panel.Title.Render.View": "实时预览",
+    "Panel.Info.Render.View": "实时仿真结果预览",
 }
 export default ZH_CN;

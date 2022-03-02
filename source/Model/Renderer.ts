@@ -67,6 +67,8 @@ abstract class AbstractRenderer<
 	E extends AbstractRendererEvent = {loop: number}
 > extends Emitter<E> {
 
+	abstract dom: HTMLDivElement | HTMLCanvasElement;
+
 	/**
 	 * 渲染器参数
 	 */

@@ -8,6 +8,7 @@ enum LayoutDirection {
 class ILayout {
 	items?: [ILayout, ILayout];
 	panles?: string[];
+	focusPanel?: string;
 	layout?: LayoutDirection;
 	scale?: number;
 	id?: number;
@@ -16,6 +17,7 @@ class ILayout {
 interface ILayoutEvent {
 	layoutChange: Layout;
 	scaleChange: Layout;
+	switchTab: Layout;
 }
 
 class Layout extends Emitter<ILayoutEvent> {
@@ -23,6 +25,11 @@ class Layout extends Emitter<ILayoutEvent> {
 	private id: number = 0;
 
 	private data: ILayout = {};
+
+	/**
+     * 焦点面板 ID
+     */
+	public focusId: string = "";
 
 	private map(fn: (layout: ILayout) => boolean | void, layout?: ILayout) {
 		const currentLayout = layout ? layout : this.data;
@@ -44,6 +51,9 @@ class Layout extends Emitter<ILayoutEvent> {
 		this.id = 0;
 		this.map((layout) => {
 			layout.id = this.id;
+			if (!layout.focusPanel && layout.panles && layout.panles.length > 0) {
+				layout.focusPanel = layout.panles[0]
+			}
 			this.id ++;
 		});
 		this.emit("layoutChange", this);
@@ -61,6 +71,31 @@ class Layout extends Emitter<ILayoutEvent> {
 		if (change) {
 			this.emit("scaleChange", this);
 		}
+	}
+
+	public focus = (panelId: string) => {
+		if (panelId === "") {
+			this.focusId = panelId;
+			this.emit("switchTab", this);
+		}
+
+		this.map((layout) => {
+			if (layout.panles && layout.panles.length > 0) {
+				let index = -1;
+				for (let i = 0; i < layout.panles.length; i++) {
+					if (layout.panles[i] === panelId) {
+						index = i;
+						break;
+					}
+				}
+				if (index >= 0) {
+					layout.focusPanel = panelId;
+					this.focusId = panelId;
+					this.emit("switchTab", this);
+					return true;
+				}
+			}
+		})
 	}
 };
 
