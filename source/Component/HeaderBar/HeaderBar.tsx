@@ -100,6 +100,11 @@ class HeaderBar extends Component<
             backgroundLevel={BackgroundLevel.Level1}
             fontLevel={FontLevel.Level3}
             style={{ height: this.props.height }}
+            onClick={() => {
+                if (this.props.setting) {
+                    this.props.setting.layout.focus("");
+                }
+            }}
         >
             <LocalizationTooltipHost i18nKey="Header.Bar.Title.Info">
                 <div className="title">

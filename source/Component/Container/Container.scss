@@ -98,21 +98,31 @@ div.app-container {
 		width: 100%;
 		height: 100%;
 		box-sizing: border-box;
+		padding: 10px;
+		overflow: scroll;
+		-ms-overflow-style: none;
 		border: .8px solid rgba($color: #000000, $alpha: 0);
+	}
+	
+	div.app-panel::-webkit-scrollbar {
+		width : 8px;  /*高宽分别对应横竖滚动条的尺寸*/
+  		height: 0;
+	}
+
+	div.app-panel::-webkit-scrollbar-thumb {
+		/*滚动条里面小方块*/
+		border-radius: 8px;
+	}
+
+	div.app-panel::-webkit-scrollbar-track {
+		/*滚动条里面轨道*/
+		border-radius: 8px;
+		background-color: rgba($color: #000000, $alpha: 0);
 	}
 
 	div.app-panel.active {
 		border: .8px solid blue !important;
 	}
-}
-
-div.app-panel {
-	overflow: scroll;
-	-ms-overflow-style: none;
-}
-div.app-panel::-webkit-scrollbar {
-	width: 0 !important;
-	height: 0 !important;
 }
 
 div.dark.app-container.end-containe {
@@ -132,6 +142,10 @@ div.dark.app-container.end-containe {
 			transition: none;
 		}
 	}
+
+	div.app-panel::-webkit-scrollbar-thumb {
+		background-color: $lt-bg-color-lvl1-dark;
+	}
 }
 
 div.light.app-container.end-containe {
@@ -149,5 +163,9 @@ div.light.app-container.end-containe {
 			background-color: $lt-bg-color-lvl4-light;
 			transition: none;
 		}
+	}
+
+	div.app-panel::-webkit-scrollbar-thumb {
+		background-color: $lt-bg-color-lvl1-light;
 	}
 }

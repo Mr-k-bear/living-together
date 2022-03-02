@@ -1,6 +1,7 @@
 import { BackgroundLevel, Theme } from "@Component/Theme/Theme";
 import { DirectionalHint, IconButton } from "@fluentui/react";
 import { LocalizationTooltipHost } from "../Localization/LocalizationTooltipHost";
+import { useSetting, IMixinSettingProps } from "@Context/Setting";
 import { AllI18nKeys } from "../Localization/Localization";
 import { Component, ReactNode } from "react";
 import "./CommandBar.scss";
@@ -9,13 +10,19 @@ interface ICommandBarProps {
     width: number;
 }
 
-class CommandBar extends Component<ICommandBarProps> {
+@useSetting
+class CommandBar extends Component<ICommandBarProps & IMixinSettingProps> {
 
     render(): ReactNode {
         return <Theme
             className="command-bar"
             backgroundLevel={BackgroundLevel.Level2}
             style={{ width: this.props.width }}
+            onClick={() => {
+                if (this.props.setting) {
+                    this.props.setting.layout.focus("");
+                }
+            }}
         >
             <div>
                 {this.getRenderButton({ iconName: "Save", i18NKey: "Command.Bar.Save.Info" })}

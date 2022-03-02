@@ -19,5 +19,8 @@ const EN_US = {
     "Command.Bar.Add.Tag.Info": "Add label object",
     "Command.Bar.Camera.Info": "Renderer settings",
     "Command.Bar.Setting.Info": "Global Settings",
+    "Panel.Title.Notfound": "{id}",
+    "Panel.Info.Notfound": "This panel with id {id} can not found!",
+
 }
 export default EN_US;

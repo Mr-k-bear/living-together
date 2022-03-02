@@ -74,6 +74,11 @@ class Layout extends Emitter<ILayoutEvent> {
 	}
 
 	public focus = (panelId: string) => {
+		if (panelId === "") {
+			this.focusId = panelId;
+			this.emit("switchTab", this);
+		}
+
 		this.map((layout) => {
 			if (layout.panles && layout.panles.length > 0) {
 				let index = -1;

@@ -1,7 +1,11 @@
+import { Localization } from "@Component/Localization/Localization";
 import { Theme, BackgroundLevel, FontLevel } from "@Component/Theme/Theme";
 import { Themes } from "@Context/Setting";
+import { DirectionalHint } from "@fluentui/react";
 import { ILayout, LayoutDirection } from "@Model/Layout";
 import { Component, ReactNode, MouseEvent } from "react";
+import { getPanelById, getPanelInfoById } from "../../Panel/Panel";
+import { LocalizationTooltipHost } from "../Localization/LocalizationTooltipHost";
 import "./Container.scss";
 
 interface IContainerProps extends ILayout {
@@ -11,10 +15,6 @@ interface IContainerProps extends ILayout {
 	focusId?: string;
 	onScaleChange?: (id: number, scale: number) => any;
 	onFocusTab?: (id: string) => any;
-}
-
-function getPanelById(id: string) {
-	return <Theme>{id}</Theme>
 }
 
 class Container extends Component<IContainerProps> {
@@ -49,21 +49,41 @@ class Container extends Component<IContainerProps> {
 
 		return <>
 			{showBar ? 
-				<div className={classList.join(" ")} >{
+				<div className={classList.join(" ")} onClick={() => {
+					this.props.onFocusTab ? this.props.onFocusTab("") : undefined
+				}}>{
 					panles.map((panelId: string) => {
 
 						const classList: string[] = ["app-tab-header-item"];
 						if (panelId === this.props.focusId) classList.push("active");
 						if (panelId === showPanelId) classList.push("tab");
+						const panelInfo = getPanelInfoById(showPanelId as any);
 
-						return <div 
+						return <LocalizationTooltipHost
+							i18nKey={panelInfo ? panelInfo.introKay as any : "Panel.Info.Notfound"}
+							options={{id: panelId}}
+							directionalHint={DirectionalHint.topAutoEdge}
+							delay={2}
 							key={panelId}
-							className={classList.join(" ")}
-							onClick={() => this.props.onFocusTab ? this.props.onFocusTab(panelId) : undefined}
 						>
-							<div className="border-view"></div>
-							<div className="title-view">{panelId}</div>
-						</div>
+							<div	
+								className={classList.join(" ")}
+								onClick={(e) => {
+									e.stopPropagation();
+									this.props.onFocusTab ? this.props.onFocusTab(panelId) : undefined;
+								}}
+							>
+								<div className="border-view"></div>
+								<div className="title-view">
+									{
+										panelInfo ?
+											<Localization i18nKey={panelInfo.nameKey as any}/>:
+											<Localization i18nKey="Panel.Title.Notfound" options={{id: panelId}}/>
+									}
+									
+								</div>
+							</div>
+						</LocalizationTooltipHost>
 					})
 				}</div> : null
 			}
@@ -72,7 +92,7 @@ class Container extends Component<IContainerProps> {
 				className={"app-panel" + (hasActivePanel ? " active" : "")}
 				draggable={false}
 			>
-				{getPanelById(showPanelId)}
+				{getPanelById(showPanelId as any)}
 			</div>
 		</>
 	}
