@@ -39,6 +39,7 @@ class Container extends Component<IContainerProps> {
 		const classList: string[] = [];
 		const theme: Themes = this.props.theme ?? Themes.dark;
 		const showPanelId = focus ?? panles[0];
+		const showPanelInfo = getPanelInfoById(showPanelId as any);
 
 		classList.push(theme === Themes.light ? "light" : "dark");
 		classList.push(`background-${BackgroundLevel.Level3}`);
@@ -57,7 +58,7 @@ class Container extends Component<IContainerProps> {
 						const classList: string[] = ["app-tab-header-item"];
 						if (panelId === this.props.focusId) classList.push("active");
 						if (panelId === showPanelId) classList.push("tab");
-						const panelInfo = getPanelInfoById(showPanelId as any);
+						const panelInfo = getPanelInfoById(panelId as any);
 
 						return <LocalizationTooltipHost
 							i18nKey={panelInfo ? panelInfo.introKay as any : "Panel.Info.Notfound"}
@@ -89,7 +90,12 @@ class Container extends Component<IContainerProps> {
 			}
 			<div
 				onClick={() => this.props.onFocusTab ? this.props.onFocusTab(showPanelId) : undefined}
-				className={"app-panel" + (hasActivePanel ? " active" : "")}
+				className={[
+					"app-panel",
+					hasActivePanel ? "active" : "",
+					showPanelInfo?.hidePadding ? "" : "has-padding",
+					showPanelInfo?.hideScrollBar ? "hide-scrollbar" : ""
+				].filter(x => !!x).join(" ")}
 				draggable={false}
 			>
 				{getPanelById(showPanelId as any)}

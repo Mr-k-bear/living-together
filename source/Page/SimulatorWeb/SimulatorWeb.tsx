@@ -60,7 +60,7 @@ class SimulatorWeb extends Component {
             items: [
                 {
                     items: [
-                        {panles: ["Label A", "Label Aa Bb", "Label aaa"]},
+                        {panles: ["RenderView", "Label Aa Bb", "Label aaa"]},
                         {
                             items: [{panles: ["Label b", "Label bbb"]}, {panles: ["C"]}],
                             scale: 80,

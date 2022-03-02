@@ -20,6 +20,10 @@ abstract class BasicRenderer<
     E extends Record<EventType, any> = {}
 > extends AbstractRenderer<P, M & IRendererParams, E & {loop: number}> {
 
+    public get dom() {
+        return this.canvas.dom
+    }
+
     /**
 	 * 渲染器参数
 	 */

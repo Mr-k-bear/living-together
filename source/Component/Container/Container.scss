@@ -94,14 +94,22 @@ div.app-container {
 		}
 	}
 
+	div.app-panel.has-padding {
+		padding: 10px;
+	}
+
 	div.app-panel {
 		width: 100%;
 		height: 100%;
 		box-sizing: border-box;
-		padding: 10px;
 		overflow: scroll;
 		-ms-overflow-style: none;
 		border: .8px solid rgba($color: #000000, $alpha: 0);
+	}
+
+	div.app-panel.hide-scrollbar::-webkit-scrollbar {
+		width : 0;  /*高宽分别对应横竖滚动条的尺寸*/
+		height: 0;
 	}
 	
 	div.app-panel::-webkit-scrollbar {

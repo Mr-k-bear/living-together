@@ -21,6 +21,8 @@ const EN_US = {
     "Command.Bar.Setting.Info": "Global Settings",
     "Panel.Title.Notfound": "{id}",
     "Panel.Info.Notfound": "This panel with id {id} can not found!",
+    "Panel.Title.Render.View": "Live preview",
+    "Panel.Info.Render.View": "Live simulation results preview",
 
 }
 export default EN_US;
