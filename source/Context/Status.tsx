@@ -3,8 +3,11 @@ import { Emitter } from "@Model/Emitter";
 import { Model } from "@Model/Model";
 import { Archive } from "@Model/Archive";
 import { AbstractRenderer } from "@Model/Renderer";
+import ClassicRenderer, { MouseMod } from "@GLRender/ClassicRenderer";
 
-class Status extends Emitter<{}> {
+class Status extends Emitter<{
+    mouseModChange: MouseMod
+}> {
 
     /**
      * 渲染器
@@ -20,6 +23,20 @@ class Status extends Emitter<{}> {
      * 模型状态
      */
     public model: Model = new Model();
+
+    /**
+     * 鼠标工具状态
+     */
+    public mouseMod: MouseMod = MouseMod.Drag;
+
+    public setMouseMod(mod: MouseMod) {
+        this.mouseMod = mod;
+        if (this.renderer instanceof ClassicRenderer) {
+            this.renderer.mouseMod = mod;
+            this.renderer.setMouseIcon();
+        }
+        this.emit("mouseModChange", mod);
+    }
 
 }
 

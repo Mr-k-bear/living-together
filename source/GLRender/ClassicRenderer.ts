@@ -16,6 +16,11 @@ interface IClassicRendererParams {
     }
 }
 
+enum MouseMod {
+    Drag = 1,
+    click = 2
+}
+
 class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
 
     private basicShader: BasicsShader = undefined as any;
@@ -34,6 +39,17 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
      */
     private objectPool = new Map<ObjectID, DisplayObject>();
 
+    public mouseMod: MouseMod = MouseMod.Drag;
+
+    public setMouseIcon() {
+        if (this.mouseMod === MouseMod.Drag) {
+            this.canvas.can.style.cursor = "grab";
+        }
+        if (this.mouseMod === MouseMod.click) {
+            this.canvas.can.style.cursor = "default";
+        }
+    }
+
     public onLoad(): this {
         
         // 自动调节分辨率
@@ -44,26 +60,35 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
         this.axisObject = new Axis().bindRenderer(this).bindShader(this.basicShader);
 
         this.canvas.on("mousemove", () => {
-
-            // 相机旋转
-            if (this.canvas.mouseDown)
-            this.camera.ctrlInertia(this.canvas.mouseMotionX, this.canvas.mouseMotionY);
+            if (this.mouseMod === MouseMod.Drag) {
+                // 相机旋转
+                if (this.canvas.mouseDown)
+                this.camera.ctrlInertia(this.canvas.mouseMotionX, this.canvas.mouseMotionY);
+            }
         });
 
         this.canvas.on("mousedown", () => {
-            this.canvas.can.style.cursor = "grabbing"
+            if (this.mouseMod === MouseMod.Drag) {
+                this.canvas.can.style.cursor = "grabbing"
+            } 
         });
 
         this.canvas.on("mouseup", () => {
-            this.canvas.can.style.cursor = "grab"
+            if (this.mouseMod === MouseMod.Drag) {
+                this.canvas.can.style.cursor = "grab"
+            }
         });
 
         this.canvas.on("mousewheel", () => {
-            this.camera.eyeInertia(this.canvas.wheelDelta);
+            if (this.mouseMod === MouseMod.Drag) {
+                this.camera.eyeInertia(this.canvas.wheelDelta);
+            } 
         });
         
         // 运行
         this.run();
+
+        this.setMouseIcon();
 
         // 测试数据传递
         // setInterval(() => {
@@ -268,4 +293,4 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
 }
 
 export default ClassicRenderer;
-export { ClassicRenderer };
+export { ClassicRenderer, MouseMod };
