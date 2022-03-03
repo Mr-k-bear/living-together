@@ -59,6 +59,7 @@ class Container extends Component<IContainerProps> {
 						if (panelId === this.props.focusId) classList.push("active");
 						if (panelId === showPanelId) classList.push("tab");
 						const panelInfo = getPanelInfoById(panelId as any);
+                        if (panelInfo?.isDeepDark) classList.push("deep");
 
 						return <LocalizationTooltipHost
 							i18nKey={panelInfo ? panelInfo.introKay as any : "Panel.Info.Notfound"}
@@ -110,23 +111,23 @@ class Container extends Component<IContainerProps> {
 
 		if (this.props.onScaleChange && this.focusEdgeId !== undefined) {
 			e.preventDefault();
-			let mouveDist: number = 0;
+			let moveDist: number = 0;
 			let rootSize: number = 0;
 			let edgeSize: number = 0;
 			let newSize: number = 0;
 
 			if (this.edgeInfo.direction === LayoutDirection.X) {
-				mouveDist = e.clientX - this.edgeInfo.mouseX;
+				moveDist = e.clientX - this.edgeInfo.mouseX;
 				rootSize = this.edgeInfo.rootWidth;
 				edgeSize = this.edgeInfo.edgeWidth;
-				newSize = edgeSize + mouveDist;
+				newSize = edgeSize + moveDist;
 			}
 
 			if (this.edgeInfo.direction === LayoutDirection.Y) {
-				mouveDist = e.clientY - this.edgeInfo.mouseY;
+				moveDist = e.clientY - this.edgeInfo.mouseY;
 				rootSize = this.edgeInfo.rootHeight;
 				edgeSize = this.edgeInfo.edgeHeight
-				newSize = edgeSize + mouveDist;	
+				newSize = edgeSize + moveDist;	
 			}
 
 			if (newSize < 38) { newSize = 38; }
