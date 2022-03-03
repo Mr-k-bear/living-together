@@ -143,13 +143,28 @@ div.dark.app-container.end-containe {
 		background-color: $lt-bg-color-lvl4-dark;
 		color: rgba($color: #FFFFFF, $alpha: .85);
 	}
+
+    div.app-tab-header-item.deep.tab,
+	div.app-tab-header-item.deep.active,
+	div.app-tab-header-item.deep:hover {
+        background-color: $lt-bg-color-lvl5-dark;
+    }
 	
+    div.app-tab-header-item.tab,
 	div.app-tab-header-item.active {
-		div.border-view::after {
-			background-color: $lt-bg-color-lvl4-dark;
-			transition: none;
-		}
-	}
+        div.border-view::after {
+            background-color: $lt-bg-color-lvl4-dark;
+            transition: none;
+        }
+    }
+    
+    div.app-tab-header-item.deep.tab,
+	div.app-tab-header-item.deep.active {
+        div.border-view::after {
+            background-color: $lt-bg-color-lvl5-dark;
+            transition: none;
+        }
+    }
 
 	div.app-panel::-webkit-scrollbar-thumb {
 		background-color: $lt-bg-color-lvl1-dark;
@@ -163,15 +178,31 @@ div.light.app-container.end-containe {
 	div.app-tab-header-item.active,
 	div.app-tab-header-item:hover {
 		transition: none;
+		background-color: $lt-bg-color-lvl4-light;
 		color: rgba($color: #000000, $alpha: .85);
 	}
 
+    div.app-tab-header-item.deep.tab,
+	div.app-tab-header-item.deep.active,
+	div.app-tab-header-item.deep:hover {
+        background-color: $lt-bg-color-lvl5-light;
+    }
+	
+    div.app-tab-header-item.tab,
 	div.app-tab-header-item.active {
-		div.border-view::after {
-			background-color: $lt-bg-color-lvl4-light;
-			transition: none;
-		}
-	}
+        div.border-view::after {
+            background-color: $lt-bg-color-lvl4-light;
+            transition: none;
+        }
+    }
+    
+    div.app-tab-header-item.deep.tab,
+	div.app-tab-header-item.deep.active {
+        div.border-view::after {
+            background-color: $lt-bg-color-lvl5-light;
+            transition: none;
+        }
+    }
 
 	div.app-panel::-webkit-scrollbar-thumb {
 		background-color: $lt-bg-color-lvl1-light;

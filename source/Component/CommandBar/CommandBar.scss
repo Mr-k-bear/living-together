@@ -23,10 +23,6 @@ div.command-bar {
     }
 }
 
-button.ms-Button.command-button.active {
-    color: aqua !important;
-}
-
 div.command-bar.dark button.ms-Button.command-button.active,
 div.command-bar.dark button.ms-Button.command-button:hover {
     background-color: rgba($color: #FFFFFF, $alpha: .2);

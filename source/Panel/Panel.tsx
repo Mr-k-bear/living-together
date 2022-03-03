@@ -9,6 +9,7 @@ interface IPanelInfo {
 	class: (new (...p: any) => Component) | FunctionComponent;
 	hidePadding?: boolean;
 	hideScrollBar?: boolean;
+    isDeepDark?: boolean;
 	option?: Record<string, string>;
 }
 
@@ -18,7 +19,8 @@ type PanelId = ""
 
 const PanelInfoMap = new Map<PanelId, IPanelInfo>();
 PanelInfoMap.set("RenderView", { 
-	nameKey: "Panel.Title.Render.View", introKay: "Panel.Info.Render.View", class: RenderView, hidePadding: true, hideScrollBar: true
+	nameKey: "Panel.Title.Render.View", introKay: "Panel.Info.Render.View",
+    class: RenderView, hidePadding: true, hideScrollBar: true, isDeepDark: true
 });
 
 function getPanelById(panelId: PanelId): ReactNode {
