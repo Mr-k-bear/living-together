@@ -36,11 +36,12 @@ class SimulatorWeb extends Component {
         this.status = new Status();
         this.status.renderer = new ClassicRenderer({ className: "canvas" }).onLoad();
         this.status.model.bindRenderer(this.status.renderer);
+        this.status.setting = this.setting;
 
         // 测试代码
         if (true) {
-            let group = this.status.model.addGroup();
-            let range = this.status.model.addRange();
+            let group = this.status.newGroup();
+            let range = this.status.newRange();
             range.color = [.1, .5, .9];
             group.new(100);
             group.color = [.8, .1, .6];
@@ -72,7 +73,7 @@ class SimulatorWeb extends Component {
                 },
                 {
                     items: [{
-                        panles: ["Label d"]
+                        panles: ["ObjectList"]
                     }, {
                         items: [{panles: ["Label e", "ee"]}, {panles: ["F"]}],
                         layout: LayoutDirection.Y

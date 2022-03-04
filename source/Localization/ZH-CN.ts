@@ -19,9 +19,14 @@ const ZH_CN = {
     "Command.Bar.Add.Tag.Info": "添加标签对象",
     "Command.Bar.Camera.Info": "渲染器设置",
     "Command.Bar.Setting.Info": "全局设置",
+    "Object.List.New.Group": "组对象 {id}",
+    "Object.List.New.Range": "范围对象 {id}",
+    "Object.List.No.Data": "模型中没有任何对象，点击按钮以创建",
     "Panel.Title.Notfound": "找不到面板: {id}",
     "Panel.Info.Notfound": "这个编号为 {id} 的面板无法找到!",
     "Panel.Title.Render.View": "实时预览",
     "Panel.Info.Render.View": "实时仿真结果预览",
+    "Panel.Title.Object.List.View": "对象列表",
+    "Panel.Info.Object.List.View": "编辑查看全部对象属性",
 }
 export default ZH_CN;

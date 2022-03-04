@@ -1,0 +1,49 @@
+@import "../Theme/Theme.scss";
+
+div.details-list {
+    width: 100%;
+
+    div.details-list-item {
+        display: flex;
+        align-items: stretch;
+        user-select: none;
+        cursor: pointer;
+        min-height: 30px;
+
+        div.details-list-value {
+            padding: 5px 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        div.details-list-checkbox {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10px;
+        }
+    }
+}
+
+div.light.details-list {
+    
+    div.details-list-item:nth-child(2n) {
+        background-color: rgba($lt-bg-color-lvl5-light, .4);
+    }
+
+    div.details-list-item:hover {
+        background-color: $lt-bg-color-lvl3-light;
+    }
+}
+
+div.dark.details-list {
+
+    div.details-list-item:nth-child(2n) {
+        background-color: rgba($lt-bg-color-lvl5-dark, .4);
+    }
+
+    div.details-list-item:hover {
+        background-color: $lt-bg-color-lvl3-dark;
+    }
+}
