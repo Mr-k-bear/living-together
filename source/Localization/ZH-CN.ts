@@ -23,5 +23,7 @@ const ZH_CN = {
     "Panel.Info.Notfound": "这个编号为 {id} 的面板无法找到!",
     "Panel.Title.Render.View": "实时预览",
     "Panel.Info.Render.View": "实时仿真结果预览",
+    "Panel.Title.Object.List.View": "对象列表",
+    "Panel.Info.Object.List.View": "编辑查看全部对象属性",
 }
 export default ZH_CN;

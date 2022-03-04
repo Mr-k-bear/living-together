@@ -72,7 +72,7 @@ class SimulatorWeb extends Component {
                 },
                 {
                     items: [{
-                        panles: ["Label d"]
+                        panles: ["ObjectList"]
                     }, {
                         items: [{panles: ["Label e", "ee"]}, {panles: ["F"]}],
                         layout: LayoutDirection.Y

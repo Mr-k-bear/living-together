@@ -23,6 +23,8 @@ const EN_US = {
     "Panel.Info.Notfound": "This panel with id {id} can not found!",
     "Panel.Title.Render.View": "Live preview",
     "Panel.Info.Render.View": "Live simulation results preview",
+    "Panel.Title.Object.List.View": "Object list",
+    "Panel.Info.Object.List.View": "Edit View All Object Properties",
 
 }
 export default EN_US;
