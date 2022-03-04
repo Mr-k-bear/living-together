@@ -59,8 +59,16 @@ class CommandBar extends Component<ICommandBarProps & IMixinSettingProps & IMixi
                     active: mouseMod === MouseMod.click,
                     click: () => this.props.status ? this.props.status.setMouseMod(MouseMod.click) : undefined
                 })}
-                {this.getRenderButton({ iconName: "WebAppBuilderFragmentCreate", i18NKey: "Command.Bar.Add.Group.Info" })}
-                {this.getRenderButton({ iconName: "CubeShape", i18NKey: "Command.Bar.Add.Range.Info" })}
+                {this.getRenderButton({
+                    iconName: "WebAppBuilderFragmentCreate",
+                    i18NKey: "Command.Bar.Add.Group.Info",
+                    click: () => this.props.status ? this.props.status.newGroup() : undefined
+                })}
+                {this.getRenderButton({
+                    iconName: "CubeShape",
+                    i18NKey: "Command.Bar.Add.Range.Info",
+                    click: () => this.props.status ? this.props.status.newRange() : undefined
+                })}
                 {this.getRenderButton({ iconName: "StepSharedAdd", i18NKey: "Command.Bar.Add.Behavior.Info" })}
                 {this.getRenderButton({ iconName: "Tag", i18NKey: "Command.Bar.Add.Tag.Info" })}
                 {this.getRenderButton({ iconName: "Camera", i18NKey: "Command.Bar.Camera.Info" })}
