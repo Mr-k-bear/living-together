@@ -3,11 +3,24 @@ import { Emitter } from "@Model/Emitter";
 import { Model } from "@Model/Model";
 import { Archive } from "@Model/Archive";
 import { AbstractRenderer } from "@Model/Renderer";
-import ClassicRenderer, { MouseMod } from "@GLRender/ClassicRenderer";
+import { ClassicRenderer, MouseMod } from "@GLRender/ClassicRenderer";
+import { Setting } from "./Setting";
+import { I18N } from "@Component/Localization/Localization";
+
+function randomColor() {
+    return [Math.random(), Math.random(), Math.random(), 1]
+}
 
 class Status extends Emitter<{
     mouseModChange: MouseMod
 }> {
+
+    public setting: Setting = undefined as any;
+
+    /**
+     * 对象命名
+     */
+    public objectNameIndex = 1;
 
     /**
      * 渲染器
@@ -28,6 +41,26 @@ class Status extends Emitter<{
      * 鼠标工具状态
      */
     public mouseMod: MouseMod = MouseMod.Drag;
+
+    public newGroup() {
+        const group = this.model.addGroup();
+        group.color = randomColor();
+        group.displayName = I18N(this.setting.language, "Object.List.New.Group", {
+            id: this.objectNameIndex.toString()
+        });
+        this.objectNameIndex ++;
+        return group;
+    }
+
+    public newRange() {
+        const range = this.model.addRange();
+        range.color = randomColor();
+        range.displayName = I18N(this.setting.language, "Object.List.New.Range", {
+            id: this.objectNameIndex.toString()
+        });
+        this.objectNameIndex ++;
+        return range;
+    }
 
     public setMouseMod(mod: MouseMod) {
         this.mouseMod = mod;

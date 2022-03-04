@@ -8,6 +8,11 @@ import type { ObjectID } from "./Renderer";
 class CtrlObject extends LabelObject {
 
     /**
+     * 显示名称
+     */
+    public displayName: string = "";
+
+    /**
      * 颜色
      */
     public color: number[] = [.5, .5, .5];
