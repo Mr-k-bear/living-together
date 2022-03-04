@@ -8,6 +8,7 @@ type IItems = Record<string, any> & {key: string, select?: boolean};
 interface IColumns<D extends IItems, K extends keyof D> {
     key: K;
     className?: string;
+    noDefaultStyle?: boolean;
     beforeCheckbox?: boolean;
     render: (data: D[K]) => ReactNode,
     click?: (data: D[K]) => any,
@@ -23,8 +24,15 @@ interface IDetailsListProps {
 class DetailsList extends Component<IDetailsListProps> {
 
     private renderValue<D extends IItems, K extends keyof D>(item: IItems, column: IColumns<D, K>) {
+        const classList: string[] = [];
+        if (!column.noDefaultStyle) {
+            classList.push("details-list-value");
+        }
+        if (column.className) {
+            classList.push(column.className);
+        }
         return <div
-            className={"details-list-value" + (column.className ? ` ${column.className}` : "")}
+            className={classList.join(" ")}
             key={column.key as any}
         >
             {column.render(item[column.key as any])}

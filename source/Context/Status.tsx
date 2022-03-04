@@ -8,7 +8,11 @@ import { Setting } from "./Setting";
 import { I18N } from "@Component/Localization/Localization";
 
 function randomColor() {
-    return [Math.random(), Math.random(), Math.random(), 1]
+    return [
+        Math.random() * .8 + .2,
+        Math.random() * .8 + .2,
+        Math.random() * .8 + .2, 1
+    ]
 }
 
 class Status extends Emitter<{

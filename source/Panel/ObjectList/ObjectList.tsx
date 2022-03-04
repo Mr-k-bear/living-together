@@ -2,6 +2,7 @@ import { Component, ReactNode } from "react";
 import { DetailsList } from "@Component/DetailsList/DetailsList";
 import { useStatus, IMixinStatusProps } from "@Context/Status";
 import { Localization } from "@Component/Localization/Localization";
+import "./ObjectList.scss";
 
 @useStatus
 class ObjectList extends Component<IMixinStatusProps> {
@@ -44,14 +45,24 @@ class ObjectList extends Component<IMixinStatusProps> {
             }))}
             columns={[
                 {
+                    key: "color",
+                    noDefaultStyle: true,
+                    beforeCheckbox: true,
+                    render: (color) => <div
+                        className="object-list-color-value"
+                        style={{
+                            background: `rgb(${
+                                Math.floor(color[0] * 255)
+                            }, ${
+                                Math.floor(color[1] * 255)
+                            }, ${
+                                Math.floor(color[2] * 255)
+                            })`
+                        }}
+                    />
+                }, {
                     key: "name",
                     render: (name) => <span>{name}</span>
-                // }, {
-                //     key: "behaviors",
-                //     render: (behaviors) => <span>{(behaviors as Record<"name", string>[]).map(r => r.name).join(", ")}</span>
-                // }, {
-                //     key: "label",
-                //     render: (label) => <span>{(label as Record<"name", string>[]).map(r => r.name).join(", ")}</span>
                 }
             ]}
         />
