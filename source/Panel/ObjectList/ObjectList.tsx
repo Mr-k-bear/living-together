@@ -1,12 +1,14 @@
 import { Component, ReactNode } from "react";
 import { DetailsList } from "@Component/DetailsList/DetailsList";
 import { useStatus, IMixinStatusProps } from "@Context/Status";
+import { useSetting, IMixinSettingProps } from "@Context/Setting";
 import { Localization } from "@Component/Localization/Localization";
 import { ObjectID } from "@Model/Renderer";
 import "./ObjectList.scss";
 
+@useSetting
 @useStatus
-class ObjectList extends Component<IMixinStatusProps> {
+class ObjectList extends Component<IMixinStatusProps & IMixinSettingProps> {
 
     private handelChange = () => {
         this.forceUpdate();
@@ -52,11 +54,17 @@ class ObjectList extends Component<IMixinStatusProps> {
                 }
             }))}
             clickLine={(item) => {
+                if (this.props.setting) {
+                    this.props.setting.layout.focus("ObjectList");
+                }
                 if (this.props.status) {
                     this.props.status.setFocusObject(new Set<ObjectID>().add(item.key));
                 }
             }}
             checkBox={(item) => {
+                if (this.props.setting) {
+                    this.props.setting.layout.focus("ObjectList");
+                }
                 if (this.props.status) {
                     if (
                         this.props.status.focusObject.has(item.key.toString()) ||

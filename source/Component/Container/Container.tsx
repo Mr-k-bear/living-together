@@ -68,7 +68,7 @@ class Container extends Component<IContainerProps> {
 							delay={2}
 							key={panelId}
 						>
-							<div	
+							<div
 								className={classList.join(" ")}
 								onClick={(e) => {
 									e.stopPropagation();
@@ -90,16 +90,32 @@ class Container extends Component<IContainerProps> {
 				}</div> : null
 			}
 			<div
-				onClick={() => this.props.onFocusTab ? this.props.onFocusTab(showPanelId) : undefined}
 				className={[
-					"app-panel",
-					hasActivePanel ? "active" : "",
-					showPanelInfo?.hidePadding ? "" : "has-padding",
-					showPanelInfo?.hideScrollBar ? "hide-scrollbar" : ""
+					"app-panel-root",
+					hasActivePanel ? "active" : ""
 				].filter(x => !!x).join(" ")}
-				draggable={false}
+				onClick={() => this.props.onFocusTab ? this.props.onFocusTab(showPanelId) : undefined}
 			>
-				{getPanelById(showPanelId as any)}
+				{/* 渲染 Command Bar */}
+				{(() => {
+					let info = getPanelInfoById(showPanelId as any);
+					if (info &&  info.header) {
+						const Header = info.header;
+						return <Header></Header>
+					}
+				})()}
+
+				{/* 渲染 Panel 内容 */}
+				<div
+					className={[
+						"app-panel",
+						showPanelInfo?.hidePadding ? "" : "has-padding",
+						showPanelInfo?.hideScrollBar ? "hide-scrollbar" : ""
+					].filter(x => !!x).join(" ")}
+					draggable={false}
+				>
+					{getPanelById(showPanelId as any)}
+				</div>
 			</div>
 		</>
 	}
