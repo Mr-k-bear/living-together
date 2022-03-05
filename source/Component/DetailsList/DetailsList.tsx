@@ -16,9 +16,13 @@ interface IColumns<D extends IItems, K extends keyof D> {
 
 interface IDetailsListProps {
     items: IItems[];
+    className?: string;
     columns: IColumns<this["items"][number], keyof this["items"][number]>[];
     hideCheckBox?: boolean;
     checkboxClassName?: string;
+    click?: () => void;
+    clickLine?: (item: IItems) => any;
+    checkBox?: (data: IItems) => any;
 }
 
 class DetailsList extends Component<IDetailsListProps> {
@@ -41,13 +45,27 @@ class DetailsList extends Component<IDetailsListProps> {
 
     public render(): ReactNode {
         return <Theme
-            className="details-list"
+            className={"details-list" + (this.props.className ? ` ${this.props.className}` : "")}
+            onClick={this.props.click}
             backgroundLevel={BackgroundLevel.Level4}
             fontLevel={FontLevel.normal}
         >{
             this.props.items.map((item) => {
                 const { checkboxClassName } = this.props;
-                return <div className="details-list-item" key={item.key}>
+                const classList: string[] = ["details-list-item"];
+                if (item.select) {
+                    classList.push("active");
+                }
+                return <div
+                    className={classList.join(" ")}
+                    key={item.key}
+                    onClick={(e) => {
+                        if (this.props.clickLine) {
+                            e.stopPropagation();
+                            this.props.clickLine(item);
+                        }
+                    }}
+                >
                     {
                         this.props.columns.map((column) => {
                             if (column.beforeCheckbox) {
@@ -59,6 +77,12 @@ class DetailsList extends Component<IDetailsListProps> {
                         this.props.hideCheckBox ? null :
                         <div 
                             className={"details-list-checkbox" + (checkboxClassName ? ` ${checkboxClassName}` : "")}
+                            onClick={(e) => {
+                                if (this.props.checkBox) {
+                                    e.stopPropagation();
+                                    this.props.checkBox(item);
+                                }
+                            }}
                         >
                             <Icon iconName="CheckMark"></Icon>
                         </div>
@@ -76,4 +100,4 @@ class DetailsList extends Component<IDetailsListProps> {
     }
 }
 
-export { DetailsList };
+export { DetailsList, IItems };

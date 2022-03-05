@@ -1,7 +1,44 @@
+@import "../../Component/Theme/Theme.scss";
+
 div.object-list-color-value {
     height: calc( 100% - 6px);
     margin: 3px 0;
     margin-left: 3px;
     border-radius: 1000px;
     width: 3px;
+}
+
+div.object-list {
+    min-height: 100%;
+}
+
+div.object-list-command-bar {
+    width: 100%;
+    height: 30px;
+    flex-shrink: 0;
+    display: flex;
+
+    div.command-item{
+        width: 30px;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        user-select: none;
+        cursor: pointer;
+    }
+}
+
+div.dark.object-list-command-bar {
+
+    div.command-item:hover {
+        background-color: $lt-bg-color-lvl3-dark;
+    }
+}
+
+div.light.object-list-command-bar {
+
+    div.command-item:hover {
+        background-color: $lt-bg-color-lvl3-light;
+    }
 }

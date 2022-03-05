@@ -37,6 +37,14 @@ class Model extends Emitter<ModelEvent> {
      */
     public objectPool: CtrlObject[] = [];
 
+    public getObjectById(id: ObjectID): CtrlObject | undefined {
+        for (let i = 0; i < this.objectPool.length; i++) {
+            if (this.objectPool[i].id === id) {
+                return this.objectPool[i];
+            }
+        }
+    }
+
     /**
      * 标签列表
      */
@@ -163,9 +171,6 @@ class Model extends Emitter<ModelEvent> {
      */
     public update(t: number) {
 
-        // 清除全部渲染状态
-        this.renderer.clean();
-
         // 第一轮更新
         for (let i = 0; i < this.objectPool.length; i++) {
             let object = this.objectPool[i];
@@ -190,6 +195,16 @@ class Model extends Emitter<ModelEvent> {
             }
         }
 
+        this.draw();
+
+        this.emit("loop", t);
+    }
+
+    public draw() {
+
+        // 清除全部渲染状态
+        this.renderer.clean();
+
         // 渲染
         for (let i = 0; i < this.objectPool.length; i++) {
             let object = this.objectPool[i];
@@ -206,8 +221,6 @@ class Model extends Emitter<ModelEvent> {
                 } as any);
             }
         }
-
-        this.emit("loop", t);
     }
 }
 

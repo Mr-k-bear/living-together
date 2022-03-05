@@ -1,7 +1,8 @@
 import { createContext, Component, FunctionComponent } from "react";
 import { Emitter } from "@Model/Emitter";
-import { Model } from "@Model/Model";
+import { Model, ObjectID } from "@Model/Model";
 import { Archive } from "@Model/Archive";
+import { CtrlObject } from "@Model/CtrlObject";
 import { AbstractRenderer } from "@Model/Renderer";
 import { ClassicRenderer, MouseMod } from "@GLRender/ClassicRenderer";
 import { Setting } from "./Setting";
@@ -16,7 +17,8 @@ function randomColor() {
 }
 
 class Status extends Emitter<{
-    mouseModChange: MouseMod
+    mouseModChange: MouseMod,
+    focusObjectChange: Set<ObjectID>
 }> {
 
     public setting: Setting = undefined as any;
@@ -40,6 +42,19 @@ class Status extends Emitter<{
      * 模型状态
      */
     public model: Model = new Model();
+
+    /**
+     * 焦点对象
+     */
+    public focusObject: Set<ObjectID> = new Set();
+
+    /**
+     * 更新焦点对象
+     */
+    public setFocusObject(focusObject: Set<ObjectID>) {
+        this.focusObject = focusObject;
+        this.emit("focusObjectChange", this.focusObject);
+    }
 
     /**
      * 鼠标工具状态

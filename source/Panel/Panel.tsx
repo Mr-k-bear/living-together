@@ -3,11 +3,13 @@ import { Theme } from "@Component/Theme/Theme";
 import { Localization } from "@Component/Localization/Localization";
 import { RenderView } from "./RenderView/RenderView";
 import { ObjectList } from "./ObjectList/ObjectList";
+import { ObjectCommand } from "./ObjectList/ObjectCommand";
 
 interface IPanelInfo {
 	nameKey: string;
 	introKay: string;
 	class: (new (...p: any) => Component) | FunctionComponent;
+	header?: (new (...p: any) => Component) | FunctionComponent;
 	hidePadding?: boolean;
 	hideScrollBar?: boolean;
     isDeepDark?: boolean;
@@ -26,7 +28,7 @@ PanelInfoMap.set("RenderView", {
 });
 PanelInfoMap.set("ObjectList", {
     nameKey: "Panel.Title.Object.List.View", introKay: "Panel.Info.Object.List.View",
-    class: ObjectList, hidePadding: true
+    class: ObjectList, header: ObjectCommand, hidePadding: true
 })
 
 function getPanelById(panelId: PanelId): ReactNode {
