@@ -19,9 +19,18 @@ div.details-list {
 
         div.details-list-checkbox {
             display: flex;
+            width: 30px;
             align-items: center;
             justify-content: center;
-            padding: 0 10px;
+            opacity: 0;
+        }
+    }
+
+    div.details-list-item.active,
+    div.details-list-item:hover {
+
+        div.details-list-checkbox {
+            opacity: 1;
         }
     }
 }
@@ -35,15 +44,33 @@ div.light.details-list {
     div.details-list-item:hover {
         background-color: $lt-bg-color-lvl3-light;
     }
+
+    div.details-list-item.active {
+        background-color: $lt-bg-color-lvl2-light;
+        color: rgba(0, 0, 0, 0.95);
+    }
+
+    // div.details-list-checkbox:hover {
+    //     background-color: rgba($lt-bg-color-lvl1-light, .4);
+    // }
 }
 
 div.dark.details-list {
 
     div.details-list-item:nth-child(2n) {
-        background-color: rgba($lt-bg-color-lvl5-dark, .4);
+        background-color: rgba($lt-bg-color-lvl5-dark, .8);
     }
 
     div.details-list-item:hover {
         background-color: $lt-bg-color-lvl3-dark;
     }
+
+    div.details-list-item.active {
+        background-color: $lt-bg-color-lvl2-dark;
+        color: rgba(255, 255, 255, 0.85);
+    }
+
+    // div.details-list-checkbox:hover {
+    //     background-color: rgba($lt-bg-color-lvl1-dark, .8);
+    // }
 }

@@ -28,7 +28,7 @@ class RenderView extends Component<IMixinStatusProps & IMixinSettingProps> {
 
 	public componentDidMount() {
 		let div = this.rootEle.current;
-		console.log(div, div?.childNodes, this.props.status, this.props.status?.renderer.dom)
+		// console.log(div, div?.childNodes, this.props.status, this.props.status?.renderer.dom)
 		if (div && (!div.childNodes || div.childNodes.length <= 0) && this.props.status) {	
 			div.appendChild(this.props.status.renderer.dom);
 		}

@@ -37,6 +37,14 @@ class Model extends Emitter<ModelEvent> {
      */
     public objectPool: CtrlObject[] = [];
 
+    public getObjectById(id: ObjectID): CtrlObject | undefined {
+        for (let i = 0; i < this.objectPool.length; i++) {
+            if (this.objectPool[i].id === id) {
+                return this.objectPool[i];
+            }
+        }
+    }
+
     /**
      * 标签列表
      */
