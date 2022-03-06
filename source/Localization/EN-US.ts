@@ -28,6 +28,8 @@ const EN_US = {
     "Panel.Info.Render.View": "Live simulation results preview",
     "Panel.Title.Object.List.View": "Object list",
     "Panel.Info.Object.List.View": "Edit View All Object Properties",
+    "Panel.Title.Range.Details.View": "Range attributes",
+    "Panel.Info.Range.Details.View": "Edit View Range attributes",
 
 }
 export default EN_US;

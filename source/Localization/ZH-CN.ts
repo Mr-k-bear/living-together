@@ -28,5 +28,7 @@ const ZH_CN = {
     "Panel.Info.Render.View": "实时仿真结果预览",
     "Panel.Title.Object.List.View": "对象列表",
     "Panel.Info.Object.List.View": "编辑查看全部对象属性",
+    "Panel.Title.Range.Details.View": "范围属性",
+    "Panel.Info.Range.Details.View": "编辑查看范围属性",
 }
 export default ZH_CN;
