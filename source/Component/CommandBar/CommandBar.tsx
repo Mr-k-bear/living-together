@@ -62,12 +62,18 @@ class CommandBar extends Component<ICommandBarProps & IMixinSettingProps & IMixi
                 {this.getRenderButton({
                     iconName: "WebAppBuilderFragmentCreate",
                     i18NKey: "Command.Bar.Add.Group.Info",
-                    click: () => this.props.status ? this.props.status.newGroup() : undefined
+                    click: () => {
+                        this.props.status ? this.props.status.newGroup() : undefined;
+                        this.props.status ? this.props.status.model.draw() : undefined;
+                    }
                 })}
                 {this.getRenderButton({
                     iconName: "CubeShape",
                     i18NKey: "Command.Bar.Add.Range.Info",
-                    click: () => this.props.status ? this.props.status.newRange() : undefined
+                    click: () => {
+                        this.props.status ? this.props.status.newRange() : undefined;
+                        this.props.status ? this.props.status.model.draw() : undefined;
+                    }
                 })}
                 {this.getRenderButton({ iconName: "StepSharedAdd", i18NKey: "Command.Bar.Add.Behavior.Info" })}
                 {this.getRenderButton({ iconName: "Tag", i18NKey: "Command.Bar.Add.Tag.Info" })}
