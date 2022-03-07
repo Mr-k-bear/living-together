@@ -1,8 +1,7 @@
-import { createContext, Component, FunctionComponent } from "react";
+import { createContext, Component, FunctionComponent, useState, useEffect, ReactNode } from "react";
 import { Emitter } from "@Model/Emitter";
 import { Model, ObjectID } from "@Model/Model";
 import { Archive } from "@Model/Archive";
-import { CtrlObject } from "@Model/CtrlObject";
 import { AbstractRenderer } from "@Model/Renderer";
 import { ClassicRenderer, MouseMod } from "@GLRender/ClassicRenderer";
 import { Setting } from "./Setting";
@@ -16,10 +15,16 @@ function randomColor() {
     ]
 }
 
-class Status extends Emitter<{
-    mouseModChange: MouseMod,
-    focusObjectChange: Set<ObjectID>
-}> {
+interface IStatusEvent {
+    renderLoop: number;
+    physicsLoop: number;
+    mouseModChange: void;
+    focusObjectChange: void;
+    objectChange: void;
+    labelChange: void;
+}
+
+class Status extends Emitter<IStatusEvent> {
 
     public setting: Setting = undefined as any;
 
@@ -48,12 +53,34 @@ class Status extends Emitter<{
      */
     public focusObject: Set<ObjectID> = new Set();
 
+    public constructor() {
+        super();
+
+        // 循环事件
+        this.model.on("loop", (t) => { this.emit("physicsLoop", t) });
+
+        // 对象变化事件
+        this.model.on("objectChange", () => this.emit("objectChange"));
+        this.model.on("labelChange", () => this.emit("labelChange"));
+
+        // 对象变换时执行渲染，更新渲染器数据
+        this.on("objectChange", () => {
+            this.model.draw();
+        })
+    }
+
+    public bindRenderer(renderer: AbstractRenderer) {
+        this.renderer = renderer;
+        this.renderer.on("loop", (t) => { this.emit("renderLoop", t) });
+        this.model.bindRenderer(this.renderer);
+    } 
+
     /**
      * 更新焦点对象
      */
     public setFocusObject(focusObject: Set<ObjectID>) {
         this.focusObject = focusObject;
-        this.emit("focusObjectChange", this.focusObject);
+        this.emit("focusObjectChange");
     }
 
     /**
@@ -87,7 +114,7 @@ class Status extends Emitter<{
             this.renderer.mouseMod = mod;
             this.renderer.setMouseIcon();
         }
-        this.emit("mouseModChange", mod);
+        this.emit("mouseModChange");
     }
 
 }
@@ -116,7 +143,55 @@ function useStatus<R extends RenderComponent>(components: R): R {
     }) as any;
 }
 
+function useStatusWithEvent(...events: Array<keyof IStatusEvent>) {
+    return <R extends RenderComponent>(components: R): R => {
+        const C = components as any;
+        return class extends Component<R> {
+
+            private status: Status | undefined;
+            private isEventMount: boolean = false;
+
+            private handelChange = () => {
+                this.forceUpdate();
+            }
+
+            private mountEvent() {
+                if (this.status && !this.isEventMount) {
+                    this.isEventMount = true;
+                    console.log("event mount");
+                    for (let i = 0; i < events.length; i++) {
+                        this.status.on(events[i], this.handelChange);
+                    }
+                }
+            }
+
+            private unmountEvent() {
+                if (this.status) {
+                    for (let i = 0; i < events.length; i++) {
+                        this.status.off(events[i], this.handelChange);
+                    }
+                }
+            }
+
+            public render(): ReactNode {
+                return <StatusConsumer>
+                    {(status: Status) => {
+                        this.status = status;
+                        this.mountEvent();
+                        return <C {...this.props} status={status}></C>;
+                    }}
+                </StatusConsumer>
+            }
+
+            public componentWillUnmount() {
+                this.unmountEvent();
+            }
+
+        } as any;
+    }
+}
+
 export {
-    Status, StatusContext, useStatus,
+    Status, StatusContext, useStatus, useStatusWithEvent,
     IMixinStatusProps, StatusProvider, StatusConsumer
 };

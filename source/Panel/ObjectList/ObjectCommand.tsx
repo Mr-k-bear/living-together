@@ -41,7 +41,6 @@ class ObjectCommand extends Component<IMixinStatusProps> {
 				className="command-item"
 				onClick={() => {
 					this.props.status ? this.props.status.newGroup() : undefined;
-					this.props.status ? this.props.status.model.draw() : undefined;
 				}}
 			>
 				<Icon iconName="WebAppBuilderFragmentCreate"></Icon>
@@ -50,7 +49,6 @@ class ObjectCommand extends Component<IMixinStatusProps> {
 				className="command-item"
 				onClick={() => {
 					this.props.status ? this.props.status.newRange() : undefined;
-					this.props.status ? this.props.status.model.draw() : undefined;
 				}}
 			>
 				<Icon iconName="CubeShape"></Icon>
@@ -65,7 +63,6 @@ class ObjectCommand extends Component<IMixinStatusProps> {
 						})
 						this.props.status.model.deleteObject(deleteId);
 						this.props.status.setFocusObject(new Set<ObjectID>());
-						this.props.status.model.draw();
 					}
 				}}
 			>
