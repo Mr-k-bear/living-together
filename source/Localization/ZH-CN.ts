@@ -38,5 +38,8 @@ const ZH_CN = {
     "Common.Attr.Key.Position.X": "X 坐标",
     "Common.Attr.Key.Position.Y": "Y 坐标",
     "Common.Attr.Key.Position.Z": "Z 坐标",
+    "Common.Attr.Key.Error.Multiple": "无法编辑多重数值",
+    "Panel.Info.Range.Details.Attr.Error.Not.Range": "焦点对象不是一个范围",
+    "Panel.Info.Range.Details.Attr.Error.Unspecified": "未指定范围对象",
 }
 export default ZH_CN;

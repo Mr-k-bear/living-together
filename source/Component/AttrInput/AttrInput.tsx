@@ -13,24 +13,15 @@ interface IAttrInputProps {
     max?: number;
     min?: number;
     step?: number;
+    disable?: boolean;
+    disableI18n?: AllI18nKeys;
     valueChange?: (value: this["isNumber"] extends true ? number : string) => any;
 }
 
-interface AttrInputState {
-    error: ReactNode;
-    value: string;
-}
+class AttrInput extends Component<IAttrInputProps> {
 
-class AttrInput extends Component<IAttrInputProps, AttrInputState> {
-
-    public constructor(props: IAttrInputProps) {
-        super(props);
-        const value = props.value ?? props.isNumber ? "0" : "";
-        this.state = {
-            error: this.check(value),
-            value: value
-        }
-    }
+    private value: string = "";
+    private error: ReactNode;
 
     private check(value: string): ReactNode {
 
@@ -63,16 +54,17 @@ class AttrInput extends Component<IAttrInputProps, AttrInputState> {
     }
 
     private handelValueChange = () => {
-        if (!this.state.error && this.props.valueChange) {
-            this.props.valueChange(this.state.value);
+        if (!this.error && this.props.valueChange) {
+            this.props.valueChange(this.value);
         }
+        this.forceUpdate();
     }
 
     private changeValue = (direction: number) => {
-        if (this.state.error) {
+        if (this.error) {
             return;
         } else {
-            let newVal = (this.state.value as any / 1) + (this.props.step ?? 1) * direction;
+            let newVal = (this.value as any / 1) + (this.props.step ?? 1) * direction;
 
             // 最大值校验
             if (this.props.max !== undefined && newVal > this.props.max) {
@@ -84,14 +76,59 @@ class AttrInput extends Component<IAttrInputProps, AttrInputState> {
                 newVal = this.props.min;
             }
 
-            this.setState(
-                { value: newVal.toString() },
-                () => this.handelValueChange()
-            );
+            this.value = newVal.toString();
+            this.handelValueChange()
         }
     }
 
+    private renderInput() {
+        return <>
+            <div className={"input-content" + (this.error ? ` error` : "")}>
+                {
+                    this.props.isNumber ? <div
+                        className="button-left"
+                        onClick={() => this.changeValue(-1)}
+                    >
+                        <Icon iconName="ChevronLeft"></Icon>
+                    </div> : null
+                }
+                <input
+                    className="input"
+                    value={this.value}
+                    style={{
+                        padding: this.props.isNumber ? "0 3px" : "0 8px"
+                    }}
+                    onChange={(e) => {
+                        this.value = e.target.value;
+                        this.error = this.check(e.target.value);
+                        this.handelValueChange();
+                    }}
+                ></input>
+                {
+                    this.props.isNumber ? <div
+                        className="button-right"
+                        onClick={() => this.changeValue(1)}
+                    >
+                        <Icon iconName="ChevronRight"></Icon>
+                    </div> : null
+                }
+            </div>
+            { 
+                this.error ? 
+                    <div className="err-message">
+                        {this.error}
+                    </div> : null
+            }
+        </>
+    }
+
 	public render(): ReactNode {
+
+        if (!this.error) {
+            const value = this.props.value ?? (this.props.isNumber ? "0" : "");
+            this.value = value.toString();
+            this.error = this.check(value.toString());
+        }
 
 		return <Theme
             className="attr-input"
@@ -101,41 +138,12 @@ class AttrInput extends Component<IAttrInputProps, AttrInputState> {
                 <Localization i18nKey={this.props.keyI18n}/>
             </div>
             <div className="root-content">
-                <div className={"input-content" + (this.state.error ? ` error` : "")}>
-                    {
-                        this.props.isNumber ? <div
-                            className="button-left"
-                            onClick={() => this.changeValue(-1)}
-                        >
-                            <Icon iconName="ChevronLeft"></Icon>
-                        </div> : null
-                    }
-                    <input
-                        className="input"
-                        value={this.state.value}
-                        style={{
-                            padding: this.props.isNumber ? "0 3px" : "0 8px"
-                        }}
-                        onChange={(e) => {
-                            this.setState({
-                                error: this.check(e.target.value),
-                                value: e.target.value
-                            }, () => this.handelValueChange());
-                        }}
-                    ></input>
-                    {
-                        this.props.isNumber ? <div
-                            className="button-right"
-                            onClick={() => this.changeValue(1)}
-                        >
-                            <Icon iconName="ChevronRight"></Icon>
-                        </div> : null
-                    }
-                </div>
                 {
-                    <div className="err-message">
-                        {this.state.error}
-                    </div>
+                    this.props.disable ? 
+                        this.props.disableI18n ? 
+                            <Localization i18nKey={this.props.disableI18n}/> :
+                            <div>{this.props.value}</div> :
+                        this.renderInput()
                 }
             </div>
         </Theme>

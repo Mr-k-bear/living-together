@@ -39,7 +39,7 @@ class Model extends Emitter<ModelEvent> {
 
     public getObjectById(id: ObjectID): CtrlObject | undefined {
         for (let i = 0; i < this.objectPool.length; i++) {
-            if (this.objectPool[i].id === id) {
+            if (this.objectPool[i].id.toString() === id.toString()) {
                 return this.objectPool[i];
             }
         }

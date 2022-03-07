@@ -66,6 +66,7 @@ div.attr-input {
         div.err-message {
             color: $lt-red;
             padding-top: 5px;
+            min-height: 24px;
         }
     }
 }

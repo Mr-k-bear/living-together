@@ -38,5 +38,8 @@ const EN_US = {
     "Common.Attr.Key.Position.X": "Position X",
     "Common.Attr.Key.Position.Y": "Position Y",
     "Common.Attr.Key.Position.Z": "Position Z",
+    "Common.Attr.Key.Error.Multiple": "Cannot edit multiple values",
+    "Panel.Info.Range.Details.Attr.Error.Not.Range": "The focus object is not a Range",
+    "Panel.Info.Range.Details.Attr.Error.Unspecified": "Unspecified range object",
 }
 export default EN_US;

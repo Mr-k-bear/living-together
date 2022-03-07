@@ -8,7 +8,7 @@ class Range extends CtrlObject {
     /**
      * 坐标
      */
-    public position: number[] = [];
+    public position: number[] = [0, 0, 0];
 
     /**
      * 半径

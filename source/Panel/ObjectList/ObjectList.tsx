@@ -7,7 +7,7 @@ import { ObjectID } from "@Model/Renderer";
 import "./ObjectList.scss";
 
 @useSetting
-@useStatusWithEvent("objectChange", "focusObjectChange")
+@useStatusWithEvent("objectChange", "focusObjectChange", "rangeAttrChange")
 class ObjectList extends Component<IMixinStatusProps & IMixinSettingProps> {
 
     private renderList() {
