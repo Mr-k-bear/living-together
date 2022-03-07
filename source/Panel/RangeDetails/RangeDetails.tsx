@@ -40,17 +40,27 @@ class RangeDetails extends Component<IMixinStatusProps> {
                 }}
             />
             <AttrInput
+                isNumber={true}
+                step={.1}
                 keyI18n="Common.Attr.Key.Position.Y"
                 value={range.position[1]}
                 valueChange={(e) => {
-                    this.props.status ? this.props.status.changeRangeAttrib(range.id, "displayName", e) : null;
+                    if (this.props.status) {
+                        range.position[1] = (e as any) / 1;
+                        this.props.status.changeRangeAttrib(range.id, "position", range.position);
+                    }
                 }}
             />
             <AttrInput
+                isNumber={true}
+                step={.1}
                 keyI18n="Common.Attr.Key.Position.Z"
                 value={range.position[2]}
                 valueChange={(e) => {
-                    this.props.status ? this.props.status.changeRangeAttrib(range.id, "displayName", e) : null;
+                    if (this.props.status) {
+                        range.position[2] = (e as any) / 1;
+                        this.props.status.changeRangeAttrib(range.id, "position", range.position);
+                    }
                 }}
             />
 		</>

@@ -74,7 +74,7 @@ class Layout extends Emitter<ILayoutEvent> {
 	}
 
 	public focus = (panelId: string) => {
-		if (panelId === "") {
+		if (panelId === "" && this.focusId !== "") {
 			this.focusId = panelId;
 			this.emit("switchTab", this);
 		}
@@ -89,10 +89,14 @@ class Layout extends Emitter<ILayoutEvent> {
 					}
 				}
 				if (index >= 0) {
-					layout.focusPanel = panelId;
-					this.focusId = panelId;
-					this.emit("switchTab", this);
-					return true;
+					if (layout.focusPanel === panelId && this.focusId === panelId) {
+						return true;
+					} else {
+						layout.focusPanel = panelId;
+						this.focusId = panelId;
+						this.emit("switchTab", this);
+						return true;
+					}
 				}
 			}
 		})

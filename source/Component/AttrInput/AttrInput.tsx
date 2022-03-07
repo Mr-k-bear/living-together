@@ -55,6 +55,10 @@ class AttrInput extends Component<IAttrInputProps> {
 
     private handelValueChange = () => {
         if (!this.error && this.props.valueChange) {
+            if (this.props.isNumber) {
+                let numberVal = (this.value as any) * 10000;
+                this.value = (Math.round(numberVal) / 10000).toString();
+            }
             this.props.valueChange(this.value);
         }
         this.forceUpdate();
@@ -122,13 +126,18 @@ class AttrInput extends Component<IAttrInputProps> {
         </>
     }
 
-	public render(): ReactNode {
+    public shouldComponentUpdate(nextProps: IAttrInputProps) {
+        this.updateValueFromProps(nextProps.value);
+        return true;
+    }
 
-        if (!this.error) {
-            const value = this.props.value ?? (this.props.isNumber ? "0" : "");
-            this.value = value.toString();
-            this.error = this.check(value.toString());
-        }
+    private updateValueFromProps(val: IAttrInputProps["value"]) {
+        const value = val ?? (this.props.isNumber ? "0" : "");
+        this.value = value.toString();
+        this.error = this.check(value.toString());
+    }
+
+	public render(): ReactNode {
 
 		return <Theme
             className="attr-input"

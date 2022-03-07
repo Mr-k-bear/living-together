@@ -1,9 +1,12 @@
 @import "../Theme/Theme.scss";
 
+$line-min-height: 24px;
+$root-min-height: 26px;
+
 div.attr-input {
 	width: 100%;
 	display: flex;
-	min-height: 24px;
+	min-height: $line-min-height;
 	padding: 5px 0;
 
 	div.input-intro {
@@ -20,6 +23,7 @@ div.attr-input {
         width: 50%;
         height: 100%;
         max-width: 180px;
+        min-height: $root-min-height;
 
         div.input-content {
             box-sizing: border-box;
@@ -29,13 +33,14 @@ div.attr-input {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            min-height: 24px;
+            min-height: $root-min-height;
     
             input {
                 width: 100%;
                 height: 100%;
                 border: none;
                 outline:none;
+                min-height: $line-min-height;
             };
     
             input:focus {
@@ -43,7 +48,7 @@ div.attr-input {
             }
     
             div.button-left, div.button-right {
-                min-height: 24px;
+                min-height: $line-min-height;
                 height: 100%;
                 display: flex;
                 justify-content: center;
@@ -66,7 +71,7 @@ div.attr-input {
         div.err-message {
             color: $lt-red;
             padding-top: 5px;
-            min-height: 24px;
+            min-height: $line-min-height;
         }
     }
 }
