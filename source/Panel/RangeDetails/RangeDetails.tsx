@@ -5,8 +5,10 @@ import "./RangeDetails.scss";
 class RangeDetails extends Component {
 	public render(): ReactNode {
 		return <div>
-			<AttrInput></AttrInput>
-			<AttrInput isNumber></AttrInput>
+			<AttrInput keyI18n="Common.Attr.Key.Display.Name"></AttrInput>
+			<AttrInput keyI18n="Common.Attr.Key.Position.X" isNumber></AttrInput>
+            <AttrInput keyI18n="Common.Attr.Key.Position.Y" isNumber></AttrInput>
+            <AttrInput keyI18n="Common.Attr.Key.Position.Z" isNumber></AttrInput>
 		</div>
 	}
 }

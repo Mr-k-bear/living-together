@@ -27,7 +27,7 @@ div.app-container {
 		}
 
 		div:hover {
-			background-color: blue;
+			background-color: $lt-blue;
 		}
 	}
 
@@ -83,7 +83,7 @@ div.app-container {
 		}
 
 		div.app-tab-header-item.active {
-			border: .8px solid blue;
+			border: .8px solid $lt-blue;
 			transition: none;
 		}
 
@@ -141,7 +141,7 @@ div.app-container {
 	}
 
 	div.app-panel-root.active {
-		border: .8px solid blue !important;
+		border: .8px solid $lt-blue !important;
 	}
 }
 
