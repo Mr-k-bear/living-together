@@ -173,7 +173,7 @@ function useStatusWithEvent(...events: Array<keyof IStatusEvent>) {
             private mountEvent() {
                 if (this.status && !this.isEventMount) {
                     this.isEventMount = true;
-                    console.log("event mount");
+                    console.log("Component dep event mount: " + events.join(", "));
                     for (let i = 0; i < events.length; i++) {
                         this.status.on(events[i], this.handelChange);
                     }

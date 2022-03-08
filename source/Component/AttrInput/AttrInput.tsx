@@ -142,6 +142,11 @@ class AttrInput extends Component<IAttrInputProps> {
         return true;
     }
 
+    public constructor(props: IAttrInputProps) {
+        super(props);
+        this.updateValueFromProps(props.value);
+    }
+
     private updateValueFromProps(val: IAttrInputProps["value"]) {
         const value = val ?? (this.props.isNumber ? "0" : "");
         this.value = value.toString();
