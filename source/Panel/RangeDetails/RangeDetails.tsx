@@ -14,6 +14,7 @@ class RangeDetails extends Component<IMixinStatusProps> {
     public readonly AttrI18nKey: AllI18nKeys[] = [
         "Common.Attr.Key.Display.Name",
         "Common.Attr.Key.Display",
+        "Common.Attr.Key.Update",
         "Common.Attr.Key.Color",
         "Common.Attr.Key.Position.X",
         "Common.Attr.Key.Position.Y",
@@ -68,6 +69,12 @@ class RangeDetails extends Component<IMixinStatusProps> {
             <TogglesInput keyI18n={this.AttrI18nKey[keyIndex ++]} value={range.display} valueChange={(val) => {
                 if (this.props.status) {
                     this.props.status.changeRangeAttrib(range.id, "display", val);
+                }
+            }}/>
+
+            <TogglesInput keyI18n={this.AttrI18nKey[keyIndex ++]} value={range.update} valueChange={(val) => {
+                if (this.props.status) {
+                    this.props.status.changeRangeAttrib(range.id, "update", val);
                 }
             }}/>
 
