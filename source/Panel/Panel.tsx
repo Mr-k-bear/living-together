@@ -4,6 +4,7 @@ import { Localization } from "@Component/Localization/Localization";
 import { RenderView } from "./RenderView/RenderView";
 import { ObjectList } from "./ObjectList/ObjectList";
 import { ObjectCommand } from "./ObjectList/ObjectCommand";
+import { RangeDetails } from "./RangeDetails/RangeDetails";
 
 interface IPanelInfo {
 	nameKey: string;
@@ -19,6 +20,7 @@ interface IPanelInfo {
 type PanelId = ""
 | "RenderView" // 主渲染器
 | "ObjectList" // 对象列表
+| "RangeDetails" // 范围属性
 ;
 
 const PanelInfoMap = new Map<PanelId, IPanelInfo>();
@@ -29,6 +31,10 @@ PanelInfoMap.set("RenderView", {
 PanelInfoMap.set("ObjectList", {
     nameKey: "Panel.Title.Object.List.View", introKay: "Panel.Info.Object.List.View",
     class: ObjectList, header: ObjectCommand, hidePadding: true
+})
+PanelInfoMap.set("RangeDetails", {
+    nameKey: "Panel.Title.Range.Details.View", introKay: "Panel.Info.Range.Details.View",
+    class: RangeDetails
 })
 
 function getPanelById(panelId: PanelId): ReactNode {

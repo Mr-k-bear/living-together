@@ -1,32 +1,14 @@
 import { Component, ReactNode } from "react";
 import { DetailsList } from "@Component/DetailsList/DetailsList";
-import { useStatus, IMixinStatusProps } from "@Context/Status";
+import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
 import { useSetting, IMixinSettingProps } from "@Context/Setting";
 import { Localization } from "@Component/Localization/Localization";
 import { ObjectID } from "@Model/Renderer";
 import "./ObjectList.scss";
 
 @useSetting
-@useStatus
+@useStatusWithEvent("objectChange", "focusObjectChange", "rangeAttrChange")
 class ObjectList extends Component<IMixinStatusProps & IMixinSettingProps> {
-
-    private handelChange = () => {
-        this.forceUpdate();
-    }
-
-    public componentDidMount(){
-        if (this.props.status) {
-            this.props.status.model.on("objectChange", this.handelChange);
-            this.props.status.on("focusObjectChange", this.handelChange);
-        }
-    }
-
-    public componentWillUnmount(){
-        if (this.props.status) {
-            this.props.status.model.off("objectChange", this.handelChange);
-            this.props.status.off("focusObjectChange", this.handelChange);
-        }
-    }
 
     private renderList() {
         const objList = this.props.status?.model.objectPool ?? [];

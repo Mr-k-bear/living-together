@@ -2,7 +2,7 @@ import { BackgroundLevel, Theme } from "@Component/Theme/Theme";
 import { DirectionalHint, IconButton } from "@fluentui/react";
 import { LocalizationTooltipHost } from "../Localization/LocalizationTooltipHost";
 import { useSetting, IMixinSettingProps } from "@Context/Setting";
-import { useStatus, IMixinStatusProps } from "@Context/Status";
+import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
 import { AllI18nKeys } from "../Localization/Localization";
 import { Component, ReactNode } from "react";
 import { MouseMod } from "@GLRender/ClassicRenderer";
@@ -12,25 +12,9 @@ interface ICommandBarProps {
     width: number;
 }
 
-@useStatus
 @useSetting
+@useStatusWithEvent("mouseModChange")
 class CommandBar extends Component<ICommandBarProps & IMixinSettingProps & IMixinStatusProps> {
-
-    private handelChange = () => {
-        this.forceUpdate();
-    }
-
-    componentDidMount() {
-        if (this.props.status) {
-            this.props.status.on("mouseModChange", this.handelChange)
-        }
-    }
-
-    componentWillUnmount() {
-        if (this.props.status) {
-            this.props.status.off("mouseModChange", this.handelChange)
-        }
-    }
 
     render(): ReactNode {
 
@@ -62,12 +46,16 @@ class CommandBar extends Component<ICommandBarProps & IMixinSettingProps & IMixi
                 {this.getRenderButton({
                     iconName: "WebAppBuilderFragmentCreate",
                     i18NKey: "Command.Bar.Add.Group.Info",
-                    click: () => this.props.status ? this.props.status.newGroup() : undefined
+                    click: () => {
+                        this.props.status ? this.props.status.newGroup() : undefined;
+                    }
                 })}
                 {this.getRenderButton({
                     iconName: "CubeShape",
                     i18NKey: "Command.Bar.Add.Range.Info",
-                    click: () => this.props.status ? this.props.status.newRange() : undefined
+                    click: () => {
+                        this.props.status ? this.props.status.newRange() : undefined;
+                    }
                 })}
                 {this.getRenderButton({ iconName: "StepSharedAdd", i18NKey: "Command.Bar.Add.Behavior.Info" })}
                 {this.getRenderButton({ iconName: "Tag", i18NKey: "Command.Bar.Add.Tag.Info" })}

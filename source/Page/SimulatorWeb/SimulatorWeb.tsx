@@ -35,7 +35,7 @@ class SimulatorWeb extends Component {
         // TODO: 这里要读取存档
         this.status = new Status();
         this.status.renderer = new ClassicRenderer({ className: "canvas" }).onLoad();
-        this.status.model.bindRenderer(this.status.renderer);
+        this.status.bindRenderer(this.status.renderer);
         this.status.setting = this.setting;
 
         // 测试代码
@@ -75,8 +75,7 @@ class SimulatorWeb extends Component {
                     items: [{
                         panles: ["ObjectList", "Test tab"]
                     }, {
-                        items: [{panles: ["Label e", "ee"]}, {panles: ["F"]}],
-                        layout: LayoutDirection.Y
+                        panles: ["RangeDetails", "Label e"]
                     }],
                     layout: LayoutDirection.Y
                 }

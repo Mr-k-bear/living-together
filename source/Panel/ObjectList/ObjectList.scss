@@ -22,6 +22,7 @@ div.object-list-command-bar {
         width: 30px;
         height: 100%;
         display: flex;
+        flex-shrink: 0;
         justify-content: center;
         align-items: center;
         user-select: none;
