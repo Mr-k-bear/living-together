@@ -5,6 +5,7 @@ import { AllI18nKeys } from "@Component/Localization/Localization";
 import { Range } from "@Model/Range";
 import { ObjectID } from "@Model/Renderer";
 import { ColorInput } from "@Component/ColorInput/ColorInput";
+import { TogglesInput } from "@Component/TogglesInput/TogglesInput";
 import "./RangeDetails.scss";
 
 @useStatusWithEvent("rangeAttrChange", "focusObjectChange")
@@ -12,6 +13,7 @@ class RangeDetails extends Component<IMixinStatusProps> {
     
     public readonly AttrI18nKey: AllI18nKeys[] = [
         "Common.Attr.Key.Display.Name",
+        "Common.Attr.Key.Display",
         "Common.Attr.Key.Color",
         "Common.Attr.Key.Position.X",
         "Common.Attr.Key.Position.Y",
@@ -55,40 +57,48 @@ class RangeDetails extends Component<IMixinStatusProps> {
     }
 
     private renderFrom(range: Range) {
-        // console.log(range);
+        
+        let keyIndex = 0;
+
         return <>
-            {this.renderAttrInput(range.id, 0, range.displayName, (val, status) => {
+            {this.renderAttrInput(range.id, keyIndex ++, range.displayName, (val, status) => {
                 status.changeRangeAttrib(range.id, "displayName", val);
             })}
+            
+            <TogglesInput keyI18n={this.AttrI18nKey[keyIndex ++]} value={range.display} valueChange={(val) => {
+                if (this.props.status) {
+                    this.props.status.changeRangeAttrib(range.id, "display", val);
+                }
+            }}/>
 
-            <ColorInput keyI18n="Common.Attr.Key.Color" value={range.color} normal valueChange={(color) => {
+            <ColorInput keyI18n={this.AttrI18nKey[keyIndex ++]} value={range.color} normal valueChange={(color) => {
                 if (this.props.status) {
                     this.props.status.changeRangeAttrib(range.id, "color", color);
                 }
             }}/>
 
-            {this.renderAttrInput(range.id, 2, range.position[0], (val, status) => {
+            {this.renderAttrInput(range.id, keyIndex ++, range.position[0], (val, status) => {
                 range.position[0] = (val as any) / 1;
                 status.changeRangeAttrib(range.id, "position", range.position);
             }, .1)}
-            {this.renderAttrInput(range.id, 3, range.position[1], (val, status) => {
+            {this.renderAttrInput(range.id, keyIndex ++, range.position[1], (val, status) => {
                 range.position[1] = (val as any) / 1;
                 status.changeRangeAttrib(range.id, "position", range.position);
             }, .1)}
-            {this.renderAttrInput(range.id, 4, range.position[2], (val, status) => {
+            {this.renderAttrInput(range.id, keyIndex ++, range.position[2], (val, status) => {
                 range.position[2] = (val as any) / 1;
                 status.changeRangeAttrib(range.id, "position", range.position);
             }, .1)}
 			
-            {this.renderAttrInput(range.id, 5, range.radius[0], (val, status) => {
+            {this.renderAttrInput(range.id, keyIndex ++, range.radius[0], (val, status) => {
                 range.radius[0] = (val as any) / 1;
                 status.changeRangeAttrib(range.id, "radius", range.radius);
             }, .1, undefined, 0)}
-            {this.renderAttrInput(range.id, 6, range.radius[1], (val, status) => {
+            {this.renderAttrInput(range.id, keyIndex ++, range.radius[1], (val, status) => {
                 range.radius[1] = (val as any) / 1;
                 status.changeRangeAttrib(range.id, "radius", range.radius);
             }, .1, undefined, 0)}
-            {this.renderAttrInput(range.id, 7, range.radius[2], (val, status) => {
+            {this.renderAttrInput(range.id, keyIndex ++, range.radius[2], (val, status) => {
                 range.radius[2] = (val as any) / 1;
                 status.changeRangeAttrib(range.id, "radius", range.radius);
             }, .1, undefined, 0)}

@@ -1,0 +1,63 @@
+@import "../Theme/Theme.scss";
+
+$line-min-height: 26px;
+
+div.toggles-input {
+	width: 100%;
+	display: flex;
+	min-height: $line-min-height;
+	padding: 5px 0;
+
+	div.toggles-intro {
+		width: 50%;
+		height: 100%;
+		max-width: 220px;
+		display: flex;
+		align-items: center;
+        padding-right: 5px;
+        box-sizing: border-box;
+	}
+
+    div.toggles-content {
+        width: 50%;
+        height: 100%;
+        max-width: 180px;
+        min-height: $line-min-height;
+
+        div.checkbox {
+            width: $line-min-height;
+            height: $line-min-height;
+            overflow: hidden;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            user-select: none;
+        }
+    }
+}
+
+div.dark.toggles-input {
+
+    div.toggles-content div.checkbox {
+        background-color: $lt-bg-color-lvl3-dark;
+		color: $lt-font-color-normal-dark;
+    }
+
+	div.toggles-content div.checkbox:hover {
+		background-color: $lt-bg-color-lvl2-dark;
+	}
+}
+
+div.light.toggles-input {
+
+    div.toggles-content div.checkbox {
+        background-color: $lt-bg-color-lvl3-light;
+		color: $lt-font-color-normal-light;
+    }
+
+	div.toggles-content div.checkbox:hover {
+		background-color: $lt-bg-color-lvl2-light;
+	}
+}

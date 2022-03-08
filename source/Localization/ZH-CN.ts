@@ -42,6 +42,7 @@ const ZH_CN = {
     "Common.Attr.Key.Radius.Y": "Y 半径",
     "Common.Attr.Key.Radius.Z": "Z 半径",
     "Common.Attr.Key.Color": "颜色",
+    "Common.Attr.Key.Display": "显示",
     "Common.Attr.Key.Error.Multiple": "多重数值",
     "Panel.Info.Range.Details.Attr.Error.Not.Range": "对象不是一个范围",
     "Panel.Info.Range.Details.Attr.Error.Unspecified": "未指定范围对象",

@@ -42,6 +42,7 @@ const EN_US = {
     "Common.Attr.Key.Radius.Y": "Radius Y",
     "Common.Attr.Key.Radius.Z": "Radius Z",
     "Common.Attr.Key.Color": "Color",
+    "Common.Attr.Key.Display": "Display",
     "Common.Attr.Key.Error.Multiple": "Multiple values",
     "Panel.Info.Range.Details.Attr.Error.Not.Range": "Object is not a Range",
     "Panel.Info.Range.Details.Attr.Error.Unspecified": "Unspecified range object",
