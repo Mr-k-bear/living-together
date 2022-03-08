@@ -142,10 +142,25 @@ class AttrInput extends Component<IAttrInputProps> {
         return true;
     }
 
+    public constructor(props: IAttrInputProps) {
+        super(props);
+        this.updateValueFromProps(props.value);
+    }
+
     private updateValueFromProps(val: IAttrInputProps["value"]) {
         const value = val ?? (this.props.isNumber ? "0" : "");
         this.value = value.toString();
         this.error = this.check(value.toString());
+    }
+
+    private renderErrorInput() {
+        return <div className="error-view">
+            {
+                this.props.disableI18n ? 
+                <Localization i18nKey={this.props.disableI18n}/> :
+                <span>{this.props.value}</span>
+            }
+        </div>
     }
 
 	public render(): ReactNode {
@@ -160,9 +175,7 @@ class AttrInput extends Component<IAttrInputProps> {
             <div className="root-content">
                 {
                     this.props.disable ? 
-                        this.props.disableI18n ? 
-                            <Localization i18nKey={this.props.disableI18n}/> :
-                            <div>{this.props.value}</div> :
+                        this.renderErrorInput() :
                         this.renderInput()
                 }
             </div>

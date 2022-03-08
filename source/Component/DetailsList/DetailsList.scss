@@ -39,7 +39,7 @@ div.details-list {
 div.light.details-list {
     
     div.details-list-item:nth-child(2n-1) {
-        background-color: rgba($lt-bg-color-lvl5-light, .4);
+        background-color: rgba($lt-bg-color-lvl5-light, .3);
     }
 
     div.details-list-item:hover {
@@ -59,7 +59,7 @@ div.light.details-list {
 div.dark.details-list {
 
     div.details-list-item:nth-child(2n-1) {
-        background-color: rgba($lt-bg-color-lvl5-dark, .8);
+        background-color: rgba($lt-bg-color-lvl5-dark, .4);
     }
 
     div.details-list-item:hover {
