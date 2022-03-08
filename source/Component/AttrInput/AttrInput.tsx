@@ -3,8 +3,10 @@ import { FontLevel, Theme } from "@Component/Theme/Theme";
 import "./AttrInput.scss";
 import { Icon } from "@fluentui/react";
 import { Localization, AllI18nKeys } from "@Component/Localization/Localization";
+import { ObjectID } from "@Model/Renderer";
 
 interface IAttrInputProps {
+    id?: ObjectID;
     keyI18n: AllI18nKeys;
     infoI18n?: AllI18nKeys;
     value?: number | string;
@@ -35,7 +37,7 @@ class AttrInput extends Component<IAttrInputProps> {
             const praseNumber = (value as any) / 1;
 
             // 数字校验
-            if (isNaN(praseNumber)) {
+            if (isNaN(praseNumber) || /\.0*$/.test(value)) {
                 return <Localization i18nKey="Input.Error.Not.Number" />
             }
 
@@ -127,7 +129,16 @@ class AttrInput extends Component<IAttrInputProps> {
     }
 
     public shouldComponentUpdate(nextProps: IAttrInputProps) {
-        this.updateValueFromProps(nextProps.value);
+
+        // ID 都为空时更新
+        if (!nextProps.id && !this.props.id) {
+            this.updateValueFromProps(nextProps.value);
+        }
+
+        // ID 变换时更新 State 到最新的 Props
+        if (nextProps.id !== this.props.id) {
+            this.updateValueFromProps(nextProps.value);
+        }
         return true;
     }
 

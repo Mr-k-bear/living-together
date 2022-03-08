@@ -21,6 +21,7 @@ class RangeDetails extends Component<IMixinStatusProps> {
     private renderFrom(range: Range) {
         return <>
 			<AttrInput
+                id={range.id}
                 keyI18n="Common.Attr.Key.Display.Name"
                 value={range.displayName}
                 valueChange={(e) => {
@@ -28,6 +29,7 @@ class RangeDetails extends Component<IMixinStatusProps> {
                 }}
             />
 			<AttrInput
+                id={range.id}
                 isNumber={true}
                 step={.1}
                 keyI18n="Common.Attr.Key.Position.X"
@@ -40,6 +42,7 @@ class RangeDetails extends Component<IMixinStatusProps> {
                 }}
             />
             <AttrInput
+                id={range.id}
                 isNumber={true}
                 step={.1}
                 keyI18n="Common.Attr.Key.Position.Y"
@@ -52,6 +55,7 @@ class RangeDetails extends Component<IMixinStatusProps> {
                 }}
             />
             <AttrInput
+                id={range.id}
                 isNumber={true}
                 step={.1}
                 keyI18n="Common.Attr.Key.Position.Z"
