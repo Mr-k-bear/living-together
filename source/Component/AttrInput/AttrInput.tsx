@@ -153,6 +153,16 @@ class AttrInput extends Component<IAttrInputProps> {
         this.error = this.check(value.toString());
     }
 
+    private renderErrorInput() {
+        return <div className="error-view">
+            {
+                this.props.disableI18n ? 
+                <Localization i18nKey={this.props.disableI18n}/> :
+                <span>{this.props.value}</span>
+            }
+        </div>
+    }
+
 	public render(): ReactNode {
 
 		return <Theme
@@ -165,9 +175,7 @@ class AttrInput extends Component<IAttrInputProps> {
             <div className="root-content">
                 {
                     this.props.disable ? 
-                        this.props.disableI18n ? 
-                            <Localization i18nKey={this.props.disableI18n}/> :
-                            <div>{this.props.value}</div> :
+                        this.renderErrorInput() :
                         this.renderInput()
                 }
             </div>
