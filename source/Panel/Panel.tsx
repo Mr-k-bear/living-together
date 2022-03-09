@@ -1,6 +1,7 @@
 import { ReactNode, Component, FunctionComponent } from "react";
 import { Theme } from "@Component/Theme/Theme";
 import { Localization } from "@Component/Localization/Localization";
+import { ErrorMessage } from "@Component/ErrorMessage/ErrorMessage";
 import { RenderView } from "./RenderView/RenderView";
 import { ObjectList } from "./ObjectList/ObjectList";
 import { ObjectCommand } from "./ObjectList/ObjectCommand";
@@ -45,9 +46,7 @@ function getPanelById(panelId: PanelId): ReactNode {
 				const C = info.class;
 				return <C></C>
 			} else return <Theme>
-				<Localization i18nKey={"Panel.Info.Notfound"} options={{
-					id: panelId
-				}}/>
+				<ErrorMessage i18nKey={"Panel.Info.Notfound"} options={{ id: panelId }}/>
 			</Theme>
 	}
 }

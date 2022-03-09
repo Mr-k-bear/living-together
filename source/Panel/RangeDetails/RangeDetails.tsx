@@ -1,7 +1,8 @@
 import { Component, ReactNode } from "react";
 import { AttrInput } from "@Component/AttrInput/AttrInput";
 import { useStatusWithEvent, IMixinStatusProps, Status } from "@Context/Status";
-import { AllI18nKeys } from "@Component/Localization/Localization";
+import { AllI18nKeys, Localization } from "@Component/Localization/Localization";
+import { ErrorMessage } from "@Component/ErrorMessage/ErrorMessage";
 import { Range } from "@Model/Range";
 import { ObjectID } from "@Model/Renderer";
 import { ColorInput } from "@Component/ColorInput/ColorInput";
@@ -23,14 +24,6 @@ class RangeDetails extends Component<IMixinStatusProps> {
         "Common.Attr.Key.Radius.Y",
         "Common.Attr.Key.Radius.Z"
     ]
-
-    private renderErrorFrom(error: AllI18nKeys) {
-        return <>
-            {this.AttrI18nKey.map((key, index) => {
-                return <AttrInput key={index} keyI18n={key} disable disableI18n={error}/>
-            })}
-        </>
-    }
 
     private renderAttrInput(
         id: ObjectID, key: number, val: string | number | undefined,
@@ -115,10 +108,10 @@ class RangeDetails extends Component<IMixinStatusProps> {
 	public render(): ReactNode {
         if (this.props.status) {
             if (this.props.status.focusObject.size <= 0) {
-                return this.renderErrorFrom("Panel.Info.Range.Details.Attr.Error.Unspecified");
+                return <ErrorMessage i18nKey="Panel.Info.Range.Details.Attr.Error.Unspecified"/>;
             }
             if (this.props.status.focusObject.size > 1) {
-                return this.renderErrorFrom("Common.Attr.Key.Error.Multiple");
+                return <ErrorMessage i18nKey="Common.Attr.Key.Error.Multiple"/>;
             }
             let id: ObjectID = 0;
             this.props.status.focusObject.forEach((cid => id = cid));
@@ -128,10 +121,10 @@ class RangeDetails extends Component<IMixinStatusProps> {
             if (range instanceof Range) {
                 return this.renderFrom(range);
             } else {
-                return this.renderErrorFrom("Panel.Info.Range.Details.Attr.Error.Not.Range");
+                return <ErrorMessage i18nKey="Panel.Info.Range.Details.Attr.Error.Not.Range"/>;
             }
         }
-		return this.renderErrorFrom("Panel.Info.Range.Details.Attr.Error.Unspecified");
+		return <ErrorMessage i18nKey="Panel.Info.Range.Details.Attr.Error.Unspecified"/>;
 	}
 }
 
