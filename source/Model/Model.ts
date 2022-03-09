@@ -28,8 +28,8 @@ class Model extends Emitter<ModelEvent> {
      * 下一个需要分配的 ID
      */
     private idIndex: number = 1;
-    public get nextId(): number {
-        return this.idIndex ++;
+    public nextId(label: string = "U"): string {
+        return `${label}-${this.idIndex ++}`;
     }
 
     /**
@@ -55,7 +55,7 @@ class Model extends Emitter<ModelEvent> {
      */
     public addLabel(name: string): Label {
         console.log(`Model: Creat label with id ${this.idIndex}`);
-        let label = new Label(this, this.nextId, name);
+        let label = new Label(this, this.nextId("L"), name);
         this.labelPool.push(label);
         this.emit("labelAdd", label);
         this.emit("labelChange", this.labelPool);
@@ -95,7 +95,7 @@ class Model extends Emitter<ModelEvent> {
      */
     public addGroup(): Group {
         console.log(`Model: Creat group with id ${this.idIndex}`);
-        let group = new Group(this, this.nextId);
+        let group = new Group(this, this.nextId("G"));
         this.objectPool.push(group);
         this.emit("groupAdd", group);
         this.emit("objectAdd", group);
@@ -108,7 +108,7 @@ class Model extends Emitter<ModelEvent> {
      */
     public addRange(): Range {
         console.log(`Model: Creat range with id ${this.idIndex}`);
-        let range = new Range(this, this.nextId);
+        let range = new Range(this, this.nextId("R"));
         this.objectPool.push(range);
         this.emit("rangeAdd", range);
         this.emit("objectAdd", range);

@@ -14,12 +14,12 @@ class Label {
     /**
      * 用户定义的名称
      */
-    public name?: string;
+    public name: string = "";
 
     /**
      * CSS 颜色
      */
-    public color?: string;
+    public color: number[] = [0, 0, 0];
 
     /**
      * 所属模型
@@ -31,10 +31,10 @@ class Label {
      * @param id 标签 ID
      * @param name 用户定义的名称
      */
-    public constructor(model:Model, id: ObjectID, name?: string) {
+    public constructor(model: Model, id: ObjectID, name?: string) {
         this.model = model;
         this.id = id;
-        this.name = name;
+        this.name = name ?? this.name;
     }
 
     /**

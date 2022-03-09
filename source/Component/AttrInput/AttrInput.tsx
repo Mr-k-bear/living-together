@@ -24,6 +24,13 @@ class AttrInput extends Component<IAttrInputProps> {
 
     private value: string = "";
     private error: ReactNode;
+    private numberTestReg = [/\.0*$/, /[1-9]+0+$/];
+
+    private numberTester(value: string) {
+        return isNaN((value as any) / 1) ||
+            this.numberTestReg[0].test(value) ||
+            this.numberTestReg[1].test(value);
+    } 
 
     private check(value: string): ReactNode {
 
@@ -37,7 +44,7 @@ class AttrInput extends Component<IAttrInputProps> {
             const praseNumber = (value as any) / 1;
 
             // 数字校验
-            if (isNaN(praseNumber) || /\.0*$/.test(value)) {
+            if (this.numberTester(value)) {
                 return <Localization i18nKey="Input.Error.Not.Number" />
             }
 

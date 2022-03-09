@@ -1,10 +1,12 @@
 import { Component, ReactNode } from "react";
 import { AttrInput } from "@Component/AttrInput/AttrInput";
 import { useStatusWithEvent, IMixinStatusProps, Status } from "@Context/Status";
-import { AllI18nKeys } from "@Component/Localization/Localization";
+import { AllI18nKeys, Localization } from "@Component/Localization/Localization";
+import { ErrorMessage } from "@Component/ErrorMessage/ErrorMessage";
 import { Range } from "@Model/Range";
 import { ObjectID } from "@Model/Renderer";
 import { ColorInput } from "@Component/ColorInput/ColorInput";
+import { TogglesInput } from "@Component/TogglesInput/TogglesInput";
 import "./RangeDetails.scss";
 
 @useStatusWithEvent("rangeAttrChange", "focusObjectChange")
@@ -12,6 +14,8 @@ class RangeDetails extends Component<IMixinStatusProps> {
     
     public readonly AttrI18nKey: AllI18nKeys[] = [
         "Common.Attr.Key.Display.Name",
+        "Common.Attr.Key.Display",
+        "Common.Attr.Key.Update",
         "Common.Attr.Key.Color",
         "Common.Attr.Key.Position.X",
         "Common.Attr.Key.Position.Y",
@@ -20,14 +24,6 @@ class RangeDetails extends Component<IMixinStatusProps> {
         "Common.Attr.Key.Radius.Y",
         "Common.Attr.Key.Radius.Z"
     ]
-
-    private renderErrorFrom(error: AllI18nKeys) {
-        return <>
-            {this.AttrI18nKey.map((key, index) => {
-                return <AttrInput key={index} keyI18n={key} disable disableI18n={error}/>
-            })}
-        </>
-    }
 
     private renderAttrInput(
         id: ObjectID, key: number, val: string | number | undefined,
@@ -55,40 +51,54 @@ class RangeDetails extends Component<IMixinStatusProps> {
     }
 
     private renderFrom(range: Range) {
-        // console.log(range);
+        
+        let keyIndex = 0;
+
         return <>
-            {this.renderAttrInput(range.id, 0, range.displayName, (val, status) => {
+            {this.renderAttrInput(range.id, keyIndex ++, range.displayName, (val, status) => {
                 status.changeRangeAttrib(range.id, "displayName", val);
             })}
+            
+            <TogglesInput keyI18n={this.AttrI18nKey[keyIndex ++]} value={range.display} valueChange={(val) => {
+                if (this.props.status) {
+                    this.props.status.changeRangeAttrib(range.id, "display", val);
+                }
+            }}/>
 
-            <ColorInput keyI18n="Common.Attr.Key.Color" value={range.color} normal valueChange={(color) => {
+            <TogglesInput keyI18n={this.AttrI18nKey[keyIndex ++]} value={range.update} valueChange={(val) => {
+                if (this.props.status) {
+                    this.props.status.changeRangeAttrib(range.id, "update", val);
+                }
+            }}/>
+
+            <ColorInput keyI18n={this.AttrI18nKey[keyIndex ++]} value={range.color} normal valueChange={(color) => {
                 if (this.props.status) {
                     this.props.status.changeRangeAttrib(range.id, "color", color);
                 }
             }}/>
 
-            {this.renderAttrInput(range.id, 2, range.position[0], (val, status) => {
+            {this.renderAttrInput(range.id, keyIndex ++, range.position[0], (val, status) => {
                 range.position[0] = (val as any) / 1;
                 status.changeRangeAttrib(range.id, "position", range.position);
             }, .1)}
-            {this.renderAttrInput(range.id, 3, range.position[1], (val, status) => {
+            {this.renderAttrInput(range.id, keyIndex ++, range.position[1], (val, status) => {
                 range.position[1] = (val as any) / 1;
                 status.changeRangeAttrib(range.id, "position", range.position);
             }, .1)}
-            {this.renderAttrInput(range.id, 4, range.position[2], (val, status) => {
+            {this.renderAttrInput(range.id, keyIndex ++, range.position[2], (val, status) => {
                 range.position[2] = (val as any) / 1;
                 status.changeRangeAttrib(range.id, "position", range.position);
             }, .1)}
 			
-            {this.renderAttrInput(range.id, 5, range.radius[0], (val, status) => {
+            {this.renderAttrInput(range.id, keyIndex ++, range.radius[0], (val, status) => {
                 range.radius[0] = (val as any) / 1;
                 status.changeRangeAttrib(range.id, "radius", range.radius);
             }, .1, undefined, 0)}
-            {this.renderAttrInput(range.id, 6, range.radius[1], (val, status) => {
+            {this.renderAttrInput(range.id, keyIndex ++, range.radius[1], (val, status) => {
                 range.radius[1] = (val as any) / 1;
                 status.changeRangeAttrib(range.id, "radius", range.radius);
             }, .1, undefined, 0)}
-            {this.renderAttrInput(range.id, 7, range.radius[2], (val, status) => {
+            {this.renderAttrInput(range.id, keyIndex ++, range.radius[2], (val, status) => {
                 range.radius[2] = (val as any) / 1;
                 status.changeRangeAttrib(range.id, "radius", range.radius);
             }, .1, undefined, 0)}
@@ -98,12 +108,12 @@ class RangeDetails extends Component<IMixinStatusProps> {
 	public render(): ReactNode {
         if (this.props.status) {
             if (this.props.status.focusObject.size <= 0) {
-                return this.renderErrorFrom("Panel.Info.Range.Details.Attr.Error.Unspecified");
+                return <ErrorMessage i18nKey="Panel.Info.Range.Details.Attr.Error.Unspecified"/>;
             }
             if (this.props.status.focusObject.size > 1) {
-                return this.renderErrorFrom("Common.Attr.Key.Error.Multiple");
+                return <ErrorMessage i18nKey="Common.Attr.Key.Error.Multiple"/>;
             }
-            let id: ObjectID = 0;
+            let id: ObjectID = "";
             this.props.status.focusObject.forEach((cid => id = cid));
             
             let range = this.props.status!.model.getObjectById(id);
@@ -111,10 +121,10 @@ class RangeDetails extends Component<IMixinStatusProps> {
             if (range instanceof Range) {
                 return this.renderFrom(range);
             } else {
-                return this.renderErrorFrom("Panel.Info.Range.Details.Attr.Error.Not.Range");
+                return <ErrorMessage i18nKey="Panel.Info.Range.Details.Attr.Error.Not.Range"/>;
             }
         }
-		return this.renderErrorFrom("Panel.Info.Range.Details.Attr.Error.Unspecified");
+		return <ErrorMessage i18nKey="Panel.Info.Range.Details.Attr.Error.Unspecified"/>;
 	}
 }
 

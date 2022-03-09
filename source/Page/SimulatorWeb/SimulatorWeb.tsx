@@ -51,6 +51,8 @@ class SimulatorWeb extends Component {
                 individual.position[2] = (Math.random() - .5) * 2;
             })
             this.status.model.update(0);
+            this.status.newLabel().name = "New Label";
+            this.status.newLabel().name = "Test Label 01";
         }
 
         (window as any).s = this;
@@ -61,9 +63,9 @@ class SimulatorWeb extends Component {
             items: [
                 {
                     items: [
-                        {panles: ["RenderView", "Label Aa Bb", "Label aaa"]},
+                        {panels: ["RenderView", "Label Aa Bb", "Label aaa"]},
                         {
-                            items: [{panles: ["Label b", "Label bbb"]}, {panles: ["C"]}],
+                            items: [{panels: ["Label b", "Label bbb"]}, {panels: ["LabelList"]}],
                             scale: 80,
                             layout: LayoutDirection.X
                         }
@@ -73,9 +75,9 @@ class SimulatorWeb extends Component {
                 },
                 {
                     items: [{
-                        panles: ["ObjectList", "Test tab"]
+                        panels: ["ObjectList", "Test tab"]
                     }, {
-                        panles: ["RangeDetails", "Label e"]
+                        panels: ["RangeDetails", "Label e"]
                     }],
                     layout: LayoutDirection.Y
                 }
