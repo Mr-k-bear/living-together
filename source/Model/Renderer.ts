@@ -35,7 +35,7 @@ interface ICommonParam {
 /**
  * 对象标识符
  */
-type ObjectID = Symbol | string | number;
+type ObjectID = string;
 
 /**
  * 接收的数据类型

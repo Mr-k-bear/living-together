@@ -113,7 +113,7 @@ class RangeDetails extends Component<IMixinStatusProps> {
             if (this.props.status.focusObject.size > 1) {
                 return <ErrorMessage i18nKey="Common.Attr.Key.Error.Multiple"/>;
             }
-            let id: ObjectID = 0;
+            let id: ObjectID = "";
             this.props.status.focusObject.forEach((cid => id = cid));
             
             let range = this.props.status!.model.getObjectById(id);
