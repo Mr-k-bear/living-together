@@ -1,3 +1,4 @@
+@import "../../Component/Theme/Theme.scss";
 
 div.label-list-command-bar {
     width: 100%;
@@ -14,5 +15,19 @@ div.label-list-command-bar {
         align-items: center;
         user-select: none;
         cursor: pointer;
+    }
+}
+
+div.dark.label-list-command-bar {
+
+    div.command-item:hover {
+        background-color: $lt-bg-color-lvl3-dark;
+    }
+}
+
+div.light.label-list-command-bar {
+
+    div.command-item:hover {
+        background-color: $lt-bg-color-lvl3-light;
     }
 }

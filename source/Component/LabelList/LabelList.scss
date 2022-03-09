@@ -1,0 +1,64 @@
+@import "../Theme/Theme.scss";
+
+div.label {
+    width: auto;
+    height: auto;
+    display: inline-flex;
+    margin: 5px 5px;
+    justify-content: center;
+    vertical-align: middle;
+    align-items: stretch;
+    border-radius: 3px;
+    border: .5px solid transparent;
+    overflow: hidden;
+    user-select: none;
+    cursor: pointer;
+
+    div.label-color {
+        width: 3px;
+        margin-right: 2px;
+        border-radius: 3px;
+        flex-shrink: 0;
+    }
+
+    div.label-name {
+        padding: 2px 3px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    div.delete-button {
+        padding: 2px 3px;
+        border-radius: 3px;
+        display: flex;
+        align-items: center;
+        user-select: none;
+        cursor: pointer;
+    }
+}
+
+div.dark.label {
+    background-color: $lt-bg-color-lvl3-dark;
+
+    div.label-color {
+        color: $lt-bg-color-lvl3-dark;
+    }
+
+    div.delete-button:hover {
+        color: $lt-font-color-lvl2-dark;
+        background-color: $lt-bg-color-lvl2-dark;
+    }
+}
+
+div.light.label {
+    background-color: $lt-bg-color-lvl3-light;
+
+    div.label-color {
+        color: $lt-bg-color-lvl3-light;
+    }
+
+    div.delete-button:hover {
+        color: $lt-font-color-lvl2-light;
+        background-color: $lt-bg-color-lvl2-light;
+    }
+}

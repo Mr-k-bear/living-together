@@ -25,6 +25,7 @@ const EN_US = {
     "Input.Error.Length": "The length of the input content must be less than {num}",
     "Object.List.New.Group": "Group object {id}",
     "Object.List.New.Range": "Range object {id}",
+    "Object.List.New.Label": "Label {id}",
     "Object.List.No.Data": "There are no objects in the model, click the button to create it",
     "Panel.Title.Notfound": "{id}",
     "Panel.Info.Notfound": "This panel with id {id} can not found!",

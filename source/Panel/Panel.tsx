@@ -6,7 +6,6 @@ import { ObjectList } from "./ObjectList/ObjectList";
 import { ObjectCommand } from "./ObjectList/ObjectCommand";
 import { RangeDetails } from "./RangeDetails/RangeDetails";
 import { LabelList } from "./LabelList/LabelList";
-import { LabelListCommand } from "./LabelList/LabelListCommand";
 
 interface IPanelInfo {
 	nameKey: string;
@@ -41,7 +40,7 @@ PanelInfoMap.set("RangeDetails", {
 })
 PanelInfoMap.set("LabelList", {
     nameKey: "Panel.Title.Label.List.View", introKay: "Panel.Info.Label.List.View",
-    class: LabelList, header: LabelListCommand, hidePadding: true
+    class: LabelList
 })
 
 function getPanelById(panelId: PanelId): ReactNode {

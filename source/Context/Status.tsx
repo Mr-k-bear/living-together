@@ -8,12 +8,18 @@ import { ClassicRenderer, MouseMod } from "@GLRender/ClassicRenderer";
 import { Setting } from "./Setting";
 import { I18N } from "@Component/Localization/Localization";
 
-function randomColor() {
-    return [
+function randomColor(unNormal: boolean = false) {
+    const color = [
         Math.random() * .8 + .2,
         Math.random() * .8 + .2,
         Math.random() * .8 + .2, 1
     ]
+    if (unNormal) {
+        color[0] = Math.round(color[0] * 255),
+        color[1] = Math.round(color[1] * 255),
+        color[2] = Math.round(color[2] * 255)
+    }
+    return color;
 }
 
 interface IStatusEvent {
@@ -34,6 +40,7 @@ class Status extends Emitter<IStatusEvent> {
      * 对象命名
      */
     public objectNameIndex = 1;
+    public labelNameIndex = 1;
 
     /**
      * 渲染器
@@ -121,6 +128,17 @@ class Status extends Emitter<IStatusEvent> {
         });
         this.objectNameIndex ++;
         return range;
+    }
+
+    public newLabel() {
+        const label = this.model.addLabel(
+            I18N(this.setting.language, "Object.List.New.Label", {
+                id: this.labelNameIndex.toString()
+            })
+        );
+        label.color = randomColor(true);
+        this.labelNameIndex ++;
+        return label;
     }
 
     public setMouseMod(mod: MouseMod) {

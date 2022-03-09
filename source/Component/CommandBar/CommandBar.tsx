@@ -58,7 +58,13 @@ class CommandBar extends Component<ICommandBarProps & IMixinSettingProps & IMixi
                     }
                 })}
                 {this.getRenderButton({ iconName: "StepSharedAdd", i18NKey: "Command.Bar.Add.Behavior.Info" })}
-                {this.getRenderButton({ iconName: "Tag", i18NKey: "Command.Bar.Add.Tag.Info" })}
+                {this.getRenderButton({
+                    iconName: "Tag",
+                    i18NKey: "Command.Bar.Add.Tag.Info",
+                    click: () => {
+                        this.props.status ? this.props.status.newLabel() : undefined;
+                    }
+                })}
                 {this.getRenderButton({ iconName: "Camera", i18NKey: "Command.Bar.Camera.Info" })}
             </div>
             <div>

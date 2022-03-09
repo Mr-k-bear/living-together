@@ -51,6 +51,8 @@ class SimulatorWeb extends Component {
                 individual.position[2] = (Math.random() - .5) * 2;
             })
             this.status.model.update(0);
+            this.status.newLabel().name = "New Label";
+            this.status.newLabel().name = "Test Label 01";
         }
 
         (window as any).s = this;
