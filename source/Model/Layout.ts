@@ -7,7 +7,7 @@ enum LayoutDirection {
 
 class ILayout {
 	items?: [ILayout, ILayout];
-	panles?: string[];
+	panels?: string[];
 	focusPanel?: string;
 	layout?: LayoutDirection;
 	scale?: number;
@@ -51,8 +51,8 @@ class Layout extends Emitter<ILayoutEvent> {
 		this.id = 0;
 		this.map((layout) => {
 			layout.id = this.id;
-			if (!layout.focusPanel && layout.panles && layout.panles.length > 0) {
-				layout.focusPanel = layout.panles[0]
+			if (!layout.focusPanel && layout.panels && layout.panels.length > 0) {
+				layout.focusPanel = layout.panels[0]
 			}
 			this.id ++;
 		});
@@ -80,10 +80,10 @@ class Layout extends Emitter<ILayoutEvent> {
 		}
 
 		this.map((layout) => {
-			if (layout.panles && layout.panles.length > 0) {
+			if (layout.panels && layout.panels.length > 0) {
 				let index = -1;
-				for (let i = 0; i < layout.panles.length; i++) {
-					if (layout.panles[i] === panelId) {
+				for (let i = 0; i < layout.panels.length; i++) {
+					if (layout.panels[i] === panelId) {
 						index = i;
 						break;
 					}

@@ -34,11 +34,11 @@ class Container extends Component<IContainerProps> {
 	/**
 	 * 渲染此 Tab 下的 ELE
 	 */
-	private renderPanel(panles: string[], showBar: boolean, focus?: string) {
+	private renderPanel(panels: string[], showBar: boolean, focus?: string) {
 
 		const classList: string[] = [];
 		const theme: Themes = this.props.theme ?? Themes.dark;
-		const showPanelId = focus ?? panles[0];
+		const showPanelId = focus ?? panels[0];
 		const showPanelInfo = getPanelInfoById(showPanelId as any);
 
 		classList.push(theme === Themes.light ? "light" : "dark");
@@ -46,14 +46,14 @@ class Container extends Component<IContainerProps> {
 		classList.push(`font-${FontLevel.Level3}`);
 		classList.push("app-tab-header");
 
-		const hasActivePanel = panles.some((id) => id === this.props.focusId);
+		const hasActivePanel = panels.some((id) => id === this.props.focusId);
 
 		return <>
 			{showBar ? 
 				<div className={classList.join(" ")} onClick={() => {
 					this.props.onFocusTab ? this.props.onFocusTab("") : undefined
 				}}>{
-					panles.map((panelId: string) => {
+					panels.map((panelId: string) => {
 
 						const classList: string[] = ["app-tab-header-item"];
 						if (panelId === this.props.focusId) classList.push("active");
@@ -189,7 +189,7 @@ class Container extends Component<IContainerProps> {
 
 		const items: [IContainerProps, IContainerProps] | undefined = props.items;
 		const showBar: boolean = props.showBar ?? true;
-		const panles: string[] = props.panles ?? [];
+		const panels: string[] = props.panels ?? [];
 		const layout: LayoutDirection = props.layout ?? LayoutDirection.Y;
 		const scale: number = props.scale ?? 50;
 		const isRoot: boolean = !!props.isRoot;
@@ -201,7 +201,7 @@ class Container extends Component<IContainerProps> {
 		classList.push(`background-${BackgroundLevel.Level4}`);
 		classList.push(`font-${FontLevel.normal}`);
 		classList.push("app-container");
-		if (panles.length > 0 && !items) classList.push("end-containe");
+		if (panels.length > 0 && !items) classList.push("end-containe");
 
 		return <div
 			className={classList.join(" ")}
@@ -216,7 +216,7 @@ class Container extends Component<IContainerProps> {
 			onMouseUp={isRoot ? () => this.focusEdgeId = undefined : undefined}
 		>
 			{/* 渲染 Panel */}
-			{panles.length > 0 && !items ? this.renderPanel(panles, showBar, focusPanel) : null}
+			{panels.length > 0 && !items ? this.renderPanel(panels, showBar, focusPanel) : null}
 
 			{/* 渲染第一部分 */}
 			{items && items[0] ? this.renderContainer(items[0], scale, layout) : null}

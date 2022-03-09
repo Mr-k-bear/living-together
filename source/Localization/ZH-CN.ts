@@ -34,6 +34,8 @@ const ZH_CN = {
     "Panel.Info.Object.List.View": "编辑查看全部对象属性",
     "Panel.Title.Range.Details.View": "范围属性",
     "Panel.Info.Range.Details.View": "编辑查看范围属性",
+    "Panel.Title.Label.List.View": "标签列表",
+    "Panel.Info.Label.List.View": "编辑查看标签属性",
     "Common.Attr.Key.Display.Name": "显示名称",
     "Common.Attr.Key.Position.X": "X 坐标",
     "Common.Attr.Key.Position.Y": "Y 坐标",

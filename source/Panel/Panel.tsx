@@ -1,11 +1,12 @@
 import { ReactNode, Component, FunctionComponent } from "react";
 import { Theme } from "@Component/Theme/Theme";
-import { Localization } from "@Component/Localization/Localization";
 import { ErrorMessage } from "@Component/ErrorMessage/ErrorMessage";
 import { RenderView } from "./RenderView/RenderView";
 import { ObjectList } from "./ObjectList/ObjectList";
 import { ObjectCommand } from "./ObjectList/ObjectCommand";
 import { RangeDetails } from "./RangeDetails/RangeDetails";
+import { LabelList } from "./LabelList/LabelList";
+import { LabelListCommand } from "./LabelList/LabelListCommand";
 
 interface IPanelInfo {
 	nameKey: string;
@@ -22,6 +23,7 @@ type PanelId = ""
 | "RenderView" // 主渲染器
 | "ObjectList" // 对象列表
 | "RangeDetails" // 范围属性
+| "LabelList" // 标签列表
 ;
 
 const PanelInfoMap = new Map<PanelId, IPanelInfo>();
@@ -36,6 +38,10 @@ PanelInfoMap.set("ObjectList", {
 PanelInfoMap.set("RangeDetails", {
     nameKey: "Panel.Title.Range.Details.View", introKay: "Panel.Info.Range.Details.View",
     class: RangeDetails
+})
+PanelInfoMap.set("LabelList", {
+    nameKey: "Panel.Title.Label.List.View", introKay: "Panel.Info.Label.List.View",
+    class: LabelList, header: LabelListCommand, hidePadding: true
 })
 
 function getPanelById(panelId: PanelId): ReactNode {

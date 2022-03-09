@@ -61,9 +61,9 @@ class SimulatorWeb extends Component {
             items: [
                 {
                     items: [
-                        {panles: ["RenderView", "Label Aa Bb", "Label aaa"]},
+                        {panels: ["RenderView", "Label Aa Bb", "Label aaa"]},
                         {
-                            items: [{panles: ["Label b", "Label bbb"]}, {panles: ["C"]}],
+                            items: [{panels: ["Label b", "Label bbb"]}, {panels: ["LabelList"]}],
                             scale: 80,
                             layout: LayoutDirection.X
                         }
@@ -73,9 +73,9 @@ class SimulatorWeb extends Component {
                 },
                 {
                     items: [{
-                        panles: ["ObjectList", "Test tab"]
+                        panels: ["ObjectList", "Test tab"]
                     }, {
-                        panles: ["RangeDetails", "Label e"]
+                        panels: ["RangeDetails", "Label e"]
                     }],
                     layout: LayoutDirection.Y
                 }
