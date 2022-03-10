@@ -6,6 +6,7 @@ import { ObjectList } from "./ObjectList/ObjectList";
 import { ObjectCommand } from "./ObjectList/ObjectCommand";
 import { RangeDetails } from "./RangeDetails/RangeDetails";
 import { LabelList } from "./LabelList/LabelList";
+import { LabelDetails } from "./LabelDetails/LabelDetails";
 
 interface IPanelInfo {
 	nameKey: string;
@@ -23,6 +24,7 @@ type PanelId = ""
 | "ObjectList" // 对象列表
 | "RangeDetails" // 范围属性
 | "LabelList" // 标签列表
+| "LabelDetails" // 标签属性
 ;
 
 const PanelInfoMap = new Map<PanelId, IPanelInfo>();
@@ -40,7 +42,11 @@ PanelInfoMap.set("RangeDetails", {
 })
 PanelInfoMap.set("LabelList", {
     nameKey: "Panel.Title.Label.List.View", introKay: "Panel.Info.Label.List.View",
-    class: LabelList
+    class: LabelList, hidePadding: true
+})
+PanelInfoMap.set("LabelDetails", {
+    nameKey: "Panel.Title.Label.Details.View", introKay: "Panel.Info.Label.Details.View",
+    class: LabelDetails
 })
 
 function getPanelById(panelId: PanelId): ReactNode {

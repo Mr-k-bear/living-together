@@ -36,7 +36,9 @@ const EN_US = {
     "Panel.Title.Range.Details.View": "Range attributes",
     "Panel.Info.Range.Details.View": "Edit view range attributes",
     "Panel.Title.Label.List.View": "Label list",
-    "Panel.Info.Label.List.View": "Edit view label attributes",
+    "Panel.Info.Label.List.View": "Edit view label list",
+    "Panel.Title.Label.Details.View": "Label attributes",
+    "Panel.Info.Label.Details.View": "Edit view label attributes",
     "Common.Attr.Key.Display.Name": "Display name",
     "Common.Attr.Key.Position.X": "Position X",
     "Common.Attr.Key.Position.Y": "Position Y",
@@ -50,5 +52,7 @@ const EN_US = {
     "Common.Attr.Key.Error.Multiple": "Multiple values",
     "Panel.Info.Range.Details.Attr.Error.Not.Range": "Object is not a Range",
     "Panel.Info.Range.Details.Attr.Error.Unspecified": "Unspecified range object",
+    "Panel.Info.Label.Details.Error.Unspecified": "Label object not specified",
+    "Panel.Info.Label.List.Error.Nodata": "There are no labels in the model, click the button to create",
 }
 export default EN_US;

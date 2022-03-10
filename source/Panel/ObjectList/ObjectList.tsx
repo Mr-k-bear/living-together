@@ -36,11 +36,14 @@ class ObjectList extends Component<IMixinStatusProps & IMixinSettingProps> {
                 }
             }))}
             clickLine={(item) => {
-                if (this.props.setting) {
-                    this.props.setting.layout.focus("ObjectList");
-                }
                 if (this.props.status) {
                     this.props.status.setFocusObject(new Set<ObjectID>().add(item.key));
+                }
+                if (this.props.setting) {
+                    if (item.key.slice(0, 1) === "R") {
+                        this.props.setting.layout.focus("RangeDetails");
+                    }
+                    this.props.setting.layout.focus("ObjectList");
                 }
             }}
             checkBox={(item) => {

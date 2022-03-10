@@ -38,6 +38,7 @@ div.label {
 }
 
 div.dark.label {
+    transition: none;
     background-color: $lt-bg-color-lvl3-dark;
 
     div.label-color {
@@ -45,12 +46,12 @@ div.dark.label {
     }
 
     div.delete-button:hover {
-        color: $lt-font-color-lvl2-dark;
-        background-color: $lt-bg-color-lvl2-dark;
+        color: $lt-red;
     }
 }
 
 div.light.label {
+    transition: none;
     background-color: $lt-bg-color-lvl3-light;
 
     div.label-color {
@@ -58,7 +59,18 @@ div.light.label {
     }
 
     div.delete-button:hover {
-        color: $lt-font-color-lvl2-light;
-        background-color: $lt-bg-color-lvl2-light;
+        color: $lt-red;
     }
+}
+
+div.dark.label:hover,
+div.dark.label.focus {
+    color: $lt-font-color-lvl2-dark;
+    background-color: $lt-bg-color-lvl2-dark;
+}
+
+div.light.label:hover,
+div.light.label.focus {
+    color: $lt-font-color-lvl2-light;
+    background-color: $lt-bg-color-lvl2-light;
 }

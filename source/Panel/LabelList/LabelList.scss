@@ -1,33 +1,8 @@
 @import "../../Component/Theme/Theme.scss";
 
-div.label-list-command-bar {
+div.label-list-panel-root {
     width: 100%;
-    height: 30px;
-    flex-shrink: 0;
-    display: flex;
-
-    div.command-item {
-        width: 30px;
-        height: 100%;
-        display: flex;
-        flex-shrink: 0;
-        justify-content: center;
-        align-items: center;
-        user-select: none;
-        cursor: pointer;
-    }
-}
-
-div.dark.label-list-command-bar {
-
-    div.command-item:hover {
-        background-color: $lt-bg-color-lvl3-dark;
-    }
-}
-
-div.light.label-list-command-bar {
-
-    div.command-item:hover {
-        background-color: $lt-bg-color-lvl3-light;
-    }
+    height: 100%;
+    padding: 10px;
+    box-sizing: border-box;
 }

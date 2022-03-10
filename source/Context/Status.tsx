@@ -1,6 +1,7 @@
 import { createContext, Component, FunctionComponent, useState, useEffect, ReactNode } from "react";
 import { Emitter } from "@Model/Emitter";
 import { Model, ObjectID } from "@Model/Model";
+import { Label } from "@Model/Label";
 import { Range } from "@Model/Range";
 import { Archive } from "@Model/Archive";
 import { AbstractRenderer } from "@Model/Renderer";
@@ -27,6 +28,7 @@ interface IStatusEvent {
     physicsLoop: number;
     mouseModChange: void;
     focusObjectChange: void;
+    focusLabelChange: void;
     objectChange: void;
     labelChange: void;
     rangeAttrChange: void;
@@ -62,6 +64,11 @@ class Status extends Emitter<IStatusEvent> {
      */
     public focusObject: Set<ObjectID> = new Set();
 
+    /**
+     * 焦点标签
+     */
+    public focusLabel?: Label;
+
     public constructor() {
         super();
 
@@ -90,6 +97,14 @@ class Status extends Emitter<IStatusEvent> {
     public setFocusObject(focusObject: Set<ObjectID>) {
         this.focusObject = focusObject;
         this.emit("focusObjectChange");
+    }
+
+    /**
+     * 更新焦点标签
+     */
+    public setLabelObject(focusLabel?: Label) {
+        this.focusLabel = focusLabel;
+        this.emit("focusLabelChange");
     }
 
     /**
