@@ -32,11 +32,13 @@ const ZH_CN = {
     "Panel.Title.Render.View": "实时预览",
     "Panel.Info.Render.View": "实时仿真结果预览",
     "Panel.Title.Object.List.View": "对象列表",
-    "Panel.Info.Object.List.View": "编辑查看全部对象属性",
+    "Panel.Info.Object.List.View": "编辑查看全部对象列表",
     "Panel.Title.Range.Details.View": "范围属性",
     "Panel.Info.Range.Details.View": "编辑查看范围属性",
     "Panel.Title.Label.List.View": "标签列表",
-    "Panel.Info.Label.List.View": "编辑查看标签属性",
+    "Panel.Info.Label.List.View": "编辑查看标签列表",
+    "Panel.Title.Label.Details.View": "标签属性",
+    "Panel.Info.Label.Details.View": "编辑查看标签属性",
     "Common.Attr.Key.Display.Name": "显示名称",
     "Common.Attr.Key.Position.X": "X 坐标",
     "Common.Attr.Key.Position.Y": "Y 坐标",
@@ -50,5 +52,7 @@ const ZH_CN = {
     "Common.Attr.Key.Error.Multiple": "多重数值",
     "Panel.Info.Range.Details.Attr.Error.Not.Range": "对象不是一个范围",
     "Panel.Info.Range.Details.Attr.Error.Unspecified": "未指定范围对象",
+    "Panel.Info.Label.Details.Error.Unspecified": "未指定标签对象",
+    "Panel.Info.Label.List.Error.Nodata": "模型中没有标签，点击按钮以创建",
 }
 export default ZH_CN;
