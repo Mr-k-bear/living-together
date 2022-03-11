@@ -30,7 +30,6 @@ class LabelList extends Component<ILabelListProps & IMixinStatusProps & IMixinSe
             }}
         >
             <LabelListComponent
-                canDelete
                 labels={labels}
                 focusLabel={this.props.status ? this.props.status.focusLabel : undefined}
                 clickLabel={(label) => {
@@ -48,6 +47,10 @@ class LabelList extends Component<ILabelListProps & IMixinStatusProps & IMixinSe
                         this.props.status.setLabelObject();
                     }
                     this.labelInnerClick = true;
+                }}
+                minHeight={26}
+                addLabel={() => {
+                    this.props.status ? this.props.status.newLabel() : undefined;
                 }}
             />
         </div>;
