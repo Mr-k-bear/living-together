@@ -38,9 +38,6 @@ class LabelList extends Component<ILabelListProps & IMixinSettingProps> {
                 }
                 this.isDeleteClick = false;
             }}
-            style={{
-                borderColor: isFocus ? colorCss : undefined
-            }}
         >
             <div className="label-color" style={{
                 backgroundColor: colorCss,

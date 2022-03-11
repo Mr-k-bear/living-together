@@ -32,6 +32,7 @@ interface IStatusEvent {
     objectChange: void;
     labelChange: void;
     rangeAttrChange: void;
+    labelAttrChange: void;
 }
 
 class Status extends Emitter<IStatusEvent> {
@@ -119,6 +120,24 @@ class Status extends Emitter<IStatusEvent> {
             this.model.draw();
         }
     }
+
+    /**
+     * 修改范围属性
+     */
+    public changeLabelAttrib<K extends keyof Label>
+    (label: Label, key: K, val: Label[K]) {
+        let findLabel: Label | undefined;
+        for (let i = 0; i < this.model.labelPool.length; i++) {
+            if (this.model.labelPool[i].equal(label)) {
+                findLabel = this.model.labelPool[i];
+                break;
+            }
+        }
+        if (findLabel) {
+            findLabel[key] = val;
+            this.emit("labelAttrChange");
+        }
+     }
 
     /**
      * 鼠标工具状态

@@ -10,7 +10,7 @@ interface ILabelListProps {
 }
 
 @useSetting
-@useStatusWithEvent("labelChange", "focusLabelChange")
+@useStatusWithEvent("labelChange", "focusLabelChange", "labelAttrChange")
 class LabelList extends Component<ILabelListProps & IMixinStatusProps & IMixinSettingProps> {
     
     private labelInnerClick: boolean = false;
