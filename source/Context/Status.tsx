@@ -30,8 +30,10 @@ interface IStatusEvent {
     focusObjectChange: void;
     focusLabelChange: void;
     objectChange: void;
+    rangeLabelChange: void;
     labelChange: void;
     rangeAttrChange: void;
+    labelAttrChange: void;
 }
 
 class Status extends Emitter<IStatusEvent> {
@@ -117,6 +119,40 @@ class Status extends Emitter<IStatusEvent> {
             range[key] = val;
             this.emit("rangeAttrChange");
             this.model.draw();
+        }
+    }
+
+    public addRangeLabel(id: ObjectID, val: Label) {
+        const range = this.model.getObjectById(id);
+        if (range && range instanceof Range) {
+            range.addLabel(val);
+            this.emit("rangeLabelChange");
+        }
+    }
+
+    public deleteRangeLabel(id: ObjectID, val: Label) {
+        const range = this.model.getObjectById(id);
+        if (range && range instanceof Range) {
+            range.removeLabel(val);
+            this.emit("rangeLabelChange");
+        }
+    }
+
+    /**
+     * 修改范围属性
+     */
+    public changeLabelAttrib<K extends keyof Label>
+    (label: Label, key: K, val: Label[K]) {
+        let findLabel: Label | undefined;
+        for (let i = 0; i < this.model.labelPool.length; i++) {
+            if (this.model.labelPool[i].equal(label)) {
+                findLabel = this.model.labelPool[i];
+                break;
+            }
+        }
+        if (findLabel) {
+            findLabel[key] = val;
+            this.emit("labelAttrChange");
         }
     }
 

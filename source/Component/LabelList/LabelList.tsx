@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { Component, RefObject } from "react";
 import { Label } from "@Model/Label";
 import { Icon } from "@fluentui/react";
 import { useSetting, IMixinSettingProps, Themes } from "@Context/Setting";
@@ -6,11 +6,15 @@ import { ErrorMessage } from "@Component/ErrorMessage/ErrorMessage";
 import "./LabelList.scss";
 
 interface ILabelListProps {
+    minHeight?: number;
+    maxWidth?: number;
+    width?: number;
     labels: Label[];
-    canDelete?: boolean;
+    addRef?: RefObject<HTMLDivElement>;
     focusLabel?: Label;
     clickLabel?: (label: Label) => any;
     deleteLabel?: (label: Label) => any;
+    addLabel?: () => any;
 }
 
 @useSetting
@@ -21,15 +25,23 @@ class LabelList extends Component<ILabelListProps & IMixinSettingProps> {
     private renderLabel(label: Label) {
 
         const theme = this.props.setting?.themes ?? Themes.dark;
-        const classList:string[] = ["label"];
+        const classList: string[] = ["label"];
         classList.push( theme === Themes.dark ? "dark" : "light" );
         const isFocus = this.props.focusLabel && this.props.focusLabel.equal(label);
         if (isFocus) {
             classList.push("focus");
         }
+        if (this.props.maxWidth) {
+            classList.push("one-line");
+        }
         const colorCss = `rgb(${label.color.join(",")})`;
+        const isDelete = label.isDeleted();
 
         return <div
+            style={{
+                minHeight: this.props.minHeight,
+                maxWidth: this.props.maxWidth
+            }}
             className={classList.join(" ")}
             key={label.id}
             onClick={() => {
@@ -38,19 +50,22 @@ class LabelList extends Component<ILabelListProps & IMixinSettingProps> {
                 }
                 this.isDeleteClick = false;
             }}
-            style={{
-                borderColor: isFocus ? colorCss : undefined
-            }}
         >
             <div className="label-color" style={{
                 backgroundColor: colorCss,
                 borderRadius: isFocus ? 0 : 3
             }}/>
-            <div className="label-name">
-                {label.name}
+            <div
+                className="label-name"
+                style={{
+                    textDecoration: isDelete ? "line-through" : undefined,
+                    opacity: isDelete ? ".6" : undefined
+                }}
+            >
+                <div>{label.name}</div>
             </div>
             {
-                this.props.canDelete ? 
+                this.props.deleteLabel ?
                 <div
                     className="delete-button"
                     onClick={() => {
@@ -66,18 +81,37 @@ class LabelList extends Component<ILabelListProps & IMixinSettingProps> {
         </div>
     }
 
-    private renderAllLabels(labels: Label[]) {
+    private renderAllLabels() {
         return this.props.labels.map((label) => {
             return this.renderLabel(label);
         });
     }
+
+    private renderAddButton() {
+        const theme = this.props.setting?.themes ?? Themes.dark;
+        const classList: string[] = ["label", "add-button"];
+        classList.push( theme === Themes.dark ? "dark" : "light" );
+
+        return <div
+            className={classList.join(" ")}
+            ref={this.props.addRef}
+            style={{
+                minHeight: this.props.minHeight,
+                minWidth: this.props.minHeight
+            }}
+            onClick={() => {
+                this.props.addLabel ? this.props.addLabel() : null
+            }}
+        >
+            <Icon iconName="add"></Icon>
+        </div>;
+    }
     
     public render() {
-        if (this.props.labels.length > 0) {
-            return this.renderAllLabels(this.props.labels);
-        } else {
-            return <ErrorMessage i18nKey="Panel.Info.Label.List.Error.Nodata"/>
-        }
+        return <div className="label-list-root">
+            {this.renderAllLabels()}
+            {this.props.addLabel ? this.renderAddButton() : null}
+        </div>;
     }
 }
 

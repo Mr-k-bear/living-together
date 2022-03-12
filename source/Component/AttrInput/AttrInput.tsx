@@ -12,6 +12,7 @@ interface IAttrInputProps {
     value?: number | string;
 	isNumber?: boolean;
     maxLength?: number;
+    minLength?: number;
     max?: number;
     min?: number;
     step?: number;
@@ -38,6 +39,11 @@ class AttrInput extends Component<IAttrInputProps> {
         const maxLength = this.props.maxLength ?? 32;
         if (value.length > maxLength) {
             return <Localization i18nKey="Input.Error.Length" options={{ num: maxLength.toString() }} />
+        }
+
+        const minLength = this.props.minLength ?? 1;
+        if (value.length < minLength) {
+            return <Localization i18nKey="Input.Error.Length.Less" options={{ num: minLength.toString() }} />
         }
 
         if (this.props.isNumber) {

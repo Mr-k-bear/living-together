@@ -9,7 +9,9 @@ interface ITogglesInputProps {
     infoI18n?: AllI18nKeys;
     value?: boolean;
     disable?: boolean;
-    valueChange?: (color: boolean) => any;
+    onIconName?: string;
+    offIconName?: string;
+    valueChange?: (value: boolean) => any;
 }
 
 class TogglesInput extends Component<ITogglesInputProps> {
@@ -33,9 +35,17 @@ class TogglesInput extends Component<ITogglesInputProps> {
                         }
                     })}
                 >
-                    <Icon iconName="CheckMark" style={{
-                        display: this.props.value ? "inline-block" : "none"
-                    }}></Icon>
+                    <Icon
+                        iconName={
+                            this.props.value ? 
+                                this.props.onIconName ?? "CheckMark" :
+                                this.props.offIconName ?? undefined
+                        }
+                        style={{
+                            display: this.props.value ? "inline-block" : 
+                                this.props.offIconName ? "inline-block" : "none"
+                        }}
+                    ></Icon>
                 </div>    
             </div>
         </Theme>

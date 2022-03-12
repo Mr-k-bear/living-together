@@ -1,0 +1,72 @@
+div.picker-list-root {
+	max-width: 200px;
+	padding: 0px;
+	margin: 0px;
+	overflow-y: auto;
+
+	div.picker-list-item {
+		width: 200px;
+		height: 36px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		vertical-align: middle;
+		cursor: pointer;
+		user-select: none;
+		border-radius: 3px;
+		overflow: hidden;
+
+		div.list-item-color {
+			width: 3px;
+			height: calc( 100% - 6px );
+			margin: 3px 0 3px 3px;
+			flex-shrink: 0;
+			border-radius: 1000px;
+			overflow: hidden;
+			background-color: black;
+		}
+
+		div.list-item-icon {
+			width: 30px;
+			flex-shrink: 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		div.list-item-name {
+			width: 100%;
+		}
+	}
+
+	div.picker-list-item:hover {
+		background-color: rgba($color: #000000, $alpha: .1);
+	}
+
+	span.picker-list-nodata {
+		display: inline-block;
+		padding: 5px;
+	}
+}
+
+div.picker-list-root::-webkit-scrollbar {
+	width : 0;  /*高宽分别对应横竖滚动条的尺寸*/
+	height: 0;
+}
+
+div.picker-list-root::-webkit-scrollbar {
+	width : 8px;  /*高宽分别对应横竖滚动条的尺寸*/
+	  height: 0;
+}
+
+div.picker-list-root::-webkit-scrollbar-thumb {
+	/*滚动条里面小方块*/
+	border-radius: 8px;
+	background-color: rgba($color: #000000, $alpha: .1);
+}
+
+div.picker-list-root::-webkit-scrollbar-track {
+	/*滚动条里面轨道*/
+	border-radius: 8px;
+	background-color: rgba($color: #000000, $alpha: 0);
+}

@@ -1,8 +1,14 @@
 @import "../Theme/Theme.scss";
 
+div.label-list-root {
+    margin: -5px;
+}
+
 div.label {
     width: auto;
     height: auto;
+    min-height: 24px;
+    box-sizing: border-box;
     display: inline-flex;
     margin: 5px 5px;
     justify-content: center;
@@ -23,11 +29,14 @@ div.label {
 
     div.label-name {
         padding: 2px 3px;
+        display: flex;
+        align-items: center;
         text-overflow: ellipsis;
         overflow: hidden;
     }
 
     div.delete-button {
+        flex-shrink: 0;
         padding: 2px 3px;
         border-radius: 3px;
         display: flex;
@@ -35,6 +44,28 @@ div.label {
         user-select: none;
         cursor: pointer;
     }
+}
+
+div.label.one-line div.label-name {
+    max-width: 100%;
+    word-break: keep-all;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+div.label.add-button {
+    width: 24px;
+    align-items: center;
+    justify-content: center;
+}
+
+div.dark.label.add-button {
+    border: .5px dashed $lt-bg-color-lvl3-dark;
+}
+
+div.light.label.add-button {
+    border: .5px dashed $lt-bg-color-lvl3-light;
 }
 
 div.dark.label {
@@ -63,14 +94,22 @@ div.light.label {
     }
 }
 
-div.dark.label:hover,
-div.dark.label.focus {
+div.dark.label:hover {
     color: $lt-font-color-lvl2-dark;
     background-color: $lt-bg-color-lvl2-dark;
 }
 
-div.light.label:hover,
-div.light.label.focus {
+div.dark.label.focus {
+    color: $lt-font-color-lvl1-dark;
+    background-color: $lt-bg-color-lvl1-dark;
+}
+
+div.light.label:hover {
     color: $lt-font-color-lvl2-light;
     background-color: $lt-bg-color-lvl2-light;
+}
+
+div.light.label.focus {
+    color: $lt-font-color-lvl1-light;
+    background-color: $lt-bg-color-lvl1-light;
 }
