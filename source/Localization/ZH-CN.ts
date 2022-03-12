@@ -53,6 +53,7 @@ const ZH_CN = {
     "Common.Attr.Key.Delete": "删除",
     "Common.Attr.Key.Label": "标签",
     "Common.Attr.Key.Error.Multiple": "多重数值",
+    "Common.Attr.Key.Label.Picker.Nodata": "没有可以被添加的标签",
     "Panel.Info.Range.Details.Attr.Error.Not.Range": "对象不是一个范围",
     "Panel.Info.Range.Details.Attr.Error.Unspecified": "未指定范围对象",
     "Panel.Info.Label.Details.Error.Unspecified": "未指定标签对象",

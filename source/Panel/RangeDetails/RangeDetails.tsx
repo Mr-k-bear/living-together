@@ -10,7 +10,7 @@ import { TogglesInput } from "@Component/TogglesInput/TogglesInput";
 import { LabelPicker } from "@Component/LabelPicker/LabelPicker";
 import "./RangeDetails.scss";
 
-@useStatusWithEvent("rangeAttrChange", "focusObjectChange")
+@useStatusWithEvent("rangeAttrChange", "focusObjectChange", "rangeLabelChange")
 class RangeDetails extends Component<IMixinStatusProps> {
     
     public readonly AttrI18nKey: AllI18nKeys[] = [
@@ -62,8 +62,17 @@ class RangeDetails extends Component<IMixinStatusProps> {
             })}
 
             <LabelPicker keyI18n={this.AttrI18nKey[keyIndex ++]}
-                labels={this.props.status?.model.labelPool ?? []}
-                // labels={[]}
+                labels={range.allLabels()}
+                labelAdd={(label) => {
+                    if (this.props.status) {
+                        this.props.status.addRangeLabel(range.id, label);
+                    }
+                }}
+                labelDelete={(label) => {
+                    if (this.props.status) {
+                        this.props.status.deleteRangeLabel(range.id, label);
+                    }
+                }}
             />
             
             <TogglesInput keyI18n={this.AttrI18nKey[keyIndex ++]} value={range.display} valueChange={(val) => {

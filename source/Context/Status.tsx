@@ -30,6 +30,7 @@ interface IStatusEvent {
     focusObjectChange: void;
     focusLabelChange: void;
     objectChange: void;
+    rangeLabelChange: void;
     labelChange: void;
     rangeAttrChange: void;
     labelAttrChange: void;
@@ -121,6 +122,22 @@ class Status extends Emitter<IStatusEvent> {
         }
     }
 
+    public addRangeLabel(id: ObjectID, val: Label) {
+        const range = this.model.getObjectById(id);
+        if (range && range instanceof Range) {
+            range.addLabel(val);
+            this.emit("rangeLabelChange");
+        }
+    }
+
+    public deleteRangeLabel(id: ObjectID, val: Label) {
+        const range = this.model.getObjectById(id);
+        if (range && range instanceof Range) {
+            range.removeLabel(val);
+            this.emit("rangeLabelChange");
+        }
+    }
+
     /**
      * 修改范围属性
      */
@@ -137,7 +154,7 @@ class Status extends Emitter<IStatusEvent> {
             findLabel[key] = val;
             this.emit("labelAttrChange");
         }
-     }
+    }
 
     /**
      * 鼠标工具状态

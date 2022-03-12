@@ -53,6 +53,7 @@ const EN_US = {
     "Common.Attr.Key.Delete": "Delete",
     "Common.Attr.Key.Label": "Label",
     "Common.Attr.Key.Error.Multiple": "Multiple values",
+    "Common.Attr.Key.Label.Picker.Nodata": "No tags can be added",
     "Panel.Info.Range.Details.Attr.Error.Not.Range": "Object is not a Range",
     "Panel.Info.Range.Details.Attr.Error.Unspecified": "Unspecified range object",
     "Panel.Info.Label.Details.Error.Unspecified": "Label object not specified",

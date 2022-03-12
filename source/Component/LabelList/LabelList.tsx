@@ -35,6 +35,7 @@ class LabelList extends Component<ILabelListProps & IMixinSettingProps> {
             classList.push("one-line");
         }
         const colorCss = `rgb(${label.color.join(",")})`;
+        const isDelete = label.isDeleted();
 
         return <div
             style={{
@@ -54,7 +55,13 @@ class LabelList extends Component<ILabelListProps & IMixinSettingProps> {
                 backgroundColor: colorCss,
                 borderRadius: isFocus ? 0 : 3
             }}/>
-            <div className="label-name">
+            <div
+                className="label-name"
+                style={{
+                    textDecoration: isDelete ? "line-through" : undefined,
+                    opacity: isDelete ? ".6" : undefined
+                }}
+            >
                 <div>{label.name}</div>
             </div>
             {
