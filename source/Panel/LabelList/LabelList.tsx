@@ -3,6 +3,7 @@ import { Component } from "react";
 import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
 import { useSetting, IMixinSettingProps } from "@Context/Setting";
 import { Label } from "@Model/Label";
+import { ErrorMessage } from "@Component/ErrorMessage/ErrorMessage";
 import "./LabelList.scss";
 
 interface ILabelListProps {
@@ -29,6 +30,12 @@ class LabelList extends Component<ILabelListProps & IMixinStatusProps & IMixinSe
                 this.labelInnerClick = false;
             }}
         >
+            {labels.length <=0 ? 
+                <ErrorMessage
+                    className="label-list-pabel-err-msg"
+                    i18nKey="Panel.Info.Label.List.Error.Nodata"
+                /> : null
+            }
             <LabelListComponent
                 labels={labels}
                 focusLabel={this.props.status ? this.props.status.focusLabel : undefined}

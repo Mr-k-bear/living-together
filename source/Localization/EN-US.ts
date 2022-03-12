@@ -51,6 +51,7 @@ const EN_US = {
     "Common.Attr.Key.Display": "Display",
     "Common.Attr.Key.Update": "Update",
     "Common.Attr.Key.Delete": "Delete",
+    "Common.Attr.Key.Label": "Label",
     "Common.Attr.Key.Error.Multiple": "Multiple values",
     "Panel.Info.Range.Details.Attr.Error.Not.Range": "Object is not a Range",
     "Panel.Info.Range.Details.Attr.Error.Unspecified": "Unspecified range object",

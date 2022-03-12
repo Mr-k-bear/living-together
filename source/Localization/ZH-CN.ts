@@ -51,6 +51,7 @@ const ZH_CN = {
     "Common.Attr.Key.Display": "显示",
     "Common.Attr.Key.Update": "更新",
     "Common.Attr.Key.Delete": "删除",
+    "Common.Attr.Key.Label": "标签",
     "Common.Attr.Key.Error.Multiple": "多重数值",
     "Panel.Info.Range.Details.Attr.Error.Not.Range": "对象不是一个范围",
     "Panel.Info.Range.Details.Attr.Error.Unspecified": "未指定范围对象",

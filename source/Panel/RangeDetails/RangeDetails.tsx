@@ -7,6 +7,7 @@ import { Range } from "@Model/Range";
 import { ObjectID } from "@Model/Renderer";
 import { ColorInput } from "@Component/ColorInput/ColorInput";
 import { TogglesInput } from "@Component/TogglesInput/TogglesInput";
+import { LabelPicker } from "@Component/LabelPicker/LabelPicker";
 import "./RangeDetails.scss";
 
 @useStatusWithEvent("rangeAttrChange", "focusObjectChange")
@@ -14,6 +15,7 @@ class RangeDetails extends Component<IMixinStatusProps> {
     
     public readonly AttrI18nKey: AllI18nKeys[] = [
         "Common.Attr.Key.Display.Name",
+        "Common.Attr.Key.Label",
         "Common.Attr.Key.Display",
         "Common.Attr.Key.Update",
         "Common.Attr.Key.Color",
@@ -58,6 +60,11 @@ class RangeDetails extends Component<IMixinStatusProps> {
             {this.renderAttrInput(range.id, keyIndex ++, range.displayName, (val, status) => {
                 status.changeRangeAttrib(range.id, "displayName", val);
             })}
+
+            <LabelPicker keyI18n={this.AttrI18nKey[keyIndex ++]}
+                labels={this.props.status?.model.labelPool ?? []}
+                // labels={[]}
+            />
             
             <TogglesInput keyI18n={this.AttrI18nKey[keyIndex ++]} value={range.display} valueChange={(val) => {
                 if (this.props.status) {

@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { Component, RefObject } from "react";
 import { Label } from "@Model/Label";
 import { Icon } from "@fluentui/react";
 import { useSetting, IMixinSettingProps, Themes } from "@Context/Setting";
@@ -10,6 +10,7 @@ interface ILabelListProps {
     maxWidth?: number;
     width?: number;
     labels: Label[];
+    addRef?: RefObject<HTMLDivElement>;
     focusLabel?: Label;
     clickLabel?: (label: Label) => any;
     deleteLabel?: (label: Label) => any;
@@ -79,17 +80,17 @@ class LabelList extends Component<ILabelListProps & IMixinSettingProps> {
         });
     }
 
-    private renderAddButton(isNoMargin: boolean = false) {
+    private renderAddButton() {
         const theme = this.props.setting?.themes ?? Themes.dark;
         const classList: string[] = ["label", "add-button"];
         classList.push( theme === Themes.dark ? "dark" : "light" );
 
         return <div
             className={classList.join(" ")}
+            ref={this.props.addRef}
             style={{
                 minHeight: this.props.minHeight,
-                minWidth: this.props.minHeight,
-                marginLeft: isNoMargin ? "0" : undefined
+                minWidth: this.props.minHeight
             }}
             onClick={() => {
                 this.props.addLabel ? this.props.addLabel() : null
@@ -100,17 +101,10 @@ class LabelList extends Component<ILabelListProps & IMixinSettingProps> {
     }
     
     public render() {
-        if (this.props.labels.length > 0) {
-            return <>
-                {this.renderAllLabels()}
-                {this.props.addLabel ? this.renderAddButton() : null}
-            </>;
-        } else {
-            return <>
-                <ErrorMessage i18nKey="Panel.Info.Label.List.Error.Nodata"/>
-                {this.props.addLabel ? this.renderAddButton(true) : null}
-            </>;
-        }
+        return <div className="label-list-root">
+            {this.renderAllLabels()}
+            {this.props.addLabel ? this.renderAddButton() : null}
+        </div>;
     }
 }
 
