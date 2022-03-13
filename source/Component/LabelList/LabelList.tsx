@@ -2,7 +2,6 @@ import { Component, RefObject } from "react";
 import { Label } from "@Model/Label";
 import { Icon } from "@fluentui/react";
 import { useSetting, IMixinSettingProps, Themes } from "@Context/Setting";
-import { ErrorMessage } from "@Component/ErrorMessage/ErrorMessage";
 import "./LabelList.scss";
 
 interface ILabelListProps {

@@ -1,12 +1,13 @@
 import { ReactNode, Component, FunctionComponent } from "react";
 import { Theme } from "@Component/Theme/Theme";
-import { ErrorMessage } from "@Component/ErrorMessage/ErrorMessage";
+import { Message } from "@Component/Message/Message";
 import { RenderView } from "./RenderView/RenderView";
 import { ObjectList } from "./ObjectList/ObjectList";
 import { ObjectCommand } from "./ObjectList/ObjectCommand";
 import { RangeDetails } from "./RangeDetails/RangeDetails";
 import { LabelList } from "./LabelList/LabelList";
 import { LabelDetails } from "./LabelDetails/LabelDetails";
+import { GroupDetails } from "./GroupDetails/GroupDetails";
 
 interface IPanelInfo {
 	nameKey: string;
@@ -25,6 +26,7 @@ type PanelId = ""
 | "RangeDetails" // 范围属性
 | "LabelList" // 标签列表
 | "LabelDetails" // 标签属性
+| "GroupDetails" // 群属性
 ;
 
 const PanelInfoMap = new Map<PanelId, IPanelInfo>();
@@ -35,19 +37,23 @@ PanelInfoMap.set("RenderView", {
 PanelInfoMap.set("ObjectList", {
     nameKey: "Panel.Title.Object.List.View", introKay: "Panel.Info.Object.List.View",
     class: ObjectList, header: ObjectCommand, hidePadding: true
-})
+});
 PanelInfoMap.set("RangeDetails", {
     nameKey: "Panel.Title.Range.Details.View", introKay: "Panel.Info.Range.Details.View",
     class: RangeDetails
-})
+});
 PanelInfoMap.set("LabelList", {
     nameKey: "Panel.Title.Label.List.View", introKay: "Panel.Info.Label.List.View",
     class: LabelList, hidePadding: true
-})
+});
 PanelInfoMap.set("LabelDetails", {
     nameKey: "Panel.Title.Label.Details.View", introKay: "Panel.Info.Label.Details.View",
     class: LabelDetails
-})
+});
+PanelInfoMap.set("GroupDetails", {
+    nameKey: "Panel.Title.Group.Details.View", introKay: "Panel.Info.Group.Details.View",
+    class: GroupDetails
+});
 
 function getPanelById(panelId: PanelId): ReactNode {
 	switch (panelId) {
@@ -57,7 +63,7 @@ function getPanelById(panelId: PanelId): ReactNode {
 				const C = info.class;
 				return <C></C>
 			} else return <Theme>
-				<ErrorMessage i18nKey={"Panel.Info.Notfound"} options={{ id: panelId }}/>
+				<Message i18nKey={"Panel.Info.Notfound"} options={{ id: panelId }}/>
 			</Theme>
 	}
 }

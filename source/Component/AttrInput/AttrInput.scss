@@ -11,6 +11,7 @@ div.attr-input {
 	div.input-intro {
 		width: 50%;
 		height: 100%;
+        min-height: $line-min-height;
 		max-width: 220px;
 		display: flex;
 		align-items: center;

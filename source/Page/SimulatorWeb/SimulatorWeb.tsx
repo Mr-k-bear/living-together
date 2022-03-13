@@ -77,7 +77,7 @@ class SimulatorWeb extends Component {
                     items: [{
                         panels: ["ObjectList", "Test tab"]
                     }, {
-                        panels: ["RangeDetails", "LabelDetails"]
+                        panels: ["GroupDetails", "RangeDetails", "LabelDetails"]
                     }],
                     layout: LayoutDirection.Y
                 }

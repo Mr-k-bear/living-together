@@ -12,6 +12,7 @@ div.toggles-input {
 		width: 50%;
 		height: 100%;
 		max-width: 220px;
+        min-height: $line-min-height;
 		display: flex;
 		align-items: center;
         padding-right: 5px;

@@ -7,7 +7,7 @@ import { ObjectID } from "@Model/Renderer";
 import "./ObjectList.scss";
 
 @useSetting
-@useStatusWithEvent("objectChange", "focusObjectChange", "rangeAttrChange")
+@useStatusWithEvent("objectChange", "focusObjectChange", "rangeAttrChange", "groupAttrChange")
 class ObjectList extends Component<IMixinStatusProps & IMixinSettingProps> {
 
     private renderList() {
@@ -42,6 +42,9 @@ class ObjectList extends Component<IMixinStatusProps & IMixinSettingProps> {
                 if (this.props.setting) {
                     if (item.key.slice(0, 1) === "R") {
                         this.props.setting.layout.focus("RangeDetails");
+                    }
+                    if (item.key.slice(0, 1) === "G") {
+                        this.props.setting.layout.focus("GroupDetails");
                     }
                     this.props.setting.layout.focus("ObjectList");
                 }

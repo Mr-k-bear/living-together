@@ -1,0 +1,20 @@
+div.panel-error-message {
+    transition: none !important;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    min-height: 26px;
+    display: flex;
+    align-items: center;
+
+    span {
+        display: block;
+    }
+}
+
+div.panel-error-message.title {
+    padding: 15px 0 5px 0;
+}
+
+div.panel-error-message.title.first {
+    padding: 5px 0 5px 0;
+}
