@@ -3,6 +3,7 @@ import { Emitter } from "@Model/Emitter";
 import { Model, ObjectID } from "@Model/Model";
 import { Label } from "@Model/Label";
 import { Range } from "@Model/Range";
+import { Group } from "@Model/Group";
 import { Archive } from "@Model/Archive";
 import { AbstractRenderer } from "@Model/Renderer";
 import { ClassicRenderer, MouseMod } from "@GLRender/ClassicRenderer";
@@ -31,9 +32,11 @@ interface IStatusEvent {
     focusLabelChange: void;
     objectChange: void;
     rangeLabelChange: void;
+    groupLabelChange: void;
     labelChange: void;
     rangeAttrChange: void;
     labelAttrChange: void;
+    groupAttrChange: void;
 }
 
 class Status extends Emitter<IStatusEvent> {
@@ -83,7 +86,9 @@ class Status extends Emitter<IStatusEvent> {
 
         // 对象变换时执行渲染，更新渲染器数据
         this.on("objectChange", () => {
-            this.model.draw();
+            setTimeout(() => {
+                this.model.draw();
+            });
         })
     }
 
@@ -119,6 +124,35 @@ class Status extends Emitter<IStatusEvent> {
             range[key] = val;
             this.emit("rangeAttrChange");
             this.model.draw();
+        }
+    }
+
+    /**
+     * 修改群属性
+     */
+    public changeGroupAttrib<K extends keyof Group>
+    (id: ObjectID, key: K, val: Group[K]) {
+        const group = this.model.getObjectById(id);
+        if (group && group instanceof Group) {
+            group[key] = val;
+            this.emit("groupAttrChange");
+            this.model.draw();
+        }
+    }
+
+    public addGroupLabel(id: ObjectID, val: Label) {
+        const group = this.model.getObjectById(id);
+        if (group && group instanceof Group) {
+            group.addLabel(val);
+            this.emit("groupLabelChange");
+        }
+    }
+
+    public deleteGroupLabel(id: ObjectID, val: Label) {
+        const group = this.model.getObjectById(id);
+        if (group && group instanceof Group) {
+            group.removeLabel(val);
+            this.emit("groupLabelChange");
         }
     }
 
