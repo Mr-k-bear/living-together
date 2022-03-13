@@ -1,5 +1,6 @@
 div.picker-list-root {
 	max-width: 200px;
+	height: 100%;
 	padding: 0px;
 	margin: 0px;
 	overflow-y: auto;
@@ -45,7 +46,7 @@ div.picker-list-root {
 
 	span.picker-list-nodata {
 		display: inline-block;
-		padding: 5px;
+		padding: 8px;
 	}
 }
 
@@ -62,7 +63,7 @@ div.picker-list-root::-webkit-scrollbar {
 div.picker-list-root::-webkit-scrollbar-thumb {
 	/*滚动条里面小方块*/
 	border-radius: 8px;
-	background-color: rgba($color: #000000, $alpha: .1);
+	background-color: rgba($color: #000000, $alpha: .2);
 }
 
 div.picker-list-root::-webkit-scrollbar-track {

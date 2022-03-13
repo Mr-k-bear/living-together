@@ -1,6 +1,6 @@
 import { ReactNode, Component, FunctionComponent } from "react";
 import { Theme } from "@Component/Theme/Theme";
-import { ErrorMessage } from "@Component/ErrorMessage/ErrorMessage";
+import { Message } from "@Component/Message/Message";
 import { RenderView } from "./RenderView/RenderView";
 import { ObjectList } from "./ObjectList/ObjectList";
 import { ObjectCommand } from "./ObjectList/ObjectCommand";
@@ -57,7 +57,7 @@ function getPanelById(panelId: PanelId): ReactNode {
 				const C = info.class;
 				return <C></C>
 			} else return <Theme>
-				<ErrorMessage i18nKey={"Panel.Info.Notfound"} options={{ id: panelId }}/>
+				<Message i18nKey={"Panel.Info.Notfound"} options={{ id: panelId }}/>
 			</Theme>
 	}
 }

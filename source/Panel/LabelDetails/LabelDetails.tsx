@@ -1,8 +1,7 @@
 import { Component, ReactNode } from "react";
 import { AttrInput } from "@Component/AttrInput/AttrInput";
 import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
-import { AllI18nKeys } from "@Component/Localization/Localization";
-import { ErrorMessage } from "@Component/ErrorMessage/ErrorMessage";
+import { Message } from "@Component/Message/Message";
 import { ColorInput } from "@Component/ColorInput/ColorInput";
 import { Label } from "@Model/Label";
 import { TogglesInput } from "@Component/TogglesInput/TogglesInput";
@@ -13,6 +12,8 @@ class LabelDetails extends Component<IMixinStatusProps> {
 
     private renderFrom(label: Label) {
         return <>
+
+            <Message i18nKey="Common.Attr.Title.Basic" isTitle first/>
             
             <AttrInput keyI18n="Common.Attr.Key.Display.Name" maxLength={15} value={label.name} valueChange={(value) => {
                 if (this.props.status) {
@@ -42,7 +43,7 @@ class LabelDetails extends Component<IMixinStatusProps> {
                 return this.renderFrom(this.props.status.focusLabel);
             }
         }
-		return <ErrorMessage i18nKey="Panel.Info.Label.Details.Error.Unspecified"/>;
+		return <Message i18nKey="Panel.Info.Label.Details.Error.Unspecified"/>;
 	}
 }
 

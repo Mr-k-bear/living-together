@@ -2,7 +2,7 @@ import { Component, ReactNode } from "react";
 import { AttrInput } from "@Component/AttrInput/AttrInput";
 import { useStatusWithEvent, IMixinStatusProps, Status } from "@Context/Status";
 import { AllI18nKeys, Localization } from "@Component/Localization/Localization";
-import { ErrorMessage } from "@Component/ErrorMessage/ErrorMessage";
+import { Message } from "@Component/Message/Message";
 import { Range } from "@Model/Range";
 import { ObjectID } from "@Model/Renderer";
 import { ColorInput } from "@Component/ColorInput/ColorInput";
@@ -15,10 +15,10 @@ class RangeDetails extends Component<IMixinStatusProps> {
     
     public readonly AttrI18nKey: AllI18nKeys[] = [
         "Common.Attr.Key.Display.Name",
+        "Common.Attr.Key.Color",
         "Common.Attr.Key.Label",
         "Common.Attr.Key.Display",
         "Common.Attr.Key.Update",
-        "Common.Attr.Key.Color",
         "Common.Attr.Key.Position.X",
         "Common.Attr.Key.Position.Y",
         "Common.Attr.Key.Position.Z",
@@ -57,9 +57,18 @@ class RangeDetails extends Component<IMixinStatusProps> {
         let keyIndex = 0;
 
         return <>
+
+            <Message i18nKey="Common.Attr.Title.Basic" isTitle first/>
+
             {this.renderAttrInput(range.id, keyIndex ++, range.displayName, (val, status) => {
                 status.changeRangeAttrib(range.id, "displayName", val);
             })}
+
+            <ColorInput keyI18n={this.AttrI18nKey[keyIndex ++]} value={range.color} normal valueChange={(color) => {
+                if (this.props.status) {
+                    this.props.status.changeRangeAttrib(range.id, "color", color);
+                }
+            }}/>
 
             <LabelPicker keyI18n={this.AttrI18nKey[keyIndex ++]}
                 labels={range.allLabels()}
@@ -87,11 +96,7 @@ class RangeDetails extends Component<IMixinStatusProps> {
                 }
             }}/>
 
-            <ColorInput keyI18n={this.AttrI18nKey[keyIndex ++]} value={range.color} normal valueChange={(color) => {
-                if (this.props.status) {
-                    this.props.status.changeRangeAttrib(range.id, "color", color);
-                }
-            }}/>
+            <Message i18nKey="Common.Attr.Title.Spatial" isTitle/>
 
             {this.renderAttrInput(range.id, keyIndex ++, range.position[0], (val, status) => {
                 range.position[0] = (val as any) / 1;
@@ -124,10 +129,10 @@ class RangeDetails extends Component<IMixinStatusProps> {
 	public render(): ReactNode {
         if (this.props.status) {
             if (this.props.status.focusObject.size <= 0) {
-                return <ErrorMessage i18nKey="Panel.Info.Range.Details.Attr.Error.Unspecified"/>;
+                return <Message i18nKey="Panel.Info.Range.Details.Attr.Error.Unspecified"/>;
             }
             if (this.props.status.focusObject.size > 1) {
-                return <ErrorMessage i18nKey="Common.Attr.Key.Error.Multiple"/>;
+                return <Message i18nKey="Common.Attr.Key.Error.Multiple"/>;
             }
             let id: ObjectID = "";
             this.props.status.focusObject.forEach((cid => id = cid));
@@ -137,10 +142,10 @@ class RangeDetails extends Component<IMixinStatusProps> {
             if (range instanceof Range) {
                 return this.renderFrom(range);
             } else {
-                return <ErrorMessage i18nKey="Panel.Info.Range.Details.Attr.Error.Not.Range"/>;
+                return <Message i18nKey="Panel.Info.Range.Details.Attr.Error.Not.Range"/>;
             }
         }
-		return <ErrorMessage i18nKey="Panel.Info.Range.Details.Attr.Error.Unspecified"/>;
+		return <Message i18nKey="Panel.Info.Range.Details.Attr.Error.Unspecified"/>;
 	}
 }
 

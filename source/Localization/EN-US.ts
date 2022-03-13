@@ -40,6 +40,8 @@ const EN_US = {
     "Panel.Info.Label.List.View": "Edit view label list",
     "Panel.Title.Label.Details.View": "Label attributes",
     "Panel.Info.Label.Details.View": "Edit view label attributes",
+    "Common.Attr.Title.Basic": "Basic properties",
+    "Common.Attr.Title.Spatial": "Spatial property",
     "Common.Attr.Key.Display.Name": "Display name",
     "Common.Attr.Key.Position.X": "Position X",
     "Common.Attr.Key.Position.Y": "Position Y",

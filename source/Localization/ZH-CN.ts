@@ -40,6 +40,8 @@ const ZH_CN = {
     "Panel.Info.Label.List.View": "编辑查看标签列表",
     "Panel.Title.Label.Details.View": "标签属性",
     "Panel.Info.Label.Details.View": "编辑查看标签属性",
+    "Common.Attr.Title.Basic": "基础属性",
+    "Common.Attr.Title.Spatial": "空间属性",
     "Common.Attr.Key.Display.Name": "显示名称",
     "Common.Attr.Key.Position.X": "X 坐标",
     "Common.Attr.Key.Position.Y": "Y 坐标",
