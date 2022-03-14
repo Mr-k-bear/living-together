@@ -6,12 +6,21 @@ import { ObjectID } from "@Model/Renderer";
 import { ColorInput } from "@Component/ColorInput/ColorInput";
 import { TogglesInput } from "@Component/TogglesInput/TogglesInput";
 import { LabelPicker } from "@Component/LabelPicker/LabelPicker";
-import { Group } from "@Model/Group";
+import { Group, GenMod } from "@Model/Group";
 import { AllI18nKeys } from "@Component/Localization/Localization";
-import { ComboInput } from "@Component/ComboInput/ComboInput";
+import { ComboInput, IDisplayItem } from "@Component/ComboInput/ComboInput";
 import "./GroupDetails.scss";
 
 interface IGroupDetailsProps {}
+
+const mapGenModToI18nKey = new Map<GenMod, AllI18nKeys>();
+mapGenModToI18nKey.set(GenMod.Point, "Common.Attr.Key.Generation.Mod.Point");
+mapGenModToI18nKey.set(GenMod.Range, "Common.Attr.Key.Generation.Mod.Range");
+
+const allOption: IDisplayItem[] = [
+    {nameKey: "Common.Attr.Key.Generation.Mod.Point", key: GenMod.Point},
+    {nameKey: "Common.Attr.Key.Generation.Mod.Range", key: GenMod.Range}
+];
 
 @useStatusWithEvent("groupAttrChange", "groupLabelChange", "focusObjectChange")
 class GroupDetails extends Component<IGroupDetailsProps & IMixinStatusProps> {
@@ -117,10 +126,16 @@ class GroupDetails extends Component<IGroupDetailsProps & IMixinStatusProps> {
 
             <ComboInput
                 keyI18n="Common.Attr.Key.Generation.Mod"
-                allOption={[
-                    {nameKey: "Common.Attr.Key.Generation.Mod.Point", key: "P"},
-                    {nameKey: "Common.Attr.Key.Generation.Mod.Range", key: "R"}
-                ]}
+                value={{
+                    nameKey: mapGenModToI18nKey.get(group.genMethod) ?? "Common.No.Data",
+                    key: group.genMethod
+                }}
+                allOption={allOption}
+                valueChange={(value) => {
+                    if (this.props.status) {
+                        this.props.status.changeGroupAttrib(group.id, "genMethod", value.key as any);
+                    }
+                }}
             />
 		</>
 	}

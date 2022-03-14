@@ -18,6 +18,11 @@ class Group extends CtrlObject {
 	 */
 	public individuals: Set<Individual> = new Set();
 
+    /**
+     * 个体生成方式
+     */
+    public genMethod: GenMod = GenMod.Point;
+
 	/**
 	 * 创建个体
      * @param count 创建数量
@@ -148,4 +153,4 @@ class Group extends CtrlObject {
 }
 
 export default Group;
-export { Group };
+export { Group, GenMod };

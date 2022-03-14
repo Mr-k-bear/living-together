@@ -11,6 +11,7 @@ type IPickerListItem = CtrlObject | Label;
 type IDisplayItem = {
     nameKey: AllI18nKeys;
     key: string;
+	mark?: boolean;
 }
 
 interface IPickerListProps {
@@ -82,12 +83,12 @@ class PickerList extends Component<IPickerListProps> {
 				}
 			}}
 		>
-			<div
-                className="list-item-name"
-                style={{
-                    paddingLeft: 10
-                }}
-            >
+			<div className="list-item-icon">
+				<Icon iconName="CheckMark" style={{
+					display: item.mark ? "block" : "none"
+				}}/>
+			</div>
+			<div className="list-item-name">
 				<Localization i18nKey={item.nameKey}/>
 			</div>
 		</div>;

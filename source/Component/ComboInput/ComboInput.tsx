@@ -2,6 +2,7 @@ import { Component, createRef, ReactNode } from "react";
 import { FontLevel, Theme } from "@Component/Theme/Theme";
 import { PickerList, IDisplayItem } from "../PickerList/PickerList";
 import { AllI18nKeys, Localization } from "@Component/Localization/Localization";
+import { Icon } from "@fluentui/react";
 import "./ComboInput.scss";
 
 interface IComboInputProps {
@@ -30,11 +31,17 @@ class ComboInput extends Component<IComboInputProps, IComboInputState> {
     private renderPicker() {
         return <PickerList
             target={this.pickerTarget}
-            displayItems={this.props.allOption ?? []}
+            displayItems={(this.props.allOption ?? []).map((item) => {
+                return item.key === this.props.value?.key ? 
+                    {...item, mark: true} : item;
+            })}
             clickDisplayItems={((item) => {
                 if (this.props.valueChange) {
                     this.props.valueChange(item);
                 }
+                this.setState({
+                    isPickerVisible: false
+                })
             })}
             dismiss={() => {
                 this.setState({
@@ -66,6 +73,9 @@ class ComboInput extends Component<IComboInputProps, IComboInputState> {
                             null
                         }
                     </div>
+                    <div className="list-button">
+                        <Icon iconName="ChevronDownMed"/>
+                    </div>
                 </div>
             </Theme>
 
@@ -74,4 +84,4 @@ class ComboInput extends Component<IComboInputProps, IComboInputState> {
     }
 }
 
-export { ComboInput };
+export { ComboInput, IDisplayItem };
