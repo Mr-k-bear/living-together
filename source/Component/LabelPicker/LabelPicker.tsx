@@ -69,13 +69,14 @@ class LabelPicker extends Component<ILabelPickerProps & IMixinStatusProps, ILabe
 					}}
 				/>
 				{this.state.isPickerVisible ? <PickerList
+                    noData="Common.Attr.Key.Label.Picker.Nodata"
 					objectList={this.getOtherLabel()}
 					dismiss={() => {
 						this.setState({
 							isPickerVisible: false
 						});
 					}}
-					click={(label) => {
+					clickObjectItems={(label) => {
 						if (label instanceof Label && this.props.labelAdd) {
 							this.props.labelAdd(label)
 						}

@@ -3,6 +3,11 @@ import { CtrlObject } from "./CtrlObject";
 import type { Behavior } from "./Behavior"; 
 import type { Model } from "./Model";
 
+enum GenMod {
+    Point = "p",
+    Range = "R"
+}
+
 /**
  * 群体类型
  */
@@ -12,6 +17,11 @@ class Group extends CtrlObject {
 	 * 所有个体
 	 */
 	public individuals: Set<Individual> = new Set();
+
+    /**
+     * 个体生成方式
+     */
+    public genMethod: GenMod = GenMod.Point;
 
 	/**
 	 * 创建个体
@@ -143,4 +153,4 @@ class Group extends CtrlObject {
 }
 
 export default Group;
-export { Group };
+export { Group, GenMod };
