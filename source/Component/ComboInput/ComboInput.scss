@@ -1,0 +1,74 @@
+@import "../Theme/Theme.scss";
+
+$line-min-height: 26px;
+
+div.combo-input-root {
+	width: 100%;
+	display: flex;
+	min-height: $line-min-height;
+	padding: 5px 0;
+
+    div.input-intro {
+		width: 50%;
+		height: 100%;
+		max-width: 220px;
+        min-height: $line-min-height;
+		display: flex;
+		align-items: center;
+        padding-right: 5px;
+        box-sizing: border-box;
+	}
+
+    div.root-content {
+        width: 50%;
+        height: 100%;
+        max-width: 180px;
+        min-height: $line-min-height;
+        border-radius: 3px;
+        overflow: hidden;
+        display: flex;
+        cursor: pointer;
+
+        div.value-view {
+            width: 100%;
+            height: 100%;
+            min-height: $line-min-height;
+            display: flex;
+            align-items: center;
+            padding-left: 5px;
+
+            span {
+                display: block;
+            }
+        }
+    }
+}
+
+div.dark.combo-input-root {
+
+	div.root-content {
+		background-color: $lt-bg-color-lvl3-dark;
+		color: $lt-font-color-normal-dark;
+	}
+
+	div.root-content:hover {
+		background-color: $lt-bg-color-lvl2-dark;
+	}
+}
+
+div.light.combo-input-root {
+
+	div.root-content {
+		background-color: $lt-bg-color-lvl3-light;
+		color: $lt-font-color-normal-light;
+	}
+
+	div.root-content:hover {
+		background-color: $lt-bg-color-lvl2-light;
+	}
+}
+
+div.combo-picker-root {
+    width: 300px;
+    height: 340px;
+}

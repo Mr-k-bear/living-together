@@ -3,6 +3,11 @@ import { CtrlObject } from "./CtrlObject";
 import type { Behavior } from "./Behavior"; 
 import type { Model } from "./Model";
 
+enum GenMod {
+    Point = "p",
+    Range = "R"
+}
+
 /**
  * 群体类型
  */

@@ -8,6 +8,7 @@ import { TogglesInput } from "@Component/TogglesInput/TogglesInput";
 import { LabelPicker } from "@Component/LabelPicker/LabelPicker";
 import { Group } from "@Model/Group";
 import { AllI18nKeys } from "@Component/Localization/Localization";
+import { ComboInput } from "@Component/ComboInput/ComboInput";
 import "./GroupDetails.scss";
 
 interface IGroupDetailsProps {}
@@ -61,6 +62,13 @@ class GroupDetails extends Component<IGroupDetailsProps & IMixinStatusProps> {
                 }}
             />
 
+            {this.renderAttrInput(
+                group.id, "Common.Attr.Key.Size", group.size,
+                (val, status) => {
+                    status.changeGroupAttrib(group.id, "size", (val as any) / 1);
+                }, 10, undefined, 0
+            )}
+
             <LabelPicker
                 keyI18n="Common.Attr.Key.Label"
                 labels={group.allLabels()}
@@ -104,6 +112,16 @@ class GroupDetails extends Component<IGroupDetailsProps & IMixinStatusProps> {
 					}
 				}}
 			/>
+
+            <Message i18nKey="Common.Attr.Title.Individual.Generation" isTitle/>
+
+            <ComboInput
+                keyI18n="Common.Attr.Key.Generation.Mod"
+                allOption={[
+                    {nameKey: "Common.Attr.Key.Generation.Mod.Point", key: "P"},
+                    {nameKey: "Common.Attr.Key.Generation.Mod.Range", key: "R"}
+                ]}
+            />
 		</>
 	}
 

@@ -25,7 +25,7 @@ class AttrInput extends Component<IAttrInputProps> {
 
     private value: string = "";
     private error: ReactNode;
-    private numberTestReg = [/\.0*$/, /[1-9]+0+$/];
+    private numberTestReg = [/\.0*$/, /\.\d*[1-9]+0+$/];
 
     private numberTester(value: string) {
         return isNaN((value as any) / 1) ||
