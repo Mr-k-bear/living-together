@@ -1,16 +1,11 @@
 import { Component, createRef, ReactNode } from "react";
-import { FontLevel, Theme } from "@Component/Theme/Theme";
+import { TextField, ITextFieldProps } from "@Component/TextField/TextField";
 import { Callout, ColorPicker, DirectionalHint } from "@fluentui/react";
-import { AllI18nKeys, Localization } from "@Component/Localization/Localization";
 import "./ColorInput.scss";
 
-interface IColorInputProps {
-    keyI18n: AllI18nKeys;
-    infoI18n?: AllI18nKeys;
+interface IColorInputProps extends ITextFieldProps {
     value?: number[];
     normal?: boolean;
-    disable?: boolean;
-    disableI18n?: AllI18nKeys;
     valueChange?: (color: number[]) => any;
 }
 
@@ -65,16 +60,6 @@ class ColorInput extends Component<IColorInputProps, IColorInputState> {
         </Callout>
     }
 
-    private renderErrorInput() {
-        return <div className="error-box">
-            {
-                this.props.disableI18n ? 
-                <Localization i18nKey={this.props.disableI18n}/> :
-                <span>{this.props.value}</span>
-            }
-        </div>;
-    }
-
     private renderColorInput() {
         return <>
             <div className="color-view">
@@ -104,29 +89,21 @@ class ColorInput extends Component<IColorInputProps, IColorInputState> {
 
     public render(): ReactNode {
         return <>
-            <Theme className="color-input-root" fontLevel={FontLevel.normal}>
-                <div className="input-intro">
-                    <Localization i18nKey={this.props.keyI18n}/>
-                </div>
-                <div
-                    className="root-content"
-                    ref={this.pickerTarget}
-                    style={{
-                        cursor: this.props.disable ? "not-allowed" : "pointer"
-                    }}
-                    onClick={() => {
-                        this.setState({
-                            isPickerVisible: !this.props.disable
-                        })
-                    }}
-                >
-                    { this.props.disable ? null : this.renderColorInput() }
-                    { this.props.disable ? this.renderErrorInput() : null }
-                </div>
-            </Theme>
-
+            <TextField
+                {...this.props}
+                className="color-input"
+                keyI18n={this.props.keyI18n}
+                targetRef={this.pickerTarget}
+                onClick={() => {
+                    this.setState({
+                        isPickerVisible: !this.props.disableI18n
+                    })
+                }}
+            >
+                { this.renderColorInput() }
+            </TextField>
             {this.state.isPickerVisible ?  this.renderPicker(): null}
-        </>
+        </>;
     }
 }
 
