@@ -1,14 +1,12 @@
 import { Component, ReactNode } from "react";
-import { FontLevel, Theme } from "@Component/Theme/Theme";
-import "./AttrInput.scss";
 import { Icon } from "@fluentui/react";
 import { Localization, AllI18nKeys } from "@Component/Localization/Localization";
 import { ObjectID } from "@Model/Renderer";
+import { TextField, ITextFieldProps } from "../TextField/TextField";
+import "./AttrInput.scss";
 
-interface IAttrInputProps {
+interface IAttrInputProps extends ITextFieldProps {
     id?: ObjectID;
-    keyI18n: AllI18nKeys;
-    infoI18n?: AllI18nKeys;
     value?: number | string;
 	isNumber?: boolean;
     maxLength?: number;
@@ -16,15 +14,14 @@ interface IAttrInputProps {
     max?: number;
     min?: number;
     step?: number;
-    disable?: boolean;
-    disableI18n?: AllI18nKeys;
     valueChange?: (value: this["isNumber"] extends true ? number : string) => any;
 }
 
 class AttrInput extends Component<IAttrInputProps> {
 
     private value: string = "";
-    private error: ReactNode;
+    private error?: AllI18nKeys;
+    private errorOption?: Record<string, string>;
     private numberTestReg = [/\.0*$/, /\.\d*[1-9]+0+$/];
 
     private numberTester(value: string) {
@@ -33,17 +30,21 @@ class AttrInput extends Component<IAttrInputProps> {
             this.numberTestReg[1].test(value);
     } 
 
-    private check(value: string): ReactNode {
+    private check(value: string): AllI18nKeys | undefined {
 
         // 长度校验
         const maxLength = this.props.maxLength ?? 32;
         if (value.length > maxLength) {
-            return <Localization i18nKey="Input.Error.Length" options={{ num: maxLength.toString() }} />
+            this.error = "Input.Error.Length";
+            this.errorOption = { num: maxLength.toString() };
+            return this.error;
         }
 
         const minLength = this.props.minLength ?? 1;
         if (value.length < minLength) {
-            return <Localization i18nKey="Input.Error.Length.Less" options={{ num: minLength.toString() }} />
+            this.error = "Input.Error.Length.Less";
+            this.errorOption = { num: minLength.toString() };
+            return this.error;
         }
 
         if (this.props.isNumber) {
@@ -51,17 +52,22 @@ class AttrInput extends Component<IAttrInputProps> {
 
             // 数字校验
             if (this.numberTester(value)) {
-                return <Localization i18nKey="Input.Error.Not.Number" />
+                this.error = "Input.Error.Not.Number";
+                return this.error;
             }
 
             // 最大值校验
             if (this.props.max !== undefined && praseNumber > this.props.max) {
-                return <Localization i18nKey="Input.Error.Max" options={{ num: this.props.max.toString() }} />
+                this.error = "Input.Error.Max";
+                this.errorOption = { num: this.props.max.toString() };
+                return this.error;
             }
 
             // 最小值校验
             if (this.props.min !== undefined && praseNumber < this.props.min) {
-                return <Localization i18nKey="Input.Error.Min" options={{ num: this.props.min.toString() }} />
+                this.error = "Input.Error.Min";
+                this.errorOption = { num: this.props.min.toString() };
+                return this.error;
             }
 
         }
@@ -102,41 +108,33 @@ class AttrInput extends Component<IAttrInputProps> {
 
     private renderInput() {
         return <>
-            <div className={"input-content" + (this.error ? ` error` : "")}>
-                {
-                    this.props.isNumber ? <div
-                        className="button-left"
-                        onClick={() => this.changeValue(-1)}
-                    >
-                        <Icon iconName="ChevronLeft"></Icon>
-                    </div> : null
-                }
-                <input
-                    className="input"
-                    value={this.value}
-                    style={{
-                        padding: this.props.isNumber ? "0 3px" : "0 8px"
-                    }}
-                    onChange={(e) => {
-                        this.value = e.target.value;
-                        this.error = this.check(e.target.value);
-                        this.handelValueChange();
-                    }}
-                ></input>
-                {
-                    this.props.isNumber ? <div
-                        className="button-right"
-                        onClick={() => this.changeValue(1)}
-                    >
-                        <Icon iconName="ChevronRight"></Icon>
-                    </div> : null
-                }
-            </div>
-            { 
-                this.error ? 
-                    <div className="err-message">
-                        {this.error}
-                    </div> : null
+            {
+                this.props.isNumber ? <div
+                    className="button-left"
+                    onClick={() => this.changeValue(-1)}
+                >
+                    <Icon iconName="ChevronLeft"></Icon>
+                </div> : null
+            }
+            <input
+                className="input"
+                value={this.value}
+                style={{
+                    padding: this.props.isNumber ? "0 3px" : "0 8px"
+                }}
+                onChange={(e) => {
+                    this.value = e.target.value;
+                    this.error = this.check(e.target.value);
+                    this.handelValueChange();
+                }}
+            ></input>
+            {
+                this.props.isNumber ? <div
+                    className="button-right"
+                    onClick={() => this.changeValue(1)}
+                >
+                    <Icon iconName="ChevronRight"></Icon>
+                </div> : null
             }
         </>
     }
@@ -166,33 +164,19 @@ class AttrInput extends Component<IAttrInputProps> {
         this.error = this.check(value.toString());
     }
 
-    private renderErrorInput() {
-        return <div className="error-view">
-            {
-                this.props.disableI18n ? 
-                <Localization i18nKey={this.props.disableI18n}/> :
-                <span>{this.props.value}</span>
-            }
-        </div>
-    }
-
 	public render(): ReactNode {
 
-		return <Theme
-            className="attr-input"
-            fontLevel={FontLevel.normal}
+		return <TextField
+            {...this.props}
+            className="attr-input-root"
+            customHoverStyle
+            errorI18n={this.error}
+            errorI18nOption={this.errorOption}
         >
-            <div className="input-intro">
-                <Localization i18nKey={this.props.keyI18n}/>
-            </div>
-            <div className="root-content">
-                {
-                    this.props.disable ? 
-                        this.renderErrorInput() :
-                        this.renderInput()
-                }
-            </div>
-        </Theme>
+            {
+                this.renderInput()
+            }
+        </TextField>;
 	}
 }
 

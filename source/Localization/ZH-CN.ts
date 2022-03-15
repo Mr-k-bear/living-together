@@ -44,6 +44,7 @@ const ZH_CN = {
     "Panel.Title.Group.Details.View": "群",
     "Panel.Info.Group.Details.View": "编辑查看群属性",
     "Common.No.Data": "暂无数据",
+    "Common.No.Unknown.Error": "未知错误",
     "Common.Attr.Title.Basic": "基础属性",
     "Common.Attr.Title.Spatial": "空间属性",
     "Common.Attr.Title.Individual.Generation": "个体生成",

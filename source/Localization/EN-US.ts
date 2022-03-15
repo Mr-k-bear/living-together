@@ -44,6 +44,7 @@ const EN_US = {
     "Panel.Title.Group.Details.View": "Group",
     "Panel.Info.Group.Details.View": "Edit view group attributes",
     "Common.No.Data": "No Data",
+    "Common.No.Unknown.Error": "Unknown error",
     "Common.Attr.Title.Basic": "Basic properties",
     "Common.Attr.Title.Spatial": "Spatial property",
     "Common.Attr.Title.Individual.Generation": "Individual generation",
