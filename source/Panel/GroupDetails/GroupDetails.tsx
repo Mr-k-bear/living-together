@@ -9,6 +9,7 @@ import { LabelPicker } from "@Component/LabelPicker/LabelPicker";
 import { Group, GenMod } from "@Model/Group";
 import { AllI18nKeys } from "@Component/Localization/Localization";
 import { ComboInput, IDisplayItem } from "@Component/ComboInput/ComboInput";
+import { ObjectPicker } from "@Component/ObjectPicker/ObjectPicker";
 import "./GroupDetails.scss";
 
 interface IGroupDetailsProps {}
@@ -136,6 +137,11 @@ class GroupDetails extends Component<IGroupDetailsProps & IMixinStatusProps> {
                         this.props.status.changeGroupAttrib(group.id, "genMethod", value.key as any);
                     }
                 }}
+            />
+
+            <ObjectPicker
+                keyI18n="Common.Attr.Key.Generation.Use.Range"
+                type={["L", "G", "R"]}
             />
 		</>
 	}
