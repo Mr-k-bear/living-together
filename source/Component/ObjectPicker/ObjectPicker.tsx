@@ -2,19 +2,17 @@ import { Component, createRef, ReactNode } from "react";
 import { Label } from "@Model/Label";
 import { Group } from "@Model/Group";
 import { Range } from "@Model/Range";
+import { TextField, ITextFieldProps } from "../TextField/TextField";
 import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
-import { FontLevel, Theme } from "@Component/Theme/Theme";
 import { PickerList, IDisplayItem } from "../PickerList/PickerList";
-import { AllI18nKeys, Localization } from "@Component/Localization/Localization";
+import { Localization } from "@Component/Localization/Localization";
 import { Icon } from "@fluentui/react";
 import CtrlObject from "@Model/CtrlObject";
 import "./ObjectPicker.scss";
 
 type IObjectType = Label | Group | Range | CtrlObject;
 
-interface IObjectPickerProps {
-    keyI18n: AllI18nKeys;
-    infoI18n?: AllI18nKeys;
+interface IObjectPickerProps extends ITextFieldProps {
     type: Array<"L" | "G" | "R">;
     value?: IObjectType;
     valueChange?: (value: IObjectType) => any;
@@ -109,31 +107,28 @@ class ObjectPicker extends Component<IObjectPickerProps & IMixinStatusProps, IOb
         }
 
         return <>
-            <Theme className="object-picker-root" fontLevel={FontLevel.normal}>
-                <div className="input-intro">
-                    <Localization i18nKey={this.props.keyI18n}/>
+            <TextField
+                {...this.props}
+                className="object-picker"
+                keyI18n={this.props.keyI18n}
+                targetRef={this.pickerTarget}
+                onClick={() => {
+                    this.setState({
+                        isPickerVisible: true
+                    })
+                }}
+            >
+                <div className="list-button">
+                    <Icon iconName={icon}/>
                 </div>
-                <div
-                    className="root-content"
-                    ref={this.pickerTarget}
-                    onClick={() => {
-                        this.setState({
-                            isPickerVisible: true
-                        })
-                    }}
-                >
-                    <div className="list-button">
-                        <Icon iconName={icon}/>
-                    </div>
-                    <div className="value-view">
-                        {   
-                            name ? 
-                                <span>{name}</span> :
-                                <Localization i18nKey="Input.Error.Select"/>
-                        }
-                    </div>
+                <div className="value-view">
+                    {   
+                        name ? 
+                            <span>{name}</span> :
+                            <Localization i18nKey="Input.Error.Select"/>
+                    }
                 </div>
-            </Theme>
+            </TextField>
 
             {this.state.isPickerVisible ?  this.renderPicker(): null}
         </>
