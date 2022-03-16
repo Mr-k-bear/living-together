@@ -17,6 +17,7 @@ type ModelEvent = {
     objectAdd: CtrlObject;
     objectDelete: CtrlObject[];
     objectChange: CtrlObject[];
+    individualChange: Group;
 };
 
 /**

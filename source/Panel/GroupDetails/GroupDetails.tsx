@@ -116,7 +116,7 @@ class GroupDetails extends Component<IGroupDetailsProps & IMixinStatusProps> {
 
             <AttrInput
                 id={group.id} isNumber={true} step={1} keyI18n="Common.Attr.Key.Generation.Count"
-                value={group.genCount} min={0} max={1000}
+                value={group.genCount} min={1} max={1000}
                 valueChange={(val) => {
                     this.props.status?.changeGroupAttrib(group.id, "genCount", (val as any) / 1);
                 }}
@@ -130,7 +130,7 @@ class GroupDetails extends Component<IGroupDetailsProps & IMixinStatusProps> {
 				keyI18n="Common.Attr.Key.Generation"
 				onIconName="BuildDefinition" offIconName="BuildDefinition"
 				valueChange={() => {
-					console.log("gen");
+					group.genIndividuals();
 				}}
 			/>
 
