@@ -126,13 +126,19 @@ class GroupDetails extends Component<IGroupDetailsProps & IMixinStatusProps> {
 
             {group.genMethod === GenMod.Range ? this.renderRangeGenOption(group) : null}
 
+            <TogglesInput
+				keyI18n="Common.Attr.Key.Generation"
+				onIconName="BuildDefinition" offIconName="BuildDefinition"
+				valueChange={() => {
+					console.log("gen");
+				}}
+			/>
+
 		</>
 	}
 
     private renderPointGenOption(group: Group) {
-
         return <>
-
             <AttrInput
                 id={group.id} isNumber={true} step={0.1} keyI18n="Common.Attr.Key.Generation.Point.X"
                 value={group.genPoint[0] ?? 0}
@@ -163,12 +169,17 @@ class GroupDetails extends Component<IGroupDetailsProps & IMixinStatusProps> {
     }
 
     private renderRangeGenOption(group: Group) {
-
         return <>
-
             <ObjectPicker
                 keyI18n="Common.Attr.Key.Generation.Use.Range"
-                type={["L", "G", "R"]}
+                type={["L", "R"]}
+                value={group.genRange}
+                valueChange={(value) => {
+                    this.props.status?.changeGroupAttrib(group.id, "genRange", value);
+                }}
+                cleanValue={() => {
+                    this.props.status?.changeGroupAttrib(group.id, "genRange", undefined);
+                }}
             />
         </>
     }

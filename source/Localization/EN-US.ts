@@ -29,6 +29,7 @@ const EN_US = {
     "Object.List.New.Range": "Range object {id}",
     "Object.List.New.Label": "Label {id}",
     "Object.List.No.Data": "There are no objects in the model, click the button to create it",
+    "Object.Picker.List.No.Data": "There is no model in the model for this option",
     "Panel.Title.Notfound": "{id}",
     "Panel.Info.Notfound": "This panel with id {id} can not found!",
     "Panel.Title.Render.View": "Live preview",

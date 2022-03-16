@@ -4,10 +4,10 @@ import { Group } from "@Model/Group";
 import { Range } from "@Model/Range";
 import { TextField, ITextFieldProps } from "../TextField/TextField";
 import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
-import { PickerList, IDisplayItem } from "../PickerList/PickerList";
+import { PickerList, IDisplayItem, getObjectDisplayInfo, IDisplayInfo } from "../PickerList/PickerList";
 import { Localization } from "@Component/Localization/Localization";
 import { Icon } from "@fluentui/react";
-import CtrlObject from "@Model/CtrlObject";
+import { CtrlObject } from "@Model/CtrlObject";
 import "./ObjectPicker.scss";
 
 type IObjectType = Label | Group | Range | CtrlObject;
@@ -16,6 +16,7 @@ interface IObjectPickerProps extends ITextFieldProps {
     type: Array<"L" | "G" | "R">;
     value?: IObjectType;
     valueChange?: (value: IObjectType) => any;
+    cleanValue?: () => any;
 }
 
 interface IObjectPickerState {
@@ -57,6 +58,8 @@ class ObjectPicker extends Component<IObjectPickerProps & IMixinStatusProps, IOb
         return option;
     }
 
+    private isClean: boolean = false;
+
     public constructor(props: IObjectPickerProps) {
         super(props);
         this.state = {
@@ -68,6 +71,7 @@ class ObjectPicker extends Component<IObjectPickerProps & IMixinStatusProps, IOb
 
     private renderPicker() {
         return <PickerList
+            noData="Object.Picker.List.No.Data"
             target={this.pickerTarget}
             objectList={this.getAllOption()}
             clickObjectItems={((item) => {
@@ -88,22 +92,18 @@ class ObjectPicker extends Component<IObjectPickerProps & IMixinStatusProps, IOb
 
     public render(): ReactNode {
 
-        let name = "";
-        let icon = "Label";
-        if (this.props.value instanceof CtrlObject) {
-            name = this.props.value.displayName;
+        let disPlayInfo: IDisplayInfo;
+        let isDelete: boolean = false;
 
-            if (this.props.value instanceof Range) {
-                icon = "CubeShape"
+        if (this.props.value) {
+            disPlayInfo = getObjectDisplayInfo(this.props.value);
+            isDelete = this.props.value.isDeleted();
+        } else {
+            disPlayInfo = {
+                name: "",
+                icon: "Label",
+                color: "rgba(0,0,0,0)"
             }
-
-            if (this.props.value instanceof Group) {
-                icon = "WebAppBuilderFragment"
-            }
-        }
-        if (this.props.value instanceof Label) {
-            name = this.props.value.name;
-            icon = "tag";
         }
 
         return <>
@@ -113,19 +113,50 @@ class ObjectPicker extends Component<IObjectPickerProps & IMixinStatusProps, IOb
                 keyI18n={this.props.keyI18n}
                 targetRef={this.pickerTarget}
                 onClick={() => {
-                    this.setState({
-                        isPickerVisible: true
-                    })
+                    if (this.isClean) {
+                        this.isClean = false;
+                    } else {
+                        this.setState({
+                            isPickerVisible: true
+                        })
+                    }
                 }}
             >
+                <div
+                    className="list-color"
+                    style={{
+                            backgroundColor: disPlayInfo.color
+                    }}
+                />
                 <div className="list-button">
-                    <Icon iconName={icon}/>
+                    <Icon iconName={disPlayInfo.icon}/>
                 </div>
-                <div className="value-view">
+                <div
+                    className="value-view"
+                    style={{
+                        textDecoration: isDelete ? "line-through" : undefined,
+                        opacity: isDelete ? ".6" : undefined
+                    }}
+                >
                     {   
-                        name ? 
-                            <span>{name}</span> :
+                        disPlayInfo.name ? 
+                            <span>{disPlayInfo.name}</span> :
                             <Localization i18nKey="Input.Error.Select"/>
+                    }
+                </div>
+                <div
+                    className="list-empty"
+                    onClick={() => {
+                        if (this.props.cleanValue && disPlayInfo.name) {
+                            this.isClean = true;
+                            this.props.cleanValue();
+                        }
+                    }}
+                >
+                    {   
+                        disPlayInfo.name ? 
+                            <Icon iconName="delete"/> :
+                            null
                     }
                 </div>
             </TextField>

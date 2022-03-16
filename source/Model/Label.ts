@@ -45,12 +45,19 @@ class Label {
     }
 
     /**
+     * 删除标记
+     */
+    private deleteFlag: boolean = false;
+
+    /**
      * 是否被删除
      */
     public isDeleted(): boolean {
+        if (this.deleteFlag) return true;
         for (let i = 0; i < this.model.labelPool.length; i++) {
             if (this.model.labelPool[i].equal(this)) return false;
         }
+        this.deleteFlag = true;
         return true;
     }
 }

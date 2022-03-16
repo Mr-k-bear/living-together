@@ -7,11 +7,43 @@ import { Range } from "@Model/Range";
 import { Component, ReactNode, RefObject } from "react";
 import "./PickerList.scss";
 
-type IPickerListItem = CtrlObject | Label;
+type IDisplayInfo = Record<"color" | "icon" | "name", string>;
+type IPickerListItem = CtrlObject | Label | Range | Group;
 type IDisplayItem = {
     nameKey: AllI18nKeys;
     key: string;
 	mark?: boolean;
+}
+
+function getObjectDisplayInfo(item: IPickerListItem): IDisplayInfo {
+
+	let color: number[] = [];
+	let icon: string = "tag";
+	let name: string = "";
+
+	if (item instanceof Range) {
+		icon = "CubeShape"
+	}
+	if (item instanceof Group) {
+		icon = "WebAppBuilderFragment"
+	}
+	if (item instanceof CtrlObject) {
+		color[0] = Math.round(item.color[0] * 255);
+		color[1] = Math.round(item.color[1] * 255);
+		color[2] = Math.round(item.color[2] * 255);
+		name = item.displayName;
+	}
+	if (item instanceof Label) {
+		icon = "tag";
+		color = item.color.concat([]);
+		name = item.name;
+	}
+
+	return {
+		color: `rgb(${color[0]},${color[1]},${color[2]})`,
+		icon: icon,
+		name: name
+	}
 }
 
 interface IPickerListProps {
@@ -27,28 +59,7 @@ interface IPickerListProps {
 class PickerList extends Component<IPickerListProps> {
 
 	private renderItem(item: IPickerListItem) {
-
-		let color: number[] = [];
-		let icon: string = "tag";
-		let name: string = "";
-
-		if (item instanceof Range) {
-			icon = "CubeShape"
-		}
-		if (item instanceof Group) {
-			icon = "WebAppBuilderFragment"
-		}
-		if (item instanceof CtrlObject) {
-			color[0] = Math.round(item.color[0] * 255);
-			color[1] = Math.round(item.color[1] * 255);
-			color[2] = Math.round(item.color[2] * 255);
-			name = item.displayName;
-		}
-		if (item instanceof Label) {
-			icon = "tag";
-			color = item.color.concat([]);
-			name = item.name;
-		}
+		const displayInfo = getObjectDisplayInfo(item);
 
 		return <div
 			className="picker-list-item"
@@ -61,14 +72,14 @@ class PickerList extends Component<IPickerListProps> {
 		>
 			<div className="list-item-color"
 				style={{
-					backgroundColor: `rgb(${color[0]},${color[1]},${color[2]})`
+					backgroundColor: displayInfo.color
 				}}
 			></div>
 			<div className="list-item-icon">
-				<Icon iconName={icon}/>
+				<Icon iconName={displayInfo.icon}/>
 			</div>
 			<div className="list-item-name">
-				{name}
+				{displayInfo.name}
 			</div>
 		</div>;
 	}
@@ -124,4 +135,4 @@ class PickerList extends Component<IPickerListProps> {
 	}
 }
 
-export { PickerList, IDisplayItem }
+export { PickerList, IDisplayItem, IDisplayInfo, getObjectDisplayInfo }
