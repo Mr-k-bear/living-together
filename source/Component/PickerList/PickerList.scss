@@ -1,12 +1,13 @@
 div.picker-list-root {
-	max-width: 200px;
+	min-width: 200px;
 	height: 100%;
 	padding: 0px;
 	margin: 0px;
 	overflow-y: auto;
 
 	div.picker-list-item {
-		width: 200px;
+		min-width: 200px;
+		padding-right: 10px;
 		height: 36px;
 		display: flex;
 		justify-content: center;
@@ -37,6 +38,7 @@ div.picker-list-root {
 
 		div.list-item-name {
 			width: 100%;
+			white-space: nowrap;
             box-sizing: border-box;
 		}
 	}

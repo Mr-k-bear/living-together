@@ -52,6 +52,31 @@ class CtrlObject extends LabelObject {
     public delete() {
         this.model.deleteObject([this]);
     }
+
+    /**
+     * 判断是否为相同对象
+     */
+    public equal(obj: CtrlObject): boolean {
+        return this === obj || this.id === obj.id;
+    }
+
+
+    /**
+     * 删除标记
+     */
+    private deleteFlag: boolean = false;
+
+     /**
+      * 是否被删除
+      */
+    public isDeleted(): boolean {
+        if (this.deleteFlag) return true;
+        for (let i = 0; i < this.model.objectPool.length; i++) {
+            if (this.model.objectPool[i].equal(this)) return false;
+        }
+        this.deleteFlag = true;
+        return true;
+    }
 }
 
 export default CtrlObject;

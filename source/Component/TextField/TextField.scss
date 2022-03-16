@@ -1,0 +1,84 @@
+@import "../Theme/Theme.scss";
+
+$line-min-height: 26px;
+
+div.text-field-root {
+    min-height: $line-min-height;
+	width: 100%;
+	display: flex;
+	padding: 5px 0;
+
+    div.text-field-intro {
+        min-height: $line-min-height;
+		width: 50%;
+		height: 100%;
+		max-width: 220px;
+		display: flex;
+		align-items: center;
+        padding-right: 5px;
+        box-sizing: border-box;
+	}
+
+    div.text-field-container {
+        min-height: $line-min-height;
+        width: 50%;
+        height: 100%;
+        max-width: 180px;
+
+        div.text-field-content {
+            min-height: $line-min-height;
+            width: 100%;
+            height: 100%;
+        }
+
+        div.text-field-content-styled {
+            box-sizing: border-box;
+            border: 1px solid transparent;
+            border-radius: 3px;
+            overflow: hidden;
+            display: flex;
+        }
+        
+        div.text-field-content-disable {
+            align-items: center;
+            
+            span {
+                display: block;
+                padding-left: 8px;
+            }
+        }
+
+        div.text-field-content-error {
+            border: 1px solid $lt-red;
+        }
+
+        div.text-field-error-message {
+            padding-top: 5px;
+            color: $lt-red;
+        }
+    }
+}
+
+div.dark.text-field-root {
+
+	div.text-field-content-styled {
+		background-color: $lt-bg-color-lvl3-dark;
+		color: $lt-font-color-normal-dark;
+	}
+
+	div.text-field-content-hover-styled:hover {
+		background-color: $lt-bg-color-lvl2-dark;
+	}
+}
+
+div.light.text-field-root {
+
+	div.text-field-content-styled {
+		background-color: $lt-bg-color-lvl3-light;
+		color: $lt-font-color-normal-light;
+	}
+
+	div.text-field-content-hover-styled:hover {
+		background-color: $lt-bg-color-lvl2-light;
+	}
+}

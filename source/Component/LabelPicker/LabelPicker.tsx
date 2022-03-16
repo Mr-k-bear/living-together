@@ -1,14 +1,12 @@
-import { AllI18nKeys, Localization } from "@Component/Localization/Localization";
 import { PickerList } from "../PickerList/PickerList";
 import { Label } from "@Model/Label";
+import { TextField, ITextFieldProps } from "../TextField/TextField";
 import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
 import { Component, ReactNode, createRef } from "react";
 import { LabelList } from "../LabelList/LabelList";
 import "./LabelPicker.scss"
 
-interface ILabelPickerProps {
-	keyI18n: AllI18nKeys;
-    infoI18n?: AllI18nKeys;
+interface ILabelPickerProps extends ITextFieldProps {
 	labels: Label[];
 	labelAdd?: (label: Label) => any;
 	labelDelete?: (label: Label) => any;
@@ -47,47 +45,50 @@ class LabelPicker extends Component<ILabelPickerProps & IMixinStatusProps, ILabe
 		return res;
 	}
 
+    private renderPicker() {
+        return <PickerList
+            noData="Common.Attr.Key.Label.Picker.Nodata"
+            objectList={this.getOtherLabel()}
+            dismiss={() => {
+                this.setState({
+                    isPickerVisible: false
+                });
+            }}
+            clickObjectItems={(label) => {
+                if (label instanceof Label && this.props.labelAdd) {
+                    this.props.labelAdd(label)
+                }
+                this.setState({
+                    isPickerVisible: false
+                });
+            }}
+            target={this.addButtonRef}
+        />;
+    }
+
 	public render(): ReactNode {
-		return <div
-			className="label-picker-root"
-		>
-			<div className="input-intro">
-				<Localization i18nKey={this.props.keyI18n}/>
-			</div>
-			<div className="root-content">
-				<LabelList
-					addRef={this.addButtonRef}
-					labels={this.props.labels}
-					minHeight={26}
-					deleteLabel={(label) => {
-						this.props.labelDelete ? this.props.labelDelete(label) : 0;
-					}}
-					addLabel={() => {
-						this.setState({
-							isPickerVisible: true
-						});
-					}}
-				/>
-				{this.state.isPickerVisible ? <PickerList
-                    noData="Common.Attr.Key.Label.Picker.Nodata"
-					objectList={this.getOtherLabel()}
-					dismiss={() => {
-						this.setState({
-							isPickerVisible: false
-						});
-					}}
-					clickObjectItems={(label) => {
-						if (label instanceof Label && this.props.labelAdd) {
-							this.props.labelAdd(label)
-						}
-						this.setState({
-							isPickerVisible: false
-						});
-					}}
-					target={this.addButtonRef}
-				/> : null}
-			</div>
-		</div>
+		return <TextField
+            {...this.props}
+            className="label-picker"
+            customHoverStyle
+            customStyle
+            keyI18n={this.props.keyI18n}
+        >
+            <LabelList
+                addRef={this.addButtonRef}
+                labels={this.props.labels}
+                minHeight={26}
+                deleteLabel={(label) => {
+                    this.props.labelDelete ? this.props.labelDelete(label) : 0;
+                }}
+                addLabel={() => {
+                    this.setState({
+                        isPickerVisible: true
+                    });
+                }}
+            />
+            {this.state.isPickerVisible ? this.renderPicker(): null}
+        </TextField>;
 	}
 }
 

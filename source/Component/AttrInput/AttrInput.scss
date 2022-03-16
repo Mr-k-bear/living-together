@@ -1,120 +1,59 @@
 @import "../Theme/Theme.scss";
 
-$line-min-height: 26px;
+$line-min-height: 24px;
 
-div.attr-input {
-	width: 100%;
-	display: flex;
-	min-height: $line-min-height;
-	padding: 5px 0;
+div.attr-input-root {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-	div.input-intro {
-		width: 50%;
-		height: 100%;
-        min-height: $line-min-height;
-		max-width: 220px;
-		display: flex;
-		align-items: center;
-        padding-right: 5px;
-        box-sizing: border-box;
-	}
-
-    div.root-content {
-        width: 50%;
+    input {
+        display: block;
+        width: 100%;
         height: 100%;
-        max-width: 180px;
+        border: none;
+        outline: none;
+        background-color: transparent;
         min-height: $line-min-height;
+    };
 
-        div.input-content {
-            box-sizing: border-box;
-            border: 1px solid transparent;
-            border-radius: 3px;
-            overflow: hidden;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: $line-min-height;
-    
-            input {
-                width: 100%;
-                height: 100%;
-                border: none;
-                outline:none;
-            };
-    
-            input:focus {
-                border: none;
-            }
-    
-            div.button-left, div.button-right {
-                min-height: $line-min-height;
-                height: 100%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                vertical-align: middle;
-                cursor: pointer;
-                user-select: none;
-                padding: 0 3px;
-            }
-        }
-    
-        div.input-content.error {
-            border: 1px solid $lt-red;
-        }
+    input:focus {
+        border: none;
+        background-color: transparent;
+    }
 
-        div.input-content.focus {
-            border: 1px solid $lt-blue;
-        }
-
-        div.err-message {
-            color: $lt-red;
-            padding-top: 5px;
-            min-height: $line-min-height;
-        }
-
-        div.error-view {
-            border-radius: 3px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            height: $line-min-height;
-            text-overflow: ellipsis;
-            word-wrap: none;
-            word-break: keep-all;
-            white-space: nowrap;
-            cursor:not-allowed;
-
-            span {
-                padding-left: 8px;
-            }
-        }
+    div.button-left, div.button-right {
+        min-height: $line-min-height;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        vertical-align: middle;
+        cursor: pointer;
+        user-select: none;
+        padding: 0 3px;
     }
 }
 
-div.dark.attr-input {
+div.dark.text-field-root {
 
-	div.input-content, div.error-view,
-	div.input-content input {
+	input {
 		background-color: $lt-bg-color-lvl3-dark;
 		color: $lt-font-color-normal-dark;
 	}
 
-    div.error-view:hover,
 	div.button-left:hover, div.button-right:hover {
 		background-color: $lt-bg-color-lvl2-dark;
 	}
 }
 
-div.light.attr-input {
+div.light.text-field-root {
 
-	div.input-content, div.error-view,
-	div.input-content input {
+	input {
 		background-color: $lt-bg-color-lvl3-light;
 		color: $lt-font-color-normal-light;
 	}
 
-    div.error-view:hover,
 	div.button-left:hover, div.button-right:hover {
 		background-color: $lt-bg-color-lvl2-light;
 	}

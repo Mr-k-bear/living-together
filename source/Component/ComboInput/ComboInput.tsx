@@ -1,13 +1,10 @@
 import { Component, createRef, ReactNode } from "react";
-import { FontLevel, Theme } from "@Component/Theme/Theme";
 import { PickerList, IDisplayItem } from "../PickerList/PickerList";
-import { AllI18nKeys, Localization } from "@Component/Localization/Localization";
+import { TextField, ITextFieldProps } from "../TextField/TextField";
 import { Icon } from "@fluentui/react";
+import { Localization } from "@Component/Localization/Localization";
 import "./ComboInput.scss";
-
-interface IComboInputProps {
-    keyI18n: AllI18nKeys;
-    infoI18n?: AllI18nKeys;
+interface IComboInputProps extends ITextFieldProps {
     allOption?: IDisplayItem[];
     value?: IDisplayItem;
     valueChange?: (value: IDisplayItem) => any;
@@ -53,31 +50,28 @@ class ComboInput extends Component<IComboInputProps, IComboInputState> {
 
     public render(): ReactNode {
         return <>
-            <Theme className="combo-input-root" fontLevel={FontLevel.normal}>
-                <div className="input-intro">
-                    <Localization i18nKey={this.props.keyI18n}/>
+            <TextField
+                {...this.props}
+                targetRef={this.pickerTarget}
+                className="combo-input"
+                keyI18n={this.props.keyI18n}
+                onClick={() => {
+                    this.setState({
+                        isPickerVisible: true
+                    })
+                }}
+            >
+                <div className="value-view">
+                    {
+                        this.props.value ? 
+                        <Localization i18nKey={this.props.value.nameKey}/> :
+                        null
+                    }
                 </div>
-                <div
-                    className="root-content"
-                    ref={this.pickerTarget}
-                    onClick={() => {
-                        this.setState({
-                            isPickerVisible: true
-                        })
-                    }}
-                >
-                    <div className="value-view">
-                        {
-                            this.props.value ? 
-                            <Localization i18nKey={this.props.value.nameKey}/> :
-                            null
-                        }
-                    </div>
-                    <div className="list-button">
-                        <Icon iconName="ChevronDownMed"/>
-                    </div>
+                <div className="list-button">
+                    <Icon iconName="ChevronDownMed"/>
                 </div>
-            </Theme>
+            </TextField>
 
             {this.state.isPickerVisible ?  this.renderPicker(): null}
         </>

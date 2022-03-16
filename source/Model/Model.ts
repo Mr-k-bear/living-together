@@ -91,6 +91,31 @@ class Model extends Emitter<ModelEvent> {
     }
 
     /**
+     * 通过标签获取指定类型的对象
+     * @param label 标签
+     * @param type 筛选类型
+     */
+    public getObjectByLabel(
+        label: Label, type?: 
+            (new (...p: any) => Range) | 
+            (new (...p: any) => Group)
+    ): CtrlObject[] {
+        const res: CtrlObject[] = [];
+        for (let i = 0; i < this.objectPool.length; i++) {
+            if (this.objectPool[i].hasLabel(label)) {
+                if (type) {
+                    if (this.objectPool[i] instanceof type) {
+                        res.push(this.objectPool[i]);
+                    }
+                } else {
+                    res.push(this.objectPool[i]);
+                }
+            }
+        }
+        return res;
+    }
+
+    /**
      * 添加组
      */
     public addGroup(): Group {

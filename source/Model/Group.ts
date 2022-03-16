@@ -1,7 +1,7 @@
 import { Individual } from "./Individual";
 import { CtrlObject } from "./CtrlObject";
 import type { Behavior } from "./Behavior"; 
-import type { Model } from "./Model";
+import type { Label } from "./Label";
 
 enum GenMod {
     Point = "p",
@@ -22,6 +22,21 @@ class Group extends CtrlObject {
      * 个体生成方式
      */
     public genMethod: GenMod = GenMod.Point;
+
+    /**
+     * 生成位置坐标
+     */
+    public genPoint: number[] = [0, 0, 0];
+
+    /**
+     * 生成范围
+     */
+    public genRange?: CtrlObject | Label;
+
+    /**
+     * 生成个数
+     */
+    public genCount?: number = 0;
 
 	/**
 	 * 创建个体

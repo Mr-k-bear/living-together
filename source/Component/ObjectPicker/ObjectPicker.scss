@@ -2,20 +2,26 @@
 
 $line-min-height: 24px;
 
-div.combo-input {
-	
+div.object-picker {
+
+    div.list-color {
+        width: 3px;
+        height: $line-min-height;
+        border-radius: 1000px;
+        flex-shrink: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     div.value-view {
+        flex-shrink: 1;
         width: 100%;
         height: 100%;
+        max-width: calc( 100% - 51px );
         min-height: $line-min-height;
-        max-width: calc( 100% - 32px );
         display: flex;
         align-items: center;
-        padding-left: 8px;
-        white-space: nowrap;
-        word-break: keep-all;
-        text-overflow: ellipsis;
-        overflow: hidden;
 
         span {
             word-break: keep-all;
@@ -34,5 +40,18 @@ div.combo-input {
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+
+    div.list-empty {
+        width: $line-min-height;
+        height: $line-min-height;
+        flex-shrink: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    div.list-empty:hover {
+        color: $lt-red;
     }
 }

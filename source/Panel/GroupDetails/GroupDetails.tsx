@@ -9,6 +9,7 @@ import { LabelPicker } from "@Component/LabelPicker/LabelPicker";
 import { Group, GenMod } from "@Model/Group";
 import { AllI18nKeys } from "@Component/Localization/Localization";
 import { ComboInput, IDisplayItem } from "@Component/ComboInput/ComboInput";
+import { ObjectPicker } from "@Component/ObjectPicker/ObjectPicker";
 import "./GroupDetails.scss";
 
 interface IGroupDetailsProps {}
@@ -25,58 +26,33 @@ const allOption: IDisplayItem[] = [
 @useStatusWithEvent("groupAttrChange", "groupLabelChange", "focusObjectChange")
 class GroupDetails extends Component<IGroupDetailsProps & IMixinStatusProps> {
 
-	private renderAttrInput(
-        id: ObjectID, key: AllI18nKeys, val: string | number | undefined,
-        change: (val: string, status: Status) => any,
-        step?: number, max?: number, min?: number
-    ) {
-        const handelFunc = (e: string) => {
-            if (this.props.status) {
-                change(e, this.props.status);
-            }
-        }
-        if (step) {
-            return <AttrInput
-                id={id} isNumber={true} step={step} keyI18n={key}
-                value={val} max={max} min={min}
-                valueChange={handelFunc}
-            />
-        } else {
-            return <AttrInput
-                id={id} keyI18n={key} value={val}
-                valueChange={handelFunc}
-            />
-        }
-    }
-
 	private renderFrom(group: Group) {
 		return <>
 
 			<Message i18nKey="Common.Attr.Title.Basic" isTitle first/>
 
-			{this.renderAttrInput(
-                group.id, "Common.Attr.Key.Display.Name", group.displayName,
-                (val, status) => {
-                    status.changeGroupAttrib(group.id, "displayName", val);
-                }
-            )}
+            <AttrInput
+                id={group.id} keyI18n="Common.Attr.Key.Display.Name" value={group.displayName}
+                valueChange={(val) => {
+                    this.props.status?.changeGroupAttrib(group.id, "displayName", val);
+                }}
+            />
 
             <ColorInput
                 keyI18n="Common.Attr.Key.Color"
                 value={group.color} normal
                 valueChange={(color) => {
-                    if (this.props.status) {
-                        this.props.status.changeGroupAttrib(group.id, "color", color);
-                    }
+                    this.props.status?.changeGroupAttrib(group.id, "color", color);
                 }}
             />
 
-            {this.renderAttrInput(
-                group.id, "Common.Attr.Key.Size", group.size,
-                (val, status) => {
-                    status.changeGroupAttrib(group.id, "size", (val as any) / 1);
-                }, 10, undefined, 0
-            )}
+            <AttrInput
+                id={group.id} isNumber={true} step={10} keyI18n="Common.Attr.Key.Size"
+                value={group.size} min={0}
+                valueChange={(val) => {
+                    this.props.status?.changeGroupAttrib(group.id, "size", (val as any) / 1);
+                }}
+            />
 
             <LabelPicker
                 keyI18n="Common.Attr.Key.Label"
@@ -137,8 +113,76 @@ class GroupDetails extends Component<IGroupDetailsProps & IMixinStatusProps> {
                     }
                 }}
             />
+
+            <AttrInput
+                id={group.id} isNumber={true} step={1} keyI18n="Common.Attr.Key.Generation.Count"
+                value={group.genCount} min={0} max={1000}
+                valueChange={(val) => {
+                    this.props.status?.changeGroupAttrib(group.id, "genCount", (val as any) / 1);
+                }}
+            />
+
+            {group.genMethod === GenMod.Point ? this.renderPointGenOption(group) : null}
+
+            {group.genMethod === GenMod.Range ? this.renderRangeGenOption(group) : null}
+
+            <TogglesInput
+				keyI18n="Common.Attr.Key.Generation"
+				onIconName="BuildDefinition" offIconName="BuildDefinition"
+				valueChange={() => {
+					console.log("gen");
+				}}
+			/>
+
 		</>
 	}
+
+    private renderPointGenOption(group: Group) {
+        return <>
+            <AttrInput
+                id={group.id} isNumber={true} step={0.1} keyI18n="Common.Attr.Key.Generation.Point.X"
+                value={group.genPoint[0] ?? 0}
+                valueChange={(val) => {
+                    group.genPoint[0] = (val as any) / 1;
+                    this.props.status?.changeGroupAttrib(group.id, "genPoint", group.genPoint);
+                }}
+            />
+
+            <AttrInput
+                id={group.id} isNumber={true} step={0.1} keyI18n="Common.Attr.Key.Generation.Point.Y"
+                value={group.genPoint[1] ?? 0}
+                valueChange={(val) => {
+                    group.genPoint[1] = (val as any) / 1;
+                    this.props.status?.changeGroupAttrib(group.id, "genPoint", group.genPoint);
+                }}
+            />
+
+            <AttrInput
+                id={group.id} isNumber={true} step={0.1} keyI18n="Common.Attr.Key.Generation.Point.Z"
+                value={group.genPoint[2] ?? 0}
+                valueChange={(val) => {
+                    group.genPoint[2] = (val as any) / 1;
+                    this.props.status?.changeGroupAttrib(group.id, "genPoint", group.genPoint);
+                }}
+            />
+        </>
+    }
+
+    private renderRangeGenOption(group: Group) {
+        return <>
+            <ObjectPicker
+                keyI18n="Common.Attr.Key.Generation.Use.Range"
+                type={["L", "R"]}
+                value={group.genRange}
+                valueChange={(value) => {
+                    this.props.status?.changeGroupAttrib(group.id, "genRange", value);
+                }}
+                cleanValue={() => {
+                    this.props.status?.changeGroupAttrib(group.id, "genRange", undefined);
+                }}
+            />
+        </>
+    }
 
 	public render(): ReactNode {
 		if (this.props.status) {
