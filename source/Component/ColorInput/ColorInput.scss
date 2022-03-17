@@ -4,7 +4,7 @@ div.color-input {
 
     div.color-view {
         width: $line-min-height;
-        max-width: $line-min-height;
+        min-width: $line-min-height;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -24,7 +24,12 @@ div.color-input {
         align-items: center;
 
         div.text-box {
+            max-width: calc( 100% - 24px);
+            text-overflow: ellipsis;
+            overflow: hidden;
             padding-left: 1px;
+            white-space: nowrap;
+            word-break: keep-all;
         }
     }
 }
