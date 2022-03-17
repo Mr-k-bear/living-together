@@ -172,7 +172,7 @@ class GroupDetails extends Component<IGroupDetailsProps & IMixinStatusProps> {
         return <>
             <ObjectPicker
                 keyI18n="Common.Attr.Key.Generation.Use.Range"
-                type={["L", "R"]}
+                type={"LR"}
                 value={group.genRange}
                 valueChange={(value) => {
                     this.props.status?.changeGroupAttrib(group.id, "genRange", value);

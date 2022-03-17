@@ -44,6 +44,8 @@ const EN_US = {
     "Panel.Info.Label.Details.View": "Edit view label attributes",
     "Panel.Title.Group.Details.View": "Group",
     "Panel.Info.Group.Details.View": "Edit view group attributes",
+    "Build.In.Label.Name.All.Group": "All group",
+    "Build.In.Label.Name.All.Range": "All range",
     "Common.No.Data": "No Data",
     "Common.No.Unknown.Error": "Unknown error",
     "Common.Attr.Title.Basic": "Basic properties",

@@ -5,6 +5,11 @@ import { ObjectID } from "./Renderer";
  * 数据标签
  */
 class Label {
+
+    /**
+     * 是否为内置标签
+     */
+    public isBuildIn: boolean = false;
     
     /**
      * 唯一标识符
@@ -54,11 +59,20 @@ class Label {
      */
     public isDeleted(): boolean {
         if (this.deleteFlag) return true;
+        if (this.isBuildIn) return false;
         for (let i = 0; i < this.model.labelPool.length; i++) {
             if (this.model.labelPool[i].equal(this)) return false;
         }
         this.deleteFlag = true;
         return true;
+    }
+
+    /**
+     * 设置为内置标签
+     */
+    public setBuildInLabel(): this {
+        this.isBuildIn = true;
+        return this;
     }
 }
 
