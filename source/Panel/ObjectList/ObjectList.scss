@@ -1,15 +1,46 @@
 @import "../../Component/Theme/Theme.scss";
 
-div.object-list-color-value {
-    height: calc( 100% - 6px);
-    margin: 3px 0;
-    margin-left: 3px;
-    border-radius: 1000px;
-    width: 3px;
-}
-
 div.object-list {
     min-height: 100%;
+
+    div.object-list-color-value {
+        height: calc( 100% - 6px);
+        margin: 3px 0;
+        margin-left: 3px;
+        border-radius: 1000px;
+        width: 3px;
+    }
+
+    div.object-list-checkbox {
+        opacity: 1 !important;
+        padding-left: 2px;
+
+        i.checkbox-icon {
+            display: none;
+            opacity: 0;
+        }
+
+        i.type-icon {
+            display: inline-block;
+            opacity: 1;
+        }
+    }
+
+    div.details-list-item:hover {
+
+        div.object-list-checkbox {
+            
+            i.checkbox-icon {
+                display: inline-block;
+                opacity: 1;
+            }
+
+            i.type-icon {
+                display: none;
+                opacity: 0;
+            }
+        }
+    }
 }
 
 div.object-list-command-bar {
