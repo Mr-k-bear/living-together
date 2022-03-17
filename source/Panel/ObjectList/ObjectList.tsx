@@ -4,6 +4,7 @@ import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
 import { useSetting, IMixinSettingProps } from "@Context/Setting";
 import { Localization } from "@Component/Localization/Localization";
 import { ObjectID } from "@Model/Renderer";
+import { Icon } from "@fluentui/react";
 import "./ObjectList.scss";
 
 @useSetting
@@ -70,6 +71,22 @@ class ObjectList extends Component<IMixinStatusProps & IMixinSettingProps> {
                 if (this.props.status) {
                     this.props.status.setFocusObject(new Set<ObjectID>());
                 }
+            }}
+            renderCheckbox={(item, click) => {
+                let icon = "CheckMark";
+                if (item.key.slice(0, 1) === "R") {
+                    icon = "CubeShape";
+                }
+                if (item.key.slice(0, 1) === "G") {
+                    icon = "WebAppBuilderFragment";
+                }
+                return <div 
+                    className="object-list-checkbox details-list-checkbox"
+                    onClick={click}
+                >
+                    <Icon className="checkbox-icon" iconName="CheckMark"></Icon>
+                    <Icon className="type-icon" iconName={icon}></Icon>
+                </div>;
             }}
             columns={[
                 {

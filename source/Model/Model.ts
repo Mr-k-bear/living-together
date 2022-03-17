@@ -17,6 +17,7 @@ type ModelEvent = {
     objectAdd: CtrlObject;
     objectDelete: CtrlObject[];
     objectChange: CtrlObject[];
+    individualChange: Group;
 };
 
 /**
@@ -49,6 +50,16 @@ class Model extends Emitter<ModelEvent> {
      * 标签列表
      */
     public labelPool: Label[] = [];
+
+    /**
+     * 内置标签-全部范围标签
+     */
+    public allRangeLabel = new Label(this, "AllRange").setBuildInLabel();
+
+    /**
+     * 内置标签-全部群标签
+     */
+    public allGroupLabel = new Label(this, "AllGroup").setBuildInLabel();
 
     /**
      * 添加标签
@@ -84,6 +95,7 @@ class Model extends Emitter<ModelEvent> {
 
         if (deletedLabel) {
             this.labelPool.splice(index, 1);
+            deletedLabel.testDelete();
             console.log(`Model: Delete label ${deletedLabel.name ?? deletedLabel.id}`);
             this.emit("labelDelete", deletedLabel);
             this.emit("labelChange", this.labelPool);
@@ -93,23 +105,24 @@ class Model extends Emitter<ModelEvent> {
     /**
      * 通过标签获取指定类型的对象
      * @param label 标签
-     * @param type 筛选类型
      */
-    public getObjectByLabel(
-        label: Label, type?: 
-            (new (...p: any) => Range) | 
-            (new (...p: any) => Group)
-    ): CtrlObject[] {
+    public getObjectByLabel(label: Label): CtrlObject[] {
+
+        if (label.isDeleted()) return [];
+
         const res: CtrlObject[] = [];
         for (let i = 0; i < this.objectPool.length; i++) {
-            if (this.objectPool[i].hasLabel(label)) {
-                if (type) {
-                    if (this.objectPool[i] instanceof type) {
-                        res.push(this.objectPool[i]);
-                    }
-                } else {
-                    res.push(this.objectPool[i]);
-                }
+
+            if (label.equal(this.allGroupLabel) && this.objectPool[i] instanceof Group) {
+                res.push(this.objectPool[i]);
+            }
+
+            else if (label.equal(this.allRangeLabel) && this.objectPool[i] instanceof Range) {
+                res.push(this.objectPool[i]);
+            }
+
+            else if (this.objectPool[i].hasLabel(label)) {
+                res.push(this.objectPool[i]);
             }
         }
         return res;

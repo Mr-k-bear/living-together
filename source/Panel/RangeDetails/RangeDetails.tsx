@@ -13,50 +13,24 @@ import "./RangeDetails.scss";
 @useStatusWithEvent("rangeAttrChange", "focusObjectChange", "rangeLabelChange")
 class RangeDetails extends Component<IMixinStatusProps> {
 
-    private renderAttrInput(
-        id: ObjectID, key: AllI18nKeys, val: string | number | undefined,
-        change: (val: string, status: Status) => any,
-        step?: number, max?: number, min?: number
-    ) {
-        const handelFunc = (e: string) => {
-            if (this.props.status) {
-                change(e, this.props.status);
-            }
-        }
-        if (step) {
-            return <AttrInput
-                id={id} isNumber={true} step={step} keyI18n={key}
-                value={val} max={max} min={min}
-                valueChange={handelFunc}
-            />
-        } else {
-            return <AttrInput
-                id={id} keyI18n={key} value={val}
-                valueChange={handelFunc}
-            />
-        }
-    }
-
     private renderFrom(range: Range) {
 
         return <>
 
             <Message i18nKey="Common.Attr.Title.Basic" isTitle first/>
 
-            {this.renderAttrInput(
-                range.id, "Common.Attr.Key.Display.Name", range.displayName,
-                (val, status) => {
-                    status.changeRangeAttrib(range.id, "displayName", val);
-                }
-            )}
+            <AttrInput
+                id={range.id} keyI18n="Common.Attr.Key.Display.Name" value={range.displayName}
+                valueChange={(val) => {
+                    this.props.status?.changeRangeAttrib(range.id, "displayName", val);
+                }}
+            />
 
             <ColorInput
                 keyI18n="Common.Attr.Key.Color"
                 value={range.color} normal
                 valueChange={(color) => {
-                    if (this.props.status) {
-                        this.props.status.changeRangeAttrib(range.id, "color", color);
-                    }
+                    this.props.status?.changeRangeAttrib(range.id, "color", color);
                 }}
             />
 
@@ -64,32 +38,17 @@ class RangeDetails extends Component<IMixinStatusProps> {
                 keyI18n="Common.Attr.Key.Label"
                 labels={range.allLabels()}
                 labelAdd={(label) => {
-                    if (this.props.status) {
-                        this.props.status.addRangeLabel(range.id, label);
-                    }
+                    this.props.status?.addRangeLabel(range.id, label);
                 }}
                 labelDelete={(label) => {
-                    if (this.props.status) {
-                        this.props.status.deleteRangeLabel(range.id, label);
-                    }
+                    this.props.status?.deleteRangeLabel(range.id, label);
                 }}
             />
             
             <TogglesInput
                 keyI18n="Common.Attr.Key.Display"
                 value={range.display} valueChange={(val) => {
-                    if (this.props.status) {
-                        this.props.status.changeRangeAttrib(range.id, "display", val);
-                    }
-                }}
-            />
-
-            <TogglesInput
-                keyI18n="Common.Attr.Key.Update"
-                value={range.update} valueChange={(val) => {
-                    if (this.props.status) {
-                        this.props.status.changeRangeAttrib(range.id, "update", val);
-                    }
+                    this.props.status?.changeRangeAttrib(range.id, "display", val);
                 }}
             />
 
@@ -106,53 +65,59 @@ class RangeDetails extends Component<IMixinStatusProps> {
 
             <Message i18nKey="Common.Attr.Title.Spatial" isTitle/>
 
-            {this.renderAttrInput(
-                range.id, "Common.Attr.Key.Position.X", 
-                range.position[0], (val, status) => {
+            <AttrInput
+                id={range.id} isNumber={true} step={.1} keyI18n={"Common.Attr.Key.Position.X"}
+                value={range.position[0]}
+                valueChange={(val) => {
                     range.position[0] = (val as any) / 1;
-                    status.changeRangeAttrib(range.id, "position", range.position);
-                }, .1
-            )}
+                    this.props.status?.changeRangeAttrib(range.id, "position", range.position);
+                }}
+            />
 
-            {this.renderAttrInput(
-                range.id, "Common.Attr.Key.Position.Y",
-                range.position[1],(val, status) => {
+            <AttrInput
+                id={range.id} isNumber={true} step={.1} keyI18n={"Common.Attr.Key.Position.Y"}
+                value={range.position[1]}
+                valueChange={(val) => {
                     range.position[1] = (val as any) / 1;
-                    status.changeRangeAttrib(range.id, "position", range.position);
-                }, .1
-            )}
+                    this.props.status?.changeRangeAttrib(range.id, "position", range.position);
+                }}
+            />
 
-            {this.renderAttrInput(
-                range.id, "Common.Attr.Key.Position.Z",
-                range.position[2], (val, status) => {
+            <AttrInput
+                id={range.id} isNumber={true} step={.1} keyI18n={"Common.Attr.Key.Position.Z"}
+                value={range.position[2]}
+                valueChange={(val) => {
                     range.position[2] = (val as any) / 1;
-                    status.changeRangeAttrib(range.id, "position", range.position);
-                }, .1
-            )}
+                    this.props.status?.changeRangeAttrib(range.id, "position", range.position);
+                }}
+            />
 			
-            {this.renderAttrInput(
-                range.id, "Common.Attr.Key.Radius.X",
-                range.radius[0], (val, status) => {
+            <AttrInput
+                id={range.id} isNumber={true} step={.1} keyI18n={"Common.Attr.Key.Radius.X"}
+                value={range.radius[0]} min={0}
+                valueChange={(val) => {
                     range.radius[0] = (val as any) / 1;
-                    status.changeRangeAttrib(range.id, "radius", range.radius);
-                }, .1, undefined, 0
-            )}
+                    this.props.status?.changeRangeAttrib(range.id, "radius", range.radius);
+                }}
+            />
 
-            {this.renderAttrInput(
-                range.id, "Common.Attr.Key.Radius.Y",
-                range.radius[1], (val, status) => {
+            <AttrInput
+                id={range.id} isNumber={true} step={.1} keyI18n={"Common.Attr.Key.Radius.Y"}
+                value={range.radius[1]} min={0}
+                valueChange={(val) => {
                     range.radius[1] = (val as any) / 1;
-                    status.changeRangeAttrib(range.id, "radius", range.radius);
-                }, .1, undefined, 0
-            )}
+                    this.props.status?.changeRangeAttrib(range.id, "radius", range.radius);
+                }}
+            />
 
-            {this.renderAttrInput(
-                range.id, "Common.Attr.Key.Radius.Z",
-                range.radius[2], (val, status) => {
+            <AttrInput
+                id={range.id} isNumber={true} step={.1} keyI18n={"Common.Attr.Key.Radius.Z"}
+                value={range.radius[2]} min={0}
+                valueChange={(val) => {
                     range.radius[2] = (val as any) / 1;
-                    status.changeRangeAttrib(range.id, "radius", range.radius);
-                }, .1, undefined, 0
-            )}
+                    this.props.status?.changeRangeAttrib(range.id, "radius", range.radius);
+                }}
+            />
 		</>
     }
 

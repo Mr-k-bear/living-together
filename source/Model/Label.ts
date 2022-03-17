@@ -5,6 +5,11 @@ import { ObjectID } from "./Renderer";
  * 数据标签
  */
 class Label {
+
+    /**
+     * 是否为内置标签
+     */
+    public isBuildIn: boolean = false;
     
     /**
      * 唯一标识符
@@ -41,6 +46,7 @@ class Label {
      * 判断是否为相同标签
      */
     public equal(label: Label): boolean {
+        if (this.isDeleted() || label.isDeleted()) return false;
         return this === label || this.id === label.id;
     }
 
@@ -50,15 +56,31 @@ class Label {
     private deleteFlag: boolean = false;
 
     /**
-     * 是否被删除
+     * 测试是否被删除
      */
-    public isDeleted(): boolean {
-        if (this.deleteFlag) return true;
+    public testDelete() {
         for (let i = 0; i < this.model.labelPool.length; i++) {
             if (this.model.labelPool[i].equal(this)) return false;
         }
         this.deleteFlag = true;
         return true;
+    }
+
+    /**
+     * 是否被删除
+     */
+    public isDeleted(): boolean {
+        if (this.isBuildIn) return false;
+        if (this.deleteFlag) return true;
+        return false;
+    }
+
+    /**
+     * 设置为内置标签
+     */
+    public setBuildInLabel(): this {
+        this.isBuildIn = true;
+        return this;
     }
 }
 
@@ -101,9 +123,10 @@ class LabelObject {
      * 是否存在标签
      */
     public hasLabel(label: Label): boolean {
+        if (label.isDeleted()) return false;
         let has = false;
         this.labels.forEach((localLabel) => {
-            if (localLabel.equal(label)) has = true;
+            if (!localLabel.isDeleted() && localLabel.equal(label)) has = true;
         });
         return has;
     }

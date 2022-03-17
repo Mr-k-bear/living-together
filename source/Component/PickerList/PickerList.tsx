@@ -7,9 +7,15 @@ import { Range } from "@Model/Range";
 import { Component, ReactNode, RefObject } from "react";
 import "./PickerList.scss";
 
-type IDisplayInfo = Record<"color" | "icon" | "name", string>;
 type IPickerListItem = CtrlObject | Label | Range | Group;
-type IDisplayItem = {
+interface IDisplayInfo {
+    color: string;
+    icon: string;
+    name: string;
+    needI18n?: boolean;
+};
+
+interface IDisplayItem {
     nameKey: AllI18nKeys;
     key: string;
 	mark?: boolean;
@@ -20,6 +26,7 @@ function getObjectDisplayInfo(item: IPickerListItem): IDisplayInfo {
 	let color: number[] = [];
 	let icon: string = "tag";
 	let name: string = "";
+    let needI18n: boolean = false;
 
 	if (item instanceof Range) {
 		icon = "CubeShape"
@@ -34,15 +41,30 @@ function getObjectDisplayInfo(item: IPickerListItem): IDisplayInfo {
 		name = item.displayName;
 	}
 	if (item instanceof Label) {
-		icon = "tag";
-		color = item.color.concat([]);
-		name = item.name;
+
+		if (item.isBuildIn) {
+            needI18n = true;
+            if (item.id === "AllRange") {
+                icon = "ProductList";
+                name = "Build.In.Label.Name.All.Range";
+            } else if (item.id === "AllGroup") {
+                icon = "SizeLegacy";
+                name = "Build.In.Label.Name.All.Group";
+            }
+        } 
+        
+        else {
+            icon = "tag";
+            color = item.color.concat([]);
+            name = item.name;
+        }
 	}
 
 	return {
-		color: `rgb(${color[0]},${color[1]},${color[2]})`,
+		color: needI18n ? "transparent" : `rgb(${color[0]},${color[1]},${color[2]})`,
 		icon: icon,
-		name: name
+		name: name,
+        needI18n: needI18n
 	}
 }
 
@@ -79,7 +101,11 @@ class PickerList extends Component<IPickerListProps> {
 				<Icon iconName={displayInfo.icon}/>
 			</div>
 			<div className="list-item-name">
-				{displayInfo.name}
+				{
+                    displayInfo.needI18n ? 
+                        <Localization i18nKey={displayInfo.name as any}/> : 
+                        displayInfo.name
+                }
 			</div>
 		</div>;
 	}

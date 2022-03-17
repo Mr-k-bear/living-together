@@ -1,7 +1,8 @@
 import { Individual } from "./Individual";
 import { CtrlObject } from "./CtrlObject";
 import type { Behavior } from "./Behavior"; 
-import type { Label } from "./Label";
+import { Label } from "./Label";
+import { Range } from "./Range";
 
 enum GenMod {
     Point = "p",
@@ -36,7 +37,156 @@ class Group extends CtrlObject {
     /**
      * 生成个数
      */
-    public genCount?: number = 0;
+    public genCount: number = 1;
+
+    /**
+     * 生成错误信息
+     */
+    public genErrorMessage?: string;
+
+    /**
+     * 生成错误信息
+     */
+    public genErrorMessageShowCount: number = 0;
+
+    private genInSingleRange(count: number, range: Range) {
+        for (let i = 0; i < count; i++) {
+            let individual = new Individual(this);
+            individual.position[0] = range.position[0] + (Math.random() - .5) * 2 * range.radius[0];
+            individual.position[1] = range.position[1] + (Math.random() - .5) * 2 * range.radius[1];
+            individual.position[2] = range.position[2] + (Math.random() - .5) * 2 * range.radius[2];
+            this.add(individual);
+        }
+    }
+
+    private genWithPointMod(): boolean {
+        for (let i = 0; i < this.genCount; i++) {
+            let individual = new Individual(this);
+            individual.position[0] = this.genPoint[0];
+            individual.position[1] = this.genPoint[1];
+            individual.position[2] = this.genPoint[2];
+            this.add(individual);
+        }
+        return true;
+    }
+
+    private genWithRangeMod(): boolean {
+        let rangeList: Range[] = [];
+
+        // 单一范围对象
+        if (this.genRange instanceof Range) {
+
+            // 无效的对象
+            if (this.genRange.isDeleted()) {
+                this.genErrorMessage = "Common.Attr.Key.Generation.Error.Invalid.Range";
+                return false;
+            }
+            
+            else {
+                rangeList = [this.genRange];
+            }
+        }
+
+        // 多重范围对象
+        else if (this.genRange instanceof Label) {
+
+            // 无效的标签
+            if (this.genRange.isDeleted()) {
+                this.genErrorMessage = "Common.Attr.Key.Generation.Error.Invalid.Label";
+                return false;
+            }
+            
+            else {
+                let objList: CtrlObject[] = this.model.getObjectByLabel(this.genRange);
+                rangeList = objList.filter((obj) => {
+                    return obj instanceof Range
+                }) as Range[];
+            }
+        }
+
+        // 空对象
+        else {
+            this.genErrorMessage = "Common.Attr.Key.Generation.Error.Empty.Object";
+            return false;
+        }
+
+        // 单一范围生成
+        if (rangeList.length === 1) {
+            this.genInSingleRange(this.genCount, rangeList[0]);
+            return true;
+        }
+
+        // 多重范围
+        else if (rangeList.length > 1) {
+            let allVolume: number = 0;
+            let allGenCount: number = 0;
+            let genData: number[] = [];
+
+            // 计算体积
+            for (let i = 0; i < rangeList.length; i++) {
+                let volume =
+                    rangeList[i].radius[0] *
+                    rangeList[i].radius[1] *
+                    rangeList[i].radius[2];
+                allVolume += volume;
+                genData.push(volume);
+            }
+
+            // 按权重分配生成个数
+            for (let i = 0; i < genData.length; i++) {
+                const count = Math.floor((genData[i] / allVolume) * this.genCount) + 1;
+                allGenCount += count;
+                genData[i] = count;
+            }
+
+            // 按照溢出个数删除冗余个数
+            let morCount = allGenCount - this.genCount;
+            let safeCount = 0;
+            while (morCount > 0 && safeCount < 1000) {
+                safeCount ++;
+                let randomIndex = Math.floor(Math.random() * genData.length);
+                if (genData[randomIndex] > 0) {
+                    genData[randomIndex] --;
+                    morCount --;
+                }
+            }
+
+            // 数据生成
+            for (let i = 0; i < rangeList.length; i++) {
+                this.genInSingleRange(genData[i], rangeList[i]);
+            }
+            
+            return true;
+        }
+
+        // 空数据
+        else {
+            this.genErrorMessage = "Common.Attr.Key.Generation.Error.Empty.Range.List";
+            return false;
+        }
+
+        this.genErrorMessage = "Common.No.Unknown.Error";
+        return false;
+    }
+
+    /**
+     * 生成个体
+     */
+    public genIndividuals(): boolean {
+        let success = false;
+        switch (this.genMethod) {
+            case GenMod.Point:
+                success = this.genWithPointMod();
+                break;
+            case GenMod.Range:
+                success = this.genWithRangeMod();
+                break;  
+        }
+        if (success) {
+            this.model.emit("individualChange", this);
+        }
+        return success;
+    }
 
 	/**
 	 * 创建个体

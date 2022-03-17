@@ -13,7 +13,7 @@ import "./ObjectPicker.scss";
 type IObjectType = Label | Group | Range | CtrlObject;
 
 interface IObjectPickerProps extends ITextFieldProps {
-    type: Array<"L" | "G" | "R">;
+    type: string;
     value?: IObjectType;
     valueChange?: (value: IObjectType) => any;
     cleanValue?: () => any;
@@ -28,33 +28,38 @@ class ObjectPicker extends Component<IObjectPickerProps & IMixinStatusProps, IOb
 
     private getAllOption() {
         let option: Array<IObjectType> = [];
-        if (this.props.status) {
+        if (!this.props.status) return option;
 
-            for (let i = 0; i < this.props.type.length; i++) {
+        if (this.props.type.includes("L")) {
+            for (let j = 0; j < this.props.status.model.labelPool.length; j++) {
+                option.push(this.props.status.model.labelPool[j]);
+            }
 
-                if (this.props.type[i] === "L") {
-                    for (let j = 0; j < this.props.status.model.labelPool.length; j++) {
-                        option.push(this.props.status.model.labelPool[j]);
-                    }
-                }
+            if (this.props.type.includes("R")) {
+                option.push(this.props.status.model.allRangeLabel);
+            }
 
-                if (this.props.type[i] === "R") {
-                    for (let j = 0; j < this.props.status.model.objectPool.length; j++) {
-                        if (this.props.status.model.objectPool[j] instanceof Range) {
-                            option.push(this.props.status.model.objectPool[j]);
-                        }
-                    }    
-                }
+            if (this.props.type.includes("G")) {
+                option.push(this.props.status.model.allGroupLabel);
+            }
+        }
 
-                if (this.props.type[i] === "G") {
-                    for (let j = 0; j < this.props.status.model.objectPool.length; j++) {
-                        if (this.props.status.model.objectPool[j] instanceof Group) {
-                            option.push(this.props.status.model.objectPool[j]);
-                        }
-                    }
+        if (this.props.type.includes("R")) {
+            for (let j = 0; j < this.props.status.model.objectPool.length; j++) {
+                if (this.props.status.model.objectPool[j] instanceof Range) {
+                    option.push(this.props.status.model.objectPool[j]);
                 }
             }
         }
+
+        if (this.props.type.includes("G")) {
+            for (let j = 0; j < this.props.status.model.objectPool.length; j++) {
+                if (this.props.status.model.objectPool[j] instanceof Group) {
+                    option.push(this.props.status.model.objectPool[j]);
+                }
+            }
+        }
+        
         return option;
     }
 
@@ -100,9 +105,10 @@ class ObjectPicker extends Component<IObjectPickerProps & IMixinStatusProps, IOb
             isDelete = this.props.value.isDeleted();
         } else {
             disPlayInfo = {
-                name: "",
+                name: "Input.Error.Select",
                 icon: "Label",
-                color: "rgba(0,0,0,0)"
+                color: "transparent",
+                needI18n: true
             }
         }
 
@@ -139,9 +145,9 @@ class ObjectPicker extends Component<IObjectPickerProps & IMixinStatusProps, IOb
                     }}
                 >
                     {   
-                        disPlayInfo.name ? 
-                            <span>{disPlayInfo.name}</span> :
-                            <Localization i18nKey="Input.Error.Select"/>
+                        disPlayInfo.needI18n ? 
+                            <Localization i18nKey={disPlayInfo.name as any}/> :
+                            <span>{disPlayInfo.name}</span>
                     }
                 </div>
                 <div

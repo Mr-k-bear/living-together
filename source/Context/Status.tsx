@@ -37,6 +37,7 @@ interface IStatusEvent {
     rangeAttrChange: void;
     labelAttrChange: void;
     groupAttrChange: void;
+    individualChange: void;
 }
 
 class Status extends Emitter<IStatusEvent> {
@@ -74,6 +75,16 @@ class Status extends Emitter<IStatusEvent> {
      */
     public focusLabel?: Label;
 
+    private drawtimer?: NodeJS.Timeout;
+
+    private delayDraw = () => {
+        this.drawtimer ? clearTimeout(this.drawtimer) : null;
+        this.drawtimer = setTimeout(() => {
+            this.model.draw();
+            this.drawtimer = undefined;
+        });
+    }
+
     public constructor() {
         super();
 
@@ -85,11 +96,11 @@ class Status extends Emitter<IStatusEvent> {
         this.model.on("labelChange", () => this.emit("labelChange"));
 
         // 对象变换时执行渲染，更新渲染器数据
-        this.on("objectChange", () => {
-            setTimeout(() => {
-                this.model.draw();
-            });
-        })
+        this.on("objectChange", this.delayDraw);
+        this.model.on("individualChange", this.delayDraw);
+        this.model.on("individualChange", () => {
+            this.emit("individualChange");
+        });
     }
 
     public bindRenderer(renderer: AbstractRenderer) {
