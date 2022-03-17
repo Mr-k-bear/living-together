@@ -130,7 +130,9 @@ class GroupDetails extends Component<IGroupDetailsProps & IMixinStatusProps> {
 				keyI18n="Common.Attr.Key.Generation"
 				onIconName="BuildDefinition" offIconName="BuildDefinition"
 				valueChange={() => {
-					group.genIndividuals();
+					if(!group.genIndividuals()) {
+                        this.props.status?.changeGroupAttrib(group.id, "genErrorMessageShowCount", 1);
+                    }
 				}}
 			/>
 
@@ -169,11 +171,23 @@ class GroupDetails extends Component<IGroupDetailsProps & IMixinStatusProps> {
     }
 
     private renderRangeGenOption(group: Group) {
+
+        let isRenderErrorInfo: boolean = false;
+        if (group.genErrorMessageShowCount > 0) {
+            group.genErrorMessageShowCount --;
+            if (group.genErrorMessage) {
+                isRenderErrorInfo = true;
+            }
+        } else {
+            group.genErrorMessage = undefined;
+        }
+
         return <>
             <ObjectPicker
                 keyI18n="Common.Attr.Key.Generation.Use.Range"
                 type={"LR"}
                 value={group.genRange}
+                errorI18n={isRenderErrorInfo ? group.genErrorMessage as any : undefined}
                 valueChange={(value) => {
                     this.props.status?.changeGroupAttrib(group.id, "genRange", value);
                 }}

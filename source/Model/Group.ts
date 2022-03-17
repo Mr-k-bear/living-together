@@ -47,9 +47,9 @@ class Group extends CtrlObject {
     /**
      * 生成错误信息
      */
-    public genErrorMessageShowCount?: string;
+    public genErrorMessageShowCount: number = 0;
 
-    private genInSingelRange(count: number, range: Range) {
+    private genInSingleRange(count: number, range: Range) {
         for (let i = 0; i < count; i++) {
             let individual = new Individual(this);
             individual.position[0] = range.position[0] + (Math.random() - .5) * 2 * range.radius[0];
@@ -75,18 +75,44 @@ class Group extends CtrlObject {
 
         // 单一范围对象
         if (this.genRange instanceof Range) {
-            rangeList = [this.genRange];
+
+            // 无效的对象
+            if (this.genRange.isDeleted()) {
+                this.genErrorMessage = "Common.Attr.Key.Generation.Error.Invalid.Range";
+                return false;
+            }
+            
+            else {
+                rangeList = [this.genRange];
+            }
         }
 
         // 多重范围对象
-        if (this.genRange instanceof Label) {
-            let objList: CtrlObject[] = this.model.getObjectByLabel(this.genRange);
-            rangeList = objList.filter((obj) => obj instanceof Range) as Range[]
+        else if (this.genRange instanceof Label) {
+
+            // 无效的标签
+            if (this.genRange.isDeleted()) {
+                this.genErrorMessage = "Common.Attr.Key.Generation.Error.Invalid.Label";
+                return false;
+            }
+            
+            else {
+                let objList: CtrlObject[] = this.model.getObjectByLabel(this.genRange);
+                rangeList = objList.filter((obj) => {
+                    return obj instanceof Range
+                }) as Range[];
+            }
+        }
+
+        // 空对象
+        else {
+            this.genErrorMessage = "Common.Attr.Key.Generation.Error.Empty.Object";
+            return false;
         }
 
         // 单一范围生成
         if (rangeList.length === 1) {
-            this.genInSingelRange(this.genCount, rangeList[0]);
+            this.genInSingleRange(this.genCount, rangeList[0]);
             return true;
         }
 
@@ -127,12 +153,19 @@ class Group extends CtrlObject {
 
             // 数据生成
             for (let i = 0; i < rangeList.length; i++) {
-                this.genInSingelRange(genData[i], rangeList[i]);
+                this.genInSingleRange(genData[i], rangeList[i]);
             }
             
             return true;
         }
 
+        // 空数据
+        else {
+            this.genErrorMessage = "Common.Attr.Key.Generation.Error.Empty.Range.List";
+            return false;
+        }
+
+        this.genErrorMessage = "Common.No.Unknown.Error";
         return false;
     }
 

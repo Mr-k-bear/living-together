@@ -95,6 +95,7 @@ class Model extends Emitter<ModelEvent> {
 
         if (deletedLabel) {
             this.labelPool.splice(index, 1);
+            deletedLabel.testDelete();
             console.log(`Model: Delete label ${deletedLabel.name ?? deletedLabel.id}`);
             this.emit("labelDelete", deletedLabel);
             this.emit("labelChange", this.labelPool);
@@ -106,6 +107,9 @@ class Model extends Emitter<ModelEvent> {
      * @param label 标签
      */
     public getObjectByLabel(label: Label): CtrlObject[] {
+
+        if (label.isDeleted()) return [];
+
         const res: CtrlObject[] = [];
         for (let i = 0; i < this.objectPool.length; i++) {
 
