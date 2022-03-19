@@ -1,4 +1,4 @@
-import { createContext, Component, FunctionComponent, useState, useEffect, ReactNode } from "react";
+import { createContext, Component, FunctionComponent, ReactNode } from "react";
 import { Emitter } from "@Model/Emitter";
 import { Model, ObjectID } from "@Model/Model";
 import { Label } from "@Model/Label";
@@ -9,6 +9,7 @@ import { AbstractRenderer } from "@Model/Renderer";
 import { ClassicRenderer, MouseMod } from "@GLRender/ClassicRenderer";
 import { Setting } from "./Setting";
 import { I18N } from "@Component/Localization/Localization";
+import { superConnect } from "./Context";
 
 function randomColor(unNormal: boolean = false) {
     const color = [
@@ -272,53 +273,7 @@ function useStatus<R extends RenderComponent>(components: R): R {
     }) as any;
 }
 
-function useStatusWithEvent(...events: Array<keyof IStatusEvent>) {
-    return <R extends RenderComponent>(components: R): R => {
-        const C = components as any;
-        return class extends Component<R> {
-
-            private status: Status | undefined;
-            private isEventMount: boolean = false;
-
-            private handelChange = () => {
-                this.forceUpdate();
-            }
-
-            private mountEvent() {
-                if (this.status && !this.isEventMount) {
-                    this.isEventMount = true;
-                    console.log("Component dep event mount: " + events.join(", "));
-                    for (let i = 0; i < events.length; i++) {
-                        this.status.on(events[i], this.handelChange);
-                    }
-                }
-            }
-
-            private unmountEvent() {
-                if (this.status) {
-                    for (let i = 0; i < events.length; i++) {
-                        this.status.off(events[i], this.handelChange);
-                    }
-                }
-            }
-
-            public render(): ReactNode {
-                return <StatusConsumer>
-                    {(status: Status) => {
-                        this.status = status;
-                        this.mountEvent();
-                        return <C {...this.props} status={status}></C>;
-                    }}
-                </StatusConsumer>
-            }
-
-            public componentWillUnmount() {
-                this.unmountEvent();
-            }
-
-        } as any;
-    }
-}
+const useStatusWithEvent = superConnect<Status, IStatusEvent>(StatusConsumer);
 
 export {
     Status, StatusContext, useStatus, useStatusWithEvent,
