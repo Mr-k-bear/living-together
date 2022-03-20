@@ -2,7 +2,7 @@ import { Localization } from "@Component/Localization/Localization";
 import { Theme, BackgroundLevel, FontLevel } from "@Component/Theme/Theme";
 import { Themes } from "@Context/Setting";
 import { DirectionalHint } from "@fluentui/react";
-import { ILayout, LayoutDirection } from "@Model/Layout";
+import { ILayout, LayoutDirection } from "@Context/Layout";
 import { Component, ReactNode, MouseEvent } from "react";
 import { getPanelById, getPanelInfoById } from "../../Panel/Panel";
 import { LocalizationTooltipHost } from "../Localization/LocalizationTooltipHost";

@@ -7,9 +7,9 @@ import { StatusProvider, Status } from "@Context/Status";
 import { ClassicRenderer } from "@GLRender/ClassicRenderer";
 import { initializeIcons } from '@fluentui/font-icons-mdl2';
 import { RootContainer } from "@Component/Container/RootContainer";
-import { LayoutDirection } from "@Model/Layout";
-import "./SimulatorWeb.scss";
+import { LayoutDirection } from "@Context/Layout";
 import { CommandBar } from "@Component/CommandBar/CommandBar";
+import "./SimulatorWeb.scss";
 
 initializeIcons("https://img.mrkbear.com/fabric-cdn-prod_20210407.001/");
 

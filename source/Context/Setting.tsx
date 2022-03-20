@@ -1,7 +1,7 @@
 import { createContext } from "react";
 import { superConnect, superConnectWithEvent } from "./Context";
 import { Emitter } from "@Model/Emitter";
-import { Layout } from "@Model/Layout";
+import { Layout } from "./Layout";
 
 /**
  * 主题模式
