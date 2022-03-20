@@ -3,16 +3,18 @@ import { Component, FunctionComponent, ReactNode, Consumer } from "react";
 
 type RenderComponent = (new (...p: any) => Component<any, any, any>) | FunctionComponent<any>;
 
-function superConnect<C extends Emitter<E>, E extends Record<EventType, any>>(
-	consumer: Consumer<C>
+function superConnectWithEvent<C extends Emitter<E>, E extends Record<EventType, any>>(
+	consumer: Consumer<C>, keyName: string
 ) {
 	return (...events: Array<keyof E>) => {
 		return <R extends RenderComponent>(components: R): R => {
-			const C = components as any;
+			const Components = components as any;
+			const Consumer = consumer;
 			return class extends Component<R> {
 	
 				private status: C | undefined;
 				private isEventMount: boolean = false;
+				private propsObject: Record<string, C> = {};
 	
 				private handelChange = () => {
 					this.forceUpdate();
@@ -37,12 +39,12 @@ function superConnect<C extends Emitter<E>, E extends Record<EventType, any>>(
 				}
 	
 				public render(): ReactNode {
-					const Consumer = consumer;
 					return <Consumer>
 						{(status: C) => {
 							this.status = status;
+							this.propsObject[keyName] = status;
 							this.mountEvent();
-							return <C {...this.props} status={status}></C>;
+							return <Components {...this.props} {...this.propsObject}/>;
 						}}
 					</Consumer>
 				}
@@ -56,4 +58,21 @@ function superConnect<C extends Emitter<E>, E extends Record<EventType, any>>(
 	}
 }
 
-export { superConnect };
+function superConnect<C extends Emitter<any>>(consumer: Consumer<C>, keyName: string) {
+	return <R extends RenderComponent>(components: R): R => {
+		return ((props: any) => {
+
+			const Components = components as any;
+			const Consumer = consumer;
+
+			return <Consumer>
+				{(status: C) => <Components
+					{...props}
+					{...{[keyName]: status}}
+				/>}
+			</Consumer>
+		}) as any;
+	}
+}
+
+export { superConnectWithEvent, superConnect };

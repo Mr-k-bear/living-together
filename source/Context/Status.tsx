@@ -9,7 +9,7 @@ import { AbstractRenderer } from "@Model/Renderer";
 import { ClassicRenderer, MouseMod } from "@GLRender/ClassicRenderer";
 import { Setting } from "./Setting";
 import { I18N } from "@Component/Localization/Localization";
-import { superConnect } from "./Context";
+import { superConnectWithEvent, superConnect } from "./Context";
 
 function randomColor(unNormal: boolean = false) {
     const color = [
@@ -259,21 +259,12 @@ StatusContext.displayName = "Status";
 const StatusProvider = StatusContext.Provider;
 const StatusConsumer = StatusContext.Consumer;
 
-type RenderComponent = (new (...p: any) => Component<any, any, any>) | FunctionComponent<any>;
-
 /**
  * 修饰器
  */
-function useStatus<R extends RenderComponent>(components: R): R {
-    return ((props: any) => {
-        const C = components;
-        return <StatusConsumer>
-            {(status: Status) => <C {...props} status={status}></C>}
-        </StatusConsumer>
-    }) as any;
-}
+const useStatus = superConnect<Status>(StatusConsumer, "status");
 
-const useStatusWithEvent = superConnect<Status, IStatusEvent>(StatusConsumer);
+const useStatusWithEvent = superConnectWithEvent<Status, IStatusEvent>(StatusConsumer, "status");
 
 export {
     Status, StatusContext, useStatus, useStatusWithEvent,
