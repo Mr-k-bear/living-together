@@ -2,8 +2,8 @@ import { Component, ReactNode, DetailedHTMLProps, HTMLAttributes } from "react";
 import { useSetting, IMixinSettingProps, Language } from "@Context/Setting";
 import "./Localization.scss";
 
-import EN_US from "../../Localization/EN-US";
-import ZH_CN from "../../Localization/ZH-CN";
+import EN_US from "@Localization/EN-US";
+import ZH_CN from "@Localization/ZH-CN";
 
 const LanguageDataBase = {
     EN_US, ZH_CN
