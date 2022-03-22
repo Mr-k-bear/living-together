@@ -44,6 +44,7 @@ const ZH_CN = {
     "Panel.Info.Label.Details.View": "编辑查看标签属性",
     "Panel.Title.Group.Details.View": "群",
     "Panel.Info.Group.Details.View": "编辑查看群属性",
+    "Popup.Title.Unnamed": "弹窗消息",
     "Build.In.Label.Name.All.Group": "全部群",
     "Build.In.Label.Name.All.Range": "全部范围",
     "Common.No.Data": "暂无数据",

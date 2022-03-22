@@ -1,5 +1,6 @@
-import { ReactNode } from "react";
+import { ReactNode, createElement } from "react";
 import { Emitter } from "@Model/Emitter";
+import { Localization } from "@Component/Localization/Localization";
 
 type IPopupConstructor = new (controller: PopupController, id: string) => Popup;
 
@@ -54,6 +55,13 @@ class Popup {
      * react 节点
      */
     public reactNode: ReactNode;
+
+    /**
+     * 渲染标题
+     */
+    public onRenderHeader(): ReactNode {
+        return createElement(Localization, {i18nKey: "Popup.Title.Unnamed"});
+    }
 
     /**
      * 渲染函数

@@ -2,6 +2,7 @@ import { Component, ReactNode } from "react";
 import { IMixinStatusProps, useStatusWithEvent } from "@Context/Status";
 import { BackgroundLevel, Theme } from "@Component/Theme/Theme";
 import { Popup as PopupModel } from "@Context/Popups";
+import { Icon } from "@fluentui/react";
 import "./Popup.scss";
 
 interface IPopupProps {}
@@ -59,6 +60,22 @@ class Popup extends Component<IPopupProps & IMixinStatusProps> {
         }
     }
 
+    public renderHeader(popup: PopupModel): ReactNode {
+        return <div className="popup-layer-header">
+            <div className="header-text">
+                {popup.onRenderHeader()}
+            </div>
+            <div
+                className="header-close-icon"
+                onClick={() => {
+                    popup.onClose();
+                }}
+            >
+                <Icon iconName="CalculatorMultiply"/>
+            </div>
+        </div>
+    }
+
     public renderLayer(popup: PopupModel) {
         const pageWidth = document.documentElement.clientWidth;
         const pageHeight = document.documentElement.clientHeight;
@@ -77,9 +94,7 @@ class Popup extends Component<IPopupProps & IMixinStatusProps> {
             backgroundLevel={BackgroundLevel.Level4}
             className="popup-layer show-scale"
         >
-            <div className="popup-layer-header">
-                
-            </div>
+            {this.renderHeader(popup)}
         </Theme>
     }
 

@@ -1,5 +1,7 @@
 @import "../Theme/Theme.scss";
 
+$header-height: 32px;
+
 @keyframes show-scale{
     from {
         transform: scale3d(1.15, 1.15, 1);
@@ -43,8 +45,39 @@ div.popup-layer {
     overflow: hidden;
 
     div.popup-layer-header {
-        min-height: 32px;
-        max-height: 32px;
+        min-height: $header-height;
+        max-height: $header-height;
+        height: $header-height;
+        display: flex;
+        width: 100%;
+
+        div.header-text {
+            width: calc( 100% - 32px );
+            flex-shrink: 1;
+            display: flex;
+            align-items: center;
+            user-select: none;
+            
+            span {
+                padding-left: 8px;
+                display: inline-block;
+                vertical-align: middle;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+        }
+
+        div.header-close-icon {
+            width: $header-height;
+            height: $header-height;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            cursor: pointer;
+        }
     }
 }
 
@@ -52,6 +85,11 @@ div.popup-layer.dark {
 
     div.popup-layer-header {
         background-color: $lt-bg-color-lvl3-dark;
+
+        div.header-close-icon:hover {
+            background-color: $lt-bg-color-lvl2-dark;
+            color: $lt-red;
+        }
     }
 }
 
@@ -59,6 +97,11 @@ div.popup-layer.light {
 
     div.popup-layer-header {
         background-color: $lt-bg-color-lvl3-light;
+
+        div.header-close-icon:hover {
+            background-color: $lt-bg-color-lvl2-light;
+            color: $lt-red;
+        }
     }
 }
 
