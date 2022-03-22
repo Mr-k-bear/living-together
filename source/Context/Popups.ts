@@ -36,17 +36,26 @@ class Popup {
     /**
      * 渲染函数
      */
-    public rendererFunction: undefined | ((p: Popup) => ReactNode);
+    public onRender(p: Popup): ReactNode {
+        return null;
+    }
+
+    /**
+     * 关闭回调
+     */
+    public onClose(): void {};
 
     /**
      * 渲染节点
      */
     public render(): ReactNode {
-        if (this.rendererFunction) {
-            this.reactNode = this.rendererFunction(this);
-        }
+        this.reactNode = this.onRender(this);
         return this.reactNode;
     };
+
+    public close() {
+        return this.controller.closePopup(this);
+    }
 
     public constructor(controller: PopupController, id: string) {
         this.controller = controller;
@@ -82,6 +91,7 @@ class PopupController extends Emitter<IPopupControllerEvent> {
             popup.index = (index + 1);
             return popup;
         });
+        this.emit("popupChange");
     }
 
     /**
@@ -90,7 +100,7 @@ class PopupController extends Emitter<IPopupControllerEvent> {
     public showPopup<P extends IPopupConstructor>(popup?: P): Popup {
         let newPopup = new (popup ?? Popup)(this, `P-${this.idIndex ++}`);
         this.popups.push(newPopup);
-        this.emit("popupChange");
+        this.sortPopup();
         return newPopup;
     }
 
@@ -110,6 +120,8 @@ class PopupController extends Emitter<IPopupControllerEvent> {
                 let isDelete = currentPopup.id === id;
                 if (isDelete) {
                     closePopup = currentPopup;
+                    currentPopup.isClose = true;
+                    currentPopup.onClose();
                     return false;
                 } else {
                     return true;
@@ -117,6 +129,7 @@ class PopupController extends Emitter<IPopupControllerEvent> {
             }
         );
         if (closePopup) {
+            this.sortPopup();
             this.emit("popupChange");
         }
         return closePopup;

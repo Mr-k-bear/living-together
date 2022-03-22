@@ -1,4 +1,4 @@
-import { createContext, Component, FunctionComponent, ReactNode } from "react";
+import { createContext } from "react";
 import { Emitter } from "@Model/Emitter";
 import { Model, ObjectID } from "@Model/Model";
 import { Label } from "@Model/Label";
@@ -10,6 +10,7 @@ import { ClassicRenderer, MouseMod } from "@GLRender/ClassicRenderer";
 import { Setting } from "./Setting";
 import { I18N } from "@Component/Localization/Localization";
 import { superConnectWithEvent, superConnect } from "./Context";
+import { PopupController } from "./Popups";
 
 function randomColor(unNormal: boolean = false) {
     const color = [
@@ -39,6 +40,7 @@ interface IStatusEvent {
     labelAttrChange: void;
     groupAttrChange: void;
     individualChange: void;
+    popupChange: void;
 }
 
 class Status extends Emitter<IStatusEvent> {
@@ -65,6 +67,11 @@ class Status extends Emitter<IStatusEvent> {
      * 模型状态
      */
     public model: Model = new Model();
+
+    /**
+     * 弹窗
+     */
+    public popup: PopupController = new PopupController();
 
     /**
      * 焦点对象
@@ -95,6 +102,9 @@ class Status extends Emitter<IStatusEvent> {
         // 对象变化事件
         this.model.on("objectChange", () => this.emit("objectChange"));
         this.model.on("labelChange", () => this.emit("labelChange"));
+
+        // 弹窗事件
+        this.popup.on("popupChange", () => this.emit("popupChange"));
 
         // 对象变换时执行渲染，更新渲染器数据
         this.on("objectChange", this.delayDraw);

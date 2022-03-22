@@ -14,7 +14,7 @@ enum Themes {
 type Language = "ZH_CN" | "EN_US";
 
 interface ISettingEvents extends Setting {
-    change: keyof Setting;
+    attrChange: keyof Setting;
 }
 
 class Setting extends Emitter<ISettingEvents> {
@@ -39,7 +39,7 @@ class Setting extends Emitter<ISettingEvents> {
      */
     public setProps<P extends keyof Setting>(key: P, value: Setting[P]) {
         this[key] = value as any;
-        this.emit("change", key);
+        this.emit("attrChange", key);
         this.emit(key as any, value as any);
     }
 }
@@ -59,9 +59,9 @@ const SettingConsumer = SettingContext.Consumer;
  */
 const useSetting = superConnect<Setting>(SettingConsumer, "setting");
 
-const useStatusWithEvent = superConnectWithEvent<Setting, ISettingEvents>(SettingConsumer, "setting");
+const useSettingWithEvent = superConnectWithEvent<Setting, ISettingEvents>(SettingConsumer, "setting");
 
 export {
-    Themes, Setting, SettingContext, useSetting, Language, useStatusWithEvent,
+    Themes, Setting, SettingContext, useSetting, Language, useSettingWithEvent,
     IMixinSettingProps, SettingProvider, SettingConsumer
 };
