@@ -1,4 +1,4 @@
-import { Emitter } from "./Emitter";
+import { Emitter } from "@Model/Emitter";
 
 enum LayoutDirection {
 	X = 1,

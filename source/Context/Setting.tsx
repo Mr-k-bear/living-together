@@ -1,6 +1,7 @@
-import { createContext, Component, FunctionComponent } from "react";
+import { createContext } from "react";
+import { superConnect, superConnectWithEvent } from "./Context";
 import { Emitter } from "@Model/Emitter";
-import { Layout } from "@Model/Layout";
+import { Layout } from "./Layout";
 
 /**
  * 主题模式
@@ -12,9 +13,11 @@ enum Themes {
 
 type Language = "ZH_CN" | "EN_US";
 
-class Setting extends Emitter<
-    Setting & {change: keyof Setting}
-> {
+interface ISettingEvents extends Setting {
+    attrChange: keyof Setting;
+}
+
+class Setting extends Emitter<ISettingEvents> {
 
     /**
      * 主题
@@ -36,7 +39,7 @@ class Setting extends Emitter<
      */
     public setProps<P extends keyof Setting>(key: P, value: Setting[P]) {
         this[key] = value as any;
-        this.emit("change", key);
+        this.emit("attrChange", key);
         this.emit(key as any, value as any);
     }
 }
@@ -51,21 +54,14 @@ SettingContext.displayName = "Setting";
 const SettingProvider = SettingContext.Provider;
 const SettingConsumer = SettingContext.Consumer;
 
-type RenderComponent = (new (...p: any) => Component<any, any, any>) | FunctionComponent<any>;
-
 /**
  * 修饰器
  */
-function useSetting<R extends RenderComponent>(components: R): R {
-    return ((props: any) => {
-        const C = components;
-        return <SettingConsumer>
-            {(setting: Setting) => <C {...props} setting={setting}></C>}
-        </SettingConsumer>
-    }) as any;
-}
+const useSetting = superConnect<Setting>(SettingConsumer, "setting");
+
+const useSettingWithEvent = superConnectWithEvent<Setting, ISettingEvents>(SettingConsumer, "setting");
 
 export {
-    Themes, Setting, SettingContext, useSetting, Language,
+    Themes, Setting, SettingContext, useSetting, Language, useSettingWithEvent,
     IMixinSettingProps, SettingProvider, SettingConsumer
 };

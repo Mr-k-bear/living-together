@@ -46,7 +46,7 @@ class Label {
      * 判断是否为相同标签
      */
     public equal(label: Label): boolean {
-        if (this.isDeleted() || label.isDeleted()) return false;
+        // if (this.isDeleted() || label.isDeleted()) return false;
         return this === label || this.id === label.id;
     }
 

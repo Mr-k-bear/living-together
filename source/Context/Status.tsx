@@ -1,4 +1,4 @@
-import { createContext, Component, FunctionComponent, useState, useEffect, ReactNode } from "react";
+import { createContext } from "react";
 import { Emitter } from "@Model/Emitter";
 import { Model, ObjectID } from "@Model/Model";
 import { Label } from "@Model/Label";
@@ -9,6 +9,8 @@ import { AbstractRenderer } from "@Model/Renderer";
 import { ClassicRenderer, MouseMod } from "@GLRender/ClassicRenderer";
 import { Setting } from "./Setting";
 import { I18N } from "@Component/Localization/Localization";
+import { superConnectWithEvent, superConnect } from "./Context";
+import { PopupController } from "./Popups";
 
 function randomColor(unNormal: boolean = false) {
     const color = [
@@ -38,6 +40,7 @@ interface IStatusEvent {
     labelAttrChange: void;
     groupAttrChange: void;
     individualChange: void;
+    popupChange: void;
 }
 
 class Status extends Emitter<IStatusEvent> {
@@ -64,6 +67,11 @@ class Status extends Emitter<IStatusEvent> {
      * 模型状态
      */
     public model: Model = new Model();
+
+    /**
+     * 弹窗
+     */
+    public popup: PopupController = new PopupController();
 
     /**
      * 焦点对象
@@ -94,6 +102,9 @@ class Status extends Emitter<IStatusEvent> {
         // 对象变化事件
         this.model.on("objectChange", () => this.emit("objectChange"));
         this.model.on("labelChange", () => this.emit("labelChange"));
+
+        // 弹窗事件
+        this.popup.on("popupChange", () => this.emit("popupChange"));
 
         // 对象变换时执行渲染，更新渲染器数据
         this.on("objectChange", this.delayDraw);
@@ -258,67 +269,12 @@ StatusContext.displayName = "Status";
 const StatusProvider = StatusContext.Provider;
 const StatusConsumer = StatusContext.Consumer;
 
-type RenderComponent = (new (...p: any) => Component<any, any, any>) | FunctionComponent<any>;
-
 /**
  * 修饰器
  */
-function useStatus<R extends RenderComponent>(components: R): R {
-    return ((props: any) => {
-        const C = components;
-        return <StatusConsumer>
-            {(status: Status) => <C {...props} status={status}></C>}
-        </StatusConsumer>
-    }) as any;
-}
+const useStatus = superConnect<Status>(StatusConsumer, "status");
 
-function useStatusWithEvent(...events: Array<keyof IStatusEvent>) {
-    return <R extends RenderComponent>(components: R): R => {
-        const C = components as any;
-        return class extends Component<R> {
-
-            private status: Status | undefined;
-            private isEventMount: boolean = false;
-
-            private handelChange = () => {
-                this.forceUpdate();
-            }
-
-            private mountEvent() {
-                if (this.status && !this.isEventMount) {
-                    this.isEventMount = true;
-                    console.log("Component dep event mount: " + events.join(", "));
-                    for (let i = 0; i < events.length; i++) {
-                        this.status.on(events[i], this.handelChange);
-                    }
-                }
-            }
-
-            private unmountEvent() {
-                if (this.status) {
-                    for (let i = 0; i < events.length; i++) {
-                        this.status.off(events[i], this.handelChange);
-                    }
-                }
-            }
-
-            public render(): ReactNode {
-                return <StatusConsumer>
-                    {(status: Status) => {
-                        this.status = status;
-                        this.mountEvent();
-                        return <C {...this.props} status={status}></C>;
-                    }}
-                </StatusConsumer>
-            }
-
-            public componentWillUnmount() {
-                this.unmountEvent();
-            }
-
-        } as any;
-    }
-}
+const useStatusWithEvent = superConnectWithEvent<Status, IStatusEvent>(StatusConsumer, "status");
 
 export {
     Status, StatusContext, useStatus, useStatusWithEvent,

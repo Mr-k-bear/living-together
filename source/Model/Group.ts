@@ -49,6 +49,11 @@ class Group extends CtrlObject {
      */
     public genErrorMessageShowCount: number = 0;
 
+    /**
+     * 删除个数
+     */
+    public killCount: number = 1;
+
     private genInSingleRange(count: number, range: Range) {
         for (let i = 0; i < count; i++) {
             let individual = new Individual(this);
@@ -186,6 +191,42 @@ class Group extends CtrlObject {
             this.model.emit("individualChange", this);
         }
         return success;
+    }
+
+    /**
+     * 随机杀死个体
+     */
+    public killIndividuals(): boolean {
+        let success = false;
+        let killCount = this.killCount;
+        if (killCount > this.individuals.size) {
+            killCount = this.individuals.size;
+        }
+
+        // 生成索引数组
+        const allIndex = new Array(this.individuals.size).fill(0).map((_, i) => i);
+        const deleteIndex: Set<number> = new Set();
+
+        for (let i = 0; i < killCount; i++) {
+            let randomIndex = Math.floor(Math.random() * allIndex.length);
+            deleteIndex.add(allIndex[randomIndex]);
+            allIndex.splice(randomIndex, 1);
+        }
+
+        let j = 0;
+        this.individuals.forEach((individual) => {
+            if (deleteIndex.has(j)) {
+                this.remove(individual);
+                success = true;
+            }
+            j++;
+        });
+
+        if (success) {
+            this.model.emit("individualChange", this);
+        }
+
+        return success
     }
 
 	/**

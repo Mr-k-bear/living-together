@@ -68,7 +68,13 @@ class CommandBar extends Component<ICommandBarProps & IMixinSettingProps & IMixi
                 {this.getRenderButton({ iconName: "Camera", i18NKey: "Command.Bar.Camera.Info" })}
             </div>
             <div>
-                {this.getRenderButton({ iconName: "Settings", i18NKey: "Command.Bar.Setting.Info" })}
+                {this.getRenderButton({
+                    iconName: "Settings",
+                    i18NKey: "Command.Bar.Setting.Info",
+                    click: () => {
+                        this.props.status ? this.props.status.popup.showPopup() : undefined;
+                    }
+                })}
             </div>
         </Theme>
     }

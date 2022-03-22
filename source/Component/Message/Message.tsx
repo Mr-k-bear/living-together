@@ -1,5 +1,5 @@
 import { AllI18nKeys, I18N } from "@Component/Localization/Localization";
-import { useSetting, IMixinSettingProps, Themes, Language } from "@Context/Setting";
+import { useSettingWithEvent, IMixinSettingProps, Themes, Language } from "@Context/Setting";
 import { FunctionComponent } from "react";
 import "./Message.scss";
 
@@ -38,5 +38,5 @@ const MessageView: FunctionComponent<IMessageProps & IMixinSettingProps> = (prop
     </div>
 }
 
-const Message = useSetting(MessageView);
+const Message = useSettingWithEvent("language", "themes")(MessageView);
 export { Message };

@@ -7,9 +7,10 @@ import { StatusProvider, Status } from "@Context/Status";
 import { ClassicRenderer } from "@GLRender/ClassicRenderer";
 import { initializeIcons } from '@fluentui/font-icons-mdl2';
 import { RootContainer } from "@Component/Container/RootContainer";
-import { LayoutDirection } from "@Model/Layout";
-import "./SimulatorWeb.scss";
+import { LayoutDirection } from "@Context/Layout";
 import { CommandBar } from "@Component/CommandBar/CommandBar";
+import { Popup } from "@Component/Popup/Popup";
+import "./SimulatorWeb.scss";
 
 initializeIcons("https://img.mrkbear.com/fabric-cdn-prod_20210407.001/");
 
@@ -101,6 +102,7 @@ class SimulatorWeb extends Component {
             backgroundLevel={BackgroundLevel.Level5}
             fontLevel={FontLevel.Level3}
         >
+            <Popup/>
             <HeaderBar height={45}/>
             <div className="app-root-space" style={{
                 height: `calc( 100% - ${45}px)`

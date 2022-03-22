@@ -1,0 +1,114 @@
+@import "../Theme/Theme.scss";
+
+$header-height: 32px;
+
+@keyframes show-scale{
+    from {
+        transform: scale3d(1.15, 1.15, 1);
+    }
+    to {
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+@keyframes show-fade{
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+div.popup-mask.show-fade {
+    animation: show-fade .1s cubic-bezier(0, 0, 1, 1) both;
+    opacity: 1;
+}
+
+div.popup-layer.show-scale {
+    animation: show-scale .3s cubic-bezier(.1, .9, .2, 1) both,
+    show-fade .1s cubic-bezier(0, 0, 1, 1) both;
+    transform: scale3d(1, 1, 1);
+    opacity: 1;
+}
+
+div.popup-mask {
+    position: absolute;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
+
+div.popup-layer {
+    position: absolute;
+    border-radius: 3px;
+    overflow: hidden;
+
+    div.popup-layer-header {
+        min-height: $header-height;
+        max-height: $header-height;
+        height: $header-height;
+        display: flex;
+        width: 100%;
+
+        div.header-text {
+            width: calc( 100% - 32px );
+            flex-shrink: 1;
+            display: flex;
+            align-items: center;
+            user-select: none;
+            
+            span {
+                padding-left: 8px;
+                display: inline-block;
+                vertical-align: middle;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+        }
+
+        div.header-close-icon {
+            width: $header-height;
+            height: $header-height;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            cursor: pointer;
+        }
+    }
+}
+
+div.popup-layer.dark {
+
+    div.popup-layer-header {
+        background-color: $lt-bg-color-lvl3-dark;
+
+        div.header-close-icon:hover {
+            background-color: $lt-bg-color-lvl2-dark;
+            color: $lt-red;
+        }
+    }
+}
+
+div.popup-layer.light {
+
+    div.popup-layer-header {
+        background-color: $lt-bg-color-lvl3-light;
+
+        div.header-close-icon:hover {
+            background-color: $lt-bg-color-lvl2-light;
+            color: $lt-red;
+        }
+    }
+}
+
+div.dark.popup-mask {
+    background-color: rgba(0, 0, 0, 0.55);
+}
+
+div.light.popup-mask {
+    background-color: rgba(0, 0, 0, 0.15);
+}

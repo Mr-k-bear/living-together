@@ -136,6 +136,24 @@ class GroupDetails extends Component<IGroupDetailsProps & IMixinStatusProps> {
 				}}
 			/>
 
+            <Message i18nKey="Common.Attr.Title.Individual.kill" isTitle/>
+
+            <AttrInput
+                id={group.id} isNumber={true} step={1} keyI18n="Common.Attr.Key.Kill.Count"
+                value={group.killCount} min={1} max={1000}
+                valueChange={(val) => {
+                    this.props.status?.changeGroupAttrib(group.id, "killCount", (val as any) / 1);
+                }}
+            />
+
+            <TogglesInput
+				keyI18n="Common.Attr.Key.Generation"
+				onIconName="RemoveFilter" offIconName="RemoveFilter"
+				valueChange={() => {
+					group.killIndividuals()
+				}}
+			/>
+
 		</>
 	}
 
