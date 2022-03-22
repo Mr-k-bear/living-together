@@ -8,10 +8,32 @@ type IPopupConstructor = new (controller: PopupController, id: string) => Popup;
  */
 class Popup {
 
+    public zIndex() {
+        return this.index * 2 + this.controller.zIndex;
+    }
+
+    public width: number = 300;
+
+    public height: number = 200;
+
+    public top: number = 0;
+
+    public left: number = 0;
+
     /**
      * 是否关闭
      */
     public isClose: boolean = false;
+
+    /**
+     * 需要蒙版
+     */
+    public needMask: boolean = true;
+
+    /**
+     * 单独遮挡下层的蒙版
+     */
+    public maskForSelf: boolean = false;
 
     /**
      * 唯一标识符
@@ -43,7 +65,9 @@ class Popup {
     /**
      * 关闭回调
      */
-    public onClose(): void {};
+    public onClose(): void {
+        this.close();
+    };
 
     /**
      * 渲染节点
@@ -76,6 +100,11 @@ class PopupController extends Emitter<IPopupControllerEvent> {
      * ID 序列号
      */
     private idIndex = 0;
+
+    /**
+     * 最小弹窗 Index
+     */
+    public zIndex = 100;
 
     /**
      * 弹窗列表
@@ -121,7 +150,6 @@ class PopupController extends Emitter<IPopupControllerEvent> {
                 if (isDelete) {
                     closePopup = currentPopup;
                     currentPopup.isClose = true;
-                    currentPopup.onClose();
                     return false;
                 } else {
                     return true;
