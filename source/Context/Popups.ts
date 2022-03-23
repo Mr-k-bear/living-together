@@ -1,11 +1,12 @@
 import { ReactNode, createElement } from "react";
 import { Emitter } from "@Model/Emitter";
 import { Localization } from "@Component/Localization/Localization";
+import { IAnyObject } from "@Model/Renderer";
 
 /**
  * 弹窗类型
  */
-class Popup<P extends any = any> {
+class Popup<P extends IAnyObject = IAnyObject> {
 
     public props: P;
 
@@ -62,22 +63,10 @@ class Popup<P extends any = any> {
     public index: number = Infinity;
 
     /**
-     * react 节点
-     */
-    public reactNode: ReactNode;
-
-    /**
      * 渲染标题
      */
     public onRenderHeader(): ReactNode {
         return createElement(Localization, {i18nKey: "Popup.Title.Unnamed"});
-    }
-
-    /**
-     * 渲染函数
-     */
-    public onRender(p: Popup): ReactNode {
-        return undefined;
     }
 
     /**
@@ -91,8 +80,7 @@ class Popup<P extends any = any> {
      * 渲染节点
      */
     public render(): ReactNode {
-        this.reactNode = this.onRender(this) ?? this.reactNode;
-        return this.reactNode;
+        return null;
     };
 
     public close(): Popup | undefined {
@@ -144,10 +132,10 @@ class PopupController extends Emitter<IPopupControllerEvent> {
     /**
      * 实例化并开启一个弹窗
      */
-    public showPopup<P extends any, T extends Popup<P>>(
-        popup?: (new () => T) | Popup<P>, props?: P
+    public showPopup<P extends IAnyObject, T extends Popup<P>>(
+        popup: (new (props: P) => T) | Popup<P>, props: P
     ): Popup<P> {
-        let newPopup: Popup;
+        let newPopup: Popup<P>;
         if (popup instanceof Popup) {
             newPopup = popup;
         } else {

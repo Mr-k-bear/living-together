@@ -1,0 +1,67 @@
+@import "../Theme/Theme.scss";
+
+div.confirm-root {
+	width: 100%;
+	height: 100%;
+
+	div.content-views {
+		width: 100%;
+		height: calc( 100% - 36px );
+		box-sizing: border-box;
+		padding: 10px;
+	}
+
+	div.action-view {
+		width: 100%;
+		height: 36px;
+		display: flex;
+		box-sizing: border-box;
+		padding-right: 5px;
+		padding-bottom: 10px;
+		justify-content: flex-end;
+		align-items: center;
+
+		div.action-button {
+			height: 26px;
+			padding: 0 10px;
+			border-radius: 3px;
+			margin: 0 5px;
+			display: flex;
+			align-items: center;
+			cursor: pointer;
+			user-select: none;
+		}
+
+		div.action-button.yes-button:hover {
+			color: $lt-red;
+		}
+	}
+}
+
+div.dark.confirm-root {
+
+	div.action-view {
+
+		div.action-button {
+			background-color: $lt-bg-color-lvl3-dark;
+		}
+
+		div.action-button:hover {
+			background-color: $lt-bg-color-lvl2-dark;
+		}
+	}
+}
+
+div.light.confirm-root {
+
+	div.action-view {
+
+		div.action-button {
+			background-color: $lt-bg-color-lvl3-light;
+		}
+
+		div.action-button:hover {
+			background-color: $lt-bg-color-lvl2-light;
+		}
+	}
+}

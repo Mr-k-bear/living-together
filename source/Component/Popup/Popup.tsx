@@ -1,18 +1,22 @@
 import { Component, ReactNode } from "react";
 import { IMixinStatusProps, useStatusWithEvent } from "@Context/Status";
-import { BackgroundLevel, Theme } from "@Component/Theme/Theme";
+import { IMixinSettingProps, useSettingWithEvent } from "@Context/Setting";
+import { BackgroundLevel, FontLevel, getClassList, Theme } from "@Component/Theme/Theme";
 import { Popup as PopupModel } from "@Context/Popups";
 import { Icon } from "@fluentui/react";
 import "./Popup.scss";
 
 interface IPopupProps {}
 
+@useSettingWithEvent("themes")
 @useStatusWithEvent("popupChange")
-class Popup extends Component<IPopupProps & IMixinStatusProps> {
+class Popup extends Component<IPopupProps & IMixinStatusProps & IMixinSettingProps> {
 
     private renderMask(index?: number, click?: () => void, key?: string): ReactNode {
-        const classList: string[] = ["popup-mask", "show-fade"];
-        return <Theme
+        const classList: string[] = ["popup-mask", "show-fade", 
+            ...getClassList({}, this.props.setting)
+        ];
+        return <div
             key={key}
             onClick={click}
             className={classList.join(" ")}
@@ -61,7 +65,13 @@ class Popup extends Component<IPopupProps & IMixinStatusProps> {
     }
 
     private renderHeader(popup: PopupModel): ReactNode {
-        return <div className="popup-layer-header">
+        return <div
+            className={getClassList({
+                className: "popup-layer-header",
+                backgroundLevel: BackgroundLevel.Level3,
+                fontLevel: FontLevel.Level3
+            }, this.props.setting).join(" ")}
+        >
             <div
                 className="header-text"
                 onMouseDown={(e) => {
@@ -87,7 +97,13 @@ class Popup extends Component<IPopupProps & IMixinStatusProps> {
     }
 
     private renderContent(popup: PopupModel) {
-        return <div className="popup-layer-content">
+        return <div
+            className={getClassList({
+                className: "popup-layer-content",
+                backgroundLevel: BackgroundLevel.Level4,
+                fontLevel: FontLevel.normal
+            }, this.props.setting).join(" ")}
+        >
             {popup.render()}
         </div>
     }
@@ -103,6 +119,7 @@ class Popup extends Component<IPopupProps & IMixinStatusProps> {
         }
 
         return <Theme
+            key={popup.id}
             style={{
                 width: popup.width,
                 height: popup.height,
@@ -110,9 +127,10 @@ class Popup extends Component<IPopupProps & IMixinStatusProps> {
                 top: popup.top,
                 left: popup.left
             }}
-            key={popup.id}
-            backgroundLevel={BackgroundLevel.Level4}
-            className="popup-layer show-scale"
+            className={getClassList({
+                className: "popup-layer show-scale",
+                backgroundLevel: BackgroundLevel.Level4,
+            }, this.props.setting).join(" ")}
         >
             {this.renderHeader(popup)}
             {this.renderContent(popup)}

@@ -1,4 +1,4 @@
-import { useSetting, Themes, IMixinSettingProps } from "@Context/Setting";
+import { useSettingWithEvent, Themes, IMixinSettingProps, Setting } from "@Context/Setting";
 import { Component, ReactNode, DetailedHTMLProps, HTMLAttributes } from "react";
 import "./Theme.scss";
 
@@ -21,12 +21,33 @@ interface IThemeProps {
     className?: string;
     fontLevel?: FontLevel;
     backgroundLevel?: BackgroundLevel;
-} 
+}
+
+function getClassList(props: IThemeProps, setting?: Setting) {
+    const classNameList: string[] = [];
+
+    if (props.className) {
+        classNameList.push(props.className);
+    }
+
+    const theme = setting ? setting.themes : Themes.dark;
+    classNameList.push(theme === Themes.light ? "light" : "dark");
+
+    if (props.fontLevel) {
+        classNameList.push(`font-${props.fontLevel}`);
+    }
+    
+    if (props.backgroundLevel) {
+        classNameList.push(`background-${props.backgroundLevel}`);
+    }
+
+    return classNameList;
+}
 
 /**
  * 主题切换
  */
-@useSetting
+@useSettingWithEvent("themes")
 class Theme extends Component<
     IThemeProps & IMixinSettingProps & DetailedHTMLProps<
         HTMLAttributes<HTMLDivElement>, HTMLDivElement
@@ -52,22 +73,7 @@ class Theme extends Component<
     public render(): ReactNode {
 
         const setting = this.props.setting;
-        const classNameList: string[] = [];
-
-        if (this.props.className) {
-            classNameList.push(this.props.className);
-        }
-
-        const theme = setting ? setting.themes : Themes.dark;
-        classNameList.push(theme === Themes.light ? "light" : "dark");
-
-        if (this.props.fontLevel) {
-            classNameList.push(`font-${this.props.fontLevel}`);
-        }
-        
-        if (this.props.backgroundLevel) {
-            classNameList.push(`background-${this.props.backgroundLevel}`);
-        }
+        const classNameList = getClassList(this.props, setting);
 
         const propsObj = {...this.props};
         delete propsObj.className;
@@ -82,4 +88,4 @@ class Theme extends Component<
 }
 
 export default Theme;
-export { Theme, FontLevel, BackgroundLevel };
+export { Theme, FontLevel, BackgroundLevel, getClassList };
