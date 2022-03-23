@@ -10,7 +10,7 @@ interface IPopupProps {}
 @useStatusWithEvent("popupChange")
 class Popup extends Component<IPopupProps & IMixinStatusProps> {
 
-    public renderMask(index?: number, click?: () => void, key?: string): ReactNode {
+    private renderMask(index?: number, click?: () => void, key?: string): ReactNode {
         const classList: string[] = ["popup-mask", "show-fade"];
         return <Theme
             key={key}
@@ -22,7 +22,7 @@ class Popup extends Component<IPopupProps & IMixinStatusProps> {
         />
     }
 
-    public renderRootMask(): ReactNode {
+    private renderRootMask(): ReactNode {
         if (this.props.status) {
             const needMask = this.props.status.popup.popups.some(popup => popup.needMask);
             if (!needMask) return null;
@@ -38,7 +38,7 @@ class Popup extends Component<IPopupProps & IMixinStatusProps> {
         }
     }
 
-    public renderMaskList(): ReactNode {
+    private renderMaskList(): ReactNode {
         if (this.props.status) {
             return this.props.status.popup.popups
             .filter((popup) => {
@@ -60,9 +60,19 @@ class Popup extends Component<IPopupProps & IMixinStatusProps> {
         }
     }
 
-    public renderHeader(popup: PopupModel): ReactNode {
+    private renderHeader(popup: PopupModel): ReactNode {
         return <div className="popup-layer-header">
-            <div className="header-text">
+            <div
+                className="header-text"
+                onMouseDown={(e) => {
+                    popup.isOnMouseDown = true;
+                    popup.lastMouseLeft = e.clientX;
+                    popup.lastMouseTop = e.clientY;
+                }}
+                onMouseUp={() => {
+                    popup.isOnMouseDown = false;
+                }}
+            >
                 {popup.onRenderHeader()}
             </div>
             <div
@@ -76,26 +86,77 @@ class Popup extends Component<IPopupProps & IMixinStatusProps> {
         </div>
     }
 
-    public renderLayer(popup: PopupModel) {
+    private renderContent(popup: PopupModel) {
+        return <div className="popup-layer-content">
+            {popup.render()}
+        </div>
+    }
+
+    private renderLayer(popup: PopupModel) {
         const pageWidth = document.documentElement.clientWidth;
         const pageHeight = document.documentElement.clientHeight;
-        const top = (pageHeight - popup.height) / 2;
-        const left = (pageWidth - popup.width) / 2;
+        if (isNaN(popup.top)) {
+            popup.top = (pageHeight - popup.height) / 2;
+        }
+        if (isNaN(popup.left)) {
+            popup.left = (pageWidth - popup.width) / 2;
+        }
 
         return <Theme
             style={{
                 width: popup.width,
                 height: popup.height,
                 zIndex: popup.zIndex(),
-                top: top,
-                left: left
+                top: popup.top,
+                left: popup.left
             }}
             key={popup.id}
             backgroundLevel={BackgroundLevel.Level4}
             className="popup-layer show-scale"
         >
             {this.renderHeader(popup)}
+            {this.renderContent(popup)}
         </Theme>
+    }
+
+    private isMouseDown: boolean = false;
+
+    private handelMouseDown = () => {
+        this.isMouseDown = true;
+    }
+
+    private handelMouseUp = () => {
+        this.isMouseDown = false;
+    }
+
+    private handelMouseMove = (e: MouseEvent) => {
+        if (
+            this.isMouseDown &&
+            this.props.status &&
+            this.props.status.popup.popups.some(popup => popup.isOnMouseDown)
+        ) {
+            this.props.status.popup.popups.forEach((popup) => {
+                if (popup.isOnMouseDown) {
+                    popup.top += e.clientY - popup.lastMouseTop;
+                    popup.left += e.clientX - popup.lastMouseLeft;
+                    popup.lastMouseLeft = e.clientX;
+                    popup.lastMouseTop = e.clientY;
+                    this.forceUpdate();
+                }
+            });
+        }
+    }
+
+    public componentDidMount() {
+        window.addEventListener("mousemove", this.handelMouseMove);
+        window.addEventListener("mousedown", this.handelMouseDown);
+        window.addEventListener("mouseup", this.handelMouseUp);
+    }
+
+    public componentWillUnmount() {
+        window.removeEventListener("mousemove", this.handelMouseMove);
+        window.removeEventListener("mousedown", this.handelMouseDown);
+        window.removeEventListener("mouseup", this.handelMouseUp);
     }
 
     public render(): ReactNode {

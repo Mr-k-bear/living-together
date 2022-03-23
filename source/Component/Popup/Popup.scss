@@ -39,10 +39,17 @@ div.popup-mask {
     height: 100%;
 }
 
+div.focus.popup-layer {
+    border: 0.8px solid #514feb;
+}
+
 div.popup-layer {
     position: absolute;
     border-radius: 3px;
     overflow: hidden;
+    transition: none;
+    box-sizing: border-box;
+    border: 0.8px solid transparent;
 
     div.popup-layer-header {
         min-height: $header-height;
@@ -79,9 +86,16 @@ div.popup-layer {
             cursor: pointer;
         }
     }
+
+    div.popup-layer-content {
+        height: calc( 100% - 32px );
+        width: 100%;
+        overflow: hidden;
+    }
 }
 
 div.popup-layer.dark {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 
     div.popup-layer-header {
         background-color: $lt-bg-color-lvl3-dark;
@@ -94,6 +108,7 @@ div.popup-layer.dark {
 }
 
 div.popup-layer.light {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
 
     div.popup-layer-header {
         background-color: $lt-bg-color-lvl3-light;
