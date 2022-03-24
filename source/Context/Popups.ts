@@ -3,6 +3,17 @@ import { Emitter } from "@Model/Emitter";
 import { Localization } from "@Component/Localization/Localization";
 import { IAnyObject } from "@Model/Renderer";
 
+enum ResizeDragDirection {
+    top = 1,
+    rightTop = 2,
+    right = 3,
+    rightBottom = 4,
+    bottom = 5,
+    leftBottom = 6,
+    left = 7,
+    LeftTop = 8
+}
+
 /**
  * 弹窗类型
  */
@@ -15,22 +26,23 @@ class Popup<P extends IAnyObject = IAnyObject> {
     }
 
     public zIndex() {
-        return this.index * 2 + this.controller.zIndex;
+        return this.index * 5 + this.controller.zIndex;
     }
 
     public width: number = 300;
-
     public height: number = 200;
-
+    public minWidth: number = 300;
+    public minHeight: number = 200;
     public top: number = NaN;
-
     public left: number = NaN;
-
     public lastMouseTop: number = 0;
-
     public lastMouseLeft: number = 0;
-
     public isOnMouseDown: boolean = false;
+    public resizeHoverDirection?: ResizeDragDirection;
+    public resizeDragDirection?: ResizeDragDirection;
+    public isResizeMouseDown: boolean = false;
+    public isResizeOverFlowX: boolean = false;
+    public isResizeOverFlowY: boolean = false;
 
     /**
      * 是否关闭
@@ -178,4 +190,4 @@ class PopupController extends Emitter<IPopupControllerEvent> {
     }
 }
 
-export { Popup, PopupController }
+export { Popup, PopupController, ResizeDragDirection }
