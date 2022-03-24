@@ -1,13 +1,13 @@
 import { Component, ReactNode } from "react";
 import { AttrInput } from "@Component/AttrInput/AttrInput";
 import { useStatusWithEvent, IMixinStatusProps, Status } from "@Context/Status";
-import { AllI18nKeys } from "@Component/Localization/Localization";
 import { Message } from "@Component/Message/Message";
 import { Range } from "@Model/Range";
 import { ObjectID } from "@Model/Renderer";
 import { ColorInput } from "@Component/ColorInput/ColorInput";
 import { TogglesInput } from "@Component/TogglesInput/TogglesInput";
 import { LabelPicker } from "@Component/LabelPicker/LabelPicker";
+import { ConfirmPopup } from "@Component/ConfirmPopup/ConfirmPopup";
 import "./RangeDetails.scss";
 
 @useStatusWithEvent("rangeAttrChange", "focusObjectChange", "rangeLabelChange")
@@ -53,12 +53,21 @@ class RangeDetails extends Component<IMixinStatusProps> {
             />
 
             <TogglesInput
-				keyI18n="Common.Attr.Key.Delete"
+				keyI18n="Common.Attr.Key.Delete" red
 				onIconName="delete" offIconName="delete"
 				valueChange={() => {
-					if (this.props.status) {
-						this.props.status.model.deleteObject([range]);
-						this.props.status.setFocusObject(new Set());
+                    if (this.props.status) {
+                        const status = this.props.status;
+						status.popup.showPopup(ConfirmPopup, {
+							infoI18n: "Popup.Delete.Objects.Confirm",
+							titleI18N: "Popup.Action.Objects.Confirm.Title",
+							yesI18n: "Popup.Action.Objects.Confirm.Delete",
+							red: "yes",
+							yes: () => {
+								status.model.deleteObject([range]);
+						        status.setFocusObject(new Set());
+							}
+						})
 					}
 				}}
 			/>

@@ -59,6 +59,10 @@ div.object-list-command-bar {
         user-select: none;
         cursor: pointer;
     }
+
+    div.command-item.red:hover {
+        color: $lt-red;
+    }
 }
 
 div.dark.object-list-command-bar {

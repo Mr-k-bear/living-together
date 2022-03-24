@@ -10,6 +10,7 @@ import { Group, GenMod } from "@Model/Group";
 import { AllI18nKeys } from "@Component/Localization/Localization";
 import { ComboInput, IDisplayItem } from "@Component/ComboInput/ComboInput";
 import { ObjectPicker } from "@Component/ObjectPicker/ObjectPicker";
+import { ConfirmPopup } from "@Component/ConfirmPopup/ConfirmPopup";
 import "./GroupDetails.scss";
 
 interface IGroupDetailsProps {}
@@ -88,12 +89,21 @@ class GroupDetails extends Component<IGroupDetailsProps & IMixinStatusProps> {
             />
 
 			<TogglesInput
-				keyI18n="Common.Attr.Key.Delete"
+				keyI18n="Common.Attr.Key.Delete" red
 				onIconName="delete" offIconName="delete"
 				valueChange={() => {
 					if (this.props.status) {
-						this.props.status.model.deleteObject([group]);
-						this.props.status.setFocusObject(new Set());
+                        const status = this.props.status;
+						status.popup.showPopup(ConfirmPopup, {
+							infoI18n: "Popup.Delete.Objects.Confirm",
+							titleI18N: "Popup.Action.Objects.Confirm.Title",
+							yesI18n: "Popup.Action.Objects.Confirm.Delete",
+							red: "yes",
+							yes: () => {
+								status.model.deleteObject([group]);
+						        status.setFocusObject(new Set());
+							}
+						})
 					}
 				}}
 			/>
@@ -147,7 +157,7 @@ class GroupDetails extends Component<IGroupDetailsProps & IMixinStatusProps> {
             />
 
             <TogglesInput
-				keyI18n="Common.Attr.Key.Generation"
+				keyI18n="Common.Attr.Key.Kill.Random"
 				onIconName="RemoveFilter" offIconName="RemoveFilter"
 				valueChange={() => {
 					group.killIndividuals()

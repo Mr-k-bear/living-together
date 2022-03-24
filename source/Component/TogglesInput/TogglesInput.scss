@@ -15,6 +15,10 @@ div.toggles-input {
         cursor: pointer;
         user-select: none;
     }
+
+    div.checkbox.red:hover {
+        color: $lt-red !important;
+    }
 }
 
 div.dark.text-field-root {

@@ -73,7 +73,7 @@ class CommandBar extends Component<ICommandBarProps & IMixinSettingProps & IMixi
                     iconName: "Settings",
                     i18NKey: "Command.Bar.Setting.Info",
                     click: () => {
-                        this.props.status?.popup.showPopup(ConfirmPopup, {});
+                        // this.props.status?.popup.showPopup(ConfirmPopup, {});
                     }
                 })}
             </div>
