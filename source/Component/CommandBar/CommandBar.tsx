@@ -4,6 +4,7 @@ import { LocalizationTooltipHost } from "../Localization/LocalizationTooltipHost
 import { useSetting, IMixinSettingProps } from "@Context/Setting";
 import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
 import { AllI18nKeys } from "../Localization/Localization";
+import { ConfirmPopup } from "@Component/ConfirmPopup/ConfirmPopup";
 import { Component, ReactNode } from "react";
 import { MouseMod } from "@GLRender/ClassicRenderer";
 import "./CommandBar.scss";
@@ -72,7 +73,7 @@ class CommandBar extends Component<ICommandBarProps & IMixinSettingProps & IMixi
                     iconName: "Settings",
                     i18NKey: "Command.Bar.Setting.Info",
                     click: () => {
-                        this.props.status ? this.props.status.popup.showPopup() : undefined;
+                        // this.props.status?.popup.showPopup(ConfirmPopup, {});
                     }
                 })}
             </div>

@@ -5,6 +5,7 @@ import { Message } from "@Component/Message/Message";
 import { ColorInput } from "@Component/ColorInput/ColorInput";
 import { Label } from "@Model/Label";
 import { TogglesInput } from "@Component/TogglesInput/TogglesInput";
+import { ConfirmPopup } from "@Component/ConfirmPopup/ConfirmPopup";
 import "./LabelDetails.scss";
 
 @useStatusWithEvent("focusLabelChange", "labelAttrChange", "labelChange")
@@ -27,10 +28,21 @@ class LabelDetails extends Component<IMixinStatusProps> {
                 }
             }}/>
 
-            <TogglesInput keyI18n="Common.Attr.Key.Delete" onIconName="delete" offIconName="delete" valueChange={() => {
+            <TogglesInput
+                keyI18n="Common.Attr.Key.Delete" onIconName="delete" red
+                offIconName="delete" valueChange={() => {
                 if (this.props.status) {
-                    this.props.status.model.deleteLabel(label);
-                    this.props.status.setLabelObject();
+                    const status = this.props.status;
+                    status.popup.showPopup(ConfirmPopup, {
+                        infoI18n: "Popup.Delete.Objects.Confirm",
+                        titleI18N: "Popup.Action.Objects.Confirm.Title",
+                        yesI18n: "Popup.Action.Objects.Confirm.Delete",
+                        red: "yes",
+                        yes: () => {
+                            status.model.deleteLabel(label);
+                            status.setLabelObject();
+                        }
+                    })
                 }
             }}/>
 

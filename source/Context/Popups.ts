@@ -1,25 +1,48 @@
 import { ReactNode, createElement } from "react";
 import { Emitter } from "@Model/Emitter";
 import { Localization } from "@Component/Localization/Localization";
+import { IAnyObject } from "@Model/Renderer";
 
-type IPopupConstructor = new (controller: PopupController, id: string) => Popup;
+enum ResizeDragDirection {
+    top = 1,
+    rightTop = 2,
+    right = 3,
+    rightBottom = 4,
+    bottom = 5,
+    leftBottom = 6,
+    left = 7,
+    LeftTop = 8
+}
 
 /**
  * 弹窗类型
  */
-class Popup {
+class Popup<P extends IAnyObject = IAnyObject> {
+
+    public props: P;
+
+    public constructor(props: P) {
+        this.props = props;
+    }
 
     public zIndex() {
-        return this.index * 2 + this.controller.zIndex;
+        return this.index * 5 + this.controller.zIndex;
     }
 
     public width: number = 300;
-
     public height: number = 200;
-
-    public top: number = 0;
-
-    public left: number = 0;
+    public minWidth: number = 300;
+    public minHeight: number = 200;
+    public top: number = NaN;
+    public left: number = NaN;
+    public lastMouseTop: number = 0;
+    public lastMouseLeft: number = 0;
+    public isOnMouseDown: boolean = false;
+    public resizeHoverDirection?: ResizeDragDirection;
+    public resizeDragDirection?: ResizeDragDirection;
+    public isResizeMouseDown: boolean = false;
+    public isResizeOverFlowX: boolean = false;
+    public isResizeOverFlowY: boolean = false;
 
     /**
      * 是否关闭
@@ -39,12 +62,12 @@ class Popup {
     /**
      * 唯一标识符
      */
-    public id: string;
+    public id: string = "";
 
     /**
      * 控制器
      */
-    public controller: PopupController;
+    public controller: PopupController = undefined as any;
 
     /**
      * 渲染层级
@@ -52,22 +75,10 @@ class Popup {
     public index: number = Infinity;
 
     /**
-     * react 节点
-     */
-    public reactNode: ReactNode;
-
-    /**
      * 渲染标题
      */
     public onRenderHeader(): ReactNode {
         return createElement(Localization, {i18nKey: "Popup.Title.Unnamed"});
-    }
-
-    /**
-     * 渲染函数
-     */
-    public onRender(p: Popup): ReactNode {
-        return null;
     }
 
     /**
@@ -81,15 +92,14 @@ class Popup {
      * 渲染节点
      */
     public render(): ReactNode {
-        this.reactNode = this.onRender(this);
-        return this.reactNode;
+        return null;
     };
 
-    public close() {
+    public close(): Popup | undefined {
         return this.controller.closePopup(this);
     }
 
-    public constructor(controller: PopupController, id: string) {
+    public init(controller: PopupController, id: string) {
         this.controller = controller;
         this.id = id;
     }
@@ -134,8 +144,16 @@ class PopupController extends Emitter<IPopupControllerEvent> {
     /**
      * 实例化并开启一个弹窗
      */
-    public showPopup<P extends IPopupConstructor>(popup?: P): Popup {
-        let newPopup = new (popup ?? Popup)(this, `P-${this.idIndex ++}`);
+    public showPopup<P extends IAnyObject, T extends Popup<P>>(
+        popup: (new (props: P) => T) | Popup<P>, props: P
+    ): Popup<P> {
+        let newPopup: Popup<P>;
+        if (popup instanceof Popup) {
+            newPopup = popup;
+        } else {
+            newPopup = new (popup ?? Popup)(props);
+        }
+        newPopup.init(this, `P-${this.idIndex ++}`);
         this.popups.push(newPopup);
         this.sortPopup();
         return newPopup;
@@ -172,4 +190,4 @@ class PopupController extends Emitter<IPopupControllerEvent> {
     }
 }
 
-export { Popup, PopupController }
+export { Popup, PopupController, ResizeDragDirection }

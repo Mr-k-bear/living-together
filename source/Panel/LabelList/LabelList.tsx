@@ -4,6 +4,7 @@ import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
 import { useSetting, IMixinSettingProps } from "@Context/Setting";
 import { Label } from "@Model/Label";
 import { Message } from "@Component/Message/Message";
+import { ConfirmPopup } from "@Component/ConfirmPopup/ConfirmPopup";
 import "./LabelList.scss";
 
 interface ILabelListProps {
@@ -47,8 +48,17 @@ class LabelList extends Component<ILabelListProps & IMixinStatusProps & IMixinSe
                 }}
                 deleteLabel={(label) => {
                     if (this.props.status) {
-                        this.props.status.model.deleteLabel(label);
-                        this.props.status.setLabelObject();
+                        const status = this.props.status;
+                        status.popup.showPopup(ConfirmPopup, {
+                            infoI18n: "Popup.Delete.Objects.Confirm",
+                            titleI18N: "Popup.Action.Objects.Confirm.Title",
+                            yesI18n: "Popup.Action.Objects.Confirm.Delete",
+                            red: "yes",
+                            yes: () => {
+                                status.model.deleteLabel(label);
+                                status.setLabelObject();
+                            }
+                        })
                     }
                     this.labelInnerClick = true;
                 }}

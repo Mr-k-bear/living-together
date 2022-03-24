@@ -8,6 +8,7 @@ interface ITogglesInputProps extends ITextFieldProps {
     onIconName?: string;
     offIconName?: string;
     valueChange?: (value: boolean) => any;
+    red?: boolean;
 }
 
 class TogglesInput extends Component<ITogglesInputProps> {
@@ -20,7 +21,7 @@ class TogglesInput extends Component<ITogglesInputProps> {
             customStyle
         >
             <div
-                className="checkbox"
+                className={"checkbox" + (this.props.red ? " red" : "")}
                 style={{
                     cursor: this.props.disableI18n ? "not-allowed" : "pointer"
                 }}

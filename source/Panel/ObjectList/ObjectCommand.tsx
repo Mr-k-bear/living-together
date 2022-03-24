@@ -1,5 +1,6 @@
 import { BackgroundLevel, FontLevel, Theme } from "@Component/Theme/Theme";
 import { useStatus, IMixinStatusProps } from "../../Context/Status";
+import { ConfirmPopup } from "@Component/ConfirmPopup/ConfirmPopup";
 import { Icon } from "@fluentui/react";
 import { Component, ReactNode } from "react";
 import { ObjectID } from "@Model/Renderer";
@@ -54,15 +55,24 @@ class ObjectCommand extends Component<IMixinStatusProps> {
 				<Icon iconName="CubeShape"></Icon>
 			</div>
 			<div
-				className="command-item"
+				className="command-item red"
 				onClick={() => {
-					if (this.props.status) {
-						let deleteId: ObjectID[] = [];
-						this.props.status.focusObject.forEach((obj) => {
-							deleteId.push(obj);
+					if (this.props.status && this.props.status.focusObject.size > 0) {
+						const status = this.props.status;
+						status.popup.showPopup(ConfirmPopup, {
+							infoI18n: "Popup.Delete.Objects.Confirm",
+							titleI18N: "Popup.Action.Objects.Confirm.Title",
+							yesI18n: "Popup.Action.Objects.Confirm.Delete",
+							red: "yes",
+							yes: () => {
+								let deleteId: ObjectID[] = [];
+								status.focusObject.forEach((obj) => {
+									deleteId.push(obj);
+								})
+								status.model.deleteObject(deleteId);
+								status.setFocusObject(new Set<ObjectID>());
+							}
 						})
-						this.props.status.model.deleteObject(deleteId);
-						this.props.status.setFocusObject(new Set<ObjectID>());
 					}
 				}}
 			>
