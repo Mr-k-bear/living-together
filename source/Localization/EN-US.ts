@@ -51,6 +51,7 @@ const EN_US = {
     "Popup.Action.Objects.Confirm.Title": "Confirm Delete",
     "Popup.Action.Objects.Confirm.Delete": "Delete",
     "Popup.Delete.Objects.Confirm": "Are you sure you want to delete this object(s)? The object is deleted and cannot be recalled.",
+    "Popup.Setting.Title": "Preferences setting",
     "Build.In.Label.Name.All.Group": "All group",
     "Build.In.Label.Name.All.Range": "All range",
     "Common.No.Data": "No Data",
