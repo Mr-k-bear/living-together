@@ -54,6 +54,8 @@ const ZH_CN = {
     "Popup.Setting.Title": "首选项设置",
     "Build.In.Label.Name.All.Group": "全部群",
     "Build.In.Label.Name.All.Range": "全部范围",
+    "Behavior.Template.Title": "行为",
+    "Behavior.Template.Intro": "这是一个模板行为",
     "Common.No.Data": "暂无数据",
     "Common.No.Unknown.Error": "未知错误",
     "Common.Attr.Title.Basic": "基础属性",

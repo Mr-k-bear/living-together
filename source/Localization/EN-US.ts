@@ -54,6 +54,8 @@ const EN_US = {
     "Popup.Setting.Title": "Preferences setting",
     "Build.In.Label.Name.All.Group": "All group",
     "Build.In.Label.Name.All.Range": "All range",
+    "Behavior.Template.Title": "Behavior",
+    "Behavior.Template.Intro": "This is a template behavior",
     "Common.No.Data": "No Data",
     "Common.No.Unknown.Error": "Unknown error",
     "Common.Attr.Title.Basic": "Basic properties",
