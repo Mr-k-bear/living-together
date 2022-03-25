@@ -5,14 +5,14 @@ import { Emitter, EventType, EventMixin } from "./Emitter";
 import { CtrlObject } from "./CtrlObject";
 import { ObjectID, AbstractRenderer } from "./Renderer";
 import { Label } from "./Label";
-import { Behavior, BehaviorRecorder } from "./Behavior";
+import { Behavior, IAnyBehavior, IAnyBehaviorRecorder } from "./Behavior";
 
 type ModelEvent = {
     loop: number;
     labelChange: Label[];
     objectChange: CtrlObject[];
     individualChange: Group;
-    behaviorChange: Behavior;
+    behaviorChange: IAnyBehavior;
 };
 
 /**
@@ -182,12 +182,12 @@ class Model extends Emitter<ModelEvent> {
     /**
      * 行为池
      */
-    public behaviorPool: Behavior<any, any>[] = [];
+    public behaviorPool: IAnyBehavior[] = [];
 
     /**
      * 添加一个行为
      */
-    public addBehavior<B extends Behavior<any, any>>(recorder: BehaviorRecorder<B>): B {
+    public addBehavior<B extends IAnyBehaviorRecorder>(recorder: B): B["behaviorInstance"] {
         let behavior = recorder.new();
         behavior.load(this);
         this.behaviorPool.push(behavior);
@@ -199,7 +199,7 @@ class Model extends Emitter<ModelEvent> {
     /**
      * 通过 ID 获取行为
      */
-    public getBehaviorById(id: ObjectID): Behavior<any, any> | undefined {
+    public getBehaviorById(id: ObjectID): IAnyBehavior | undefined {
         for (let i = 0; i < this.behaviorPool.length; i++) {
             if (this.behaviorPool[i].id.toString() === id.toString()) {
                 return this.behaviorPool[i];
@@ -211,8 +211,8 @@ class Model extends Emitter<ModelEvent> {
      * 搜索并删除一个 Behavior
      * @param name 搜索值
      */
-    public deleteBehavior(name: Behavior<any, any> | ObjectID) {
-        let deletedBehavior: Behavior<any, any> | undefined;
+    public deleteBehavior(name: IAnyBehavior | ObjectID) {
+        let deletedBehavior: IAnyBehavior | undefined;
         let index = 0;
 
         for (let i = 0; i < this.behaviorPool.length; i++) {

@@ -7,12 +7,6 @@ import type { Range } from "./Range";
 import type { Label } from "./Label";
 
 /**
- * 行为构造函数类型
- */
-type IBehaviorConstructor<B extends Behavior<any, any>> =
-    new (id: string, parameter: IBehaviorParameterValue<B["parameterOption"]>) => B;
-
-/**
  * 参数类型
  */
 type IMapBasicParamTypeKeyToType = {
@@ -42,8 +36,6 @@ type IParamType = keyof AllMapType;
 type IObjectType = keyof IMapObjectParamTypeKeyToType;
 type IVectorType = keyof IMapVectorParamTypeKeyToType;
 type IParamValue<K extends IParamType> = AllMapType[K];
-
-
 
 /**
  * 特殊对象类型判定
@@ -111,25 +103,34 @@ interface IBehaviorParameterOptionItem<T extends IParamType = IParamType> {
     iconName?: string;
 }
 
-/**
- * 参数键值类型
- */
-type IBehaviorParameterValueItem<P extends IBehaviorParameterOptionItem> = IParamValue<P["type"]>;
+interface IBehaviorParameter {
+    [x: string]: IParamType;
+}
 
 /**
  * 参数类型列表
  */
-interface IBehaviorParameterOption {
-    [x: string]: IBehaviorParameterOptionItem;
+type IBehaviorParameterOption<P extends IBehaviorParameter> = {
+    [X in keyof P]: IBehaviorParameterOptionItem<P[X]>;
 }
 
 /**
  * 参数类型列表映射到参数对象
  */
-type IBehaviorParameterValue<P extends IBehaviorParameterOption> = {
-    [x in keyof P]: IBehaviorParameterValueItem<P[x]>
+type IBehaviorParameterValue<P extends IBehaviorParameter> = {
+    [X in keyof P]: IParamValue<P[X]>
 }
 
+/**
+ * 行为构造函数类型
+ */
+type IBehaviorConstructor<
+    P extends IBehaviorParameter = {},
+    E extends Record<EventType, any> = {}
+> = new (id: string, parameter: IBehaviorParameterValue<P>) => Behavior<P, E>;
+
+type IAnyBehavior = Behavior<any, any>;
+type IAnyBehaviorRecorder = BehaviorRecorder<any, any>;
 
 /**
  * 行为的基础信息
@@ -158,8 +159,9 @@ class BehaviorInfo<E extends Record<EventType, any> = {}> extends Emitter<E> {
 }
 
 class BehaviorRecorder<
-    B extends Behavior<any, any>
-> extends BehaviorInfo {
+    P extends IBehaviorParameter = {},
+    E extends Record<EventType, any> = {}
+> extends BehaviorInfo<{}> {
 
     /**
      * 命名序号
@@ -176,23 +178,23 @@ class BehaviorRecorder<
     /**
      * 行为类型
      */
-    public behavior: IBehaviorConstructor<B>;
+    public behavior: IBehaviorConstructor<P, E>;
 
     /**
      * 行为实例
      */
-    public behaviorInstance: B;
+    public behaviorInstance: Behavior<P, E>;
 
     /**
      * 对象参数列表
      */
-    public parameterOption: B["parameterOption"];
+    public parameterOption: IBehaviorParameterOption<P>;
 
     /**
      * 获取参数列表的默认值
      */
-    public getDefaultValue(): IBehaviorParameterValue<B["parameterOption"]> {
-        let defaultObj = {} as IBehaviorParameterValue<B["parameterOption"]>;
+    public getDefaultValue(): IBehaviorParameterValue<P> {
+        let defaultObj = {} as IBehaviorParameterValue<P>;
         for (let key in this.parameterOption) {
             let defaultVal = this.parameterOption[key].defaultValue;
             
@@ -224,11 +226,11 @@ class BehaviorRecorder<
     /**
      * 创建一个新的行为实例
      */
-    public new(): B {
+    public new(): Behavior<P, E> {
         return new this.behavior(this.getNextId(), this.getDefaultValue());
     }
 
-    public constructor(behavior: IBehaviorConstructor<B>) {
+    public constructor(behavior: IBehaviorConstructor<P, E>) {
         super();
         this.behavior = behavior;
         this.behaviorInstance = new this.behavior(this.getNextId(), {} as any);
@@ -244,7 +246,7 @@ class BehaviorRecorder<
  * 群体的某种行为
  */
 class Behavior<
-    P extends IBehaviorParameterOption = {},
+    P extends IBehaviorParameter = {},
     E extends Record<EventType, any> = {}
 > extends BehaviorInfo<E> {
 
@@ -272,7 +274,7 @@ class Behavior<
     /**
      * 对象参数列表
      */
-    public parameterOption: P = {} as any;
+    public parameterOption: IBehaviorParameterOption<P> = {} as any;
 
     public constructor(id: string, parameter: IBehaviorParameterValue<P>) {
         super();
@@ -355,5 +357,8 @@ class Behavior<
 
 }
 
-export { Behavior, BehaviorRecorder };
+export {
+    Behavior, BehaviorRecorder, IBehaviorParameterOption, IBehaviorParameterOptionItem,
+    IAnyBehavior, IAnyBehaviorRecorder
+};
 export default { Behavior };
