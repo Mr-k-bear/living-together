@@ -52,13 +52,13 @@ class CommandBar extends Component<ICommandBarProps & IMixinSettingProps & IMixi
                     }
                 })}
                 {this.getRenderButton({
-                    iconName: "CubeShape",
+                    iconName: "ProductVariant",
                     i18NKey: "Command.Bar.Add.Range.Info",
                     click: () => {
                         this.props.status ? this.props.status.newRange() : undefined;
                     }
                 })}
-                {this.getRenderButton({ iconName: "StepSharedAdd", i18NKey: "Command.Bar.Add.Behavior.Info" })}
+                {this.getRenderButton({ iconName: "Running", i18NKey: "Command.Bar.Add.Behavior.Info" })}
                 {this.getRenderButton({
                     iconName: "Tag",
                     i18NKey: "Command.Bar.Add.Tag.Info",
