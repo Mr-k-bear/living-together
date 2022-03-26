@@ -52,6 +52,7 @@ const ZH_CN = {
     "Popup.Action.Objects.Confirm.Delete": "删除",
     "Popup.Delete.Objects.Confirm": "你确定要删除这个(些)对象吗？对象被删除将无法撤回。",
     "Popup.Setting.Title": "首选项设置",
+    "Popup.Add.Behavior.Title": "添加行为",
     "Build.In.Label.Name.All.Group": "全部群",
     "Build.In.Label.Name.All.Range": "全部范围",
     "Behavior.Template.Title": "行为",
