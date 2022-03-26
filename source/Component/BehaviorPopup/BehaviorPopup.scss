@@ -4,3 +4,8 @@ div.behavior-popup {
 	width: 100%;
 	height: 100%;
 }
+
+div.behavior-popup-search-box {
+	padding: 10px 0 0 10px;
+	width: calc(100% - 10px);
+}

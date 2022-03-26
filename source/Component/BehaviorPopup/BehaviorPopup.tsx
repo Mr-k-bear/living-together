@@ -1,11 +1,16 @@
 import { Component, ReactNode } from "react";
 import { Popup } from "@Context/Popups";
-import { Theme } from "@Component/Theme/Theme";
 import { Localization } from "@Component/Localization/Localization";
+import { SearchBox } from "@Component/SearchBox/SearchBox";
+import { ConfirmContent } from "@Component/ConfirmPopup/ConfirmPopup";
 import "./BehaviorPopup.scss";
 
 interface IBehaviorPopupProps {
 
+}
+
+interface IBehaviorPopupState {
+	searchValue: string;
 }
 
 class BehaviorPopup extends Popup<IBehaviorPopupProps> {
@@ -24,10 +29,36 @@ class BehaviorPopup extends Popup<IBehaviorPopupProps> {
 	}
 }
 
-class BehaviorPopupComponent extends Component<IBehaviorPopupProps> {
+class BehaviorPopupComponent extends Component<IBehaviorPopupProps, IBehaviorPopupState> {
+
+	state: Readonly<IBehaviorPopupState> = {
+		searchValue: ""
+	};
+
+	private renderHeader = () => {
+		return <div className="behavior-popup-search-box">
+			<SearchBox
+				valueChange={(value) => {
+					this.setState({
+						searchValue: value
+					});
+				}}
+				value={this.state.searchValue}
+			/>
+		</div>;
+	}
 
 	public render(): ReactNode {
-		return <Theme className="behavior-popup"></Theme>
+		return <ConfirmContent
+			className="behavior-popup"
+			actions={[{
+				i18nKey: "Popup.Add.Behavior.Action.Add"
+			}]}
+			header={this.renderHeader}
+			headerHeight={36}
+		>
+			
+		</ConfirmContent>
 	}
 }
 
