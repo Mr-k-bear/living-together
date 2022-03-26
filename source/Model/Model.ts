@@ -1,4 +1,3 @@
-
 import { Individual } from "./Individual";
 import { Group } from "./Group";
 import { Range } from "./Range";
@@ -6,18 +5,14 @@ import { Emitter, EventType, EventMixin } from "./Emitter";
 import { CtrlObject } from "./CtrlObject";
 import { ObjectID, AbstractRenderer } from "./Renderer";
 import { Label } from "./Label";
+import { Behavior, IAnyBehavior, IAnyBehaviorRecorder } from "./Behavior";
 
 type ModelEvent = {
     loop: number;
-    groupAdd: Group;
-    rangeAdd: Range;
-    labelAdd: Label;
-    labelDelete: Label;
     labelChange: Label[];
-    objectAdd: CtrlObject;
-    objectDelete: CtrlObject[];
     objectChange: CtrlObject[];
     individualChange: Group;
+    behaviorChange: IAnyBehavior;
 };
 
 /**
@@ -68,7 +63,6 @@ class Model extends Emitter<ModelEvent> {
         console.log(`Model: Creat label with id ${this.idIndex}`);
         let label = new Label(this, this.nextId("L"), name);
         this.labelPool.push(label);
-        this.emit("labelAdd", label);
         this.emit("labelChange", this.labelPool);
         return label;
     }
@@ -97,7 +91,6 @@ class Model extends Emitter<ModelEvent> {
             this.labelPool.splice(index, 1);
             deletedLabel.testDelete();
             console.log(`Model: Delete label ${deletedLabel.name ?? deletedLabel.id}`);
-            this.emit("labelDelete", deletedLabel);
             this.emit("labelChange", this.labelPool);
         }
     }
@@ -135,8 +128,6 @@ class Model extends Emitter<ModelEvent> {
         console.log(`Model: Creat group with id ${this.idIndex}`);
         let group = new Group(this, this.nextId("G"));
         this.objectPool.push(group);
-        this.emit("groupAdd", group);
-        this.emit("objectAdd", group);
         this.emit("objectChange", this.objectPool);
         return group;
     }
@@ -148,8 +139,6 @@ class Model extends Emitter<ModelEvent> {
         console.log(`Model: Creat range with id ${this.idIndex}`);
         let range = new Range(this, this.nextId("R"));
         this.objectPool.push(range);
-        this.emit("rangeAdd", range);
-        this.emit("objectAdd", range);
         this.emit("objectChange", this.objectPool);
         return range;
     }
@@ -176,6 +165,7 @@ class Model extends Emitter<ModelEvent> {
 
             if (needDeleted) {
                 deletedObject.push(currentObject);
+                currentObject.markDelete();
                 return false;
             } else {
                 return true;
@@ -184,10 +174,66 @@ class Model extends Emitter<ModelEvent> {
 
         if (deletedObject.length) {
             console.log(`Model: Delete object ${deletedObject.map((object) => object.id).join(", ")}`);
-            this.emit("objectDelete", deletedObject);
             this.emit("objectChange", this.objectPool);
         }
         return deletedObject;
+    }
+
+    /**
+     * 行为池
+     */
+    public behaviorPool: IAnyBehavior[] = [];
+
+    /**
+     * 添加一个行为
+     */
+    public addBehavior<B extends IAnyBehaviorRecorder>(recorder: B): B["behaviorInstance"] {
+        let behavior = recorder.new();
+        behavior.load(this);
+        this.behaviorPool.push(behavior);
+        console.log(`Model: Add ${behavior.behaviorName} behavior ${behavior.id}`);
+        this.emit("behaviorChange", behavior);
+        return behavior;
+    };
+
+    /**
+     * 通过 ID 获取行为
+     */
+    public getBehaviorById(id: ObjectID): IAnyBehavior | undefined {
+        for (let i = 0; i < this.behaviorPool.length; i++) {
+            if (this.behaviorPool[i].id.toString() === id.toString()) {
+                return this.behaviorPool[i];
+            }
+        }
+    }
+
+    /**
+     * 搜索并删除一个 Behavior
+     * @param name 搜索值
+     */
+    public deleteBehavior(name: IAnyBehavior | ObjectID) {
+        let deletedBehavior: IAnyBehavior | undefined;
+        let index = 0;
+
+        for (let i = 0; i < this.behaviorPool.length; i++) {
+            if (name instanceof Behavior) {
+                if (this.behaviorPool[i].equal(name)) {
+                    deletedBehavior = this.behaviorPool[i];
+                    index = i;
+                }
+            } else if (name === this.behaviorPool[i].id) {
+                deletedBehavior = this.behaviorPool[i];
+                index = i;
+            }
+        }
+
+        if (deletedBehavior) {
+            this.behaviorPool.splice(index, 1);
+            deletedBehavior.unload(this);
+            deletedBehavior.markDelete();
+            console.log(`Model: Delete behavior ${deletedBehavior.name ?? deletedBehavior.id}`);
+            this.emit("behaviorChange", deletedBehavior);
+        }
     }
 
     /**

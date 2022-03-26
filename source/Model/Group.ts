@@ -22,7 +22,7 @@ class Group extends CtrlObject {
     /**
      * 个体生成方式
      */
-    public genMethod: GenMod = GenMod.Point;
+    public genMethod: GenMod = GenMod.Range;
 
     /**
      * 生成位置坐标

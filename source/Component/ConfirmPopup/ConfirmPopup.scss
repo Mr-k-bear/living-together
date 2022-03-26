@@ -4,10 +4,35 @@ div.confirm-root {
 	width: 100%;
 	height: 100%;
 
+	div.header-view {
+		width: 100%;
+	}
+
 	div.content-views {
 		width: 100%;
-		height: calc( 100% - 36px );
 		box-sizing: border-box;
+		overflow: scroll;
+		-ms-overflow-style: none;
+		flex-shrink: 1;
+	}
+	
+	div.content-views::-webkit-scrollbar {
+		width : 8px;  /*高宽分别对应横竖滚动条的尺寸*/
+  		height: 0;
+	}
+
+	div.content-views::-webkit-scrollbar-thumb {
+		/*滚动条里面小方块*/
+		border-radius: 8px;
+	}
+
+	div.content-views::-webkit-scrollbar-track {
+		/*滚动条里面轨道*/
+		border-radius: 8px;
+		background-color: rgba($color: #000000, $alpha: 0);
+	}
+
+	div.content-views.has-padding {
 		padding: 10px;
 	}
 
@@ -35,14 +60,27 @@ div.confirm-root {
 		div.action-button.red {
 			color: $lt-red;
 		}
+
+		div.action-button.blue {
+			color: $lt-blue;
+		}
+
+		div.action-button.disable {
+			opacity: .75;
+			cursor: not-allowed;
+		}
 	}
 }
 
 div.dark.confirm-root {
 
+	div.content-views::-webkit-scrollbar-thumb {
+		background-color: $lt-bg-color-lvl1-dark;
+	}
+
 	div.action-view {
 
-		div.action-button {
+		div.action-button, div.action-button.disable:hover {
 			background-color: $lt-bg-color-lvl3-dark;
 		}
 
@@ -54,9 +92,13 @@ div.dark.confirm-root {
 
 div.light.confirm-root {
 
+	div.content-views::-webkit-scrollbar-thumb {
+		background-color: $lt-bg-color-lvl1-light;
+	}
+
 	div.action-view {
 
-		div.action-button {
+		div.action-button, div.action-button.disable:hover {
 			background-color: $lt-bg-color-lvl3-light;
 		}
 

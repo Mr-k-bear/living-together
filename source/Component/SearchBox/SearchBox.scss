@@ -1,0 +1,95 @@
+@import "../Theme/Theme.scss";
+
+$search-box-height: 26px;
+
+div.search-box-root {
+	min-height: $search-box-height;
+	max-width: 280px;
+	width: 100%;
+	border-radius: 3px;
+	display: flex;
+	cursor: pointer;
+	overflow: hidden;
+
+	div.search-icon {
+		min-width: $search-box-height;
+		height: $search-box-height;
+		flex-shrink: 0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		user-select: none;
+	}
+
+	div.input-box {
+		width: calc(100% - 26px);
+		height: $search-box-height;
+
+		input {
+			width: 100%;
+			height: 100%;
+			padding: 0;
+			margin: 0;
+			border: 0;
+			outline: none;
+			background-color: transparent;
+			vertical-align: middle;
+		}
+	}
+
+	div.clean-box {
+		height: $search-box-height;
+		width: 0;
+		display: flex;
+		align-items: center;
+
+		div.clean-box-view {
+			flex-shrink: 0;
+			height: 24px;
+			width: 24px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			position: relative;
+			right: 24px;
+			border-radius: 3px;
+			user-select: none;
+		}
+	}
+}
+
+div.dark.search-box-root {
+
+	div.clean-box {
+
+		div.clean-box-view:hover {
+			background-color: $lt-bg-color-lvl2-dark;
+		}
+
+		div.clean-box-view {
+			background-color: $lt-bg-color-lvl3-dark;
+		}
+	}
+
+	div.input-box input {
+		color: $lt-font-color-normal-dark;
+	}
+}
+
+div.light.search-box-root {
+
+	div.clean-box {
+
+		div.clean-box-view:hover {
+			background-color: $lt-bg-color-lvl3-light;
+		}
+
+		div.clean-box-view {
+			background-color: $lt-bg-color-lvl2-light;
+		}
+	} 
+
+	div.input-box input {
+		color: $lt-font-color-normal-light;
+	}
+}

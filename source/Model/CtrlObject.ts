@@ -60,22 +60,36 @@ class CtrlObject extends LabelObject {
         return this === obj || this.id === obj.id;
     }
 
+    /**
+     * 标记对象被删除
+     */
+    public markDelete() {
+        this.deleteFlag = true;
+    };
 
     /**
      * 删除标记
      */
     private deleteFlag: boolean = false;
 
-     /**
-      * 是否被删除
-      */
-    public isDeleted(): boolean {
-        if (this.deleteFlag) return true;
+    /**
+     * 检测是否被删除
+     */
+    public testDelete() {
         for (let i = 0; i < this.model.objectPool.length; i++) {
-            if (this.model.objectPool[i].equal(this)) return false;
+            if (this.model.objectPool[i].equal(this)) {
+                this.deleteFlag = false;
+                return;
+            }
         }
         this.deleteFlag = true;
-        return true;
+    }
+
+    /**
+     * 是否被删除
+     */
+    public isDeleted(): boolean {
+        return this.deleteFlag;
     }
 }
 

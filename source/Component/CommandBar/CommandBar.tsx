@@ -4,7 +4,8 @@ import { LocalizationTooltipHost } from "../Localization/LocalizationTooltipHost
 import { useSetting, IMixinSettingProps } from "@Context/Setting";
 import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
 import { AllI18nKeys } from "../Localization/Localization";
-import { ConfirmPopup } from "@Component/ConfirmPopup/ConfirmPopup";
+import { SettingPopup } from "../SettingPopup/SettingPopup";
+import { BehaviorPopup } from "../BehaviorPopup/BehaviorPopup";
 import { Component, ReactNode } from "react";
 import { MouseMod } from "@GLRender/ClassicRenderer";
 import "./CommandBar.scss";
@@ -52,13 +53,19 @@ class CommandBar extends Component<ICommandBarProps & IMixinSettingProps & IMixi
                     }
                 })}
                 {this.getRenderButton({
-                    iconName: "CubeShape",
+                    iconName: "ProductVariant",
                     i18NKey: "Command.Bar.Add.Range.Info",
                     click: () => {
                         this.props.status ? this.props.status.newRange() : undefined;
                     }
                 })}
-                {this.getRenderButton({ iconName: "StepSharedAdd", i18NKey: "Command.Bar.Add.Behavior.Info" })}
+                {this.getRenderButton({
+                    iconName: "Running",
+                    i18NKey: "Command.Bar.Add.Behavior.Info",
+                    click: () => {
+                        this.props.status?.popup.showPopup(BehaviorPopup, {});
+                    }
+                })}
                 {this.getRenderButton({
                     iconName: "Tag",
                     i18NKey: "Command.Bar.Add.Tag.Info",
@@ -73,7 +80,7 @@ class CommandBar extends Component<ICommandBarProps & IMixinSettingProps & IMixi
                     iconName: "Settings",
                     i18NKey: "Command.Bar.Setting.Info",
                     click: () => {
-                        // this.props.status?.popup.showPopup(ConfirmPopup, {});
+                        this.props.status?.popup.showPopup(SettingPopup, {});
                     }
                 })}
             </div>

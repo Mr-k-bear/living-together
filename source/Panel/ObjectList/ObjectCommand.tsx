@@ -52,7 +52,7 @@ class ObjectCommand extends Component<IMixinStatusProps> {
 					this.props.status ? this.props.status.newRange() : undefined;
 				}}
 			>
-				<Icon iconName="CubeShape"></Icon>
+				<Icon iconName="ProductVariant"></Icon>
 			</div>
 			<div
 				className="command-item red"

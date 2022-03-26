@@ -83,13 +83,13 @@ class Status extends Emitter<IStatusEvent> {
      */
     public focusLabel?: Label;
 
-    private drawtimer?: NodeJS.Timeout;
+    private drawTimer?: NodeJS.Timeout;
 
     private delayDraw = () => {
-        this.drawtimer ? clearTimeout(this.drawtimer) : null;
-        this.drawtimer = setTimeout(() => {
+        this.drawTimer ? clearTimeout(this.drawTimer) : null;
+        this.drawTimer = setTimeout(() => {
             this.model.draw();
-            this.drawtimer = undefined;
+            this.drawTimer = undefined;
         });
     }
 
