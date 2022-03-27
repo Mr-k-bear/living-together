@@ -7,6 +7,7 @@ import "./ConfirmPopup.scss";
 
 interface IConfirmPopupProps {
 	titleI18N?: AllI18nKeys;
+	titleI18NOption?: Record<string, string>;
 	infoI18n?: AllI18nKeys;
 	yesI18n?: AllI18nKeys;
 	noI18n?: AllI18nKeys;
@@ -16,12 +17,16 @@ interface IConfirmPopupProps {
 }
 class ConfirmPopup extends Popup<IConfirmPopupProps> {
 
+	public minWidth: number = 300;
+	public minHeight: number = 180;
 	public width: number = 300;
-
 	public height: number = 180;
 
 	public onRenderHeader(): ReactNode {
-		return <Localization i18nKey={this.props.titleI18N ?? "Popup.Title.Confirm"}/>
+		return <Localization
+			i18nKey={this.props.titleI18N ?? "Popup.Title.Confirm"}
+			options={this.props.titleI18NOption}
+		/>
 	}
 
 	private genActionClickFunction(fn?: () => any): () => any {
@@ -142,7 +147,7 @@ class ConfirmContent extends Component<IConfirmContentProps> {
 			<div
 				className={contentClassNameList.join(" ")}
 				style={{
-					height: `calc( 100% - ${this.getHeaderHeight() + 36}px )`
+					height: `calc( 100% - ${this.getHeaderHeight() + 46}px )`
 				}}
 			>
 				{this.props.children}

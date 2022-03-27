@@ -1,0 +1,128 @@
+@import "../Theme/Theme.scss";
+
+$behavior-item-height: 45px;
+
+div.behavior-list {
+	margin: -5px;
+	display: flex;
+	flex-wrap: wrap;
+
+	div.behavior-item {
+		margin: 5px;
+		height: $behavior-item-height;
+		border-radius: 3px;
+		cursor: pointer;
+		display: flex;
+
+		div.behavior-color-view {
+			height: $behavior-item-height;
+			width: 3px;
+			min-width: 3px;
+			border-radius: 3px;
+			flex-shrink: 0;
+		}
+
+		div.behavior-icon-view {
+			height: $behavior-item-height;
+			min-width: $behavior-item-height;
+			width: $behavior-item-height;
+			user-select: none;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			i {
+				font-size: 25px;
+			}
+		}
+
+		div.behavior-content-view {
+			width: calc( 100% - 68px );
+			max-width: 100px;
+			height: $behavior-item-height;
+			display: flex;
+			justify-content: center;
+			flex-direction: column;
+			align-items: stretch;
+
+			div.title-view {
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				width: 100%;
+			}
+
+			div.info-view {
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				width: 100%;
+				opacity: .75;
+			}
+		}
+		
+		div.behavior-action-view {
+			height: $behavior-item-height;
+			min-width: 20px;
+			width: 20px;
+			flex-shrink: 0;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-content: center;
+			align-items: center;
+
+			div.behavior-action-button {
+				height: 100%;
+				width: 100%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				user-select: none;
+				cursor: pointer;
+			}
+
+			div.behavior-action-button.hover-red:hover i {
+				color: $lt-red;
+			}
+
+			div.behavior-action-button.hover-blue:hover i {
+				color: $lt-blue;
+			}
+		}
+	}
+}
+
+div.dark.behavior-list {
+
+	div.behavior-item {
+		background-color: $lt-bg-color-lvl3-dark;
+	}
+
+	div.behavior-item:hover {
+		color: $lt-font-color-lvl2-dark;
+		background-color: $lt-bg-color-lvl2-dark;
+	}
+
+	div.behavior-item.focus {
+		color: $lt-font-color-lvl1-dark;
+    	background-color: $lt-bg-color-lvl1-dark;
+	}
+}
+
+div.light.behavior-list {
+	
+	div.behavior-item {
+		background-color: $lt-bg-color-lvl3-light;
+	}
+
+	div.behavior-item:hover {
+		color: $lt-font-color-lvl2-light;
+		background-color: $lt-bg-color-lvl2-light;
+	}
+
+	div.behavior-item.focus {
+		color: $lt-font-color-lvl1-light;
+    	background-color: $lt-bg-color-lvl1-light;
+	}
+}

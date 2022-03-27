@@ -43,6 +43,7 @@ class Popup<P extends IAnyObject = IAnyObject> {
     public isResizeMouseDown: boolean = false;
     public isResizeOverFlowX: boolean = false;
     public isResizeOverFlowY: boolean = false;
+    public isInit = false;
 
     /**
      * 是否关闭
@@ -128,6 +129,14 @@ class PopupController extends Emitter<IPopupControllerEvent> {
      * 弹窗列表
      */
     public popups: Popup[] = [];
+
+    /**
+     * 指定弹窗
+     */
+    public topping(popup: Popup) {
+        popup.index = Infinity;
+        this.sortPopup();
+    }
 
     /**
      * 排序并重置序号

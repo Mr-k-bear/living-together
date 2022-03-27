@@ -54,6 +54,8 @@ const ZH_CN = {
     "Popup.Setting.Title": "首选项设置",
     "Popup.Add.Behavior.Title": "添加行为",
     "Popup.Add.Behavior.Action.Add": "添加全部选中行为",
+    "Popup.Behavior.Info.Title": "行为详情: {behavior}",
+    "Popup.Behavior.Info.Confirm": "好的, 我知道了",
     "Build.In.Label.Name.All.Group": "全部群",
     "Build.In.Label.Name.All.Range": "全部范围",
     "Behavior.Template.Title": "行为",
