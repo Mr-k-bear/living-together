@@ -155,7 +155,7 @@ class BehaviorInfo<E extends Record<EventType, any> = {}> extends Emitter<E> {
     /**
      * 行为描述
      */
-    public describe?: string = "";
+    public describe: string = "";
 }
 
 class BehaviorRecorder<
@@ -261,6 +261,11 @@ class Behavior<
     public id: string = "";
 
     /**
+     * 颜色
+     */
+    public color: string = "";
+
+    /**
      * 优先级
      * 值越大执行顺序越靠后
      */
@@ -357,8 +362,10 @@ class Behavior<
 
 }
 
+type IRenderBehavior = BehaviorInfo | Behavior;
+
 export {
     Behavior, BehaviorRecorder, IBehaviorParameterOption, IBehaviorParameterOptionItem,
-    IAnyBehavior, IAnyBehaviorRecorder
+    IAnyBehavior, IAnyBehaviorRecorder, BehaviorInfo, IRenderBehavior
 };
 export default { Behavior };
