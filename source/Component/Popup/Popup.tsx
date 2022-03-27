@@ -78,6 +78,9 @@ class Popup extends Component<IPopupProps & IMixinStatusProps & IMixinSettingPro
                     popup.isOnMouseDown = true;
                     popup.lastMouseLeft = e.clientX;
                     popup.lastMouseTop = e.clientY;
+                    if (this.props.status) {
+                        this.props.status.popup.topping(popup);
+                    }
                 }}
             >
                 {popup.onRenderHeader()}
@@ -231,6 +234,9 @@ class Popup extends Component<IPopupProps & IMixinStatusProps & IMixinSettingPro
     private renderLayer(popup: PopupModel) {
         const pageWidth = document.documentElement.clientWidth;
         const pageHeight = document.documentElement.clientHeight;
+        const hasAnimate = !popup.isInit;
+        popup.isInit = true;
+
         if (isNaN(popup.top)) {
             popup.top = (pageHeight - popup.height) / 2;
         }
@@ -248,7 +254,7 @@ class Popup extends Component<IPopupProps & IMixinStatusProps & IMixinSettingPro
                 left: popup.left
             }}
             className={getClassList({
-                className: "popup-layer show-scale",
+                className: "popup-layer" + (hasAnimate ? " show-scale" : ""),
                 backgroundLevel: BackgroundLevel.Level4,
             }, this.props.setting).join(" ")}
         >
