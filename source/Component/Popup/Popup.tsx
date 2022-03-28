@@ -78,9 +78,6 @@ class Popup extends Component<IPopupProps & IMixinStatusProps & IMixinSettingPro
                     popup.isOnMouseDown = true;
                     popup.lastMouseLeft = e.clientX;
                     popup.lastMouseTop = e.clientY;
-                    if (this.props.status) {
-                        this.props.status.popup.topping(popup);
-                    }
                 }}
             >
                 {popup.onRenderHeader()}
@@ -257,6 +254,11 @@ class Popup extends Component<IPopupProps & IMixinStatusProps & IMixinSettingPro
                 className: "popup-layer" + (hasAnimate ? " show-scale" : ""),
                 backgroundLevel: BackgroundLevel.Level4,
             }, this.props.setting).join(" ")}
+            onClick={() => {
+                if (this.props.status) {
+                    this.props.status.popup.topping(popup);
+                }
+            }}
         >
             {this.renderDragLine(ResizeDragDirection.top, popup)}
             <div className="popup-layer-container">

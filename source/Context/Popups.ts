@@ -163,8 +163,12 @@ class PopupController extends Emitter<IPopupControllerEvent> {
             newPopup = new (popup ?? Popup)(props);
         }
         newPopup.init(this, `P-${this.idIndex ++}`);
-        this.popups.push(newPopup);
-        this.sortPopup();
+
+        // 延迟渲染防止焦点冲突
+        setTimeout(() => {
+            this.popups.push(newPopup);
+            this.sortPopup();
+        });
         return newPopup;
     }
 

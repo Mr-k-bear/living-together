@@ -97,20 +97,8 @@ class ObjectPicker extends Component<IObjectPickerProps & IMixinStatusProps, IOb
 
     public render(): ReactNode {
 
-        let disPlayInfo: IDisplayInfo;
-        let isDelete: boolean = false;
-
-        if (this.props.value) {
-            disPlayInfo = getObjectDisplayInfo(this.props.value);
-            isDelete = this.props.value.isDeleted();
-        } else {
-            disPlayInfo = {
-                name: "Input.Error.Select",
-                icon: "Label",
-                color: "transparent",
-                needI18n: true
-            }
-        }
+        let disPlayInfo: IDisplayInfo = getObjectDisplayInfo(this.props.value);
+        let isDelete: boolean = !!this.props.value?.isDeleted();
 
         return <>
             <TextField
@@ -129,9 +117,13 @@ class ObjectPicker extends Component<IObjectPickerProps & IMixinStatusProps, IOb
                 }}
             >
                 <div
-                    className="list-color"
+                    className={
+                        "list-color" + (
+                            disPlayInfo.allLabel ? " rainbow-back-ground-color" : ""
+                        )
+                    }
                     style={{
-                            backgroundColor: disPlayInfo.color
+                        backgroundColor: disPlayInfo.color
                     }}
                 />
                 <div className="list-button">
@@ -145,7 +137,7 @@ class ObjectPicker extends Component<IObjectPickerProps & IMixinStatusProps, IOb
                     }}
                 >
                     {   
-                        disPlayInfo.needI18n ? 
+                        disPlayInfo.internal ? 
                             <Localization i18nKey={disPlayInfo.name as any}/> :
                             <span>{disPlayInfo.name}</span>
                     }

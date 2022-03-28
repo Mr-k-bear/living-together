@@ -12,7 +12,8 @@ interface IDisplayInfo {
     color: string;
     icon: string;
     name: string;
-    needI18n?: boolean;
+    internal: boolean;
+    allLabel: boolean;
 };
 
 interface IDisplayItem {
@@ -21,12 +22,23 @@ interface IDisplayItem {
 	mark?: boolean;
 }
 
-function getObjectDisplayInfo(item: IPickerListItem): IDisplayInfo {
+function getObjectDisplayInfo(item?: IPickerListItem): IDisplayInfo {
 
-	let color: number[] = [];
+    if (!item) {
+        return {
+            color: "transparent",
+            icon: "Label",
+            name: "Input.Error.Select",
+            internal: true,
+            allLabel: false
+        }
+    }
+
+	let color: number[] | string = [];
 	let icon: string = "tag";
 	let name: string = "";
-    let needI18n: boolean = false;
+    let internal: boolean = false;
+    let allLabel: boolean = false;
 
 	if (item instanceof Range) {
 		icon = "CubeShape"
@@ -35,6 +47,7 @@ function getObjectDisplayInfo(item: IPickerListItem): IDisplayInfo {
 		icon = "WebAppBuilderFragment"
 	}
 	if (item instanceof CtrlObject) {
+        color = [];
 		color[0] = Math.round(item.color[0] * 255);
 		color[1] = Math.round(item.color[1] * 255);
 		color[2] = Math.round(item.color[2] * 255);
@@ -43,7 +56,9 @@ function getObjectDisplayInfo(item: IPickerListItem): IDisplayInfo {
 	if (item instanceof Label) {
 
 		if (item.isBuildIn) {
-            needI18n = true;
+            internal = true;
+            allLabel = true;
+            color = "transparent";
             if (item.id === "AllRange") {
                 icon = "ProductList";
                 name = "Build.In.Label.Name.All.Range";
@@ -60,11 +75,16 @@ function getObjectDisplayInfo(item: IPickerListItem): IDisplayInfo {
         }
 	}
 
+    if (Array.isArray(color)) {
+        color = `rgb(${color[0]},${color[1]},${color[2]})`;
+    }
+
 	return {
-		color: needI18n ? "transparent" : `rgb(${color[0]},${color[1]},${color[2]})`,
+		color: color,
 		icon: icon,
 		name: name,
-        needI18n: needI18n
+        internal: internal,
+        allLabel: allLabel
 	}
 }
 
@@ -92,7 +112,11 @@ class PickerList extends Component<IPickerListProps> {
 				}
 			}}
 		>
-			<div className="list-item-color"
+			<div className={
+                "list-item-color" + (
+                    displayInfo.allLabel ? " rainbow-back-ground-color" : ""
+                )
+            }
 				style={{
 					backgroundColor: displayInfo.color
 				}}
@@ -102,8 +126,8 @@ class PickerList extends Component<IPickerListProps> {
 			</div>
 			<div className="list-item-name">
 				{
-                    displayInfo.needI18n ? 
-                        <Localization i18nKey={displayInfo.name as any}/> : 
+                    displayInfo.internal ? 
+                        <Localization i18nKey={displayInfo.name}/> :
                         displayInfo.name
                 }
 			</div>

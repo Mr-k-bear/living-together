@@ -62,19 +62,46 @@ class BehaviorPopupComponent extends Component<
 		</div>;
 	}
 
+	private showBehaviorInfo = (behavior: IRenderBehavior) => {
+		if (this.props.status) {
+			const status = this.props.status;
+			status.popup.showPopup(ConfirmPopup, {
+				infoI18n: behavior.describe as any,
+				titleI18N: "Popup.Behavior.Info.Title",
+				titleI18NOption: {
+					behavior: I18N(this.props, behavior.behaviorName as any)
+				},
+				yesI18n: "Popup.Behavior.Info.Confirm",
+			})
+		}
+	}
+
+	private renderActionBar = () => {
+		return <Localization
+			className="behavior-popup-select-counter"
+			i18nKey="Popup.Add.Behavior.Select.Counter"
+			options={{
+				count: this.state.focusBehavior.size.toString()
+			}}
+		/>
+	}
+
 	public render(): ReactNode {
 		return <ConfirmContent
 			className="behavior-popup"
 			actions={[{
-				i18nKey: "Popup.Add.Behavior.Action.Add"
+				i18nKey: "Popup.Add.Behavior.Action.Add",
+				disable: this.state.focusBehavior.size <= 0
 			}]}
 			header={this.renderHeader}
+			customFooter={this.renderActionBar}
 			headerHeight={46}
 		>
 			<Message i18nKey="ZH_CN" isTitle first/>
 			<BehaviorList
 				focusBehaviors={Array.from(this.state.focusBehavior)}
 				behaviors={AllBehaviors}
+				action={this.showBehaviorInfo}
 				click={(behavior) => {
 					if (this.state.focusBehavior.has(behavior)) {
 						this.state.focusBehavior.delete(behavior);
@@ -82,19 +109,6 @@ class BehaviorPopupComponent extends Component<
 						this.state.focusBehavior.add(behavior);
 					}
 					this.forceUpdate();
-				}}
-				action={(behavior)=>{
-					if (this.props.status) {
-						const status = this.props.status;
-						status.popup.showPopup(ConfirmPopup, {
-							infoI18n: behavior.describe as any,
-							titleI18N: "Popup.Behavior.Info.Title",
-							titleI18NOption: {
-								behavior: I18N(this.props, behavior.behaviorName as any)
-							},
-							yesI18n: "Popup.Behavior.Info.Confirm",
-						})
-					}
 				}}
 			/>
 		</ConfirmContent>

@@ -9,7 +9,7 @@ const LanguageDataBase = {
     EN_US, ZH_CN
 }
 
-type AllI18nKeys = keyof typeof EN_US;
+type AllI18nKeys = (keyof typeof EN_US) | string;
 
 interface ILocalizationProps {
     className?: string;
@@ -17,14 +17,17 @@ interface ILocalizationProps {
     options?: Record<string, string>;
 }
 
-function I18N(language: Language | IMixinSettingProps, key: keyof typeof EN_US, values?: Record<string, string>) {
+function I18N(language: Language | IMixinSettingProps, key: AllI18nKeys, values?: Record<string, string>) {
     let lang: Language;
     if (typeof language === "string") {
         lang = language;
     } else {
         lang = language.setting?.language ?? "EN_US";
     }
-    let i18nValue = LanguageDataBase[lang][key];
+    let languageDataBase = LanguageDataBase[lang];
+    if (!languageDataBase) languageDataBase = LanguageDataBase["EN_US"];
+    let i18nValue = languageDataBase[key as keyof typeof EN_US];
+    if (!i18nValue) i18nValue = key;
     if (values) {
         for (let valueKey in values) {
             i18nValue = i18nValue.replaceAll(new RegExp(`\\{\\s*${valueKey}\\s*\\}`, "g"), values[valueKey]);
