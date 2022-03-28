@@ -10,6 +10,7 @@ div.behavior-list {
 	div.behavior-item {
 		margin: 5px;
 		height: $behavior-item-height;
+		user-select: none;
 		border-radius: 3px;
 		cursor: pointer;
 		display: flex;

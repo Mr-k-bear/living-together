@@ -68,6 +68,7 @@ interface IConfirmContentProps {
 	hidePadding?: boolean;
 	className?: string;
 	actions: IActionButtonProps[];
+	customFooter?: () => ReactNode;
 	header?: () => ReactNode;
 	headerHeight?: number;
 }
@@ -154,10 +155,14 @@ class ConfirmContent extends Component<IConfirmContentProps> {
 			</div>
 			
 			<div className="action-view">
+				<div className="action-right-view">
+					{this.props.customFooter ? this.props.customFooter() : null}
+				</div>
 				{
-					this.props.actions.map((prop, index) => {
-						return this.renderActionButton(prop, index);
-					})
+					this.props.actions ? 
+						this.props.actions.map((prop, index) => {
+							return this.renderActionButton(prop, index);
+						}) : null
 				}
 			</div>
 		</Theme>;

@@ -54,6 +54,7 @@ const EN_US = {
     "Popup.Setting.Title": "Preferences setting",
     "Popup.Add.Behavior.Title": "Add behavior",
     "Popup.Add.Behavior.Action.Add": "Add all select behavior",
+    "Popup.Add.Behavior.Select.Counter": "Selected {count} behavior",
     "Popup.Behavior.Info.Title": "Behavior details: {behavior}",
     "Popup.Behavior.Info.Confirm": "OK, I know it",
     "Build.In.Label.Name.All.Group": "All group",
