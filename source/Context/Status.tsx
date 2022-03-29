@@ -11,6 +11,7 @@ import { Setting } from "./Setting";
 import { I18N } from "@Component/Localization/Localization";
 import { superConnectWithEvent, superConnect } from "./Context";
 import { PopupController } from "./Popups";
+import { Behavior } from "@Model/Behavior";
 
 function randomColor(unNormal: boolean = false) {
     const color = [
@@ -32,6 +33,7 @@ interface IStatusEvent {
     mouseModChange: void;
     focusObjectChange: void;
     focusLabelChange: void;
+    focusBehaviorChange: void;
     objectChange: void;
     rangeLabelChange: void;
     groupLabelChange: void;
@@ -83,6 +85,11 @@ class Status extends Emitter<IStatusEvent> {
      * 焦点标签
      */
     public focusLabel?: Label;
+
+    /**
+     * 焦点行为
+     */
+    public focusBehavior?: Behavior;
 
     private drawTimer?: NodeJS.Timeout;
 
@@ -136,6 +143,14 @@ class Status extends Emitter<IStatusEvent> {
     public setLabelObject(focusLabel?: Label) {
         this.focusLabel = focusLabel;
         this.emit("focusLabelChange");
+    }
+
+    /**
+     * 更新焦点行为
+     */
+    public setBehaviorObject(focusBehavior?: Behavior) {
+        this.focusBehavior = focusBehavior;
+        this.emit("focusBehaviorChange");
     }
 
     /**

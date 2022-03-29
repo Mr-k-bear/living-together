@@ -10,6 +10,7 @@ interface IBehaviorListProps {
 	focusBehaviors?: IRenderBehavior[];
 	click?: (behavior: IRenderBehavior) => void;
 	action?: (behavior: IRenderBehavior) => void;
+    onAdd?: () => void;
 	actionType?: "info" | "delete";
 }
 
@@ -127,11 +128,18 @@ class BehaviorList extends Component<IBehaviorListProps & IMixinSettingProps> {
 		</div>
 	}
 
+    private renderAddButton(add: () => void) {
+        return <div className="behavior-item add-button" onClick={add}>
+            <Icon iconName="Add"/>
+        </div>
+    }
+
 	public render(): ReactNode {
 		return <Theme className="behavior-list">
 			{this.props.behaviors.map((behavior) => {
 				return this.renderBehavior(behavior);
 			})}
+            {this.props.onAdd ? this.renderAddButton(this.props.onAdd) : null}
 		</Theme>
 	}
 }
