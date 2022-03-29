@@ -11,6 +11,7 @@ import { Setting } from "./Setting";
 import { I18N } from "@Component/Localization/Localization";
 import { superConnectWithEvent, superConnect } from "./Context";
 import { PopupController } from "./Popups";
+import { Behavior } from "@Model/Behavior";
 
 function randomColor(unNormal: boolean = false) {
     const color = [
@@ -32,6 +33,7 @@ interface IStatusEvent {
     mouseModChange: void;
     focusObjectChange: void;
     focusLabelChange: void;
+    focusBehaviorChange: void;
     objectChange: void;
     rangeLabelChange: void;
     groupLabelChange: void;
@@ -40,6 +42,7 @@ interface IStatusEvent {
     labelAttrChange: void;
     groupAttrChange: void;
     individualChange: void;
+    behaviorChange: void;
     popupChange: void;
 }
 
@@ -83,6 +86,11 @@ class Status extends Emitter<IStatusEvent> {
      */
     public focusLabel?: Label;
 
+    /**
+     * 焦点行为
+     */
+    public focusBehavior?: Behavior;
+
     private drawTimer?: NodeJS.Timeout;
 
     private delayDraw = () => {
@@ -102,6 +110,7 @@ class Status extends Emitter<IStatusEvent> {
         // 对象变化事件
         this.model.on("objectChange", () => this.emit("objectChange"));
         this.model.on("labelChange", () => this.emit("labelChange"));
+        this.model.on("behaviorChange", () => this.emit("behaviorChange"));
 
         // 弹窗事件
         this.popup.on("popupChange", () => this.emit("popupChange"));
@@ -134,6 +143,14 @@ class Status extends Emitter<IStatusEvent> {
     public setLabelObject(focusLabel?: Label) {
         this.focusLabel = focusLabel;
         this.emit("focusLabelChange");
+    }
+
+    /**
+     * 更新焦点行为
+     */
+    public setBehaviorObject(focusBehavior?: Behavior) {
+        this.focusBehavior = focusBehavior;
+        this.emit("focusBehaviorChange");
     }
 
     /**
@@ -277,6 +294,6 @@ const useStatus = superConnect<Status>(StatusConsumer, "status");
 const useStatusWithEvent = superConnectWithEvent<Status, IStatusEvent>(StatusConsumer, "status");
 
 export {
-    Status, StatusContext, useStatus, useStatusWithEvent,
+    Status, StatusContext, useStatus, useStatusWithEvent, randomColor,
     IMixinStatusProps, StatusProvider, StatusConsumer
 };

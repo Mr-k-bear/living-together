@@ -1,8 +1,8 @@
 import { Theme } from "@Component/Theme/Theme";
 import { Component, ReactNode } from "react";
 import { IRenderBehavior, Behavior, BehaviorRecorder } from "@Model/Behavior";
+import { useSettingWithEvent, IMixinSettingProps } from "@Context/Setting";
 import { Icon } from "@fluentui/react";
-import { Localization } from "@Component/Localization/Localization";
 import "./BehaviorList.scss";
 
 interface IBehaviorListProps {
@@ -10,10 +10,12 @@ interface IBehaviorListProps {
 	focusBehaviors?: IRenderBehavior[];
 	click?: (behavior: IRenderBehavior) => void;
 	action?: (behavior: IRenderBehavior) => void;
+    onAdd?: () => void;
 	actionType?: "info" | "delete";
 }
 
-class BehaviorList extends Component<IBehaviorListProps> {
+@useSettingWithEvent("language")
+class BehaviorList extends Component<IBehaviorListProps & IMixinSettingProps> {
 
 	private isFocus(behavior: IRenderBehavior): boolean {
 		if (this.props.focusBehaviors) {
@@ -57,10 +59,10 @@ class BehaviorList extends Component<IBehaviorListProps> {
 		</div>
 	}
 
-	private renderTerm(key: string, className: string, needLocal: boolean) {
+	private renderTerm(behavior: IRenderBehavior, key: string, className: string, needLocal: boolean) {
 		if (needLocal) {
 			return <div className={className}>
-				<Localization i18nKey={key as any}/>
+				{behavior.getTerms(key, this.props.setting?.language)}
 			</div>;
 		} else {
 			return <div className={className}>
@@ -117,8 +119,8 @@ class BehaviorList extends Component<IBehaviorListProps> {
 				<Icon iconName={icon}/>
 			</div>
 			<div className="behavior-content-view">
-				{this.renderTerm(name, "title-view", needLocal)}
-				{this.renderTerm(info, "info-view", needLocal)}
+				{this.renderTerm(behavior, name, "title-view", needLocal)}
+				{this.renderTerm(behavior, info, "info-view", needLocal)}
 			</div>
 			<div className="behavior-action-view">
 				{this.renderActionButton(behavior)}
@@ -126,11 +128,18 @@ class BehaviorList extends Component<IBehaviorListProps> {
 		</div>
 	}
 
+    private renderAddButton(add: () => void) {
+        return <div className="behavior-item add-button" onClick={add}>
+            <Icon iconName="Add"/>
+        </div>
+    }
+
 	public render(): ReactNode {
 		return <Theme className="behavior-list">
 			{this.props.behaviors.map((behavior) => {
 				return this.renderBehavior(behavior);
 			})}
+            {this.props.onAdd ? this.renderAddButton(this.props.onAdd) : null}
 		</Theme>
 	}
 }

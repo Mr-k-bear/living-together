@@ -132,6 +132,8 @@ type IBehaviorConstructor<
 type IAnyBehavior = Behavior<any, any>;
 type IAnyBehaviorRecorder = BehaviorRecorder<any, any>;
 
+type Language = "ZH_CN" | "EN_US";
+
 /**
  * 行为的基础信息
  */
@@ -156,6 +158,34 @@ class BehaviorInfo<E extends Record<EventType, any> = {}> extends Emitter<E> {
      * 行为描述
      */
     public describe: string = "";
+
+    /**
+     * 类别
+     */
+    public category: string = "";
+
+    /**
+     * 提条列表
+     */
+    public terms: Record<string, Record<Language | string, string>> = {};
+
+    /**
+     * 获取词条翻译
+     */
+    public getTerms(key: string, language?: Language | string): string {
+        if (key[0] === "$" && this.terms[key]) {
+            let res: string = "";
+            if (language) {
+                res = this.terms[key][language];
+            } else {
+                res = this.terms[key]["EN_US"];
+            }
+            if (res) {
+                return res;
+            }
+        }
+        return key;
+    }
 }
 
 class BehaviorRecorder<
@@ -239,6 +269,7 @@ class BehaviorRecorder<
         this.behaviorId = this.behaviorInstance.behaviorId;
         this.behaviorName = this.behaviorInstance.behaviorName;
         this.describe = this.behaviorInstance.describe;
+        this.terms = this.behaviorInstance.terms;
     }
 }
 

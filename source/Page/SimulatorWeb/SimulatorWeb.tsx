@@ -66,7 +66,7 @@ class SimulatorWeb extends Component {
                     items: [
                         {panels: ["RenderView", "Label Aa Bb", "Label aaa"]},
                         {
-                            items: [{panels: ["Label b", "Label bbb"]}, {panels: ["LabelList"]}],
+                            items: [{panels: ["BehaviorList", "Label bbb"]}, {panels: ["LabelList"]}],
                             scale: 80,
                             layout: LayoutDirection.X
                         }

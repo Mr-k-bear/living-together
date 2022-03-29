@@ -8,6 +8,7 @@ import { RangeDetails } from "./RangeDetails/RangeDetails";
 import { LabelList } from "./LabelList/LabelList";
 import { LabelDetails } from "./LabelDetails/LabelDetails";
 import { GroupDetails } from "./GroupDetails/GroupDetails";
+import { BehaviorList } from "./BehaviorList/BehaviorList";
 
 interface IPanelInfo {
 	nameKey: string;
@@ -27,6 +28,7 @@ type PanelId = ""
 | "LabelList" // 标签列表
 | "LabelDetails" // 标签属性
 | "GroupDetails" // 群属性
+| "BehaviorList" // 行为列表
 ;
 
 const PanelInfoMap = new Map<PanelId, IPanelInfo>();
@@ -53,6 +55,10 @@ PanelInfoMap.set("LabelDetails", {
 PanelInfoMap.set("GroupDetails", {
     nameKey: "Panel.Title.Group.Details.View", introKay: "Panel.Info.Group.Details.View",
     class: GroupDetails
+});
+PanelInfoMap.set("BehaviorList", {
+    nameKey: "Panel.Title.Behavior.List.View", introKay: "Panel.Info.Behavior.List.View",
+    class: BehaviorList, hidePadding: true
 });
 
 function getPanelById(panelId: PanelId): ReactNode {
