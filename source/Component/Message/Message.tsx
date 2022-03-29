@@ -4,7 +4,8 @@ import { FunctionComponent } from "react";
 import "./Message.scss";
 
 interface IMessageProps {
-    i18nKey: AllI18nKeys;
+    i18nKey?: AllI18nKeys;
+    text?: string;
     options?: Record<string, string>;
     className?: string;
     isTitle?: boolean;
@@ -34,7 +35,15 @@ const MessageView: FunctionComponent<IMessageProps & IMixinSettingProps> = (prop
     }
 
     return <div className={classList.join(" ")}>
-        <span className={language}>{I18N(language, props.i18nKey, props.options)}</span>
+        {
+            props.text ? 
+                <span className={language}>{props.text}</span> :
+                    props.i18nKey ? 
+                        <span className={language}>{
+                            I18N(language, props.i18nKey, props.options)
+                        }</span> :
+                        null
+        }
     </div>
 }
 

@@ -59,8 +59,6 @@ const ZH_CN = {
     "Popup.Behavior.Info.Confirm": "好的, 我知道了",
     "Build.In.Label.Name.All.Group": "全部群",
     "Build.In.Label.Name.All.Range": "全部范围",
-    "Behavior.Template.Title": "行为",
-    "Behavior.Template.Intro": "这是一个模板行为",
     "Common.Search.Placeholder": "在此处搜索...",
     "Common.No.Data": "暂无数据",
     "Common.No.Unknown.Error": "未知错误",

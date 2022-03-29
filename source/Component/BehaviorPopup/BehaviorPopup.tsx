@@ -66,10 +66,14 @@ class BehaviorPopupComponent extends Component<
 		if (this.props.status) {
 			const status = this.props.status;
 			status.popup.showPopup(ConfirmPopup, {
-				infoI18n: behavior.describe as any,
+                renderInfo: () => {
+                    return <Message
+                        text={behavior.getTerms(behavior.describe, this.props.setting?.language)}
+                    />
+                },
 				titleI18N: "Popup.Behavior.Info.Title",
 				titleI18NOption: {
-					behavior: I18N(this.props, behavior.behaviorName as any)
+					behavior: behavior.getTerms(behavior.behaviorName, this.props.setting?.language)
 				},
 				yesI18n: "Popup.Behavior.Info.Confirm",
 			})

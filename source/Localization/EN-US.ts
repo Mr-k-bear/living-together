@@ -59,8 +59,6 @@ const EN_US = {
     "Popup.Behavior.Info.Confirm": "OK, I know it",
     "Build.In.Label.Name.All.Group": "All group",
     "Build.In.Label.Name.All.Range": "All range",
-    "Behavior.Template.Title": "Behavior",
-    "Behavior.Template.Intro": "This is a template behavior",
     "Common.Search.Placeholder": "Search in here...",
     "Common.No.Data": "No Data",
     "Common.No.Unknown.Error": "Unknown error",

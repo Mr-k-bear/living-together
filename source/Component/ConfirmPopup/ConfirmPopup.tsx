@@ -11,6 +11,7 @@ interface IConfirmPopupProps {
 	infoI18n?: AllI18nKeys;
 	yesI18n?: AllI18nKeys;
 	noI18n?: AllI18nKeys;
+    renderInfo?: () => ReactNode;
 	red?: "yes" | "no";
 	yes?: () => any;
 	no?: () => any;
@@ -59,7 +60,13 @@ class ConfirmPopup extends Popup<IConfirmPopupProps> {
 		return <ConfirmContent
 			actions={actionList}
 		>
-			{this.props.infoI18n ? <Message i18nKey={this.props.infoI18n}/> : null}
+			{
+                this.props.renderInfo ?
+                    this.props.renderInfo() :
+                        this.props.infoI18n ?
+                            <Message i18nKey={this.props.infoI18n}/> :
+                            null
+            }
 		</ConfirmContent>
 	}
 }
