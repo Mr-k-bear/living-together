@@ -40,6 +40,7 @@ interface IStatusEvent {
     labelAttrChange: void;
     groupAttrChange: void;
     individualChange: void;
+    behaviorChange: void;
     popupChange: void;
 }
 
@@ -102,6 +103,7 @@ class Status extends Emitter<IStatusEvent> {
         // 对象变化事件
         this.model.on("objectChange", () => this.emit("objectChange"));
         this.model.on("labelChange", () => this.emit("labelChange"));
+        this.model.on("behaviorChange", () => this.emit("behaviorChange"));
 
         // 弹窗事件
         this.popup.on("popupChange", () => this.emit("popupChange"));
@@ -277,6 +279,6 @@ const useStatus = superConnect<Status>(StatusConsumer, "status");
 const useStatusWithEvent = superConnectWithEvent<Status, IStatusEvent>(StatusConsumer, "status");
 
 export {
-    Status, StatusContext, useStatus, useStatusWithEvent,
+    Status, StatusContext, useStatus, useStatusWithEvent, randomColor,
     IMixinStatusProps, StatusProvider, StatusConsumer
 };

@@ -6,14 +6,14 @@ import { ConfirmContent } from "@Component/ConfirmPopup/ConfirmPopup";
 import { BehaviorList } from "@Component/BehaviorList/BehaviorList";
 import { AllBehaviorsWithCategory, ICategoryBehavior } from "@Behavior/Behavior";
 import { Message } from "@Component/Message/Message";
-import { IRenderBehavior } from "@Model/Behavior";
-import { useStatus, IMixinStatusProps } from "@Context/Status";
+import { IRenderBehavior, BehaviorRecorder } from "@Model/Behavior";
+import { useStatus, IMixinStatusProps, randomColor } from "@Context/Status";
 import { useSettingWithEvent, IMixinSettingProps } from "@Context/Setting";
 import { ConfirmPopup } from "@Component/ConfirmPopup/ConfirmPopup";
 import "./BehaviorPopup.scss";
 
 interface IBehaviorPopupProps {
-
+    onDismiss?: () => void;
 }
 
 interface IBehaviorPopupState {
@@ -21,7 +21,7 @@ interface IBehaviorPopupState {
 	focusBehavior: Set<IRenderBehavior>;
 }
 
-class BehaviorPopup extends Popup<IBehaviorPopupProps> {
+class BehaviorPopup extends Popup {
 
 	public minWidth: number = 400;
 	public minHeight: number = 300;
@@ -34,7 +34,9 @@ class BehaviorPopup extends Popup<IBehaviorPopupProps> {
 	}
 
 	public render(): ReactNode {
-		return <BehaviorPopupComponent {...this.props}/>
+		return <BehaviorPopupComponent onDismiss={() => {
+            this.close();
+        }}/>
 	}
 }
 
@@ -125,25 +127,53 @@ class BehaviorPopupComponent extends Component<
         </Fragment>
     }
 
+    private addSelectBehavior = () => {
+        this.state.focusBehavior.forEach((recorder) => {
+            if (this.props.status && recorder instanceof BehaviorRecorder) {
+                let newBehavior = this.props.status.model.addBehavior(recorder);
+
+                // 初始化名字
+                newBehavior.name = recorder.getTerms(
+                    recorder.behaviorName, this.props.setting?.language
+                ) + " " + (recorder.nameIndex - 1).toString();
+
+                // 赋予一个随机颜色
+                let color = randomColor(true);
+                newBehavior.color = `rgb(${color[0]},${color[1]},${color[2]})`;
+            }
+        });
+        this.props.onDismiss ? this.props.onDismiss() : undefined;
+    }
+
 	public render(): ReactNode {
         let first: boolean = true;
+        let behaviorNodes = AllBehaviorsWithCategory.map((behavior) => {
+            let renderItem = this.renderBehaviors(behavior, first);
+            if (renderItem) {
+                first = false;
+            }
+            return renderItem;
+        }).filter((x) => !!x);
+
 		return <ConfirmContent
 			className="behavior-popup"
 			actions={[{
 				i18nKey: "Popup.Add.Behavior.Action.Add",
-				disable: this.state.focusBehavior.size <= 0
+				disable: this.state.focusBehavior.size <= 0,
+                onClick: this.addSelectBehavior
 			}]}
 			header={this.renderHeader}
 			customFooter={this.renderActionBar}
 			headerHeight={46}
 		>
-            {AllBehaviorsWithCategory.map((behavior) => {
-                let renderItem = this.renderBehaviors(behavior, first);
-                if (renderItem) {
-                    first = false;
-                }
-                return renderItem;
-            }).filter((x) => !!x)}
+            {
+                behaviorNodes.length ? behaviorNodes :
+                <Message
+                    className="behavior-popup-no-data"
+                    i18nKey="Popup.Add.Behavior.Select.Nodata" first
+                    options={{ name: this.state.searchValue }}
+                />
+            }
 		</ConfirmContent>
 	}
 }

@@ -55,6 +55,7 @@ const EN_US = {
     "Popup.Add.Behavior.Title": "Add behavior",
     "Popup.Add.Behavior.Action.Add": "Add all select behavior",
     "Popup.Add.Behavior.Select.Counter": "Selected {count} behavior",
+    "Popup.Add.Behavior.Select.Nodata": "Could not find behavior named \"{name}\"",
     "Popup.Behavior.Info.Title": "Behavior details: {behavior}",
     "Popup.Behavior.Info.Confirm": "OK, I know it",
     "Build.In.Label.Name.All.Group": "All group",
