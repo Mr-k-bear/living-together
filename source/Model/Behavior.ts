@@ -160,6 +160,11 @@ class BehaviorInfo<E extends Record<EventType, any> = {}> extends Emitter<E> {
     public describe: string = "";
 
     /**
+     * 类别
+     */
+    public category: string = "";
+
+    /**
      * 提条列表
      */
     public terms: Record<string, Record<Language | string, string>> = {};
