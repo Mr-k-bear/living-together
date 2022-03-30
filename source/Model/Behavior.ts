@@ -64,7 +64,7 @@ interface IBehaviorParameterOptionItem<T extends IParamType = IParamType> {
     /**
      * 参数类型
      */
-    type: T;
+    type: T | string;
 
     /**
      * 参数默认值
@@ -202,7 +202,7 @@ class BehaviorRecorder<
      * 获取下一个 ID
      */
     public getNextId() {
-        return `B-${this.behaviorName}-${this.nameIndex ++}`;
+        return `B-${this.behaviorId}-${this.nameIndex ++}`;
     }
 
     /**
@@ -269,6 +269,7 @@ class BehaviorRecorder<
         this.behaviorId = this.behaviorInstance.behaviorId;
         this.behaviorName = this.behaviorInstance.behaviorName;
         this.describe = this.behaviorInstance.describe;
+        this.category = this.behaviorInstance.category;
         this.terms = this.behaviorInstance.terms;
     }
 }
@@ -371,7 +372,7 @@ class Behavior<
      * @param model 模型
      * @param t 经过时间
      */
-    public beforeEffect(individual: Individual, group: Group, model: Model, t: number): void {};
+    public effect(individual: Individual, group: Group, model: Model, t: number): void {};
 
     /**
      * 作用影响于个体
@@ -380,7 +381,7 @@ class Behavior<
      * @param model 模型
      * @param t 经过时间
      */
-    public effect(individual: Individual, group: Group, model: Model, t: number): void {};
+    public afterEffect(individual: Individual, group: Group, model: Model, t: number): void {};
 
     /**
      * 全部影响作用后
@@ -389,7 +390,7 @@ class Behavior<
      * @param model 模型
      * @param t 经过时间
      */
-    public afterEffect(individual: Individual, group: Group, model: Model, t: number): void {};
+    public finalEffect(individual: Individual, group: Group, model: Model, t: number): void {};
 
 }
 

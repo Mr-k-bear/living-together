@@ -8,7 +8,6 @@ import { Label } from "./Label";
 import { Behavior, IAnyBehavior, IAnyBehaviorRecorder } from "./Behavior";
 
 type ModelEvent = {
-    loop: number;
     labelChange: Label[];
     objectChange: CtrlObject[];
     individualChange: Group;
@@ -259,7 +258,7 @@ class Model extends Emitter<ModelEvent> {
         for (let i = 0; i < this.objectPool.length; i++) {
             let object = this.objectPool[i];
             if (object instanceof Group && object.update) {
-                object.runner(t, "beforeEffect");
+                object.runner(t, "effect");
             }
         }
 
@@ -267,7 +266,7 @@ class Model extends Emitter<ModelEvent> {
         for (let i = 0; i < this.objectPool.length; i++) {
             let object = this.objectPool[i];
             if (object instanceof Group && object.update) {
-                object.runner(t, "effect");
+                object.runner(t, "afterEffect");
             }
         }
 
@@ -275,13 +274,11 @@ class Model extends Emitter<ModelEvent> {
         for (let i = 0; i < this.objectPool.length; i++) {
             let object = this.objectPool[i];
             if (object instanceof Group && object.update) {
-                object.runner(t, "afterEffect");
+                object.runner(t, "finalEffect");
             }
         }
 
         this.draw();
-
-        this.emit("loop", t);
     }
 
     public draw() {

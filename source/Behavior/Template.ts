@@ -1,4 +1,7 @@
 import { Behavior } from "@Model/Behavior";
+import { Group } from "@Model/Group";
+import { Individual } from "@Model/Individual";
+import { Model } from "@Model/Model";
 
 type ITemplateBehaviorParameter = {
     
@@ -16,7 +19,9 @@ class Template extends Behavior<ITemplateBehaviorParameter, ITemplateBehaviorEve
 
     public override describe: string = "$Intro";
 
-    terms: Record<string, Record<string, string>> = {
+    public override category: string = "$Category";
+
+    public override terms: Record<string, Record<string, string>> = {
         "$Title": {
             "ZH_CN": "行为",
             "EN_US": "Behavior"
@@ -26,6 +31,10 @@ class Template extends Behavior<ITemplateBehaviorParameter, ITemplateBehaviorEve
             "EN_US": "This is a template behavior"
         }
     };
+
+    public effect(individual: Individual, group: Group, model: Model, t: number): void {
+        
+    }
 }
 
 export { Template };

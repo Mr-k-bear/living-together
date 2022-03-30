@@ -1,13 +1,14 @@
 import { BehaviorRecorder, IAnyBehaviorRecorder } from "@Model/Behavior";
 import { Template } from "./Template";
+import { Dynamics } from "./Dynamics";
+import { Brownian } from "./Brownian";
+import { BoundaryConstraint } from "./BoundaryConstraint"; 
 
-const AllBehaviors: IAnyBehaviorRecorder[] = new Array(4).fill(0).map((_, i) => {
-    let behavior = new BehaviorRecorder(Template);
-    behavior.behaviorId = behavior.behaviorId + i;
-    behavior.behaviorName = behavior.behaviorName + Math.random().toString(36).slice(-6);
-    behavior.category = "Category" + Math.floor(Math.random() * 3).toString();
-    return behavior;
-});
+const AllBehaviors: IAnyBehaviorRecorder[] = [
+    new BehaviorRecorder(Dynamics),
+    new BehaviorRecorder(Brownian),
+    new BehaviorRecorder(BoundaryConstraint)
+]
 
 /**
  * 分类词条

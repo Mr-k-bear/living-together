@@ -15,7 +15,7 @@ interface ICommandBarProps {
 }
 
 @useSetting
-@useStatusWithEvent("mouseModChange")
+@useStatusWithEvent("mouseModChange", "actuatorStartChange")
 class CommandBar extends Component<ICommandBarProps & IMixinSettingProps & IMixinStatusProps> {
 
     render(): ReactNode {
@@ -34,7 +34,13 @@ class CommandBar extends Component<ICommandBarProps & IMixinSettingProps & IMixi
         >
             <div>
                 {this.getRenderButton({ iconName: "Save", i18NKey: "Command.Bar.Save.Info" })}
-                {this.getRenderButton({ iconName: "Play", i18NKey: "Command.Bar.Play.Info" })}
+                {this.getRenderButton({
+                    iconName: this.props.status?.actuator.start() ? "Pause" : "Play",
+                    i18NKey: "Command.Bar.Play.Info",
+                    click: () => this.props.status ? this.props.status.actuator.start(
+                        !this.props.status.actuator.start()
+                    ) : undefined
+                })}
                 {this.getRenderButton({
                     iconName: "HandsFree", i18NKey: "Command.Bar.Drag.Info", 
                     active: mouseMod === MouseMod.Drag,

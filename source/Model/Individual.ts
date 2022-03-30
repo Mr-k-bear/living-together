@@ -12,9 +12,9 @@ class Individual {
      * @param y y 坐标
      * @param z z 坐标
      */
-    public static vectorLength(x: number[]): number;
-    public static vectorLength(x: number, y: number, z: number): number;
-    public static vectorLength(x: number | number[], y?: number, z?: number): number {
+    public vectorLength(x: number[]): number;
+    public vectorLength(x: number, y: number, z: number): number;
+    public vectorLength(x: number | number[], y?: number, z?: number): number {
         if (Array.isArray(x)) {
             return ((x[0] ?? 0)**2 + (x[1] ?? 0)**2 + (x[2] ?? 0)**2)**.5;
         } else {
@@ -28,10 +28,10 @@ class Individual {
      * @param y y 坐标
      * @param z z 坐标
      */
-    public static vectorNormalize(x: number[]): [number, number, number];
-    public static vectorNormalize(x: number, y: number, z: number): [number, number, number];
-    public static vectorNormalize(x: number | number[], y?: number, z?: number): [number, number, number] {
-        let length = Individual.vectorLength(x as number, y as number, z as number);
+    public vectorNormalize(x: number[]): [number, number, number];
+    public vectorNormalize(x: number, y: number, z: number): [number, number, number];
+    public vectorNormalize(x: number | number[], y?: number, z?: number): [number, number, number] {
+        let length = this.vectorLength(x as number, y as number, z as number);
         if (Array.isArray(x)) {
             return [
                 (x[0] ?? 0) / length,
@@ -51,6 +51,39 @@ class Individual {
 	 * 坐标
 	 */
 	public position: number[] = [0, 0, 0];
+
+    /**
+     * 速度
+     */
+    public velocity: number[] = [0, 0, 0];
+
+    /**
+     * 加速度
+     */
+    public acceleration: number[] = [0, 0, 0];
+
+    /**
+     * 作用力
+     */
+    public force: number[] = [0, 0, 0];
+
+    /**
+     * 施加力
+     */
+    public applyForce(x: number[]): [number, number, number];
+    public applyForce(x: number, y: number, z: number): [number, number, number];
+    public applyForce(x: number | number[], y?: number, z?: number): [number, number, number] {
+        if (Array.isArray(x)) {
+            this.force[0] += x[0] ?? 0;
+            this.force[1] += x[1] ?? 0;
+            this.force[2] += x[2] ?? 0;
+        } else {
+            this.force[0] += x ?? 0;
+            this.force[1] += y ?? 0;
+            this.force[2] += z ?? 0;
+        }
+        return this.force as [number, number, number];
+    }
 
 	/**
 	 * 所属群组
@@ -107,7 +140,7 @@ class Individual {
      * @param position 目标位置
      */
     public distanceTo(position: Individual | number[]): number {
-        return Individual.vectorLength(this.vectorTo(position));
+        return this.vectorLength(this.vectorTo(position));
     }
 
     /**

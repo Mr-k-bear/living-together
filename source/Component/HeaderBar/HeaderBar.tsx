@@ -42,7 +42,7 @@ class HeaderBar extends Component<
         return (t: number) => {
             let newState: HeaderBarState = {} as any;
             newState[type] = 1 / t;
-            if (this.updateTime > 60) {
+            if (this.updateTime > 20) {
                 this.updateTime = 0;
                 this.setState(newState);
             }

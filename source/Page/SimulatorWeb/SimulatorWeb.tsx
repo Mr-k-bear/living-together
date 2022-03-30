@@ -10,6 +10,7 @@ import { RootContainer } from "@Component/Container/RootContainer";
 import { LayoutDirection } from "@Context/Layout";
 import { CommandBar } from "@Component/CommandBar/CommandBar";
 import { Popup } from "@Component/Popup/Popup";
+import { AllBehaviors } from "@Behavior/Behavior";
 import "./SimulatorWeb.scss";
 
 initializeIcons("https://img.mrkbear.com/fabric-cdn-prod_20210407.001/");
@@ -54,6 +55,16 @@ class SimulatorWeb extends Component {
             this.status.model.update(0);
             this.status.newLabel().name = "New Label";
             this.status.newLabel().name = "Test Label 01";
+            let dynamic = this.status.model.addBehavior(AllBehaviors[0]);
+            dynamic.name = "dynamic";
+            let brownian = this.status.model.addBehavior(AllBehaviors[1]);
+            brownian.name = "brownian";
+            let boundary = this.status.model.addBehavior(AllBehaviors[2]);
+            boundary.name = "boundary";
+            boundary.parameter.range = this.status.model.allRangeLabel;
+            group.addBehavior(dynamic);
+            group.addBehavior(brownian);
+            group.addBehavior(boundary);
         }
 
         (window as any).s = this;

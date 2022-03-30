@@ -12,6 +12,7 @@ import { I18N } from "@Component/Localization/Localization";
 import { superConnectWithEvent, superConnect } from "./Context";
 import { PopupController } from "./Popups";
 import { Behavior } from "@Model/Behavior";
+import { Actuator } from "@Model/Actuator";
 
 function randomColor(unNormal: boolean = false) {
     const color = [
@@ -44,6 +45,7 @@ interface IStatusEvent {
     individualChange: void;
     behaviorChange: void;
     popupChange: void;
+    actuatorStartChange: void;
 }
 
 class Status extends Emitter<IStatusEvent> {
@@ -70,6 +72,11 @@ class Status extends Emitter<IStatusEvent> {
      * 模型状态
      */
     public model: Model = new Model();
+
+    /**
+     * 执行器
+     */
+    public actuator: Actuator;
 
     /**
      * 弹窗
@@ -104,8 +111,14 @@ class Status extends Emitter<IStatusEvent> {
     public constructor() {
         super();
 
+        // 初始化执行器
+        this.actuator = new Actuator(this.model);
+
+        // 执行器开启事件
+        this.actuator.on("startChange", () => { this.emit("actuatorStartChange") });
+
         // 循环事件
-        this.model.on("loop", (t) => { this.emit("physicsLoop", t) });
+        this.actuator.on("loop", (t) => { this.emit("physicsLoop", t) });
 
         // 对象变化事件
         this.model.on("objectChange", () => this.emit("objectChange"));
