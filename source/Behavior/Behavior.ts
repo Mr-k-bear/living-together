@@ -1,9 +1,11 @@
 import { BehaviorRecorder, IAnyBehaviorRecorder } from "@Model/Behavior";
 import { Template } from "./Template";
 import { Dynamics } from "./Dynamics";
+import { Brownian } from "./Brownian";
 
 const AllBehaviors: IAnyBehaviorRecorder[] = [
-    new BehaviorRecorder(Dynamics)
+    new BehaviorRecorder(Dynamics),
+    new BehaviorRecorder(Brownian)
 ]
 
 /**

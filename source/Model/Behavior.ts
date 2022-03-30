@@ -202,7 +202,7 @@ class BehaviorRecorder<
      * 获取下一个 ID
      */
     public getNextId() {
-        return `B-${this.behaviorName}-${this.nameIndex ++}`;
+        return `B-${this.behaviorId}-${this.nameIndex ++}`;
     }
 
     /**
