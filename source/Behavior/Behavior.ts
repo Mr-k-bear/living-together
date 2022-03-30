@@ -1,13 +1,10 @@
 import { BehaviorRecorder, IAnyBehaviorRecorder } from "@Model/Behavior";
 import { Template } from "./Template";
+import { Dynamics } from "./Dynamics";
 
-const AllBehaviors: IAnyBehaviorRecorder[] = new Array(4).fill(0).map((_, i) => {
-    let behavior = new BehaviorRecorder(Template);
-    behavior.behaviorId = behavior.behaviorId + i;
-    behavior.behaviorName = behavior.behaviorName + Math.random().toString(36).slice(-6);
-    behavior.category = "Category" + Math.floor(Math.random() * 3).toString();
-    return behavior;
-});
+const AllBehaviors: IAnyBehaviorRecorder[] = [
+    new BehaviorRecorder(Dynamics)
+]
 
 /**
  * 分类词条
@@ -51,5 +48,7 @@ function categoryBehaviors(behaviors: IAnyBehaviorRecorder[]): ICategory[] {
 
     return res;
 }
+
+console.log(AllBehaviorsWithCategory)
 
 export { AllBehaviors, AllBehaviorsWithCategory, ICategory as ICategoryBehavior };

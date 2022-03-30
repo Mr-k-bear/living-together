@@ -258,7 +258,7 @@ class Model extends Emitter<ModelEvent> {
         for (let i = 0; i < this.objectPool.length; i++) {
             let object = this.objectPool[i];
             if (object instanceof Group && object.update) {
-                object.runner(t, "beforeEffect");
+                object.runner(t, "effect");
             }
         }
 
@@ -266,7 +266,7 @@ class Model extends Emitter<ModelEvent> {
         for (let i = 0; i < this.objectPool.length; i++) {
             let object = this.objectPool[i];
             if (object instanceof Group && object.update) {
-                object.runner(t, "effect");
+                object.runner(t, "afterEffect");
             }
         }
 
@@ -274,7 +274,7 @@ class Model extends Emitter<ModelEvent> {
         for (let i = 0; i < this.objectPool.length; i++) {
             let object = this.objectPool[i];
             if (object instanceof Group && object.update) {
-                object.runner(t, "afterEffect");
+                object.runner(t, "finalEffect");
             }
         }
 

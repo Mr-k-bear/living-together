@@ -120,7 +120,7 @@ class BehaviorList extends Component<IBehaviorListProps & IMixinSettingProps> {
 			</div>
 			<div className="behavior-content-view">
 				{this.renderTerm(behavior, name, "title-view", needLocal)}
-				{this.renderTerm(behavior, info, "info-view", needLocal)}
+				{this.renderTerm(behavior, info, "info-view", true)}
 			</div>
 			<div className="behavior-action-view">
 				{this.renderActionButton(behavior)}

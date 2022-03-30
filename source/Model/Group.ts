@@ -330,7 +330,7 @@ class Group extends CtrlObject {
      * 执行行为影响
 	 * @param
      */
-	public runner(t: number, effectType: "beforeEffect" | "effect" | "afterEffect" ): void {
+	public runner(t: number, effectType: "finalEffect" | "effect" | "afterEffect" ): void {
 		this.individuals.forEach((individual) => {
 			for(let j = 0; j < this.behaviors.length; j++) {
 				this.behaviors[j][effectType](individual, this, this.model, t);
