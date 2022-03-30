@@ -59,8 +59,12 @@ class SimulatorWeb extends Component {
             dynamic.name = "dynamic";
             let brownian = this.status.model.addBehavior(AllBehaviors[1]);
             brownian.name = "brownian";
+            let boundary = this.status.model.addBehavior(AllBehaviors[2]);
+            boundary.name = "boundary";
+            boundary.parameter.range = this.status.model.allRangeLabel;
             group.addBehavior(dynamic);
             group.addBehavior(brownian);
+            group.addBehavior(boundary);
         }
 
         (window as any).s = this;

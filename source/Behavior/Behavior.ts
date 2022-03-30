@@ -2,10 +2,12 @@ import { BehaviorRecorder, IAnyBehaviorRecorder } from "@Model/Behavior";
 import { Template } from "./Template";
 import { Dynamics } from "./Dynamics";
 import { Brownian } from "./Brownian";
+import { BoundaryConstraint } from "./BoundaryConstraint"; 
 
 const AllBehaviors: IAnyBehaviorRecorder[] = [
     new BehaviorRecorder(Dynamics),
-    new BehaviorRecorder(Brownian)
+    new BehaviorRecorder(Brownian),
+    new BehaviorRecorder(BoundaryConstraint)
 ]
 
 /**
@@ -50,7 +52,5 @@ function categoryBehaviors(behaviors: IAnyBehaviorRecorder[]): ICategory[] {
 
     return res;
 }
-
-console.log(AllBehaviorsWithCategory)
 
 export { AllBehaviors, AllBehaviorsWithCategory, ICategory as ICategoryBehavior };

@@ -35,22 +35,22 @@ class Dynamics extends Behavior<IDynamicsBehaviorParameter, IDynamicsBehaviorEve
 		maxAcceleration: {
 			name: "$Max.Acceleration",
 			type: "number",
-			defaultValue: 0.5,
-			numberStep: .01,
+			defaultValue: 5,
+			numberStep: .1,
 			numberMin: 0
 		},
 		maxVelocity: {
 			name: "$Max.Velocity",
 			type: "number",
-			defaultValue: 0.5,
-			numberStep: .01,
+			defaultValue: 10,
+			numberStep: .1,
 			numberMin: 0
 		},
 		resistance: {
 			name: "$Resistance",
 			type: "number",
-			defaultValue: .01,
-			numberStep: .001,
+			defaultValue: 0.1,
+			numberStep: .1,
 			numberMin: 0
 		}
 	};
@@ -88,18 +88,29 @@ class Dynamics extends Behavior<IDynamicsBehaviorParameter, IDynamicsBehaviorEve
 		const currentV = individual.vectorLength(individual.velocity);
 
 		// 计算阻力
-		const resistance = Math.max(1 - currentV * currentV * this.parameter.resistance, 0);
+		const resistance = currentV * currentV * this.parameter.resistance;
+
+		// 应用阻力
+		if (currentV) {
+			individual.applyForce(
+				(- individual.velocity[0] / currentV) * resistance,
+				(- individual.velocity[1] / currentV) * resistance,
+				(- individual.velocity[2] / currentV) * resistance
+			);
+		}
 		
 		// 计算加速度
-		individual.acceleration[0] = individual.force[0] * resistance / this.parameter.mass;
-		individual.acceleration[1] = individual.force[1] * resistance / this.parameter.mass;
-		individual.acceleration[2] = individual.force[2] * resistance / this.parameter.mass;
+		individual.acceleration[0] = individual.force[0] / this.parameter.mass;
+		individual.acceleration[1] = individual.force[1] / this.parameter.mass;
+		individual.acceleration[2] = individual.force[2] / this.parameter.mass;
 
 		// 加速度约束
-		const overA = Math.max(individual.vectorLength(individual.acceleration) - this.parameter.maxAcceleration, 0);
-		individual.acceleration[0] = individual.acceleration[0] - individual.acceleration[0] * overA;
-		individual.acceleration[1] = individual.acceleration[1] - individual.acceleration[1] * overA;
-		individual.acceleration[2] = individual.acceleration[2] - individual.acceleration[2] * overA;
+		const lengthA = individual.vectorLength(individual.acceleration);
+		if (lengthA > this.parameter.maxAcceleration) {
+			individual.acceleration[0] = individual.acceleration[0] * this.parameter.maxAcceleration / lengthA;
+			individual.acceleration[1] = individual.acceleration[1] * this.parameter.maxAcceleration / lengthA;
+			individual.acceleration[2] = individual.acceleration[2] * this.parameter.maxAcceleration / lengthA;
+		}
 
 		// 计算速度
 		individual.velocity[0] = individual.velocity[0] + individual.acceleration[0] * t;
@@ -107,15 +118,22 @@ class Dynamics extends Behavior<IDynamicsBehaviorParameter, IDynamicsBehaviorEve
 		individual.velocity[2] = individual.velocity[2] + individual.acceleration[2] * t;
 
 		// 速度约束
-		const overV = Math.max(individual.vectorLength(individual.velocity) - this.parameter.maxVelocity, 0);
-		individual.velocity[0] = individual.velocity[0] - individual.velocity[0] * overV;
-		individual.velocity[1] = individual.velocity[1] - individual.velocity[1] * overV;
-		individual.velocity[2] = individual.velocity[2] - individual.velocity[2] * overV;
+		const lengthV = individual.vectorLength(individual.velocity);
+		if (lengthV > this.parameter.maxVelocity) {
+			individual.velocity[0] = individual.velocity[0] * this.parameter.maxVelocity / lengthV;
+			individual.velocity[1] = individual.velocity[1] * this.parameter.maxVelocity / lengthV;
+			individual.velocity[2] = individual.velocity[2] * this.parameter.maxVelocity / lengthV;
+		}
 
 		// 应用速度
 		individual.position[0] = individual.position[0] + individual.velocity[0] * t;
 		individual.position[1] = individual.position[1] + individual.velocity[1] * t;
 		individual.position[2] = individual.position[2] + individual.velocity[2] * t;
+
+		// 清除受力
+		individual.force[0] = 0;
+		individual.force[1] = 0;
+		individual.force[2] = 0;
 	};
 }
 

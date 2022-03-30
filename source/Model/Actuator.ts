@@ -19,7 +19,7 @@ class Actuator extends Emitter<IActuatorEvent> {
 	/**
 	 * 模拟帧率
 	 */
-	public fps: number = 24;
+	public fps: number = 36;
 
 	/**
 	 * 仿真是否进行
@@ -56,7 +56,7 @@ class Actuator extends Emitter<IActuatorEvent> {
 	 */
 	private alignTimer: number = 0;
 
-	public tickerType: 1 | 2 = 1;
+	public tickerType: 1 | 2 = 2;
 
 	private ticker(t: number) {
 		if (this.startFlag && t !== 0) {

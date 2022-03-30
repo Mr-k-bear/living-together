@@ -42,7 +42,7 @@ class Brownian extends Behavior<IBrownianBehaviorParameter, IBrownianBehaviorEve
 		maxStrength: {
 			type: "number",
 			name: "$Max.Strength",
-			defaultValue: .1,
+			defaultValue: 10,
 			numberStep: .01,
 			numberMin: 0
 		},
