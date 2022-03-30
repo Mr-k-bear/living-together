@@ -8,7 +8,6 @@ import { Label } from "./Label";
 import { Behavior, IAnyBehavior, IAnyBehaviorRecorder } from "./Behavior";
 
 type ModelEvent = {
-    loop: number;
     labelChange: Label[];
     objectChange: CtrlObject[];
     individualChange: Group;
@@ -280,8 +279,6 @@ class Model extends Emitter<ModelEvent> {
         }
 
         this.draw();
-
-        this.emit("loop", t);
     }
 
     public draw() {
