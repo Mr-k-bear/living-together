@@ -69,13 +69,13 @@ class Actuator extends Emitter<IActuatorEvent> {
 				// 丢帧判定
 				if (durTime > 0.1) {
 					console.log("Actuator: Ticker dur time error. dropping...")
-				}
-
-				this.alignTimer += durTime;
-				if (this.alignTimer > (1 / this.fps)) {
-					this.model.update(this.alignTimer * this.speed);
-					this.emit("loop", this.alignTimer);
-					this.alignTimer = 0;
+				} else {
+					this.alignTimer += durTime;
+					if (this.alignTimer > (1 / this.fps)) {
+						this.model.update(this.alignTimer * this.speed);
+						this.emit("loop", this.alignTimer);
+						this.alignTimer = 0;
+					}
 				}
 			}
 		} else {
