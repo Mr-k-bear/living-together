@@ -88,6 +88,7 @@ class BehaviorList extends Component<IBehaviorListProps & IMixinSettingProps> {
 			name = behavior.name;
 			color = behavior.color;
 			needLocal = false;
+            info = behavior.behaviorName;
 		}
 
 		if (behavior instanceof BehaviorRecorder) {
@@ -111,20 +112,21 @@ class BehaviorList extends Component<IBehaviorListProps & IMixinSettingProps> {
 				this.isActionClick = false;
 			}}
 		>
-			<div
-				className="behavior-color-view"
-				style={{ backgroundColor: color }}
-			/>
-			<div className="behavior-icon-view">
-				<Icon iconName={icon}/>
-			</div>
-			<div className="behavior-content-view">
-				{this.renderTerm(behavior, name, "title-view", needLocal)}
-				{this.renderTerm(behavior, info, "info-view", true)}
-			</div>
-			<div className="behavior-action-view">
-				{this.renderActionButton(behavior)}
-			</div>
+            <div className="behavior-color-view">
+                <div style={{ backgroundColor: color }}/>
+            </div>
+            <div className="behavior-item-root">
+                <div className="behavior-icon-view">
+                    <Icon iconName={icon}/>
+                </div>
+                <div className="behavior-content-view">
+                    {this.renderTerm(behavior, name, "title-view", needLocal)}
+                    {this.renderTerm(behavior, info, "info-view", true)}
+                </div>
+                {/* <div className="behavior-action-view">
+                    {this.renderActionButton(behavior)}
+                </div> */}
+            </div>
 		</div>
 	}
 

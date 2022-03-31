@@ -9,93 +9,103 @@ div.behavior-list {
 
 	div.behavior-item {
 		margin: 5px;
-		height: $behavior-item-height;
+		height: 45px;
 		user-select: none;
 		border-radius: 3px;
 		cursor: pointer;
-		display: flex;
+        
+        div.behavior-color-view {
+            height: 0;
+            width: 100%;
 
-		div.behavior-color-view {
-			height: $behavior-item-height;
-			width: 3px;
-			min-width: 3px;
-			border-radius: 3px;
-			flex-shrink: 0;
-		}
+            div {
+                position: relative;
+                top: 5px;
+                left: 5px;
+                width: 8px;
+                height: 8px;
+                border-radius: 8px;
+            }
+        }
 
-		div.behavior-icon-view {
-			height: $behavior-item-height;
-			min-width: $behavior-item-height;
-			width: $behavior-item-height;
-			user-select: none;
-			display: flex;
-			justify-content: center;
-			align-items: center;
+        div.behavior-item-root {
+            display: flex;
 
-			i {
-				font-size: 25px;
-			}
-		}
+            div.behavior-icon-view {
+                height: $behavior-item-height;
+                min-width: $behavior-item-height;
+                width: $behavior-item-height;
+                user-select: none;
+                display: flex;
+                justify-content: center;
+                align-items: center;
 
-		div.behavior-content-view {
-			width: calc( 100% - 68px );
-			max-width: 100px;
-			height: $behavior-item-height;
-			display: flex;
-			justify-content: center;
-			flex-direction: column;
-			align-items: stretch;
+                i {
+                    font-size: 25px;
+                }
+            }
 
-			div.title-view {
-				white-space: nowrap;
-				text-overflow: ellipsis;
-				overflow: hidden;
-				width: 100%;
-			}
+            div.behavior-content-view {
+                width: calc( 100% - 50px );
+                padding-right: 5px;
+                max-width: 125px;
+                height: $behavior-item-height;
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                align-items: stretch;
 
-			div.info-view {
-				white-space: nowrap;
-				text-overflow: ellipsis;
-				overflow: hidden;
-				width: 100%;
-				opacity: .75;
-			}
-		}
-		
-		div.behavior-action-view {
-			height: $behavior-item-height;
-			min-width: 20px;
-			width: 20px;
-			flex-shrink: 0;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-content: center;
-			align-items: center;
+                div.title-view {
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    width: 100%;
+                }
 
-			div.behavior-action-button {
-				height: 100%;
-				width: 100%;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				user-select: none;
-				cursor: pointer;
-			}
+                div.info-view {
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    width: 100%;
+                    opacity: .75;
+                }
+            }
+            
+            div.behavior-action-view {
+                height: $behavior-item-height;
+                min-width: 20px;
+                width: 20px;
+                flex-shrink: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-content: center;
+                align-items: center;
 
-			div.behavior-action-button.hover-red:hover i {
-				color: $lt-red;
-			}
+                div.behavior-action-button {
+                    height: 100%;
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    user-select: none;
+                    cursor: pointer;
+                }
 
-			div.behavior-action-button.hover-blue:hover i {
-				color: $lt-blue;
-			}
-		}
+                div.behavior-action-button.hover-red:hover i {
+                    color: $lt-red;
+                }
+
+                div.behavior-action-button.hover-blue:hover i {
+                    color: $lt-blue;
+                }
+            }
+        }
 	}
 
     div.add-button {
-        width: 45px;
-        height: 45px;
+        width: 26px;
+        height: 26px;
         display: flex;
         justify-content: center;
         align-items: center;
