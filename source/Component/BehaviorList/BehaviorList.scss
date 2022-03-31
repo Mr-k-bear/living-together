@@ -12,6 +12,7 @@ div.behavior-list {
 		height: 45px;
 		user-select: none;
 		border-radius: 3px;
+        overflow: hidden;
 		cursor: pointer;
         
         div.behavior-color-view {
@@ -19,12 +20,14 @@ div.behavior-list {
             width: 100%;
 
             div {
-                position: relative;
-                top: 5px;
-                left: 5px;
-                width: 8px;
-                height: 8px;
-                border-radius: 8px;
+                // position: relative;
+                // top: 5px;
+                // left: 5px;
+                width: 0;
+                height: 0;
+                // border-left: 8px solid red;
+                border-bottom: 12px solid transparent;
+                // border-radius: 8px;
             }
         }
 

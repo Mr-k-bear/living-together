@@ -113,7 +113,7 @@ class BehaviorList extends Component<IBehaviorListProps & IMixinSettingProps> {
 			}}
 		>
             <div className="behavior-color-view">
-                <div style={{ backgroundColor: color }}/>
+                <div style={{ borderLeft: `12px solid ${color}` }}/>
             </div>
             <div className="behavior-item-root">
                 <div className="behavior-icon-view">
