@@ -77,10 +77,14 @@ class BehaviorPopupComponent extends Component<
     private renderBehaviors = (behaviors: ICategoryBehavior, first: boolean) => {
 
         let language = this.props.setting?.language ?? "EN_US";
+        let filterReg: RegExp | undefined = undefined;
+        if (this.state.searchValue) {
+            filterReg = new RegExp(this.state.searchValue, "i");
+        }
         let filterItem = behaviors.item.filter((item) => {
             let name = item.getTerms(item.behaviorName, this.props.setting?.language);
-            if (this.state.searchValue) {
-                return name.includes(this.state.searchValue);
+            if (filterReg) {
+                return filterReg.test(name);
             } else {
                 return true;
             }
