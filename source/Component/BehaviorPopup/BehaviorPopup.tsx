@@ -64,24 +64,6 @@ class BehaviorPopupComponent extends Component<
 		</div>;
 	}
 
-	private showBehaviorInfo = (behavior: IRenderBehavior) => {
-		if (this.props.status) {
-			const status = this.props.status;
-			status.popup.showPopup(ConfirmPopup, {
-                renderInfo: () => {
-                    return <Message
-                        text={behavior.getTerms(behavior.describe, this.props.setting?.language)}
-                    />
-                },
-				titleI18N: "Popup.Behavior.Info.Title",
-				titleI18NOption: {
-					behavior: behavior.getTerms(behavior.behaviorName, this.props.setting?.language)
-				},
-				yesI18n: "Popup.Behavior.Info.Confirm",
-			})
-		}
-	}
-
 	private renderActionBar = () => {
 		return <Localization
 			className="behavior-popup-select-counter"
@@ -114,7 +96,6 @@ class BehaviorPopupComponent extends Component<
 			<BehaviorList
 				focusBehaviors={Array.from(this.state.focusBehavior)}
 				behaviors={filterItem}
-				action={this.showBehaviorInfo}
 				click={(behavior) => {
 					if (this.state.focusBehavior.has(behavior)) {
 						this.state.focusBehavior.delete(behavior);

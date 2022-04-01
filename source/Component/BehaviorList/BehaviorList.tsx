@@ -2,20 +2,23 @@ import { Theme } from "@Component/Theme/Theme";
 import { Component, ReactNode } from "react";
 import { IRenderBehavior, Behavior, BehaviorRecorder } from "@Model/Behavior";
 import { useSettingWithEvent, IMixinSettingProps } from "@Context/Setting";
+import { useStatus, IMixinStatusProps } from "@Context/Status";
 import { Icon } from "@fluentui/react";
+import { ConfirmPopup } from "@Component/ConfirmPopup/ConfirmPopup";
+import { Message } from "@Component/Message/Message";
 import "./BehaviorList.scss";
 
 interface IBehaviorListProps {
 	behaviors: IRenderBehavior[];
 	focusBehaviors?: IRenderBehavior[];
 	click?: (behavior: IRenderBehavior) => void;
-	action?: (behavior: IRenderBehavior) => void;
+    delete?: (behavior: IRenderBehavior) => void;
     onAdd?: () => void;
-	actionType?: "info" | "delete";
 }
 
+@useStatus
 @useSettingWithEvent("language")
-class BehaviorList extends Component<IBehaviorListProps & IMixinSettingProps> {
+class BehaviorList extends Component<IBehaviorListProps & IMixinSettingProps & IMixinStatusProps> {
 
 	private isFocus(behavior: IRenderBehavior): boolean {
 		if (this.props.focusBehaviors) {
@@ -28,32 +31,55 @@ class BehaviorList extends Component<IBehaviorListProps & IMixinSettingProps> {
 		return false;
 	}
 
-	private renderActionButton(behavior: IRenderBehavior) {
+	private renderActionButton(behavior: IRenderBehavior, actionType: "info" | "delete") {
 
 		const classList: string[] = ["info-button", "behavior-action-button"];
 		let iconName = "Info";
+        let action: () => void = () => {};
 
-		switch (this.props.actionType) {
+		switch (actionType) {
 			case "delete":
 				classList.push("hover-red");
 				iconName = "Delete";
+                action = () => {
+                    this.isActionClick = true;
+                    if (this.props.delete) {
+                        this.props.delete(behavior)
+                    }
+                }
 				break;
+
 			case "info":
 				classList.push("hover-blue");
 				iconName = "Info";
+                action = () => {
+                    this.isActionClick = true;
+                    if (!this.props.status) {
+                        return;
+                    }
+                    const status = this.props.status;
+                    status.popup.showPopup(ConfirmPopup, {
+                        renderInfo: () => {
+                            return <Message
+                                text={behavior.getTerms(behavior.describe, this.props.setting?.language)}
+                            />
+                        },
+                        titleI18N: "Popup.Behavior.Info.Title",
+                        yesI18n: "Popup.Behavior.Info.Confirm",
+                        titleI18NOption: {
+                            behavior: behavior.getTerms(behavior.behaviorName, this.props.setting?.language)
+                        }
+                    })
+                }
 				break;
+
 			default:
 				classList.push("hover-blue");
 		}
 
 		return <div
 			className={classList.join(" ")}
-			onClick={() => {
-				this.isActionClick = true;
-				if (this.props.action) {
-					this.props.action(behavior)
-				}
-			}}
+			onClick={action}
 		>
 			<Icon iconName={iconName}/>
 		</div>
@@ -116,6 +142,14 @@ class BehaviorList extends Component<IBehaviorListProps & IMixinSettingProps> {
                 <div style={{ borderLeft: `12px solid ${color}` }}/>
             </div>
             <div className="behavior-item-root">
+                <div className="behavior-popup-menu">
+                    <div className="behavior-popup-layout">
+                        <div className="behavior-popup-action-view">
+                            {this.props.delete ? this.renderActionButton(behavior, "delete") : null}
+                            {this.renderActionButton(behavior, "info")}
+                        </div>
+                    </div>
+                </div>
                 <div className="behavior-icon-view">
                     <Icon iconName={icon}/>
                 </div>
@@ -123,9 +157,6 @@ class BehaviorList extends Component<IBehaviorListProps & IMixinSettingProps> {
                     {this.renderTerm(behavior, name, "title-view", needLocal)}
                     {this.renderTerm(behavior, info, "info-view", true)}
                 </div>
-                {/* <div className="behavior-action-view">
-                    {this.renderActionButton(behavior)}
-                </div> */}
             </div>
 		</div>
 	}
