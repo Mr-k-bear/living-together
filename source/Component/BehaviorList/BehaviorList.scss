@@ -40,8 +40,6 @@ div.behavior-list {
                 z-index: 1;
 
                 div.behavior-popup-layout {
-                    transition: opacity 150ms cubic-bezier(0, 0, 1, 1),
-                                width 220ms cubic-bezier(.1, .9, .2, 1);
                     width: 0;
                     opacity: 0;
                     height: 100%;
