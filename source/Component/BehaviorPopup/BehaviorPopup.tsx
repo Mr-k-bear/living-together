@@ -64,24 +64,6 @@ class BehaviorPopupComponent extends Component<
 		</div>;
 	}
 
-	private showBehaviorInfo = (behavior: IRenderBehavior) => {
-		if (this.props.status) {
-			const status = this.props.status;
-			status.popup.showPopup(ConfirmPopup, {
-                renderInfo: () => {
-                    return <Message
-                        text={behavior.getTerms(behavior.describe, this.props.setting?.language)}
-                    />
-                },
-				titleI18N: "Popup.Behavior.Info.Title",
-				titleI18NOption: {
-					behavior: behavior.getTerms(behavior.behaviorName, this.props.setting?.language)
-				},
-				yesI18n: "Popup.Behavior.Info.Confirm",
-			})
-		}
-	}
-
 	private renderActionBar = () => {
 		return <Localization
 			className="behavior-popup-select-counter"
@@ -95,10 +77,14 @@ class BehaviorPopupComponent extends Component<
     private renderBehaviors = (behaviors: ICategoryBehavior, first: boolean) => {
 
         let language = this.props.setting?.language ?? "EN_US";
+        let filterReg: RegExp | undefined = undefined;
+        if (this.state.searchValue) {
+            filterReg = new RegExp(this.state.searchValue, "i");
+        }
         let filterItem = behaviors.item.filter((item) => {
             let name = item.getTerms(item.behaviorName, this.props.setting?.language);
-            if (this.state.searchValue) {
-                return name.includes(this.state.searchValue);
+            if (filterReg) {
+                return filterReg.test(name);
             } else {
                 return true;
             }
@@ -114,7 +100,6 @@ class BehaviorPopupComponent extends Component<
 			<BehaviorList
 				focusBehaviors={Array.from(this.state.focusBehavior)}
 				behaviors={filterItem}
-				action={this.showBehaviorInfo}
 				click={(behavior) => {
 					if (this.state.focusBehavior.has(behavior)) {
 						this.state.focusBehavior.delete(behavior);

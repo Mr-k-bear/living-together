@@ -1,0 +1,86 @@
+@import "../Theme/Theme.scss";
+
+div.behavior-picker-list {
+    width: 100%;
+    max-width: 400px;
+    padding: 8px 0;
+
+    div.behavior-picker-line {
+        width: 100%;
+        padding: 0 !important;
+        display: flex !important;
+        justify-content: flex-start !important;
+
+        div.behavior-picker-line-color-view {
+            width: 0;
+            max-width: 0;
+            height: 100%;
+
+            div {
+                width: 0;
+                height: 0;
+                border-bottom: 10px solid transparent;
+                position: relative;
+                z-index: 2;
+            }
+        }
+
+        div.behavior-picker-line-icon-view {
+            width: 30px;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            i.behavior-icon {
+                display: inline-block;
+            }
+
+            i.view-icon {
+                display: none;
+            }
+
+            i.view-icon:hover {
+                color: $lt-green;
+            }
+        }
+
+        div.behavior-picker-title {
+            height: 100%;
+            width: calc(100% - 60px);
+            display: flex;
+            align-items: center;
+
+            div {
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+        }
+
+        div.behavior-picker-line-delete-view {
+            width: 30px;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            i:hover {
+                color: $lt-red;
+            }
+        }
+    }
+
+    div.behavior-picker-line:hover {
+
+        div.behavior-picker-line-icon-view {
+            
+            i.behavior-icon {
+                display: none;
+            }
+
+            i.view-icon {
+                display: inline-block;
+            }
+        }
+    }
+}

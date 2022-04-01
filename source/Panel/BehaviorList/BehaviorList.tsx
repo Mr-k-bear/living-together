@@ -36,7 +36,6 @@ class BehaviorList extends Component<IBehaviorListProps & IMixinStatusProps & IM
                 <Message i18nKey="Panel.Info.Label.List.Error.Nodata"/> : null
             }
             <BehaviorListComponent
-                actionType="delete"
                 behaviors={behaviors}
                 focusBehaviors={
                     this.props.status?.focusBehavior ? 
@@ -54,7 +53,7 @@ class BehaviorList extends Component<IBehaviorListProps & IMixinStatusProps & IM
                 onAdd={() => {
                     this.props.status?.popup.showPopup(BehaviorPopup, {});
                 }}
-                action={(behavior) => {
+                delete={(behavior) => {
                     if (this.props.status && behavior instanceof Behavior) {
                         const status = this.props.status;
                         status.popup.showPopup(ConfirmPopup, {

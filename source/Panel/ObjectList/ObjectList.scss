@@ -20,6 +20,10 @@ div.object-list {
             opacity: 0;
         }
 
+        i.checkbox-icon:hover {
+            color: $lt-green;
+        }
+
         i.type-icon {
             display: inline-block;
             opacity: 1;

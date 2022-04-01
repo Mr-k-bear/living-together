@@ -40,6 +40,9 @@ class HeaderBar extends Component<
 
     private createFpsCalc(type: "renderFps" | "physicsFps") {
         return (t: number) => {
+            if (t === 0) {
+                return;
+            }
             let newState: HeaderBarState = {} as any;
             newState[type] = 1 / t;
             if (this.updateTime > 20) {

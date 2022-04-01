@@ -11,6 +11,7 @@ import { AllI18nKeys } from "@Component/Localization/Localization";
 import { ComboInput, IDisplayItem } from "@Component/ComboInput/ComboInput";
 import { ObjectPicker } from "@Component/ObjectPicker/ObjectPicker";
 import { ConfirmPopup } from "@Component/ConfirmPopup/ConfirmPopup";
+import { BehaviorPicker } from "@Component/BehaviorPicker/BehaviorPicker";
 import "./GroupDetails.scss";
 
 interface IGroupDetailsProps {}
@@ -107,6 +108,12 @@ class GroupDetails extends Component<IGroupDetailsProps & IMixinStatusProps> {
 					}
 				}}
 			/>
+            
+            <Message i18nKey="Common.Attr.Title.Behaviors" isTitle/>
+
+            <BehaviorPicker
+                behavior={group.behaviors}
+            />
 
             <Message i18nKey="Common.Attr.Title.Individual.Generation" isTitle/>
 

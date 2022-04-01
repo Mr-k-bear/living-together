@@ -91,6 +91,7 @@ class SimulatorWeb extends Component {
                     }, {
                         panels: ["GroupDetails", "RangeDetails", "LabelDetails"]
                     }],
+                    scale: 30,
                     layout: LayoutDirection.Y
                 }
             ],
