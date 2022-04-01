@@ -1,0 +1,26 @@
+
+div.behavior-picker-list {
+    width: 100%;
+    max-width: 400px;
+
+    div.behavior-picker-line {
+        width: 100%;
+        padding: 0 !important;
+        display: flex !important;
+        justify-content: flex-start !important;
+
+        div.behavior-picker-line-color-view {
+            width: 0;
+            max-width: 0;
+            height: 100%;
+
+            div {
+                width: 0;
+                height: 0;
+                border-bottom: 10px solid transparent;
+                position: relative;
+                z-index: 2;
+            }
+        }
+    }
+}

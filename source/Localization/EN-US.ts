@@ -69,6 +69,7 @@ const EN_US = {
     "Common.Attr.Title.Basic": "Basic properties",
     "Common.Attr.Title.Spatial": "Spatial property",
     "Common.Attr.Title.Individual.Generation": "Individual generation",
+    "Common.Attr.Title.Behaviors": "Behaviors list",
     "Common.Attr.Title.Individual.kill": "Individual kill",
     "Common.Attr.Key.Display.Name": "Display name",
     "Common.Attr.Key.Position.X": "Position X",

@@ -69,6 +69,7 @@ const ZH_CN = {
     "Common.Attr.Title.Basic": "基础属性",
     "Common.Attr.Title.Spatial": "空间属性",
     "Common.Attr.Title.Individual.Generation": "生成个体",
+    "Common.Attr.Title.Behaviors": "行为列表",
     "Common.Attr.Title.Individual.kill": "消除个体",
     "Common.Attr.Key.Display.Name": "显示名称",
     "Common.Attr.Key.Position.X": "X 坐标",
