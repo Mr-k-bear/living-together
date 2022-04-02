@@ -1,5 +1,6 @@
 import { AllI18nKeys, Localization } from "@Component/Localization/Localization";
 import { Callout, DirectionalHint, Icon } from "@fluentui/react";
+import { Behavior } from "@Model/Behavior";
 import { CtrlObject } from "@Model/CtrlObject";
 import { Group } from "@Model/Group";
 import { Label } from "@Model/Label";
@@ -7,7 +8,7 @@ import { Range } from "@Model/Range";
 import { Component, ReactNode, RefObject } from "react";
 import "./PickerList.scss";
 
-type IPickerListItem = CtrlObject | Label | Range | Group;
+type IPickerListItem = CtrlObject | Label | Range | Group | Behavior;
 interface IDisplayInfo {
     color: string;
     icon: string;
@@ -73,6 +74,14 @@ function getObjectDisplayInfo(item?: IPickerListItem): IDisplayInfo {
             color = item.color.concat([]);
             name = item.name;
         }
+	}
+
+	if (item instanceof Behavior) {
+		color = item.color;
+		icon = item.iconName;
+		name = item.name;
+		internal = false;
+		allLabel = false;
 	}
 
     if (Array.isArray(color)) {
@@ -159,7 +168,7 @@ class PickerList extends Component<IPickerListProps> {
 		return <Callout
 			onDismiss={this.props.dismiss}
 			target={this.props.target}
-			directionalHint={DirectionalHint.topAutoEdge}
+			directionalHint={DirectionalHint.topCenter}
 		>
 			<div className="picker-list-root">
 				{this.props.objectList ? this.props.objectList.map((item) => {

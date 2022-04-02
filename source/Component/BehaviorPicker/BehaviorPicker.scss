@@ -39,8 +39,11 @@ div.behavior-picker-list {
             i.view-icon {
                 display: none;
             }
+        }
 
-            i.view-icon:hover {
+        div.behavior-picker-line-icon-view:hover {
+            
+            i.view-icon {
                 color: $lt-green;
             }
         }
@@ -57,16 +60,28 @@ div.behavior-picker-list {
             }
         }
 
+        div.behavior-picker-title.is-deleted {
+
+            div {
+                text-decoration: line-through;
+                opacity: 0.6;
+            }
+        }
+        
+        div.behavior-picker-title.behavior-add-line {
+            width: calc(100% - 30px);
+        }
+
         div.behavior-picker-line-delete-view {
             width: 30px;
             height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
+        }
 
-            i:hover {
-                color: $lt-red;
-            }
+        div.behavior-picker-line-delete-view:hover i {
+            color: $lt-red;
         }
     }
 

@@ -315,14 +315,39 @@ class Group extends CtrlObject {
 	public addBehavior(behavior: Behavior | Behavior[]): this {
 		if (Array.isArray(behavior)) {
 			this.behaviors = this.behaviors.concat(behavior);
+            for (let i = 0; i < behavior.length; i++) {
+                behavior[i].mount(this, this.model);
+            }
 		} else {
 			this.behaviors.push(behavior);
+            behavior.mount(this, this.model);
 		}
 
 		// 按照优先级
 		this.behaviors = this.behaviors.sort((b1, b2) => {
 			return (b1.priority ?? 0) - (b2.priority ?? 0)
 		});
+		return this;
+	}
+
+    /**
+	 * 删除行为
+	 * @param behavior 添加行为 
+	 */
+	public deleteBehavior(behavior: Behavior): this {
+        
+        let deleteIndex = -1;
+        for (let i = 0; i < this.behaviors.length; i++) {
+            if (this.behaviors[i].id === behavior.id) {
+                deleteIndex = i;
+            }
+        }
+
+        if (deleteIndex >= 0) {
+            this.behaviors[deleteIndex].unmount(this, this.model);
+            this.behaviors.splice(deleteIndex, 1);
+        }
+
 		return this;
 	}
 
@@ -333,7 +358,11 @@ class Group extends CtrlObject {
 	public runner(t: number, effectType: "finalEffect" | "effect" | "afterEffect" ): void {
 		this.individuals.forEach((individual) => {
 			for(let j = 0; j < this.behaviors.length; j++) {
-				this.behaviors[j][effectType](individual, this, this.model, t);
+                if (this.behaviors[j].isDeleted()) {
+                    continue;
+                } else {
+                    this.behaviors[j][effectType](individual, this, this.model, t);
+                }
 			}
 		});
 	}

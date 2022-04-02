@@ -25,7 +25,10 @@ const allOption: IDisplayItem[] = [
     {nameKey: "Common.Attr.Key.Generation.Mod.Range", key: GenMod.Range}
 ];
 
-@useStatusWithEvent("groupAttrChange", "groupLabelChange", "focusObjectChange")
+@useStatusWithEvent(
+    "groupAttrChange", "groupLabelChange", "focusObjectChange",
+    "focusBehaviorChange", "behaviorChange", "groupBehaviorChange"
+)
 class GroupDetails extends Component<IGroupDetailsProps & IMixinStatusProps> {
 
 	private renderFrom(group: Group) {
@@ -113,6 +116,19 @@ class GroupDetails extends Component<IGroupDetailsProps & IMixinStatusProps> {
 
             <BehaviorPicker
                 behavior={group.behaviors}
+                focusBehavior={this.props.status?.focusBehavior}
+                click={(behavior) => {
+                    this.props.status?.setBehaviorObject(behavior);
+                }}
+                action={(behavior) => {
+                    this.props.status?.setBehaviorObject(behavior);
+                }}
+                delete={(behavior) => {
+                    this.props.status?.deleteGroupBehavior(group.id, behavior);
+                }}
+                add={(behavior) => {
+                    this.props.status?.addGroupBehavior(group.id, behavior);
+                }}
             />
 
             <Message i18nKey="Common.Attr.Title.Individual.Generation" isTitle/>

@@ -31,6 +31,7 @@ const EN_US = {
     "Object.List.No.Data": "There are no objects in the model, click the button to create it",
     "Object.Picker.List.No.Data": "There is no model in the model for this option",
     "Behavior.Picker.Add.Button": "Click here to assign behavior to this group",
+    "Behavior.Picker.Add.Nodata": "There is no behavior that can be specified",
     "Panel.Title.Notfound": "{id}",
     "Panel.Info.Notfound": "This panel with id {id} can not found!",
     "Panel.Title.Render.View": "Live preview",
