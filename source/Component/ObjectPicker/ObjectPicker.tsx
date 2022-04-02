@@ -8,6 +8,7 @@ import { PickerList, IDisplayItem, getObjectDisplayInfo, IDisplayInfo } from "..
 import { Localization } from "@Component/Localization/Localization";
 import { Icon } from "@fluentui/react";
 import { CtrlObject } from "@Model/CtrlObject";
+import { Behavior } from "@Model/Behavior";
 import "./ObjectPicker.scss";
 
 type IObjectType = Label | Group | Range | CtrlObject;
@@ -80,6 +81,7 @@ class ObjectPicker extends Component<IObjectPickerProps & IMixinStatusProps, IOb
             target={this.pickerTarget}
             objectList={this.getAllOption()}
             clickObjectItems={((item) => {
+                if (item instanceof Behavior) return;
                 if (this.props.valueChange) {
                     this.props.valueChange(item);
                 }

@@ -38,6 +38,7 @@ interface IStatusEvent {
     objectChange: void;
     rangeLabelChange: void;
     groupLabelChange: void;
+    groupBehaviorChange: void;
     labelChange: void;
     rangeAttrChange: void;
     labelAttrChange: void;
@@ -189,6 +190,22 @@ class Status extends Emitter<IStatusEvent> {
             group[key] = val;
             this.emit("groupAttrChange");
             this.model.draw();
+        }
+    }
+
+    public addGroupBehavior(id: ObjectID, val: Behavior) {
+        const group = this.model.getObjectById(id);
+        if (group && group instanceof Group) {
+            group.addBehavior(val);
+            this.emit("groupBehaviorChange");
+        }
+    }
+
+    public deleteGroupBehavior(id: ObjectID, val: Behavior) {
+        const group = this.model.getObjectById(id);
+        if (group && group instanceof Group) {
+            group.deleteBehavior(val);
+            this.emit("groupBehaviorChange");
         }
     }
 
