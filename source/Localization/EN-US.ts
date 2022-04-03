@@ -48,6 +48,8 @@ const EN_US = {
     "Panel.Info.Group.Details.View": "Edit view group attributes",
     "Panel.Title.Behavior.List.View": "Behavior list",
     "Panel.Info.Behavior.List.View": "Edit view behavior list",
+    "Panel.Title.Behavior.Details.View": "Behavior",
+    "Panel.Info.Behavior.Details.View": "Edit view Behavior attributes",
     "Popup.Title.Unnamed": "Popup message",
     "Popup.Title.Confirm": "Confirm message",
     "Popup.Action.Yes": "Confirm",
@@ -109,5 +111,6 @@ const EN_US = {
     "Panel.Info.Group.Details.Attr.Error.Unspecified": "Unspecified group object",
     "Panel.Info.Label.Details.Error.Unspecified": "Label object not specified",
     "Panel.Info.Label.List.Error.Nodata": "There are no labels in the model, click the button to create",
+    "Panel.Info.Behavior.Details.Error.Not.Behavior": "Please specify a behavior first to view the details",
 }
 export default EN_US;
