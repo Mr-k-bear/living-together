@@ -48,6 +48,8 @@ const ZH_CN = {
     "Panel.Info.Group.Details.View": "编辑查看群属性",
     "Panel.Title.Behavior.List.View": "行为列表",
     "Panel.Info.Behavior.List.View": "编辑查看行为列表",
+    "Panel.Title.Behavior.Details.View": "行为",
+    "Panel.Info.Behavior.Details.View": "编辑查看行为属性",
     "Popup.Title.Unnamed": "弹窗消息",
     "Popup.Title.Confirm": "确认消息",
     "Popup.Action.Yes": "确定",
@@ -109,5 +111,7 @@ const ZH_CN = {
     "Panel.Info.Group.Details.Attr.Error.Unspecified": "未指定群对象",
     "Panel.Info.Label.Details.Error.Unspecified": "未指定标签对象",
     "Panel.Info.Label.List.Error.Nodata": "模型中没有标签，点击按钮以创建",
+    "Panel.Info.Behavior.Details.Error.Not.Behavior": "请先指定一个行为以查看详情",
+    "Panel.Info.Behavior.Details.Behavior.Props": "{behavior}参数",
 }
 export default ZH_CN;

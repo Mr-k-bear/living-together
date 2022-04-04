@@ -13,7 +13,7 @@ interface IBehaviorListProps {
 }
 
 @useSetting
-@useStatusWithEvent("behaviorChange", "focusBehaviorChange")
+@useStatusWithEvent("behaviorChange", "focusBehaviorChange", "behaviorAttrChange")
 class BehaviorList extends Component<IBehaviorListProps & IMixinStatusProps & IMixinSettingProps> {
     
     private labelInnerClick: boolean = false;
@@ -45,9 +45,9 @@ class BehaviorList extends Component<IBehaviorListProps & IMixinStatusProps & IM
                     if (this.props.status) {
                         this.props.status.setBehaviorObject(behavior as Behavior);
                     }
-                    // if (this.props.setting) {
-                    //     this.props.setting.layout.focus("LabelDetails");
-                    // }
+                    if (this.props.setting) {
+                        this.props.setting.layout.focus("BehaviorDetails");
+                    }
                     this.labelInnerClick = true;
                 }}
                 onAdd={() => {
@@ -63,6 +63,7 @@ class BehaviorList extends Component<IBehaviorListProps & IMixinStatusProps & IM
                             red: "yes",
                             yes: () => {
                                 status.model.deleteBehavior(behavior);
+                                status.setBehaviorObject();
                             }
                         })
                     }

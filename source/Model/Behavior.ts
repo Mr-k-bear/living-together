@@ -6,6 +6,11 @@ import type { Model } from "./Model";
 import type { Range } from "./Range";
 import type { Label } from "./Label";
 
+type IObjectParamCacheType<P, Q = P> = {
+    picker: P;
+    objects: Q;
+}
+
 /**
  * 参数类型
  */
@@ -16,12 +21,10 @@ type IMapBasicParamTypeKeyToType = {
 }
 
 type IMapObjectParamTypeKeyToType = {
-    "R"?: Range;
-    "G"?: Group;
-    "GR"?: Group | Range;
-    "LR"?: Label | Range;
-    "LG"?: Label | Group;
-    "LGR"?: Label | Group | Range;
+    "R": IObjectParamCacheType<Range | undefined>;
+    "G": IObjectParamCacheType<Group | undefined>;
+    "LR": IObjectParamCacheType<Label | Range | undefined, Range[]>;
+    "LG": IObjectParamCacheType<Label | Group | undefined, Range[]>;
 }
 
 type IMapVectorParamTypeKeyToType = {
@@ -40,7 +43,7 @@ type IParamValue<K extends IParamType> = AllMapType[K];
 /**
  * 特殊对象类型判定
  */
-const objectTypeListEnumSet = new Set<IParamType>(["R", "G", "GR", "LR", "LG", "LGR"]);
+const objectTypeListEnumSet = new Set<IParamType>(["R", "G", "LR", "LG"]);
 
 /**
  * 对象断言表达式
@@ -247,6 +250,22 @@ class BehaviorRecorder<
                     case "vec":
                         defaultObj[key] = [0, 0, 0] as any;
                         break;
+                    
+                    case "G":
+                    case "R":
+                        defaultObj[key] = {
+                            picker: undefined,
+                            objects: undefined
+                        } as any;
+                        break;
+
+                    case "LR":
+                    case "LG":
+                        defaultObj[key] = {
+                            picker: undefined,
+                            objects: []
+                        } as any;
+                        break;
                 }
             }
         }
@@ -295,7 +314,7 @@ class Behavior<
     /**
      * 颜色
      */
-    public color: string = "";
+    public color: number[] = [0, 0, 0];
 
     /**
      * 优先级
@@ -397,7 +416,7 @@ class Behavior<
 type IRenderBehavior = BehaviorInfo | Behavior;
 
 export {
-    Behavior, BehaviorRecorder, IBehaviorParameterOption, IBehaviorParameterOptionItem,
-    IAnyBehavior, IAnyBehaviorRecorder, BehaviorInfo, IRenderBehavior
+    Behavior, BehaviorRecorder, IBehaviorParameterOption, IBehaviorParameterOptionItem, IParamValue,
+    IAnyBehavior, IAnyBehaviorRecorder, BehaviorInfo, IRenderBehavior, IBehaviorParameter
 };
 export default { Behavior };

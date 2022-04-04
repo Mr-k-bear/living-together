@@ -62,7 +62,7 @@ class BehaviorPicker extends Component<IBehaviorPickerProps & IMixinSettingProps
 
             return <>
                 <div className="behavior-picker-line-color-view">
-                    <div style={{ borderLeft: `10px solid ${behavior.color}` }}/>
+                    <div style={{ borderLeft: `10px solid rgb(${behavior.color.join(",")})` }}/>
                 </div>
                 <div
                     className="behavior-picker-line-icon-view"

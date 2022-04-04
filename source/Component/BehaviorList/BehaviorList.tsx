@@ -112,7 +112,7 @@ class BehaviorList extends Component<IBehaviorListProps & IMixinSettingProps & I
 		if (behavior instanceof Behavior) {
 			id = behavior.id;
 			name = behavior.name;
-			color = behavior.color;
+			color = `rgb(${behavior.color.join(",")})`;
 			needLocal = false;
             info = behavior.behaviorName;
 		}

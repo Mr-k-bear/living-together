@@ -123,8 +123,7 @@ class BehaviorPopupComponent extends Component<
                 ) + " " + (recorder.nameIndex - 1).toString();
 
                 // 赋予一个随机颜色
-                let color = randomColor(true);
-                newBehavior.color = `rgb(${color[0]},${color[1]},${color[2]})`;
+                newBehavior.color = randomColor(true);
             }
         });
         this.props.onDismiss ? this.props.onDismiss() : undefined;

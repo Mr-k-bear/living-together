@@ -20,13 +20,16 @@ div.object-list {
             opacity: 0;
         }
 
-        i.checkbox-icon:hover {
-            color: $lt-green;
-        }
-
         i.type-icon {
             display: inline-block;
             opacity: 1;
+        }
+    }
+
+    div.object-list-checkbox:hover {
+
+        i.checkbox-icon {
+            color: $lt-green !important;
         }
     }
 
