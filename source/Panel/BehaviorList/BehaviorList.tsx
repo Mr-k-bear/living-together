@@ -13,7 +13,7 @@ interface IBehaviorListProps {
 }
 
 @useSetting
-@useStatusWithEvent("behaviorChange", "focusBehaviorChange")
+@useStatusWithEvent("behaviorChange", "focusBehaviorChange", "behaviorAttrChange")
 class BehaviorList extends Component<IBehaviorListProps & IMixinStatusProps & IMixinSettingProps> {
     
     private labelInnerClick: boolean = false;

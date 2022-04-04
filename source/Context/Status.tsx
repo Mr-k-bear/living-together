@@ -11,7 +11,7 @@ import { Setting } from "./Setting";
 import { I18N } from "@Component/Localization/Localization";
 import { superConnectWithEvent, superConnect } from "./Context";
 import { PopupController } from "./Popups";
-import { Behavior } from "@Model/Behavior";
+import { Behavior, IBehaviorParameter, IParamValue } from "@Model/Behavior";
 import { Actuator } from "@Model/Actuator";
 
 function randomColor(unNormal: boolean = false) {
@@ -43,6 +43,7 @@ interface IStatusEvent {
     rangeAttrChange: void;
     labelAttrChange: void;
     groupAttrChange: void;
+    behaviorAttrChange: void;
     individualChange: void;
     behaviorChange: void;
     popupChange: void;
@@ -190,6 +191,24 @@ class Status extends Emitter<IStatusEvent> {
             group[key] = val;
             this.emit("groupAttrChange");
             this.model.draw();
+        }
+    }
+
+    /**
+     * 修改群属性
+     */
+    public changeBehaviorAttrib<K extends IBehaviorParameter, P extends keyof K | keyof Behavior<K>>
+    (id: ObjectID, key: P, val: IParamValue<K[P]>) {
+        const behavior = this.model.getBehaviorById(id);
+        if (behavior) {
+            if (key === "color") {
+                behavior.color = val as number[];
+            } else if (key === "name") {
+                behavior.name = val as string;
+            } else {
+                behavior.parameter[key] = val;
+            }
+            this.emit("behaviorAttrChange");
         }
     }
 

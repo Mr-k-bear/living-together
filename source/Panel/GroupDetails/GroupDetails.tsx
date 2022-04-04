@@ -29,7 +29,8 @@ const allOption: IDisplayItem[] = [
 @useSetting
 @useStatusWithEvent(
     "groupAttrChange", "groupLabelChange", "focusObjectChange",
-    "focusBehaviorChange", "behaviorChange", "groupBehaviorChange"
+    "focusBehaviorChange", "behaviorChange", "groupBehaviorChange",
+    "behaviorAttrChange"
 )
 class GroupDetails extends Component<IGroupDetailsProps & IMixinStatusProps & IMixinSettingProps> {
 

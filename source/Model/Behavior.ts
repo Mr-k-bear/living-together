@@ -295,7 +295,7 @@ class Behavior<
     /**
      * 颜色
      */
-    public color: string = "";
+    public color: number[] = [0, 0, 0];
 
     /**
      * 优先级
@@ -397,7 +397,7 @@ class Behavior<
 type IRenderBehavior = BehaviorInfo | Behavior;
 
 export {
-    Behavior, BehaviorRecorder, IBehaviorParameterOption, IBehaviorParameterOptionItem,
-    IAnyBehavior, IAnyBehaviorRecorder, BehaviorInfo, IRenderBehavior
+    Behavior, BehaviorRecorder, IBehaviorParameterOption, IBehaviorParameterOptionItem, IParamValue,
+    IAnyBehavior, IAnyBehaviorRecorder, BehaviorInfo, IRenderBehavior, IBehaviorParameter
 };
 export default { Behavior };
