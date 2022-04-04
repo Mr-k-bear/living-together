@@ -1,6 +1,7 @@
 import { Component, ReactNode } from "react";
 import { AttrInput } from "@Component/AttrInput/AttrInput";
-import { useStatusWithEvent, IMixinStatusProps, Status } from "@Context/Status";
+import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
+import { useSetting, IMixinSettingProps } from "@Context/Setting";
 import { Message } from "@Component/Message/Message";
 import { ObjectID } from "@Model/Renderer";
 import { ColorInput } from "@Component/ColorInput/ColorInput";
@@ -25,11 +26,12 @@ const allOption: IDisplayItem[] = [
     {nameKey: "Common.Attr.Key.Generation.Mod.Range", key: GenMod.Range}
 ];
 
+@useSetting
 @useStatusWithEvent(
     "groupAttrChange", "groupLabelChange", "focusObjectChange",
     "focusBehaviorChange", "behaviorChange", "groupBehaviorChange"
 )
-class GroupDetails extends Component<IGroupDetailsProps & IMixinStatusProps> {
+class GroupDetails extends Component<IGroupDetailsProps & IMixinStatusProps & IMixinSettingProps> {
 
 	private renderFrom(group: Group) {
 		return <>
@@ -122,6 +124,9 @@ class GroupDetails extends Component<IGroupDetailsProps & IMixinStatusProps> {
                 }}
                 action={(behavior) => {
                     this.props.status?.setBehaviorObject(behavior);
+                    setTimeout(() => {
+                        this.props.setting?.layout.focus("BehaviorDetails");
+                    });
                 }}
                 delete={(behavior) => {
                     this.props.status?.deleteGroupBehavior(group.id, behavior);

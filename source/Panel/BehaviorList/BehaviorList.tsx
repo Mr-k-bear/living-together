@@ -45,9 +45,9 @@ class BehaviorList extends Component<IBehaviorListProps & IMixinStatusProps & IM
                     if (this.props.status) {
                         this.props.status.setBehaviorObject(behavior as Behavior);
                     }
-                    // if (this.props.setting) {
-                    //     this.props.setting.layout.focus("LabelDetails");
-                    // }
+                    if (this.props.setting) {
+                        this.props.setting.layout.focus("BehaviorDetails");
+                    }
                     this.labelInnerClick = true;
                 }}
                 onAdd={() => {
