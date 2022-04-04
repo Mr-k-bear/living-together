@@ -4,6 +4,8 @@ import { Behavior } from "@Model/Behavior";
 import { Message } from "@Component/Message/Message";
 import { AttrInput } from "@Component/AttrInput/AttrInput";
 import { ColorInput } from "@Component/ColorInput/ColorInput";
+import { TogglesInput } from "@Component/TogglesInput/TogglesInput";
+import { ConfirmPopup } from "@Component/ConfirmPopup/ConfirmPopup";
 import "./BehaviorDetails.scss";
 
 interface IBehaviorDetailsProps {}
@@ -28,6 +30,34 @@ class BehaviorDetails extends Component<IBehaviorDetailsProps & IMixinStatusProp
                 value={behavior.color}
                 valueChange={(color) => {
                     this.props.status?.changeBehaviorAttrib(behavior.id, "color", color);
+                }}
+            />
+
+            <TogglesInput
+				keyI18n="Common.Attr.Key.Delete" red
+				onIconName="delete" offIconName="delete"
+				valueChange={() => {
+					if (this.props.status) {
+                        const status = this.props.status;
+                        status.popup.showPopup(ConfirmPopup, {
+                            infoI18n: "Popup.Delete.Behavior.Confirm",
+                            titleI18N: "Popup.Action.Objects.Confirm.Title",
+                            yesI18n: "Popup.Action.Objects.Confirm.Delete",
+                            red: "yes",
+                            yes: () => {
+                                status.model.deleteBehavior(behavior);
+                                status.setBehaviorObject();
+                            }
+                        })
+                    }
+				}}
+			/>
+
+            <Message
+                isTitle
+                i18nKey="Panel.Info.Behavior.Details.Behavior.Props"
+                options={{
+                    behavior: behavior.getTerms(behavior.behaviorName)
                 }}
             />
 

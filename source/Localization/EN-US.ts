@@ -112,5 +112,6 @@ const EN_US = {
     "Panel.Info.Label.Details.Error.Unspecified": "Label object not specified",
     "Panel.Info.Label.List.Error.Nodata": "There are no labels in the model, click the button to create",
     "Panel.Info.Behavior.Details.Error.Not.Behavior": "Please specify a behavior first to view the details",
+    "Panel.Info.Behavior.Details.Behavior.Props": "{behavior} parameter",
 }
 export default EN_US;

@@ -112,5 +112,6 @@ const ZH_CN = {
     "Panel.Info.Label.Details.Error.Unspecified": "未指定标签对象",
     "Panel.Info.Label.List.Error.Nodata": "模型中没有标签，点击按钮以创建",
     "Panel.Info.Behavior.Details.Error.Not.Behavior": "请先指定一个行为以查看详情",
+    "Panel.Info.Behavior.Details.Behavior.Props": "{behavior}参数",
 }
 export default ZH_CN;

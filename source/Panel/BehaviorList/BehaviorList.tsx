@@ -63,6 +63,7 @@ class BehaviorList extends Component<IBehaviorListProps & IMixinStatusProps & IM
                             red: "yes",
                             yes: () => {
                                 status.model.deleteBehavior(behavior);
+                                status.setBehaviorObject();
                             }
                         })
                     }

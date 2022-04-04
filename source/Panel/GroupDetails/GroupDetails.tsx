@@ -121,9 +121,11 @@ class GroupDetails extends Component<IGroupDetailsProps & IMixinStatusProps & IM
                 behavior={group.behaviors}
                 focusBehavior={this.props.status?.focusBehavior}
                 click={(behavior) => {
+                    if (behavior.isDeleted()) return;
                     this.props.status?.setBehaviorObject(behavior);
                 }}
                 action={(behavior) => {
+                    if (behavior.isDeleted()) return;
                     this.props.status?.setBehaviorObject(behavior);
                     setTimeout(() => {
                         this.props.setting?.layout.focus("BehaviorDetails");
