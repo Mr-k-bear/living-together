@@ -51,9 +51,6 @@ class ObjectList extends Component<IMixinStatusProps & IMixinSettingProps> {
                 }
             }}
             checkBox={(item) => {
-                if (this.props.setting) {
-                    this.props.setting.layout.focus("ObjectList");
-                }
                 if (this.props.status) {
                     if (
                         this.props.status.focusObject.has(item.key.toString()) ||
