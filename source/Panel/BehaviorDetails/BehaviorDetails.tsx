@@ -126,7 +126,7 @@ class BehaviorDetails extends Component<IBehaviorDetailsProps & IMixinStatusProp
             return <ObjectPicker
                 keyI18n="Panel.Info.Behavior.Details.Parameter.Key"
                 keyI18nOption={{ key: behavior.getTerms(type.name, this.props.setting?.language) }}
-                type={type.type} value={(value as any).picker}
+                type={type.type} value={(value as any).picker} key={indexKey}
                 valueChange={(obj) => {
                     (value as any).picker = obj;
                     this.props.status?.changeBehaviorAttrib(behavior.id, key as string, value);
