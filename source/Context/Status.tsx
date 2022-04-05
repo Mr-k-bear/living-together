@@ -209,15 +209,16 @@ class Status extends Emitter<IStatusEvent> {
      * 修改群属性
      */
     public changeBehaviorAttrib<K extends IBehaviorParameter, P extends keyof K | keyof Behavior<K>>
-    (id: ObjectID, key: P, val: IParamValue<K[P]>) {
+    (id: ObjectID, key: P, val: IParamValue<K[P]>, noParameter?: boolean) {
         const behavior = this.model.getBehaviorById(id);
         if (behavior) {
-            if (key === "color") {
-                behavior.color = val as number[];
-            } else if (key === "name") {
-                behavior.name = val as string;
+            if (noParameter) {
+                behavior[key as keyof Behavior<K>] = val as never;
             } else {
                 behavior.parameter[key] = val;
+                behavior.parameterOption[key]?.onChange ?
+                    behavior.parameterOption[key]?.onChange!(val) :
+                    undefined;
             }
             this.emit("behaviorAttrChange");
         }

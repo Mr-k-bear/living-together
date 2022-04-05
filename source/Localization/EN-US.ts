@@ -113,5 +113,9 @@ const EN_US = {
     "Panel.Info.Label.List.Error.Nodata": "There are no labels in the model, click the button to create",
     "Panel.Info.Behavior.Details.Error.Not.Behavior": "Please specify a behavior first to view the details",
     "Panel.Info.Behavior.Details.Behavior.Props": "{behavior} parameter",
+    "Panel.Info.Behavior.Details.Parameter.Key": "{key}",
+    "Panel.Info.Behavior.Details.Parameter.Key.Vec.X": "{key} X",
+    "Panel.Info.Behavior.Details.Parameter.Key.Vec.Y": "{key} Y",
+    "Panel.Info.Behavior.Details.Parameter.Key.Vec.Z": "{key} Z",
 }
 export default EN_US;

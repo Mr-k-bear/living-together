@@ -6,6 +6,7 @@ import "./TextField.scss";
 interface ITextFieldProps {
     className?: string;
     keyI18n: AllI18nKeys;
+    keyI18nOption?: Record<string, string>;
     infoI18n?: AllI18nKeys;
     disableI18n?: AllI18nKeys;
     disableI18nOption?: Record<string, string>;
@@ -82,7 +83,7 @@ class TextField extends Component<ITextFieldProps> {
         return <>
             <Theme className="text-field-root" fontLevel={FontLevel.normal}>
                 <div className="text-field-intro">
-                    <Localization i18nKey={this.props.keyI18n}/>
+                    <Localization i18nKey={this.props.keyI18n} options={this.props.keyI18nOption}/>
                 </div>
                 <div className="text-field-container">
                     {

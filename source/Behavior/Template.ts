@@ -4,7 +4,14 @@ import { Individual } from "@Model/Individual";
 import { Model } from "@Model/Model";
 
 type ITemplateBehaviorParameter = {
-    
+    testNumber: "number";
+    testString: "string";
+    testBoolean: "boolean";
+    testR: "R";
+    testG: "G";
+    testLR: "LR";
+    testLG: "LG";
+    testVec: "vec";
 }
 
 type ITemplateBehaviorEvent = {}
@@ -21,6 +28,53 @@ class Template extends Behavior<ITemplateBehaviorParameter, ITemplateBehaviorEve
 
     public override category: string = "$Category";
 
+    public override parameterOption = {
+        testNumber: {
+            name: "$Test",
+            type: "number",
+            defaultValue: 1,
+            numberMax: 10,
+            numberMin: 0,
+            numberStep: 1
+        },
+        testString: {
+            name: "$Test",
+            type: "string",
+            defaultValue: "default",
+            maxLength: 12
+        },
+        testBoolean: {
+            name: "$Test",
+            type: "boolean",
+            defaultValue: false,
+            iconName: "Send"
+        },
+        testR: {
+            name: "$Test",
+            type: "R"
+        },
+        testG: {
+            name: "$Test",
+            type: "G"
+        },
+        testLR: {
+            name: "$Test",
+            type: "LR"
+        },
+        testLG: {
+            name: "$Test",
+            type: "LG"
+        },
+        testVec: {
+            name: "$Test",
+            type: "vec",
+            defaultValue: [1, 2, 3],
+            numberMax: 10,
+            numberMin: 0,
+            numberStep: 1
+        }
+    };
+
     public override terms: Record<string, Record<string, string>> = {
         "$Title": {
             "ZH_CN": "行为",
@@ -29,6 +83,10 @@ class Template extends Behavior<ITemplateBehaviorParameter, ITemplateBehaviorEve
         "$Intro": {
             "ZH_CN": "这是一个模板行为",
             "EN_US": "This is a template behavior"
+        },
+        "$Test": {
+            "ZH_CN": "测试参数",
+            "EN_US": "Test Parameter"
         }
     };
 

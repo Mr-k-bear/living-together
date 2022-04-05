@@ -87,7 +87,7 @@ interface IBehaviorParameterOptionItem<T extends IParamType = IParamType> {
     /**
      * 字符长度
      */
-    stringLength?: number;
+    maxLength?: number;
 
     /**
      * 数字步长
@@ -417,6 +417,7 @@ type IRenderBehavior = BehaviorInfo | Behavior;
 
 export {
     Behavior, BehaviorRecorder, IBehaviorParameterOption, IBehaviorParameterOptionItem, IParamValue,
-    IAnyBehavior, IAnyBehaviorRecorder, BehaviorInfo, IRenderBehavior, IBehaviorParameter
+    IAnyBehavior, IAnyBehaviorRecorder, BehaviorInfo, IRenderBehavior, IBehaviorParameter,
+    isObjectType, isVectorType
 };
 export default { Behavior };
