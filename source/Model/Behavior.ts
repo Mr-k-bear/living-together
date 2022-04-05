@@ -24,7 +24,7 @@ type IMapObjectParamTypeKeyToType = {
     "R": IObjectParamCacheType<Range | undefined>;
     "G": IObjectParamCacheType<Group | undefined>;
     "LR": IObjectParamCacheType<Label | Range | undefined, Range[]>;
-    "LG": IObjectParamCacheType<Label | Group | undefined, Range[]>;
+    "LG": IObjectParamCacheType<Label | Group | undefined, Group[]>;
 }
 
 type IMapVectorParamTypeKeyToType = {

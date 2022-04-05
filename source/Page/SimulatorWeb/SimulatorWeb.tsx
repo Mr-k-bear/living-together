@@ -61,7 +61,7 @@ class SimulatorWeb extends Component {
             brownian.name = "Brownian"; brownian.color = [200, 80, 250];
             let boundary = this.status.model.addBehavior(AllBehaviors[2]);
             boundary.name = "Boundary"; boundary.color = [80, 200, 250];
-            boundary.parameter.range = this.status.model.allRangeLabel;
+            // boundary.parameter.range = this.status.model.allRangeLabel;
             group.addBehavior(dynamic);
             group.addBehavior(brownian);
             group.addBehavior(boundary);

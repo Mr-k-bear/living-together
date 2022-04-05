@@ -5,7 +5,7 @@ import { Emitter, EventType, EventMixin } from "./Emitter";
 import { CtrlObject } from "./CtrlObject";
 import { ObjectID, AbstractRenderer } from "./Renderer";
 import { Label } from "./Label";
-import { Behavior, IAnyBehavior, IAnyBehaviorRecorder } from "./Behavior";
+import { Behavior, IAnyBehavior, IAnyBehaviorRecorder, IParamValue } from "./Behavior";
 
 type ModelEvent = {
     labelChange: Label[];
@@ -202,6 +202,68 @@ class Model extends Emitter<ModelEvent> {
         for (let i = 0; i < this.behaviorPool.length; i++) {
             if (this.behaviorPool[i].id.toString() === id.toString()) {
                 return this.behaviorPool[i];
+            }
+        }
+    }
+
+    /**
+     * 更新全部行为的参数
+     */
+    public updateBehaviorParameter() {
+        for (let i = 0; i < this.behaviorPool.length; i++) {
+            const behavior = this.behaviorPool[i];
+            
+            for (let key in behavior.parameterOption) {
+                switch (behavior.parameterOption[key].type) {
+
+                    case "R":
+                        const dataR: IParamValue<"R"> = behavior.parameter[key];
+                        dataR.objects = undefined;
+                        
+                        if (dataR.picker instanceof Range && !dataR.picker.isDeleted()) {
+                            dataR.objects = dataR.picker;
+                        }
+                        break;
+
+                    case "G":
+                        const dataG: IParamValue<"G"> = behavior.parameter[key];
+                        dataG.objects = undefined;
+                        
+                        if (dataG.picker instanceof Group && !dataG.picker.isDeleted()) {
+                            dataG.objects = dataG.picker;
+                        }
+                        break;
+
+                    case "LR":
+                        const dataLR: IParamValue<"LR"> = behavior.parameter[key];
+                        dataLR.objects = [];
+
+                        if (dataLR.picker instanceof Range && !dataLR.picker.isDeleted()) {
+                            dataLR.objects.push(dataLR.picker);
+                        }
+
+                        if (dataLR.picker instanceof Label && !dataLR.picker.isDeleted()) {
+                            dataLR.objects = this.getObjectByLabel(dataLR.picker).filter((obj) => {
+                                return obj instanceof Range;
+                            }) as any;
+                        }
+                        break;
+
+                    case "LG":
+                        const dataLG: IParamValue<"LG"> = behavior.parameter[key];
+                        dataLG.objects = [];
+
+                        if (dataLG.picker instanceof Group && !dataLG.picker.isDeleted()) {
+                            dataLG.objects.push(dataLG.picker);
+                        }
+
+                        if (dataLG.picker instanceof Label && !dataLG.picker.isDeleted()) {
+                            dataLG.objects = this.getObjectByLabel(dataLG.picker).filter((obj) => {
+                                return obj instanceof Group;
+                            }) as any;
+                        }
+                        break;
+                }
             }
         }
     }

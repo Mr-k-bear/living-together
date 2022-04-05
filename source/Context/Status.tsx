@@ -136,6 +136,17 @@ class Status extends Emitter<IStatusEvent> {
         this.model.on("individualChange", () => {
             this.emit("individualChange");
         });
+
+        // 当模型中的标签和对象改变时，更新全部行为参数中的受控对象
+        const updateBehaviorParameter = () => {
+            this.model.updateBehaviorParameter();
+        }
+        this.on("objectChange", updateBehaviorParameter);
+        this.on("behaviorChange", updateBehaviorParameter);
+        this.on("labelChange", updateBehaviorParameter);
+        this.on("groupLabelChange", updateBehaviorParameter);
+        this.on("rangeLabelChange", updateBehaviorParameter);
+        this.on("behaviorAttrChange", updateBehaviorParameter);
     }
 
     public bindRenderer(renderer: AbstractRenderer) {

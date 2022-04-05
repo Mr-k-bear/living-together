@@ -26,8 +26,7 @@ class BoundaryConstraint extends Behavior<IBoundaryConstraintBehaviorParameter, 
 	public override parameterOption = {
 		range: {
 			type: "LR",
-			name: "$range",
-			defaultValue: undefined
+			name: "$range"
 		}
 	};
 
@@ -43,15 +42,7 @@ class BoundaryConstraint extends Behavior<IBoundaryConstraintBehaviorParameter, 
     };
 
     public effect(individual: Individual, group: Group, model: Model, t: number): void {
-        let rangeList: Range[] = [];
-		if (this.parameter.range instanceof Range) {
-			rangeList.push(this.parameter.range);
-		}
-		if (this.parameter.range instanceof Label) {
-			rangeList = model.getObjectByLabel(this.parameter.range).filter((obj) => {
-				return obj instanceof Range
-			}) as any;
-		}
+        let rangeList: Range[] = this.parameter.range.objects;
 		for (let i = 0; i < rangeList.length; i++) {
 
 			let rx = rangeList[i].position[0] - individual.position[0];
