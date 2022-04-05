@@ -113,5 +113,9 @@ const ZH_CN = {
     "Panel.Info.Label.List.Error.Nodata": "模型中没有标签，点击按钮以创建",
     "Panel.Info.Behavior.Details.Error.Not.Behavior": "请先指定一个行为以查看详情",
     "Panel.Info.Behavior.Details.Behavior.Props": "{behavior}参数",
+    "Panel.Info.Behavior.Details.Parameter.Key": "{key}",
+    "Panel.Info.Behavior.Details.Parameter.Key.Vec.X": "{key} X 坐标",
+    "Panel.Info.Behavior.Details.Parameter.Key.Vec.Y": "{key} Y 坐标",
+    "Panel.Info.Behavior.Details.Parameter.Key.Vec.Z": "{key} Z 坐标",
 }
 export default ZH_CN;

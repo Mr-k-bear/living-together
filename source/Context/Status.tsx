@@ -136,6 +136,17 @@ class Status extends Emitter<IStatusEvent> {
         this.model.on("individualChange", () => {
             this.emit("individualChange");
         });
+
+        // 当模型中的标签和对象改变时，更新全部行为参数中的受控对象
+        const updateBehaviorParameter = () => {
+            this.model.updateBehaviorParameter();
+        }
+        this.on("objectChange", updateBehaviorParameter);
+        this.on("behaviorChange", updateBehaviorParameter);
+        this.on("labelChange", updateBehaviorParameter);
+        this.on("groupLabelChange", updateBehaviorParameter);
+        this.on("rangeLabelChange", updateBehaviorParameter);
+        this.on("behaviorAttrChange", updateBehaviorParameter);
     }
 
     public bindRenderer(renderer: AbstractRenderer) {
@@ -198,15 +209,16 @@ class Status extends Emitter<IStatusEvent> {
      * 修改群属性
      */
     public changeBehaviorAttrib<K extends IBehaviorParameter, P extends keyof K | keyof Behavior<K>>
-    (id: ObjectID, key: P, val: IParamValue<K[P]>) {
+    (id: ObjectID, key: P, val: IParamValue<K[P]>, noParameter?: boolean) {
         const behavior = this.model.getBehaviorById(id);
         if (behavior) {
-            if (key === "color") {
-                behavior.color = val as number[];
-            } else if (key === "name") {
-                behavior.name = val as string;
+            if (noParameter) {
+                behavior[key as keyof Behavior<K>] = val as never;
             } else {
                 behavior.parameter[key] = val;
+                behavior.parameterOption[key]?.onChange ?
+                    behavior.parameterOption[key]?.onChange!(val) :
+                    undefined;
             }
             this.emit("behaviorAttrChange");
         }
