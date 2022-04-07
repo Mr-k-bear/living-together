@@ -27,7 +27,7 @@ class Setting extends Emitter<ISettingEvents> {
     /**
      * 语言
      */
-    public language: Language = "EN_US";
+    public language: Language = "ZH_CN";
 
     /**
      * 布局
