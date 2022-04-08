@@ -1,7 +1,7 @@
 import { Component, ReactNode, createRef } from "react";
 import { ClassicRenderer } from "@GLRender/ClassicRenderer";
-import { Entry } from "../Entry/Entry";
 import { Model } from "@Model/Model";
+import { Entry } from "../Entry/Entry";
 import "./Laboratory.scss";
 
 class Laboratory extends Component {

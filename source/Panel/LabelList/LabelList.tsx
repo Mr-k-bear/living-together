@@ -1,10 +1,10 @@
-import { LabelList as LabelListComponent } from "@Component/LabelList/LabelList";
 import { Component } from "react";
+import { LabelList as LabelListComponent } from "@Component/LabelList/LabelList";
 import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
 import { useSetting, IMixinSettingProps } from "@Context/Setting";
-import { Label } from "@Model/Label";
-import { Message } from "@Component/Message/Message";
 import { ConfirmPopup } from "@Component/ConfirmPopup/ConfirmPopup";
+import { Message } from "@Input/Message/Message";
+import { Label } from "@Model/Label";
 import "./LabelList.scss";
 
 interface ILabelListProps {

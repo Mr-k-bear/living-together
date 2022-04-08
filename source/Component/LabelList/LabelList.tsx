@@ -1,7 +1,7 @@
 import { Component, RefObject } from "react";
-import { Label } from "@Model/Label";
 import { Icon } from "@fluentui/react";
 import { useSetting, IMixinSettingProps, Themes } from "@Context/Setting";
+import { Label } from "@Model/Label";
 import "./LabelList.scss";
 
 interface ILabelListProps {

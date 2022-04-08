@@ -25,7 +25,7 @@ const ZH_CN = {
     "Input.Error.Length": "输入内容长度须小于 {number}",
     "Input.Error.Length.Less": "输入内容长度须大于 {number}",
     "Input.Error.Select": "选择对象 ...",
-    "Object.List.New.Group": "组对象 {id}",
+    "Object.List.New.Group": "群对象 {id}",
     "Object.List.New.Range": "范围对象 {id}",
     "Object.List.New.Label": "标签 {id}",
     "Object.List.No.Data": "模型中没有任何对象，点击按钮以创建",

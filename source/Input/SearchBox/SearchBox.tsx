@@ -1,8 +1,8 @@
+import { Component, ReactNode } from "react";
+import { Icon } from "@fluentui/react";
 import { AllI18nKeys, I18N } from "@Component/Localization/Localization";
 import { BackgroundLevel, FontLevel, Theme } from "@Component/Theme/Theme";
 import { useSettingWithEvent, IMixinSettingProps } from "@Context/Setting";
-import { Icon } from "@fluentui/react";
-import { Component, ReactNode } from "react";
 import "./SearchBox.scss";
 
 interface ISearchBoxProps {

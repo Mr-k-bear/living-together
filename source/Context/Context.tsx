@@ -1,5 +1,5 @@
-import { Emitter, EventType } from "@Model/Emitter";
 import { Component, FunctionComponent, ReactNode, Consumer } from "react";
+import { Emitter, EventType } from "@Model/Emitter";
 
 type RenderComponent = (new (...p: any) => Component<any, any, any>) | FunctionComponent<any>;
 

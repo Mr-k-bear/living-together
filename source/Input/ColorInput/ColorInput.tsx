@@ -1,6 +1,6 @@
 import { Component, createRef, ReactNode } from "react";
-import { TextField, ITextFieldProps } from "@Component/TextField/TextField";
 import { Callout, ColorPicker, DirectionalHint } from "@fluentui/react";
+import { TextField, ITextFieldProps } from "@Input/TextField/TextField";
 import "./ColorInput.scss";
 
 interface IColorInputProps extends ITextFieldProps {

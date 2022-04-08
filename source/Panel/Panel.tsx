@@ -1,15 +1,15 @@
 import { ReactNode, Component, FunctionComponent } from "react";
 import { Theme } from "@Component/Theme/Theme";
-import { Message } from "@Component/Message/Message";
-import { RenderView } from "./RenderView/RenderView";
-import { ObjectList } from "./ObjectList/ObjectList";
-import { ObjectCommand } from "./ObjectList/ObjectCommand";
-import { RangeDetails } from "./RangeDetails/RangeDetails";
-import { LabelList } from "./LabelList/LabelList";
-import { LabelDetails } from "./LabelDetails/LabelDetails";
-import { GroupDetails } from "./GroupDetails/GroupDetails";
-import { BehaviorList } from "./BehaviorList/BehaviorList";
-import { BehaviorDetails } from "./BehaviorDetails/BehaviorDetails";
+import { Message } from "@Input/Message/Message";
+import { RenderView } from "@Panel/RenderView/RenderView";
+import { ObjectList } from "@Panel/ObjectList/ObjectList";
+import { ObjectCommand } from "@Panel/ObjectList/ObjectCommand";
+import { RangeDetails } from "@Panel/RangeDetails/RangeDetails";
+import { LabelList } from "@Panel/LabelList/LabelList";
+import { LabelDetails } from "@Panel/LabelDetails/LabelDetails";
+import { GroupDetails } from "@Panel/GroupDetails/GroupDetails";
+import { BehaviorList } from "@Panel/BehaviorList/BehaviorList";
+import { BehaviorDetails } from "@Panel/BehaviorDetails/BehaviorDetails";
 
 interface IPanelInfo {
 	nameKey: string;

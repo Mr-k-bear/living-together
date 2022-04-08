@@ -49,7 +49,7 @@ class Dynamics extends Behavior<IDynamicsBehaviorParameter, IDynamicsBehaviorEve
 		resistance: {
 			name: "$Resistance",
 			type: "number",
-			defaultValue: 0.1,
+			defaultValue: 0.5,
 			numberStep: .1,
 			numberMin: 0
 		}
@@ -75,6 +75,10 @@ class Dynamics extends Behavior<IDynamicsBehaviorParameter, IDynamicsBehaviorEve
 		"$Max.Velocity": {
 			"ZH_CN": "最大速度 (m/s)",
             "EN_US": "Maximum velocity (m/s)"
+		},
+		"$Resistance": {
+			"ZH_CN": "阻力系数",
+			"EN_US": "Resistance coefficient"
 		},
 		"$Physics": {
 			"ZH_CN": "物理",

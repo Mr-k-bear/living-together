@@ -1,9 +1,9 @@
 import { Component, ReactNode } from "react";
+import { Icon } from "@fluentui/react";
 import { IMixinStatusProps, useStatusWithEvent } from "@Context/Status";
 import { IMixinSettingProps, useSettingWithEvent } from "@Context/Setting";
 import { BackgroundLevel, FontLevel, getClassList, Theme } from "@Component/Theme/Theme";
 import { Popup as PopupModel, ResizeDragDirection } from "@Context/Popups";
-import { Icon } from "@fluentui/react";
 import "./Popup.scss";
 
 interface IPopupProps {}

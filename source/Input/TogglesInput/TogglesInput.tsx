@@ -1,6 +1,6 @@
-import { Icon } from "@fluentui/react";
 import { Component, ReactNode } from "react";
-import { TextField, ITextFieldProps } from "../TextField/TextField";
+import { Icon } from "@fluentui/react";
+import { TextField, ITextFieldProps } from "@Input/TextField/TextField";
 import "./TogglesInput.scss";
 
 interface ITogglesInputProps extends ITextFieldProps {

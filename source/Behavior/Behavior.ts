@@ -1,8 +1,8 @@
 import { BehaviorRecorder, IAnyBehaviorRecorder } from "@Model/Behavior";
-import { Template } from "./Template";
-import { Dynamics } from "./Dynamics";
-import { Brownian } from "./Brownian";
-import { BoundaryConstraint } from "./BoundaryConstraint"; 
+import { Template } from "@Behavior/Template";
+import { Dynamics } from "@Behavior/Dynamics";
+import { Brownian } from "@Behavior/Brownian";
+import { BoundaryConstraint } from "@Behavior/BoundaryConstraint";
 
 const AllBehaviors: IAnyBehaviorRecorder[] = [
     new BehaviorRecorder(Template),

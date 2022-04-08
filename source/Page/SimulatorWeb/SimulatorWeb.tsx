@@ -1,16 +1,16 @@
 import { Component, ReactNode } from "react";
 import { SettingProvider, Setting } from "@Context/Setting";
-import { HeaderBar } from "@Component/HeaderBar/HeaderBar";
 import { Theme, BackgroundLevel, FontLevel } from "@Component/Theme/Theme";
-import { Entry } from "../Entry/Entry";
 import { StatusProvider, Status } from "@Context/Status";
 import { ClassicRenderer } from "@GLRender/ClassicRenderer";
 import { initializeIcons } from '@fluentui/font-icons-mdl2';
 import { RootContainer } from "@Component/Container/RootContainer";
 import { LayoutDirection } from "@Context/Layout";
-import { CommandBar } from "@Component/CommandBar/CommandBar";
-import { Popup } from "@Component/Popup/Popup";
 import { AllBehaviors } from "@Behavior/Behavior";
+import { CommandBar } from "@Component/CommandBar/CommandBar";
+import { HeaderBar } from "@Component/HeaderBar/HeaderBar";
+import { Popup } from "@Component/Popup/Popup";
+import { Entry } from "../Entry/Entry";
 import "./SimulatorWeb.scss";
 
 initializeIcons("https://img.mrkbear.com/fabric-cdn-prod_20210407.001/");
@@ -63,7 +63,7 @@ class SimulatorWeb extends Component {
             brownian.name = "Brownian"; brownian.color = [200, 80, 250];
             let boundary = this.status.model.addBehavior(AllBehaviors[3]);
             boundary.name = "Boundary"; boundary.color = [80, 200, 250];
-            // boundary.parameter.range = this.status.model.allRangeLabel;
+            boundary.parameter.range.picker = this.status.model.allRangeLabel;
             group.addBehavior(template);
             group.addBehavior(dynamic);
             group.addBehavior(brownian);

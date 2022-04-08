@@ -1,11 +1,13 @@
-import { Theme } from "@Component/Theme/Theme";
 import { Component, ReactNode } from "react";
-import { IRenderBehavior, Behavior, BehaviorRecorder } from "@Model/Behavior";
+import { Icon } from "@fluentui/react";
 import { useSettingWithEvent, IMixinSettingProps } from "@Context/Setting";
 import { useStatus, IMixinStatusProps } from "@Context/Status";
-import { Icon } from "@fluentui/react";
+import { IRenderBehavior, Behavior, BehaviorRecorder } from "@Model/Behavior";
+import { Theme } from "@Component/Theme/Theme";
 import { ConfirmPopup } from "@Component/ConfirmPopup/ConfirmPopup";
-import { Message } from "@Component/Message/Message";
+import { Message } from "@Input/Message/Message";
+
+
 import "./BehaviorList.scss";
 
 interface IBehaviorListProps {

@@ -1,5 +1,5 @@
-import { useSettingWithEvent, Themes, IMixinSettingProps, Setting } from "@Context/Setting";
 import { Component, ReactNode, DetailedHTMLProps, HTMLAttributes } from "react";
+import { useSettingWithEvent, Themes, IMixinSettingProps, Setting } from "@Context/Setting";
 import "./Theme.scss";
 
 enum FontLevel {

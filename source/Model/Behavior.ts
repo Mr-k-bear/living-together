@@ -1,136 +1,16 @@
-import { IAnyObject } from "./Renderer";
-import { Emitter, EventType } from "./Emitter";
-import type { Individual } from "./Individual";
-import type { Group } from "./Group";
-import type { Model } from "./Model";
-import type { Range } from "./Range";
-import type { Label } from "./Label";
-
-type IObjectParamCacheType<P, Q = P> = {
-    picker: P;
-    objects: Q;
-}
-
-/**
- * 参数类型
- */
-type IMapBasicParamTypeKeyToType = {
-    "number": number;
-    "string": string;
-    "boolean": boolean;
-}
-
-type IMapObjectParamTypeKeyToType = {
-    "R": IObjectParamCacheType<Range | undefined>;
-    "G": IObjectParamCacheType<Group | undefined>;
-    "LR": IObjectParamCacheType<Label | Range | undefined, Range[]>;
-    "LG": IObjectParamCacheType<Label | Group | undefined, Group[]>;
-}
-
-type IMapVectorParamTypeKeyToType = {
-    "vec": number[];
-}
-
-/**
- * 参数类型映射
- */
-type AllMapType = IMapBasicParamTypeKeyToType & IMapObjectParamTypeKeyToType & IMapVectorParamTypeKeyToType;
-type IParamType = keyof AllMapType;
-type IObjectType = keyof IMapObjectParamTypeKeyToType;
-type IVectorType = keyof IMapVectorParamTypeKeyToType;
-type IParamValue<K extends IParamType> = AllMapType[K];
-
-/**
- * 特殊对象类型判定
- */
-const objectTypeListEnumSet = new Set<IParamType>(["R", "G", "LR", "LG"]);
-
-/**
- * 对象断言表达式
- */
-function isObjectType(key: IParamType): key is IVectorType {
-    return objectTypeListEnumSet.has(key);
-}
-
-/**
- * 向量断言表达式
- */
-function isVectorType(key: IParamType): key is IObjectType {
-    return key === "vec";
-}
-
-/**
- * 模型参数类型
- */
-interface IBehaviorParameterOptionItem<T extends IParamType = IParamType> {
-
-    /**
-     * 参数类型
-     */
-    type: T | string;
-
-    /**
-     * 参数默认值
-     */
-    defaultValue?: IParamValue<T>;
-
-    /**
-     * 数值变化回调
-     */
-    onChange?: (value: IParamValue<T>) => any;
-
-    /**
-     * 名字
-     */
-    name: string;
-
-    /**
-     * 字符长度
-     */
-    maxLength?: number;
-
-    /**
-     * 数字步长
-     */
-    numberStep?: number;
-
-    /**
-     * 最大值最小值
-     */
-    numberMax?: number;
-    numberMin?: number;
-
-    /**
-     * 图标名字
-     */
-    iconName?: string;
-}
-
-interface IBehaviorParameter {
-    [x: string]: IParamType;
-}
-
-/**
- * 参数类型列表
- */
-type IBehaviorParameterOption<P extends IBehaviorParameter> = {
-    [X in keyof P]: IBehaviorParameterOptionItem<P[X]>;
-}
-
-/**
- * 参数类型列表映射到参数对象
- */
-type IBehaviorParameterValue<P extends IBehaviorParameter> = {
-    [X in keyof P]: IParamValue<P[X]>
-}
+import { Emitter, EventType } from "@Model/Emitter";
+import type { Individual } from "@Model/Individual";
+import type { Group } from "@Model/Group";
+import type { Model } from "@Model/Model";
+import { getDefaultValue, IParameter, IParameterOption, IParameterValue } from "@Model/Parameter";
 
 /**
  * 行为构造函数类型
  */
 type IBehaviorConstructor<
-    P extends IBehaviorParameter = {},
+    P extends IParameter = {},
     E extends Record<EventType, any> = {}
-> = new (id: string, parameter: IBehaviorParameterValue<P>) => Behavior<P, E>;
+> = new (id: string, parameter: IParameterValue<P>) => Behavior<P, E>;
 
 type IAnyBehavior = Behavior<any, any>;
 type IAnyBehaviorRecorder = BehaviorRecorder<any, any>;
@@ -192,7 +72,7 @@ class BehaviorInfo<E extends Record<EventType, any> = {}> extends Emitter<E> {
 }
 
 class BehaviorRecorder<
-    P extends IBehaviorParameter = {},
+    P extends IParameter = {},
     E extends Record<EventType, any> = {}
 > extends BehaviorInfo<{}> {
 
@@ -221,62 +101,13 @@ class BehaviorRecorder<
     /**
      * 对象参数列表
      */
-    public parameterOption: IBehaviorParameterOption<P>;
-
-    /**
-     * 获取参数列表的默认值
-     */
-    public getDefaultValue(): IBehaviorParameterValue<P> {
-        let defaultObj = {} as IBehaviorParameterValue<P>;
-        for (let key in this.parameterOption) {
-            let defaultVal = this.parameterOption[key].defaultValue;
-            
-            defaultObj[key] = defaultVal as any;
-            if (defaultObj[key] === undefined) {
-
-                switch (this.parameterOption[key].type) {
-                    case "string":
-                        defaultObj[key] = "" as any;
-                        break;
-
-                    case "number":
-                        defaultObj[key] = 0 as any;
-                        break;
-
-                    case "boolean":
-                        defaultObj[key] = false as any;
-                        break;
-
-                    case "vec":
-                        defaultObj[key] = [0, 0, 0] as any;
-                        break;
-                    
-                    case "G":
-                    case "R":
-                        defaultObj[key] = {
-                            picker: undefined,
-                            objects: undefined
-                        } as any;
-                        break;
-
-                    case "LR":
-                    case "LG":
-                        defaultObj[key] = {
-                            picker: undefined,
-                            objects: []
-                        } as any;
-                        break;
-                }
-            }
-        }
-        return defaultObj;
-    }
+    public parameterOption: IParameterOption<P>;
 
     /**
      * 创建一个新的行为实例
      */
     public new(): Behavior<P, E> {
-        return new this.behavior(this.getNextId(), this.getDefaultValue());
+        return new this.behavior(this.getNextId(), getDefaultValue(this.parameterOption));
     }
 
     public constructor(behavior: IBehaviorConstructor<P, E>) {
@@ -297,7 +128,7 @@ class BehaviorRecorder<
  * 群体的某种行为
  */
 class Behavior<
-    P extends IBehaviorParameter = {},
+    P extends IParameter = {},
     E extends Record<EventType, any> = {}
 > extends BehaviorInfo<E> {
 
@@ -325,14 +156,14 @@ class Behavior<
     /**
      * 行为参数
      */
-    public parameter: IBehaviorParameterValue<P>;
+    public parameter: IParameterValue<P>;
 
     /**
      * 对象参数列表
      */
-    public parameterOption: IBehaviorParameterOption<P> = {} as any;
+    public parameterOption: IParameterOption<P> = {} as any;
 
-    public constructor(id: string, parameter: IBehaviorParameterValue<P>) {
+    public constructor(id: string, parameter: IParameterValue<P>) {
         super();
         this.id = id;
         this.parameter = parameter;
@@ -416,8 +247,6 @@ class Behavior<
 type IRenderBehavior = BehaviorInfo | Behavior;
 
 export {
-    Behavior, BehaviorRecorder, IBehaviorParameterOption, IBehaviorParameterOptionItem, IParamValue,
-    IAnyBehavior, IAnyBehaviorRecorder, BehaviorInfo, IRenderBehavior, IBehaviorParameter,
-    isObjectType, isVectorType
+    Behavior, BehaviorRecorder, IAnyBehavior, IAnyBehaviorRecorder, BehaviorInfo, IRenderBehavior
 };
 export default { Behavior };

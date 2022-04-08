@@ -1,6 +1,6 @@
-import { Popup } from "@Context/Popups";
 import { Component, ReactNode } from "react";
-import { Message } from "@Component/Message/Message";
+import { Popup } from "@Context/Popups";
+import { Message } from "@Input/Message/Message";
 import { Theme } from "@Component/Theme/Theme";
 import { AllI18nKeys, Localization } from "@Component/Localization/Localization";
 import "./ConfirmPopup.scss";

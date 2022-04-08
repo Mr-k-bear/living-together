@@ -7,11 +7,12 @@ import { Group } from "@Model/Group";
 import { Archive } from "@Model/Archive";
 import { AbstractRenderer } from "@Model/Renderer";
 import { ClassicRenderer, MouseMod } from "@GLRender/ClassicRenderer";
-import { Setting } from "./Setting";
+import { Setting } from "@Context/Setting";
 import { I18N } from "@Component/Localization/Localization";
-import { superConnectWithEvent, superConnect } from "./Context";
-import { PopupController } from "./Popups";
-import { Behavior, IBehaviorParameter, IParamValue } from "@Model/Behavior";
+import { superConnectWithEvent, superConnect } from "@Context/Context";
+import { PopupController } from "@Context/Popups";
+import { Behavior } from "@Model/Behavior";
+import { IParameter, IParamValue } from "@Model/Parameter";
 import { Actuator } from "@Model/Actuator";
 
 function randomColor(unNormal: boolean = false) {
@@ -208,7 +209,7 @@ class Status extends Emitter<IStatusEvent> {
     /**
      * 修改群属性
      */
-    public changeBehaviorAttrib<K extends IBehaviorParameter, P extends keyof K | keyof Behavior<K>>
+    public changeBehaviorAttrib<K extends IParameter, P extends keyof K | keyof Behavior<K>>
     (id: ObjectID, key: P, val: IParamValue<K[P]>, noParameter?: boolean) {
         const behavior = this.model.getBehaviorById(id);
         if (behavior) {

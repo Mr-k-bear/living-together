@@ -1,6 +1,6 @@
-import { Icon } from "@fluentui/react";
 import { Component, ReactNode } from "react";
-import { BackgroundLevel, FontLevel, Theme } from "../Theme/Theme";
+import { Icon } from "@fluentui/react";
+import { BackgroundLevel, FontLevel, Theme } from "@Component/Theme/Theme";
 import "./DetailsList.scss";
 
 type IItems = Record<string, any> & {key: string, select?: boolean};

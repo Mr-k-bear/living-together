@@ -1,5 +1,5 @@
-import type { Group } from "./Group";
-import { ObjectID } from "./Renderer";
+import type { Group } from "@Model/Group";
+import { ObjectID } from "@Model/Renderer";
 
 /**
  * 群中的个体类型

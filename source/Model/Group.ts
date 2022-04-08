@@ -1,8 +1,8 @@
-import { Individual } from "./Individual";
-import { CtrlObject } from "./CtrlObject";
-import type { Behavior } from "./Behavior"; 
-import { Label } from "./Label";
-import { Range } from "./Range";
+import { Individual } from "@Model/Individual";
+import { CtrlObject } from "@Model/CtrlObject";
+import type { Behavior } from "@Model/Behavior"; 
+import { Label } from "@Model/Label";
+import { Range } from "@Model/Range";
 
 enum GenMod {
     Point = "p",

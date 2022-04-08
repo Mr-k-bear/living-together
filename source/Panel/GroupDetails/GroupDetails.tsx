@@ -1,18 +1,18 @@
 import { Component, ReactNode } from "react";
-import { AttrInput } from "@Component/AttrInput/AttrInput";
+import { AttrInput } from "@Input/AttrInput/AttrInput";
 import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
 import { useSetting, IMixinSettingProps } from "@Context/Setting";
-import { Message } from "@Component/Message/Message";
+import { ComboInput, IDisplayItem } from "@Input/ComboInput/ComboInput";
+import { Message } from "@Input/Message/Message";
 import { ObjectID } from "@Model/Renderer";
-import { ColorInput } from "@Component/ColorInput/ColorInput";
-import { TogglesInput } from "@Component/TogglesInput/TogglesInput";
-import { LabelPicker } from "@Component/LabelPicker/LabelPicker";
+import { ColorInput } from "@Input/ColorInput/ColorInput";
+import { TogglesInput } from "@Input/TogglesInput/TogglesInput";
+import { LabelPicker } from "@Input/LabelPicker/LabelPicker";
 import { Group, GenMod } from "@Model/Group";
 import { AllI18nKeys } from "@Component/Localization/Localization";
-import { ComboInput, IDisplayItem } from "@Component/ComboInput/ComboInput";
-import { ObjectPicker } from "@Component/ObjectPicker/ObjectPicker";
+import { ObjectPicker } from "@Input/ObjectPicker/ObjectPicker";
 import { ConfirmPopup } from "@Component/ConfirmPopup/ConfirmPopup";
-import { BehaviorPicker } from "@Component/BehaviorPicker/BehaviorPicker";
+import { BehaviorPicker } from "@Input/BehaviorPicker/BehaviorPicker";
 import "./GroupDetails.scss";
 
 interface IGroupDetailsProps {}
