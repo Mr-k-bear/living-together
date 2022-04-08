@@ -6,6 +6,7 @@ import { TogglesInput } from "@Input/TogglesInput/TogglesInput";
 import { ObjectPicker } from "@Input/ObjectPicker/ObjectPicker";
 import { AllI18nKeys } from "@Component/Localization/Localization";
 import { Message } from "@Input/Message/Message";
+import { ColorInput } from "@Input/ColorInput/ColorInput";
 import {
     IParameter, IParameterOption, IParameterOptionItem,
     IParameterValue, IParamValue, isObjectType, isVectorType
@@ -71,6 +72,7 @@ class Parameter<P extends IParameter> extends Component<IParameterProps<P> & IMi
                 keyI18n="Panel.Info.Behavior.Details.Parameter.Key"
                 keyI18nOption={{ key: i18nString }}
 				onIconName={option.iconName}
+                red={option.iconRed}
                 value={value as IParamValue<"boolean"> ?? false}
 				valueChange={(val) => {
 					this.props.change(key, val as IParamValue<P[K]>);
@@ -100,7 +102,21 @@ class Parameter<P extends IParameter> extends Component<IParameterProps<P> & IMi
             />
         }
 
-        else if (isVectorType(type)) {
+        else if (type === "color") {
+
+            return <ColorInput
+                key={indexKey}
+                keyI18n="Panel.Info.Behavior.Details.Parameter.Key"
+                keyI18nOption={{ key: i18nString }}
+                normal={option.colorNormal}
+                value={value as IParamValue<"color"> ?? false}
+                valueChange={(val) => {
+					this.props.change(key, val as IParamValue<P[K]>);
+				}}
+            />
+        }
+
+        else if (type === "vec") {
 
             type IObjectParamValue = IParamValue<"vec">;
             const typedValue = value as IObjectParamValue;

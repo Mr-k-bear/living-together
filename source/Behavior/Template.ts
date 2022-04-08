@@ -7,6 +7,8 @@ type ITemplateBehaviorParameter = {
     testNumber: "number";
     testString: "string";
     testBoolean: "boolean";
+    testColor: "color";
+    testOption: "option";
     testR: "R";
     testG: "G";
     testLR: "LR";
@@ -42,6 +44,16 @@ class Template extends Behavior<ITemplateBehaviorParameter, ITemplateBehaviorEve
             type: "string",
             defaultValue: "default",
             maxLength: 12
+        },
+        testColor: {
+            name: "$Test",
+            type: "color",
+            defaultValue: [.5, .1, 1],
+            colorNormal: true
+        },
+        testOption: {
+            name: "$Test",
+            type: "option"
         },
         testBoolean: {
             name: "$Test",
