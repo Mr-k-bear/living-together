@@ -78,4 +78,4 @@ class Localization extends Component<ILocalizationProps & IMixinSettingProps &
     }
 }
 
-export { Localization, I18N, LanguageDataBase, AllI18nKeys };
+export { Localization, I18N, LanguageDataBase, AllI18nKeys, ILocalizationProps };

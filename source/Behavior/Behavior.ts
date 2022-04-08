@@ -5,7 +5,7 @@ import { Brownian } from "./Brownian";
 import { BoundaryConstraint } from "./BoundaryConstraint"; 
 
 const AllBehaviors: IAnyBehaviorRecorder[] = [
-    // new BehaviorRecorder(Template),
+    new BehaviorRecorder(Template),
     new BehaviorRecorder(Dynamics),
     new BehaviorRecorder(Brownian),
     new BehaviorRecorder(BoundaryConstraint),

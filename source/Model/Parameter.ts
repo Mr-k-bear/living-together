@@ -39,26 +39,26 @@ type IParamValue<K extends IParamType> = AllMapType[K];
 /**
  * 特殊对象类型判定
  */
-const objectTypeListEnumSet = new Set<IParamType>(["R", "G", "LR", "LG"]);
+const objectTypeListEnumSet = new Set<string>(["R", "G", "LR", "LG"]);
 
  /**
   * 对象断言表达式
   */
-function isObjectType(key: IParamType): key is IVectorType {
+function isObjectType(key: string): key is IVectorType {
     return objectTypeListEnumSet.has(key);
 }
  
  /**
   * 向量断言表达式
   */
-function isVectorType(key: IParamType): key is IObjectType {
+function isVectorType(key: string): key is IObjectType {
     return key === "vec";
 }
 
 /**
  * 模型参数类型
  */
-interface IBehaviorParameterOptionItem<T extends IParamType = IParamType> {
+interface IParameterOptionItem<T extends IParamType = IParamType> {
 
     /**
      * 参数类型
@@ -102,25 +102,72 @@ interface IBehaviorParameterOptionItem<T extends IParamType = IParamType> {
     iconName?: string;
 }
 
-interface IBehaviorParameter {
+interface IParameter {
     [x: string]: IParamType;
 }
 
 /**
  * 参数类型列表
  */
-type IBehaviorParameterOption<P extends IBehaviorParameter> = {
-    [X in keyof P]: IBehaviorParameterOptionItem<P[X]>;
+type IParameterOption<P extends IParameter> = {
+    [X in keyof P]: IParameterOptionItem<P[X]>;
 }
 
 /**
  * 参数类型列表映射到参数对象
  */
-type IBehaviorParameterValue<P extends IBehaviorParameter> = {
+type IParameterValue<P extends IParameter> = {
     [X in keyof P]: IParamValue<P[X]>
 }
 
+function getDefaultValue<P extends IParameter> (option: IParameterOption<P>): IParameterValue<P> {
+    let defaultObj = {} as IParameterValue<P>;
+    for (let key in option) {
+        let defaultVal = option[key].defaultValue;
+        
+        if (defaultVal !== undefined) {
+            defaultObj[key] = defaultVal;
+        } else {
+
+            switch (option[key].type) {
+                case "string":
+                    defaultObj[key] = "" as any;
+                    break;
+
+                case "number":
+                    defaultObj[key] = 0 as any;
+                    break;
+
+                case "boolean":
+                    defaultObj[key] = false as any;
+                    break;
+
+                case "vec":
+                    defaultObj[key] = [0, 0, 0] as any;
+                    break;
+                
+                case "G":
+                case "R":
+                    defaultObj[key] = {
+                        picker: undefined,
+                        objects: undefined
+                    } as any;
+                    break;
+
+                case "LR":
+                case "LG":
+                    defaultObj[key] = {
+                        picker: undefined,
+                        objects: []
+                    } as any;
+                    break;
+            }
+        }
+    }
+    return defaultObj;
+}
+
 export {
-    IParamType, IParamValue, isObjectType, isVectorType,
-    IBehaviorParameterOptionItem, IBehaviorParameter, IBehaviorParameterOption, IBehaviorParameterValue
+    IParamType, IParamValue, isObjectType, isVectorType, getDefaultValue,
+    IParameterOptionItem, IParameter, IParameterOption, IParameterValue
 }

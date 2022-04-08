@@ -5,7 +5,8 @@ import { Emitter, EventType, EventMixin } from "./Emitter";
 import { CtrlObject } from "./CtrlObject";
 import { ObjectID, AbstractRenderer } from "./Renderer";
 import { Label } from "./Label";
-import { Behavior, IAnyBehavior, IAnyBehaviorRecorder, IParamValue } from "./Behavior";
+import { Behavior, IAnyBehavior, IAnyBehaviorRecorder } from "./Behavior";
+import { IParamValue } from "@Model/Parameter"; 
 
 type ModelEvent = {
     labelChange: Label[];
