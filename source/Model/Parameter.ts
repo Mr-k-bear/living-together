@@ -14,6 +14,7 @@ type IMapBasicParamTypeKeyToType = {
     "number": number;
     "string": string;
     "boolean": boolean;
+    "option": string;
 }
 
 type IMapObjectParamTypeKeyToType = {
@@ -25,6 +26,7 @@ type IMapObjectParamTypeKeyToType = {
 
 type IMapVectorParamTypeKeyToType = {
     "vec": number[];
+    "color": number[];
 }
 
 /**
@@ -100,6 +102,21 @@ interface IParameterOptionItem<T extends IParamType = IParamType> {
      * 图标名字
      */
     iconName?: string;
+
+    /**
+     * 图标是否显示为红色
+     */
+    iconRed?: boolean;
+
+    /**
+     * 颜色是否进行归一化
+     */
+    colorNormal?: boolean;
+
+    /**
+     * 全部选项
+     */
+    allOption?: Array<{key: string, name: string}>;
 }
 
 interface IParameter {

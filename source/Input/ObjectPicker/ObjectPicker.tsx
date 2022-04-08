@@ -6,7 +6,7 @@ import { Range } from "@Model/Range";
 import { CtrlObject } from "@Model/CtrlObject";
 import { Behavior } from "@Model/Behavior";
 import { TextField, ITextFieldProps } from "@Input/TextField/TextField";
-import { PickerList, IDisplayItem, getObjectDisplayInfo, IDisplayInfo } from "@Input/PickerList/PickerList";
+import { PickerList, getObjectDisplayInfo, IDisplayInfo } from "@Input/PickerList/PickerList";
 import { Localization } from "@Component/Localization/Localization";
 import { Icon } from "@fluentui/react";
 import "./ObjectPicker.scss";
@@ -79,8 +79,8 @@ class ObjectPicker extends Component<IObjectPickerProps & IMixinStatusProps, IOb
         return <PickerList
             noData="Object.Picker.List.No.Data"
             target={this.pickerTarget}
-            objectList={this.getAllOption()}
-            clickObjectItems={((item) => {
+            item={this.getAllOption()}
+            click={((item) => {
                 if (item instanceof Behavior) return;
                 if (this.props.valueChange) {
                     this.props.valueChange(item);
@@ -166,4 +166,4 @@ class ObjectPicker extends Component<IObjectPickerProps & IMixinStatusProps, IOb
     }
 }
 
-export { ObjectPicker, IDisplayItem };
+export { ObjectPicker };

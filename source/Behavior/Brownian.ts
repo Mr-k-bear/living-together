@@ -25,37 +25,36 @@ class Brownian extends Behavior<IBrownianBehaviorParameter, IBrownianBehaviorEve
 	public override category: string = "$Physics";
 
 	public override parameterOption = {
-		maxFrequency: {
-			type: "number",
-			name: "$Max.Frequency",
-			defaultValue: 5,
-			numberStep: .1,
-			numberMin: 0
-		},
-		minFrequency: {
-			type: "number",
-			name: "$Min.Frequency",
-			defaultValue: 0,
-			numberStep: .1,
-			numberMin: 0
-		},
-		maxStrength: {
-			type: "number",
-			name: "$Max.Strength",
-			defaultValue: 10,
-			numberStep: .01,
-			numberMin: 0
-		},
-		minStrength: {
-			type: "number",
-			name: "$Min.Strength",
-			defaultValue: 0,
-			numberStep: .01,
-			numberMin: 0
-		}
+		maxFrequency: { type: "number", name: "$Max.Frequency", defaultValue: 5, numberStep: .1, numberMin: 0 },
+		minFrequency: { type: "number", name: "$Min.Frequency", defaultValue: 0, numberStep: .1, numberMin: 0 },
+		maxStrength: { type: "number", name: "$Max.Strength", defaultValue: 10, numberStep: .01, numberMin: 0 },
+		minStrength: { type: "number", name: "$Min.Strength", defaultValue: 0, numberStep: .01, numberMin: 0 }
 	};
 
-    public override terms: Record<string, Record<string, string>> = {
+	public effect(individual: Individual, group: Group, model: Model, t: number): void {
+
+		const {maxFrequency, minFrequency, maxStrength, minStrength} = this.parameter;
+
+		let nextTime = individual.getData("Brownian.nextTime") ?? 
+		minFrequency +  Math.random() * (maxFrequency - minFrequency);
+		let currentTime = individual.getData("Brownian.currentTime") ?? 0;
+		
+		currentTime += t;
+		if (currentTime > nextTime) {
+			individual.applyForce(
+				minStrength + (Math.random() * 2 - 1) * (maxStrength - minStrength),
+				minStrength + (Math.random() * 2 - 1) * (maxStrength - minStrength),
+				minStrength + (Math.random() * 2 - 1) * (maxStrength - minStrength)
+			);
+			nextTime = minFrequency +  Math.random() * (maxFrequency - minFrequency);
+			currentTime = 0;
+		}
+
+		individual.setData("Brownian.nextTime", nextTime);
+		individual.setData("Brownian.currentTime", currentTime);
+	}
+
+	public override terms: Record<string, Record<string, string>> = {
         "$Title": {
             "ZH_CN": "布朗运动",
             "EN_US": "Brownian motion"
@@ -81,29 +80,6 @@ class Brownian extends Behavior<IBrownianBehaviorParameter, IBrownianBehaviorEve
             "EN_US": "Minimum strength"
         }
     };
-
-	public effect(individual: Individual, group: Group, model: Model, t: number): void {
-
-		const {maxFrequency, minFrequency, maxStrength, minStrength} = this.parameter;
-
-		let nextTime = individual.getData("Brownian.nextTime") ?? 
-		minFrequency +  Math.random() * (maxFrequency - minFrequency);
-		let currentTime = individual.getData("Brownian.currentTime") ?? 0;
-		
-		currentTime += t;
-		if (currentTime > nextTime) {
-			individual.applyForce(
-				minStrength + (Math.random() * 2 - 1) * (maxStrength - minStrength),
-				minStrength + (Math.random() * 2 - 1) * (maxStrength - minStrength),
-				minStrength + (Math.random() * 2 - 1) * (maxStrength - minStrength)
-			);
-			nextTime = minFrequency +  Math.random() * (maxFrequency - minFrequency);
-			currentTime = 0;
-		}
-
-		individual.setData("Brownian.nextTime", nextTime);
-		individual.setData("Brownian.currentTime", currentTime);
-	}
 }
 
 export { Brownian };

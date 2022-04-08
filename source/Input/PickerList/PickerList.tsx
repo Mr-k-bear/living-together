@@ -17,12 +17,6 @@ interface IDisplayInfo {
     allLabel: boolean;
 };
 
-interface IDisplayItem {
-    nameKey: AllI18nKeys;
-    key: string;
-	mark?: boolean;
-}
-
 function getObjectDisplayInfo(item?: IPickerListItem): IDisplayInfo {
 
     if (!item) {
@@ -98,13 +92,11 @@ function getObjectDisplayInfo(item?: IPickerListItem): IDisplayInfo {
 }
 
 interface IPickerListProps {
-    displayItems?: IDisplayItem[];
-	objectList?: IPickerListItem[];
+	item: IPickerListItem[];
 	target?: RefObject<any>;
     noData?: AllI18nKeys;
 	dismiss?: () => any;
-	clickObjectItems?: (item: IPickerListItem) => any;
-    clickDisplayItems?: (item: IDisplayItem) => any;
+	click?: (item: IPickerListItem) => any;
 }
 
 class PickerList extends Component<IPickerListProps> {
@@ -116,8 +108,8 @@ class PickerList extends Component<IPickerListProps> {
 			className="picker-list-item"
 			key={item.id}
 			onClick={() => {
-				if (this.props.clickObjectItems) {
-					this.props.clickObjectItems(item)
+				if (this.props.click) {
+					this.props.click(item)
 				}
 			}}
 		>
@@ -143,27 +135,6 @@ class PickerList extends Component<IPickerListProps> {
 		</div>;
 	}
 
-    private renderString(item: IDisplayItem) {
-        return <div
-			className="picker-list-item"
-			key={item.key}
-			onClick={() => {
-				if (this.props.clickDisplayItems) {
-					this.props.clickDisplayItems(item)
-				}
-			}}
-		>
-			<div className="list-item-icon">
-				<Icon iconName="CheckMark" style={{
-					display: item.mark ? "block" : "none"
-				}}/>
-			</div>
-			<div className="list-item-name">
-				<Localization i18nKey={item.nameKey}/>
-			</div>
-		</div>;
-    }
-
 	public render(): ReactNode {
 		return <Callout
 			onDismiss={this.props.dismiss}
@@ -171,18 +142,11 @@ class PickerList extends Component<IPickerListProps> {
 			directionalHint={DirectionalHint.topCenter}
 		>
 			<div className="picker-list-root">
-				{this.props.objectList ? this.props.objectList.map((item) => {
-					return this.renderItem(item);
-				}) : null}
-                {this.props.displayItems ? this.props.displayItems.map((item) => {
-					return this.renderString(item);
-				}) : null}
 				{
-                    !(this.props.objectList || this.props.displayItems) || 
-                    !(
-                        this.props.objectList && this.props.objectList.length > 0 || 
-                        this.props.displayItems && this.props.displayItems.length > 0
-                    ) ?
+					this.props.item.map((item) => this.renderItem(item))
+				}
+				{
+                    this.props.item.length <= 0 ?
                         <Localization
                             className="picker-list-nodata"
                             i18nKey={this.props.noData ?? "Common.No.Data"}
@@ -194,4 +158,4 @@ class PickerList extends Component<IPickerListProps> {
 	}
 }
 
-export { PickerList, IDisplayItem, IDisplayInfo, getObjectDisplayInfo }
+export { PickerList, IDisplayInfo, getObjectDisplayInfo }

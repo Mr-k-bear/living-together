@@ -145,10 +145,10 @@ class BehaviorPicker extends Component<IBehaviorPickerProps & IMixinSettingProps
 
     private renderPickerList(): ReactNode {
         return <PickerList
-            objectList={this.getAllData()}
+            item={this.getAllData()}
             noData="Behavior.Picker.Add.Nodata"
             target={this.clickLineRef}
-            clickObjectItems={((item) => {
+            click={((item) => {
                 if (item instanceof Behavior && this.props.add) {
                     this.props.add(item);
                 }

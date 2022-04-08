@@ -25,6 +25,7 @@ const EN_US = {
     "Input.Error.Length": "The length of the input content must be less than {num}",
     "Input.Error.Length.Less": "The length of the input content must be greater than {num}",
     "Input.Error.Select": "Select object ...",
+    "Input.Error.Combo": "Select options ...",
     "Object.List.New.Group": "Group object {id}",
     "Object.List.New.Range": "Range object {id}",
     "Object.List.New.Label": "Label {id}",
