@@ -1,6 +1,6 @@
 import { Component, createRef, ReactNode } from "react";
 import { Icon } from "@fluentui/react";
-import { PickerList, IDisplayItem } from "@Input/PickerList/PickerList";
+import { ComboList, IDisplayItem } from "@Input/ComboList/ComboList";
 import { TextField, ITextFieldProps } from "@Input/TextField/TextField";
 import { Localization } from "@Component/Localization/Localization";
 import "./ComboInput.scss";
@@ -26,13 +26,11 @@ class ComboInput extends Component<IComboInputProps, IComboInputState> {
     private pickerTarget = createRef<HTMLDivElement>();
 
     private renderPicker() {
-        return <PickerList
+        return <ComboList
             target={this.pickerTarget}
-            displayItems={(this.props.allOption ?? []).map((item) => {
-                return item.key === this.props.value?.key ? 
-                    {...item, mark: true} : item;
-            })}
-            clickDisplayItems={((item) => {
+            item={this.props.allOption ?? []}
+            focus={this.props.value}
+            click={((item) => {
                 if (this.props.valueChange) {
                     this.props.valueChange(item);
                 }
@@ -64,8 +62,8 @@ class ComboInput extends Component<IComboInputProps, IComboInputState> {
                 <div className="value-view">
                     {
                         this.props.value ? 
-                        <Localization i18nKey={this.props.value.nameKey}/> :
-                        null
+                            <Localization i18nKey={this.props.value.i18n} options={this.props.value.i18nOption}/> :
+                            null
                     }
                 </div>
                 <div className="list-button">

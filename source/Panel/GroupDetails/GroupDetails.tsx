@@ -22,8 +22,8 @@ mapGenModToI18nKey.set(GenMod.Point, "Common.Attr.Key.Generation.Mod.Point");
 mapGenModToI18nKey.set(GenMod.Range, "Common.Attr.Key.Generation.Mod.Range");
 
 const allOption: IDisplayItem[] = [
-    {nameKey: "Common.Attr.Key.Generation.Mod.Point", key: GenMod.Point},
-    {nameKey: "Common.Attr.Key.Generation.Mod.Range", key: GenMod.Range}
+    {i18n: "Common.Attr.Key.Generation.Mod.Point", key: GenMod.Point},
+    {i18n: "Common.Attr.Key.Generation.Mod.Range", key: GenMod.Range}
 ];
 
 @useSetting
@@ -144,7 +144,7 @@ class GroupDetails extends Component<IGroupDetailsProps & IMixinStatusProps & IM
             <ComboInput
                 keyI18n="Common.Attr.Key.Generation.Mod"
                 value={{
-                    nameKey: mapGenModToI18nKey.get(group.genMethod) ?? "Common.No.Data",
+                    i18n: mapGenModToI18nKey.get(group.genMethod) ?? "Common.No.Data",
                     key: group.genMethod
                 }}
                 allOption={allOption}
