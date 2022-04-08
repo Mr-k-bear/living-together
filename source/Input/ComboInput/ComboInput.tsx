@@ -63,7 +63,7 @@ class ComboInput extends Component<IComboInputProps, IComboInputState> {
                     {
                         this.props.value ? 
                             <Localization i18nKey={this.props.value.i18n} options={this.props.value.i18nOption}/> :
-                            null
+                            <Localization i18nKey="Input.Error.Combo"/>
                     }
                 </div>
                 <div className="list-button">

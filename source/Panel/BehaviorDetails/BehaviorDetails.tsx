@@ -65,7 +65,7 @@ class BehaviorDetails extends Component<IBehaviorDetailsProps & IMixinStatusProp
                 key={behavior.id}
                 option={behavior.parameterOption}
                 value={behavior.parameter}
-                i18n={(option, language) => behavior.getTerms(option.name, language)}
+                i18n={(name, language) => behavior.getTerms(name, language)}
                 title={"Panel.Info.Behavior.Details.Behavior.Props"}
                 titleOption={{
                     behavior: behavior.getTerms(behavior.behaviorName, this.props.setting?.language)

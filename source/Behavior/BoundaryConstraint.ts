@@ -24,37 +24,9 @@ class BoundaryConstraint extends Behavior<IBoundaryConstraintBehaviorParameter, 
     public override category: string = "$Physics";
 
 	public override parameterOption = {
-		range: {
-			type: "LR",
-			name: "$range"
-		},
-		strength: {
-			type: "number",
-			name: "$Strength",
-			defaultValue: 1,
-            numberMin: 0,
-            numberStep: .1
-		}
+		range: { type: "LR", name: "$range" },
+		strength: { type: "number", name: "$Strength", defaultValue: 1, numberMin: 0, numberStep: .1 }
 	};
-
-    public override terms: Record<string, Record<string, string>> = {
-        "$Title": {
-            "ZH_CN": "边界约束",
-            "EN_US": "Boundary constraint"
-        },
-		"$range": {
-			"ZH_CN": "约束范围",
-			"EN_US": "Constraint range"
-		},
-		"$Strength": {
-			"ZH_CN": "约束强度系数",
-			"EN_US": "Restraint strength coefficient"
-		},
-        "$Intro": {
-            "ZH_CN": "个体越出边界后将主动返回",
-            "EN_US": "Individuals will return actively after crossing the border"
-        }
-    };
 
     public effect(individual: Individual, group: Group, model: Model, t: number): void {
         let rangeList: Range[] = this.parameter.range.objects;
@@ -99,6 +71,25 @@ class BoundaryConstraint extends Behavior<IBoundaryConstraintBehaviorParameter, 
 			fz * this.parameter.strength
 		);
     }
+
+	public override terms: Record<string, Record<string, string>> = {
+        "$Title": {
+            "ZH_CN": "边界约束",
+            "EN_US": "Boundary constraint"
+        },
+		"$range": {
+			"ZH_CN": "约束范围",
+			"EN_US": "Constraint range"
+		},
+		"$Strength": {
+			"ZH_CN": "约束强度系数",
+			"EN_US": "Restraint strength coefficient"
+		},
+        "$Intro": {
+            "ZH_CN": "个体越出边界后将主动返回",
+            "EN_US": "Individuals will return actively after crossing the border"
+        }
+    };
 }
 
 export { BoundaryConstraint };

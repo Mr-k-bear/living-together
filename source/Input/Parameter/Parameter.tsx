@@ -4,9 +4,10 @@ import { AttrInput } from "@Input/AttrInput/AttrInput";
 import { ObjectID } from "@Model/Renderer";
 import { TogglesInput } from "@Input/TogglesInput/TogglesInput";
 import { ObjectPicker } from "@Input/ObjectPicker/ObjectPicker";
-import { AllI18nKeys } from "@Component/Localization/Localization";
+import { AllI18nKeys, I18N } from "@Component/Localization/Localization";
 import { Message } from "@Input/Message/Message";
 import { ColorInput } from "@Input/ColorInput/ColorInput";
+import { ComboInput, IDisplayItem } from "@Input/ComboInput/ComboInput";
 import {
     IParameter, IParameterOption, IParameterOptionItem,
     IParameterValue, IParamValue, isObjectType, isVectorType
@@ -18,7 +19,7 @@ interface IParameterProps<P extends IParameter = {}> {
     value: IParameterValue<P>;
     key: ObjectID;
     change: <K extends keyof P>(key: K, val: IParamValue<P[K]>) => any;
-    i18n: <K extends keyof P>(option: IParameterOptionItem<P[K]>, language: Language) => string;
+    i18n?: (key: string, language: Language) => string;
     title?: AllI18nKeys;
     titleOption?: Record<string, string>;
     isFirst?: boolean;
@@ -30,16 +31,29 @@ class Parameter<P extends IParameter> extends Component<IParameterProps<P> & IMi
     private renderParameter<K extends keyof P>
     (key: K, option: IParameterOptionItem<P[K]>, value: IParamValue<P[K]>): ReactNode {
 
+        const language = this.props.setting?.language ?? "EN_US";
         const indexKey = `${this.props.key}-${key}`;
         const type = option.type;
-        const i18nString = this.props.i18n(option, this.props.setting?.language ?? "EN_US");
+        let keyI18n: string, keyI18nOption: Record<string, string> | undefined;
+
+        // Custom I18N
+        if (this.props.i18n) {
+            keyI18n = "Panel.Info.Behavior.Details.Parameter.Key";
+            keyI18nOption = {
+                key: this.props.i18n(option.name, language)
+            };
+        }
+        
+        else {
+            keyI18n = option.name;
+        }
 
         if (type === "number") {
             return <AttrInput
                 key={indexKey}
                 id={indexKey}
-                keyI18n="Panel.Info.Behavior.Details.Parameter.Key"
-                keyI18nOption={{ key: i18nString }}
+                keyI18n={keyI18n}
+                keyI18nOption={keyI18nOption}
                 isNumber={true}
                 step={option.numberStep}
                 maxLength={option.maxLength}
@@ -56,8 +70,8 @@ class Parameter<P extends IParameter> extends Component<IParameterProps<P> & IMi
             return <AttrInput
                 key={indexKey}
                 id={indexKey}
-                keyI18n="Panel.Info.Behavior.Details.Parameter.Key"
-                keyI18nOption={{ key: i18nString }}
+                keyI18n={keyI18n}
+                keyI18nOption={keyI18nOption}
                 maxLength={option.maxLength}
                 value={value as IParamValue<"string"> ?? ""}
                 valueChange={(val) => {
@@ -69,8 +83,8 @@ class Parameter<P extends IParameter> extends Component<IParameterProps<P> & IMi
         else if (type === "boolean") {
             return <TogglesInput
                 key={indexKey}
-                keyI18n="Panel.Info.Behavior.Details.Parameter.Key"
-                keyI18nOption={{ key: i18nString }}
+                keyI18n={keyI18n}
+                keyI18nOption={keyI18nOption}
 				onIconName={option.iconName}
                 red={option.iconRed}
                 value={value as IParamValue<"boolean"> ?? false}
@@ -87,8 +101,8 @@ class Parameter<P extends IParameter> extends Component<IParameterProps<P> & IMi
 
             return <ObjectPicker
                 key={indexKey}
-                keyI18n="Panel.Info.Behavior.Details.Parameter.Key"
-                keyI18nOption={{ key: i18nString }}
+                keyI18n={keyI18n}
+                keyI18nOption={keyI18nOption}
                 type={type}
                 value={typedValue.picker}
                 valueChange={(obj) => {
@@ -106,8 +120,8 @@ class Parameter<P extends IParameter> extends Component<IParameterProps<P> & IMi
 
             return <ColorInput
                 key={indexKey}
-                keyI18n="Panel.Info.Behavior.Details.Parameter.Key"
-                keyI18nOption={{ key: i18nString }}
+                keyI18n={keyI18n}
+                keyI18nOption={keyI18nOption}
                 normal={option.colorNormal}
                 value={value as IParamValue<"color"> ?? false}
                 valueChange={(val) => {
@@ -116,10 +130,52 @@ class Parameter<P extends IParameter> extends Component<IParameterProps<P> & IMi
             />
         }
 
+        else if (type === "option") {
+
+            let allOption: IDisplayItem[] = [];
+            let focusKey: number = -1;
+
+            if (option.allOption) {
+                for (let i = 0; i < option.allOption.length; i++) {
+
+                    if (this.props.i18n) {
+                        allOption.push({
+                            i18nOption: { key: this.props.i18n(option.allOption[i].name, language) },
+                            i18n: "Panel.Info.Behavior.Details.Parameter.Key",
+                            key: option.allOption[i].key
+                        })
+                    }
+                    
+                    else {
+                        allOption.push({
+                            i18n: option.allOption[i].name,
+                            key: option.allOption[i].key
+                        })
+                    }
+
+                    if (option.allOption[i].key === value) {
+                        focusKey = i;
+                    }
+                }
+            }
+
+            return <ComboInput
+                key={indexKey}
+                keyI18n={keyI18n}
+                keyI18nOption={keyI18nOption}
+                allOption={allOption}
+                value={allOption[focusKey]}
+                valueChange={(val) => {
+                    this.props.change(key, val.key as IParamValue<P[K]>);
+                }}
+            />
+        }
+
         else if (type === "vec") {
 
             type IObjectParamValue = IParamValue<"vec">;
             const typedValue = value as IObjectParamValue;
+            const i18nVal = I18N(this.props, keyI18n, keyI18nOption);
             
             return <Fragment key={indexKey}>
                 
@@ -127,7 +183,7 @@ class Parameter<P extends IParameter> extends Component<IParameterProps<P> & IMi
                     key={`${indexKey}-X`}
                     id={indexKey}
                     keyI18n="Panel.Info.Behavior.Details.Parameter.Key.Vec.X"
-                    keyI18nOption={{ key: i18nString }}
+                    keyI18nOption={{ key: i18nVal }}
                     isNumber={true}
                     step={option.numberStep}
                     maxLength={option.maxLength}
@@ -144,7 +200,7 @@ class Parameter<P extends IParameter> extends Component<IParameterProps<P> & IMi
                     key={`${indexKey}-Y`}
                     id={indexKey}
                     keyI18n="Panel.Info.Behavior.Details.Parameter.Key.Vec.Y"
-                    keyI18nOption={{ key: i18nString }}
+                    keyI18nOption={{ key: i18nVal }}
                     isNumber={true}
                     step={option.numberStep}
                     maxLength={option.maxLength}
@@ -161,7 +217,7 @@ class Parameter<P extends IParameter> extends Component<IParameterProps<P> & IMi
                     key={`${indexKey}-Z`}
                     id={indexKey}
                     keyI18n="Panel.Info.Behavior.Details.Parameter.Key.Vec.Z"
-                    keyI18nOption={{ key: i18nString }}
+                    keyI18nOption={{ key: i18nVal }}
                     isNumber={true}
                     step={option.numberStep}
                     maxLength={option.maxLength}

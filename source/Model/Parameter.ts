@@ -116,7 +116,7 @@ interface IParameterOptionItem<T extends IParamType = IParamType> {
     /**
      * 全部选项
      */
-    allOption?: string[];
+    allOption?: Array<{key: string, name: string}>;
 }
 
 interface IParameter {

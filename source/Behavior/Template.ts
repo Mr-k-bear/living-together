@@ -31,61 +31,23 @@ class Template extends Behavior<ITemplateBehaviorParameter, ITemplateBehaviorEve
     public override category: string = "$Category";
 
     public override parameterOption = {
-        testNumber: {
-            name: "$Test",
-            type: "number",
-            defaultValue: 1,
-            numberMax: 10,
-            numberMin: 0,
-            numberStep: 1
-        },
-        testString: {
-            name: "$Test",
-            type: "string",
-            defaultValue: "default",
-            maxLength: 12
-        },
-        testColor: {
-            name: "$Test",
-            type: "color",
-            defaultValue: [.5, .1, 1],
-            colorNormal: true
-        },
-        testOption: {
-            name: "$Test",
-            type: "option"
-        },
-        testBoolean: {
-            name: "$Test",
-            type: "boolean",
-            defaultValue: false,
-            iconName: "Send"
-        },
-        testR: {
-            name: "$Test",
-            type: "R"
-        },
-        testG: {
-            name: "$Test",
-            type: "G"
-        },
-        testLR: {
-            name: "$Test",
-            type: "LR"
-        },
-        testLG: {
-            name: "$Test",
-            type: "LG"
-        },
-        testVec: {
-            name: "$Test",
-            type: "vec",
-            defaultValue: [1, 2, 3],
-            numberMax: 10,
-            numberMin: 0,
-            numberStep: 1
-        }
+        testNumber: { name: "$Test", type: "number", defaultValue: 1, numberMax: 10, numberMin: 0, numberStep: 1 },
+        testString: { name: "$Test", type: "string", defaultValue: "default", maxLength: 12 },
+        testColor: { name: "$Test", type: "color", defaultValue: [.5, .1, 1], colorNormal: true },
+        testOption: { name: "$Test", type: "option", defaultValue: "T", allOption: [
+            { key: "P", name: "$Test"}, { key: "T", name: "$Title"}
+        ]},
+        testBoolean: { name: "$Test", type: "boolean", defaultValue: false, iconName: "Send" },
+        testR: { name: "$Test", type: "R" },
+        testG: { name: "$Test", type: "G" },
+        testLR: { name: "$Test", type: "LR" },
+        testLG: { name: "$Test", type: "LG" },
+        testVec: { name: "$Test", type: "vec", defaultValue: [1, 2, 3], numberMax: 10, numberMin: 0, numberStep: 1 }
     };
+
+    public effect(individual: Individual, group: Group, model: Model, t: number): void {
+        
+    }
 
     public override terms: Record<string, Record<string, string>> = {
         "$Title": {
@@ -99,12 +61,12 @@ class Template extends Behavior<ITemplateBehaviorParameter, ITemplateBehaviorEve
         "$Test": {
             "ZH_CN": "测试参数",
             "EN_US": "Test Parameter"
+        },
+        "$Category": {
+            "ZH_CN": "测序模板",
+            "EN_US": "Test template"
         }
     };
-
-    public effect(individual: Individual, group: Group, model: Model, t: number): void {
-        
-    }
 }
 
 export { Template };

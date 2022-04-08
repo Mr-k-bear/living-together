@@ -25,66 +25,11 @@ class Dynamics extends Behavior<IDynamicsBehaviorParameter, IDynamicsBehaviorEve
 	public override category: string = "$Physics";
 
 	public override parameterOption = {
-		mass: {
-			name: "$Mass",
-			type: "number",
-			defaultValue: 1,
-			numberStep: .01,
-			numberMin: .001
-		},
-		maxAcceleration: {
-			name: "$Max.Acceleration",
-			type: "number",
-			defaultValue: 5,
-			numberStep: .1,
-			numberMin: 0
-		},
-		maxVelocity: {
-			name: "$Max.Velocity",
-			type: "number",
-			defaultValue: 10,
-			numberStep: .1,
-			numberMin: 0
-		},
-		resistance: {
-			name: "$Resistance",
-			type: "number",
-			defaultValue: 0.5,
-			numberStep: .1,
-			numberMin: 0
-		}
+		mass: { name: "$Mass", type: "number", defaultValue: 1, numberStep: .01, numberMin: .001 },
+		maxAcceleration: { name: "$Max.Acceleration", type: "number", defaultValue: 5, numberStep: .1, numberMin: 0 },
+		maxVelocity: { name: "$Max.Velocity", type: "number", defaultValue: 10, numberStep: .1, numberMin: 0 },
+		resistance: { name: "$Resistance", type: "number", defaultValue: 0.5, numberStep: .1, numberMin: 0 }
 	};
-
-    public override terms: Record<string, Record<string, string>> = {
-        "$Title": {
-            "ZH_CN": "动力学",
-            "EN_US": "Dynamics"
-        },
-        "$Intro": {
-            "ZH_CN": "一切可以运动物体的必要行为，执行物理法则。",
-            "EN_US": "All necessary behaviors that can move objects and implement the laws of physics."
-        },
-		"$Mass": {
-			"ZH_CN": "质量 (Kg)",
-            "EN_US": "Mass (Kg)"
-		},
-		"$Max.Acceleration": {
-			"ZH_CN": "最大加速度 (m/s²)",
-            "EN_US": "Maximum acceleration (m/s²)"
-		},
-		"$Max.Velocity": {
-			"ZH_CN": "最大速度 (m/s)",
-            "EN_US": "Maximum velocity (m/s)"
-		},
-		"$Resistance": {
-			"ZH_CN": "阻力系数",
-			"EN_US": "Resistance coefficient"
-		},
-		"$Physics": {
-			"ZH_CN": "物理",
-            "EN_US": "Physics"
-		}
-    };
 
 	public override finalEffect(individual: Individual, group: Group, model: Model, t: number): void {
 
@@ -139,6 +84,37 @@ class Dynamics extends Behavior<IDynamicsBehaviorParameter, IDynamicsBehaviorEve
 		individual.force[1] = 0;
 		individual.force[2] = 0;
 	};
+	
+    public override terms: Record<string, Record<string, string>> = {
+        "$Title": {
+            "ZH_CN": "动力学",
+            "EN_US": "Dynamics"
+        },
+        "$Intro": {
+            "ZH_CN": "一切可以运动物体的必要行为，执行物理法则。",
+            "EN_US": "All necessary behaviors that can move objects and implement the laws of physics."
+        },
+		"$Mass": {
+			"ZH_CN": "质量 (Kg)",
+            "EN_US": "Mass (Kg)"
+		},
+		"$Max.Acceleration": {
+			"ZH_CN": "最大加速度 (m/s²)",
+            "EN_US": "Maximum acceleration (m/s²)"
+		},
+		"$Max.Velocity": {
+			"ZH_CN": "最大速度 (m/s)",
+            "EN_US": "Maximum velocity (m/s)"
+		},
+		"$Resistance": {
+			"ZH_CN": "阻力系数",
+			"EN_US": "Resistance coefficient"
+		},
+		"$Physics": {
+			"ZH_CN": "物理",
+            "EN_US": "Physics"
+		}
+    };
 }
 
 export { Dynamics };

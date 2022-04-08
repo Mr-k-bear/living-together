@@ -25,6 +25,7 @@ const ZH_CN = {
     "Input.Error.Length": "输入内容长度须小于 {number}",
     "Input.Error.Length.Less": "输入内容长度须大于 {number}",
     "Input.Error.Select": "选择对象 ...",
+    "Input.Error.Combo": "选择选项 ...",
     "Object.List.New.Group": "群对象 {id}",
     "Object.List.New.Range": "范围对象 {id}",
     "Object.List.New.Label": "标签 {id}",
