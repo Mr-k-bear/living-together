@@ -1,12 +1,11 @@
 import { Component, ReactNode } from "react";
+import { Icon } from '@fluentui/react/lib/Icon';
 import { useStatus, IMixinStatusProps } from "@Context/Status";
 import { useSetting, IMixinSettingProps } from "@Context/Setting";
 import { Theme, BackgroundLevel, FontLevel } from "@Component/Theme/Theme";
-import { Icon } from '@fluentui/react/lib/Icon';
-import { LocalizationTooltipHost } from "../Localization/LocalizationTooltipHost";
-import { I18N } from "../Localization/Localization";
+import { LocalizationTooltipHost } from "@Component/Localization/LocalizationTooltipHost";
+import { I18N } from "@Component/Localization/Localization";
 import "./HeaderBar.scss";
-import { Tooltip, TooltipHost } from "@fluentui/react";
 
 interface IHeaderBarProps {
     height: number;

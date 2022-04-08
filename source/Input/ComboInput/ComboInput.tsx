@@ -1,7 +1,7 @@
 import { Component, createRef, ReactNode } from "react";
-import { PickerList, IDisplayItem } from "../PickerList/PickerList";
-import { TextField, ITextFieldProps } from "../TextField/TextField";
 import { Icon } from "@fluentui/react";
+import { PickerList, IDisplayItem } from "@Input/PickerList/PickerList";
+import { TextField, ITextFieldProps } from "@Input/TextField/TextField";
 import { Localization } from "@Component/Localization/Localization";
 import "./ComboInput.scss";
 interface IComboInputProps extends ITextFieldProps {

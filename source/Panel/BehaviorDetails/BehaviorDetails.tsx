@@ -2,12 +2,12 @@ import { Component, ReactNode} from "react";
 import { useSettingWithEvent, IMixinSettingProps } from "@Context/Setting";
 import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
 import { IAnyBehavior } from "@Model/Behavior";
-import { Message } from "@Component/Message/Message";
-import { AttrInput } from "@Component/AttrInput/AttrInput";
-import { ColorInput } from "@Component/ColorInput/ColorInput";
-import { TogglesInput } from "@Component/TogglesInput/TogglesInput";
+import { Message } from "@Input/Message/Message";
+import { AttrInput } from "@Input/AttrInput/AttrInput";
+import { ColorInput } from "@Input/ColorInput/ColorInput";
+import { TogglesInput } from "@Input/TogglesInput/TogglesInput";
 import { ConfirmPopup } from "@Component/ConfirmPopup/ConfirmPopup";
-import { Parameter } from "@Component/Parameter/Parameter";
+import { Parameter } from "@Input/Parameter/Parameter";
 import "./BehaviorDetails.scss";
 
 interface IBehaviorDetailsProps {}

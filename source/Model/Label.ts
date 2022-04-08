@@ -1,5 +1,5 @@
-import type { Model } from "./Model";
-import { ObjectID } from "./Renderer";
+import type { Model } from "@Model/Model";
+import { ObjectID } from "@Model/Renderer";
 
 /**
  * 数据标签

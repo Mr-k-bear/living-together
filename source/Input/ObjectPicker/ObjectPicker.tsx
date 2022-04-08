@@ -1,14 +1,14 @@
 import { Component, createRef, ReactNode } from "react";
+import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
 import { Label } from "@Model/Label";
 import { Group } from "@Model/Group";
 import { Range } from "@Model/Range";
-import { TextField, ITextFieldProps } from "../TextField/TextField";
-import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
-import { PickerList, IDisplayItem, getObjectDisplayInfo, IDisplayInfo } from "../PickerList/PickerList";
-import { Localization } from "@Component/Localization/Localization";
-import { Icon } from "@fluentui/react";
 import { CtrlObject } from "@Model/CtrlObject";
 import { Behavior } from "@Model/Behavior";
+import { TextField, ITextFieldProps } from "@Input/TextField/TextField";
+import { PickerList, IDisplayItem, getObjectDisplayInfo, IDisplayInfo } from "@Input/PickerList/PickerList";
+import { Localization } from "@Component/Localization/Localization";
+import { Icon } from "@fluentui/react";
 import "./ObjectPicker.scss";
 
 type IObjectType = Label | Group | Range | CtrlObject;

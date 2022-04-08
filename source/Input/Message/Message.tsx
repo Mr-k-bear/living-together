@@ -1,6 +1,6 @@
+import { FunctionComponent } from "react";
 import { AllI18nKeys, I18N } from "@Component/Localization/Localization";
 import { useSettingWithEvent, IMixinSettingProps, Themes, Language } from "@Context/Setting";
-import { FunctionComponent } from "react";
 import "./Message.scss";
 
 interface IMessageProps {

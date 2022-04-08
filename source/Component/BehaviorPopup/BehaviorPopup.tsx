@@ -1,15 +1,15 @@
 import { Component, ReactNode, Fragment } from "react";
 import { Popup } from "@Context/Popups";
+import { useStatus, IMixinStatusProps, randomColor } from "@Context/Status";
+import { useSettingWithEvent, IMixinSettingProps } from "@Context/Setting";
 import { Localization } from "@Component/Localization/Localization";
-import { SearchBox } from "@Component/SearchBox/SearchBox";
+import { SearchBox } from "@Input/SearchBox/SearchBox";
 import { ConfirmContent } from "@Component/ConfirmPopup/ConfirmPopup";
 import { BehaviorList } from "@Component/BehaviorList/BehaviorList";
 import { AllBehaviorsWithCategory, ICategoryBehavior } from "@Behavior/Behavior";
-import { Message } from "@Component/Message/Message";
+import { Message } from "@Input/Message/Message";
 import { IRenderBehavior, BehaviorRecorder } from "@Model/Behavior";
-import { useStatus, IMixinStatusProps, randomColor } from "@Context/Status";
-import { useSettingWithEvent, IMixinSettingProps } from "@Context/Setting";
-import { ConfirmPopup } from "@Component/ConfirmPopup/ConfirmPopup";
+
 import "./BehaviorPopup.scss";
 
 interface IBehaviorPopupProps {

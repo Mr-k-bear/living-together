@@ -1,11 +1,11 @@
-import { Localization } from "@Component/Localization/Localization";
-import { Theme, BackgroundLevel, FontLevel } from "@Component/Theme/Theme";
-import { Themes } from "@Context/Setting";
-import { DirectionalHint } from "@fluentui/react";
-import { ILayout, LayoutDirection } from "@Context/Layout";
 import { Component, ReactNode, MouseEvent } from "react";
-import { getPanelById, getPanelInfoById } from "../../Panel/Panel";
-import { LocalizationTooltipHost } from "../Localization/LocalizationTooltipHost";
+import { DirectionalHint } from "@fluentui/react";
+import { Themes } from "@Context/Setting";
+import { ILayout, LayoutDirection } from "@Context/Layout";
+import { Localization } from "@Component/Localization/Localization";
+import { BackgroundLevel, FontLevel } from "@Component/Theme/Theme";
+import { getPanelById, getPanelInfoById } from "@Panel/Panel";
+import { LocalizationTooltipHost } from "@Component/Localization/LocalizationTooltipHost";
 import "./Container.scss";
 
 interface IContainerProps extends ILayout {

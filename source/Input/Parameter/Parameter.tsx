@@ -1,15 +1,15 @@
-import { AttrInput } from "@Component/AttrInput/AttrInput";
+import { Component, Fragment, ReactNode } from "react";
+import { useSettingWithEvent, IMixinSettingProps, Language } from "@Context/Setting";
+import { AttrInput } from "@Input/AttrInput/AttrInput";
+import { ObjectID } from "@Model/Renderer";
+import { TogglesInput } from "@Input/TogglesInput/TogglesInput";
+import { ObjectPicker } from "@Input/ObjectPicker/ObjectPicker";
+import { AllI18nKeys } from "@Component/Localization/Localization";
+import { Message } from "@Input/Message/Message";
 import {
     IParameter, IParameterOption, IParameterOptionItem,
     IParameterValue, IParamValue, isObjectType, isVectorType
 } from "@Model/Parameter";
-import { ObjectID } from "@Model/Renderer";
-import { Component, Fragment, ReactNode } from "react";
-import { TogglesInput } from "@Component/TogglesInput/TogglesInput";
-import { ObjectPicker } from "@Component/ObjectPicker/ObjectPicker";
-import { useSettingWithEvent, IMixinSettingProps, Language } from "@Context/Setting";
-import { AllI18nKeys } from "@Component/Localization/Localization";
-import { Message } from "@Component/Message/Message";
 import "./Parameter.scss";
 
 interface IParameterProps<P extends IParameter = {}> {

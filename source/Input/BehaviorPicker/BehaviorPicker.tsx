@@ -1,11 +1,11 @@
-import { DetailsList } from "@Component/DetailsList/DetailsList";
 import { Component, ReactNode, createRef } from "react";
-import { Behavior } from "@Model/Behavior";
 import { Icon } from "@fluentui/react";
+import { Behavior } from "@Model/Behavior";
 import { useSettingWithEvent, IMixinSettingProps } from "@Context/Setting";
 import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
+import { DetailsList } from "@Component/DetailsList/DetailsList";
 import { Localization } from "@Component/Localization/Localization";
-import { PickerList } from "@Component/PickerList/PickerList";
+import { PickerList } from "@Input/PickerList/PickerList";
 import "./BehaviorPicker.scss";
 
 interface IBehaviorPickerProps {

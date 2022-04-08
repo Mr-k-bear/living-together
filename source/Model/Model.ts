@@ -1,12 +1,12 @@
-import { Individual } from "./Individual";
-import { Group } from "./Group";
-import { Range } from "./Range";
-import { Emitter, EventType, EventMixin } from "./Emitter";
-import { CtrlObject } from "./CtrlObject";
-import { ObjectID, AbstractRenderer } from "./Renderer";
-import { Label } from "./Label";
-import { Behavior, IAnyBehavior, IAnyBehaviorRecorder } from "./Behavior";
-import { IParamValue } from "@Model/Parameter"; 
+import { Label } from "@Model/Label";
+import { Group } from "@Model/Group";
+import { Range } from "@Model/Range";
+import { IParamValue } from "@Model/Parameter";
+import { Individual } from "@Model/Individual";
+import { CtrlObject } from "@Model/CtrlObject";
+import { Emitter, EventType, EventMixin } from "@Model/Emitter";
+import { ObjectID, AbstractRenderer } from "@Model/Renderer";
+import { Behavior, IAnyBehavior, IAnyBehaviorRecorder } from "@Model/Behavior";
 
 type ModelEvent = {
     labelChange: Label[];

@@ -1,9 +1,9 @@
-import { PickerList } from "../PickerList/PickerList";
-import { Label } from "@Model/Label";
-import { TextField, ITextFieldProps } from "../TextField/TextField";
-import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
 import { Component, ReactNode, createRef } from "react";
-import { LabelList } from "../LabelList/LabelList";
+import { Label } from "@Model/Label";
+import { PickerList } from "@Input/PickerList/PickerList";
+import { TextField, ITextFieldProps } from "@Input/TextField/TextField";
+import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
+import { LabelList } from "@Component/LabelList/LabelList";
 import "./LabelPicker.scss"
 
 interface ILabelPickerProps extends ITextFieldProps {

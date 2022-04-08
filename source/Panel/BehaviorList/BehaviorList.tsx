@@ -1,11 +1,11 @@
-import { BehaviorList as BehaviorListComponent } from "@Component/BehaviorList/BehaviorList";
 import { Component } from "react";
+import { BehaviorList as BehaviorListComponent } from "@Component/BehaviorList/BehaviorList";
 import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
 import { useSetting, IMixinSettingProps } from "@Context/Setting";
-import { Behavior } from "@Model/Behavior";
-import { Message } from "@Component/Message/Message";
 import { ConfirmPopup } from "@Component/ConfirmPopup/ConfirmPopup";
 import { BehaviorPopup } from "@Component/BehaviorPopup/BehaviorPopup";
+import { Behavior } from "@Model/Behavior";
+import { Message } from "@Input/Message/Message";
 import "./BehaviorList.scss";
 
 interface IBehaviorListProps {

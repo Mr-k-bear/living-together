@@ -1,6 +1,6 @@
-import type { Group } from "./Group";
-import type { Range } from "./Range";
-import type { Label } from "./Label";
+import type { Group } from "@Model/Group";
+import type { Range } from "@Model/Range";
+import type { Label } from "@Model/Label";
 
 type IObjectParamCacheType<P, Q = P> = {
     picker: P;

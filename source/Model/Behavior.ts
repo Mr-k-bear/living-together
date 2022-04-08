@@ -1,11 +1,8 @@
-import { Emitter, EventType } from "./Emitter";
-import type { Individual } from "./Individual";
-import type { Group } from "./Group";
-import type { Model } from "./Model";
-import {
-    IParamValue, isObjectType, isVectorType, getDefaultValue,
-    IParameterOptionItem, IParameter, IParameterOption, IParameterValue
-} from "./Parameter";
+import { Emitter, EventType } from "@Model/Emitter";
+import type { Individual } from "@Model/Individual";
+import type { Group } from "@Model/Group";
+import type { Model } from "@Model/Model";
+import { getDefaultValue, IParameter, IParameterOption, IParameterValue } from "@Model/Parameter";
 
 /**
  * 行为构造函数类型

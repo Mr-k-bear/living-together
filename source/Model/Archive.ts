@@ -1,4 +1,4 @@
-import { Emitter, EventType, EventMixin } from "./Emitter";
+import { Emitter, EventType } from "@Model/Emitter";
 
 interface IArchiveEvent {
     save: Archive;

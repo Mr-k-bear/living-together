@@ -32,6 +32,9 @@
             "@Component/*": [
                 "./source/Component/*"
             ],
+            "@Input/*": [
+                "./source/Input/*"
+            ],
             "@Localization/*": [
                 "./source/Localization/*"
             ],

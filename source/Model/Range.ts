@@ -1,4 +1,4 @@
-import { CtrlObject } from "./CtrlObject";
+import { CtrlObject } from "@Model/CtrlObject";
 
 /**
  * 范围

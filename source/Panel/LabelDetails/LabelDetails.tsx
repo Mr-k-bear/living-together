@@ -1,11 +1,11 @@
 import { Component, ReactNode } from "react";
-import { AttrInput } from "@Component/AttrInput/AttrInput";
 import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
-import { Message } from "@Component/Message/Message";
-import { ColorInput } from "@Component/ColorInput/ColorInput";
-import { Label } from "@Model/Label";
-import { TogglesInput } from "@Component/TogglesInput/TogglesInput";
+import { TogglesInput } from "@Input/TogglesInput/TogglesInput";
 import { ConfirmPopup } from "@Component/ConfirmPopup/ConfirmPopup";
+import { ColorInput } from "@Input/ColorInput/ColorInput";
+import { AttrInput } from "@Input/AttrInput/AttrInput";
+import { Message } from "@Input/Message/Message";
+import { Label } from "@Model/Label";
 import "./LabelDetails.scss";
 
 @useStatusWithEvent("focusLabelChange", "labelAttrChange", "labelChange")

@@ -1,8 +1,8 @@
 import { Component, ReactNode } from "react";
 import { Icon } from "@fluentui/react";
-import { Localization, AllI18nKeys } from "@Component/Localization/Localization";
+import { AllI18nKeys } from "@Component/Localization/Localization";
 import { ObjectID } from "@Model/Renderer";
-import { TextField, ITextFieldProps } from "../TextField/TextField";
+import { TextField, ITextFieldProps } from "@Input/TextField/TextField";
 import "./AttrInput.scss";
 
 interface IAttrInputProps extends ITextFieldProps {

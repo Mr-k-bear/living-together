@@ -1,12 +1,12 @@
-import { BackgroundLevel, Theme } from "@Component/Theme/Theme";
+import { Component, ReactNode } from "react";
 import { DirectionalHint, IconButton } from "@fluentui/react";
-import { LocalizationTooltipHost } from "../Localization/LocalizationTooltipHost";
 import { useSetting, IMixinSettingProps } from "@Context/Setting";
 import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
-import { AllI18nKeys } from "../Localization/Localization";
-import { SettingPopup } from "../SettingPopup/SettingPopup";
-import { BehaviorPopup } from "../BehaviorPopup/BehaviorPopup";
-import { Component, ReactNode } from "react";
+import { BackgroundLevel, Theme } from "@Component/Theme/Theme";
+import { LocalizationTooltipHost } from "@Component/Localization/LocalizationTooltipHost";
+import { AllI18nKeys } from "@Component/Localization/Localization";
+import { SettingPopup } from "@Component/SettingPopup/SettingPopup";
+import { BehaviorPopup } from "@Component/BehaviorPopup/BehaviorPopup";
 import { MouseMod } from "@GLRender/ClassicRenderer";
 import "./CommandBar.scss";
 

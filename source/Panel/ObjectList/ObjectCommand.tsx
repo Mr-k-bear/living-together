@@ -1,9 +1,9 @@
-import { BackgroundLevel, FontLevel, Theme } from "@Component/Theme/Theme";
-import { useStatus, IMixinStatusProps } from "../../Context/Status";
-import { ConfirmPopup } from "@Component/ConfirmPopup/ConfirmPopup";
-import { Icon } from "@fluentui/react";
 import { Component, ReactNode } from "react";
+import { BackgroundLevel, FontLevel, Theme } from "@Component/Theme/Theme";
+import { useStatus, IMixinStatusProps } from "@Context/Status";
+import { ConfirmPopup } from "@Component/ConfirmPopup/ConfirmPopup";
 import { ObjectID } from "@Model/Renderer";
+import { Icon } from "@fluentui/react";
 import "./ObjectList.scss";
 
 @useStatus

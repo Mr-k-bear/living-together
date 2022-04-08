@@ -1,5 +1,5 @@
-import { Model } from "./Model";
-import { Emitter } from "./Emitter"; 
+import { Model } from "@Model/Model";
+import { Emitter } from "@Model/Emitter";
 
 interface IActuatorEvent {
 	startChange: boolean;

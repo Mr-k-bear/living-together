@@ -1,12 +1,12 @@
 import { Component, ReactNode } from "react";
-import { AttrInput } from "@Component/AttrInput/AttrInput";
-import { useStatusWithEvent, IMixinStatusProps, Status } from "@Context/Status";
-import { Message } from "@Component/Message/Message";
+import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
+import { AttrInput } from "@Input/AttrInput/AttrInput";
+import { Message } from "@Input/Message/Message";
 import { Range } from "@Model/Range";
 import { ObjectID } from "@Model/Renderer";
-import { ColorInput } from "@Component/ColorInput/ColorInput";
-import { TogglesInput } from "@Component/TogglesInput/TogglesInput";
-import { LabelPicker } from "@Component/LabelPicker/LabelPicker";
+import { ColorInput } from "@Input/ColorInput/ColorInput";
+import { TogglesInput } from "@Input/TogglesInput/TogglesInput";
+import { LabelPicker } from "@Input/LabelPicker/LabelPicker";
 import { ConfirmPopup } from "@Component/ConfirmPopup/ConfirmPopup";
 import "./RangeDetails.scss";
 
