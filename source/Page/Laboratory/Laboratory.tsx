@@ -39,24 +39,24 @@ class Laboratory extends Component {
 
         // 测试渲染器
         if (false) {
-            renderer.points("0");
-            renderer.points("1", new Array(100 * 3).fill(0).map(() => (Math.random() - .5) * 2));
-            renderer.points("2", new Array(100 * 3).fill(0).map(() => (Math.random() - .5) * 2), {
-                size: 100,
-                color: [1, 0, 1]
-            });
-            renderer.points("3", new Array(100 * 3).fill(0).map(() => (Math.random() - .5) * 2), {
-                size: 80,
-                color: [0, 1, 1]
-            });
-            renderer.points("2");
-            renderer.cube("4");
-            renderer.cube("5",
-                new Array(3).fill(0).map(() => (Math.random() - .5) * 2),
-                new Array(3).fill(0).map(() => Math.random() * 1.2), {
-                    color: [1, 1, 0]
-                }
-            )
+            // renderer.points("0");
+            // renderer.points("1", new Array(100 * 3).fill(0).map(() => (Math.random() - .5) * 2));
+            // renderer.points("2", new Array(100 * 3).fill(0).map(() => (Math.random() - .5) * 2), {
+            //     size: 100,
+            //     color: [1, 0, 1]
+            // });
+            // renderer.points("3", new Array(100 * 3).fill(0).map(() => (Math.random() - .5) * 2), {
+            //     size: 80,
+            //     color: [0, 1, 1]
+            // });
+            // renderer.points("2");
+            // renderer.cube("4");
+            // renderer.cube("5",
+            //     new Array(3).fill(0).map(() => (Math.random() - .5) * 2),
+            //     new Array(3).fill(0).map(() => Math.random() * 1.2), {
+            //         color: [1, 1, 0]
+            //     }
+            // )
         }
 
         (window as any).renderer = renderer;

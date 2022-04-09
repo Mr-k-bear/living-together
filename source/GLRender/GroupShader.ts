@@ -10,6 +10,7 @@ interface IGroupShaderAttribute {
 
 interface IGroupShaderUniform {
     uRadius: number,
+    uShape: number,
     uMvp: ObjectData,
     uColor: ObjectData,
     uFogColor: ObjectData,
@@ -50,10 +51,42 @@ class GroupShader extends GLShader<IGroupShaderAttribute, IGroupShaderUniform>{
             
             uniform vec3 uColor;
             uniform vec3 uFogColor;
+            uniform int uShape;
 
             varying float vFogPower;
         
             void main(){
+
+                float dist = distance(gl_PointCoord, vec2(0.5, 0.5));
+                vec2 normalPos = (gl_PointCoord - vec2(0.5, 0.5)) * 2.;
+                
+                if ( uShape == 1 && abs(normalPos.x) < .6 && abs(normalPos.y) < .6) {
+                    discard;
+                }
+
+                if ( uShape == 2 && abs(normalPos.x) > .3 && abs(normalPos.y) > .3) {
+                    discard;
+                }
+
+                if ( uShape == 3 && abs(normalPos.y) > .3) {
+                    discard;
+                }
+
+                if ( uShape == 4 &&
+                    (abs(normalPos.x) < .4 || abs(normalPos.y) < .4) &&
+                    (abs(normalPos.x) > .4 || abs(normalPos.y) > .4)
+                ) {
+                    discard;
+                }
+
+                if ( uShape == 5 &&
+                    (abs(normalPos.x) < .75 && abs(normalPos.y) < .75) &&
+                    (abs(normalPos.x) < .28 || abs(normalPos.y) < .28) &&
+                    (abs(normalPos.x) > .28 || abs(normalPos.y) > .28)
+                ) {
+                    discard;
+                }
+
                 gl_FragColor = vec4(mix(uColor, uFogColor, vFogPower), 1.);
             }
         `;
@@ -109,6 +142,15 @@ class GroupShader extends GLShader<IGroupShaderAttribute, IGroupShaderUniform>{
     public fogDensity(rgb: ObjectData) {
         this.gl.uniform3fv(
             this.uniformLocate("uFogDensity"), rgb
+        )
+    }
+
+    /**
+     * 形状
+     */
+    public shape(shape: number) {
+        this.gl.uniform1i(
+            this.uniformLocate("uShape"), shape
         )
     }
 }

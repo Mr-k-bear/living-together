@@ -45,6 +45,11 @@ class BasicGroup extends DisplayObject<GroupShader> {
     public color = [1, 1, 1];
 
     /**
+     * 形状
+     */
+    public shape: number = 0;
+
+    /**
      * 绘制立方体
      */
     public draw(){
@@ -65,6 +70,9 @@ class BasicGroup extends DisplayObject<GroupShader> {
 
         // 半径传递
         this.shader.radius(this.size);
+
+        // 形状传递
+        this.shader.shape(this.shape);
 
         // 指定颜色
         this.shader.color(this.color);

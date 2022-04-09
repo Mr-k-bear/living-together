@@ -18,7 +18,8 @@ type IClassicRendererParameter = {
 	renderer: {};
 	points: {
         color: "color",
-        size: "number"
+        size: "number",
+        shape: "option"
     };
 	cube: {
         color: "color"
@@ -30,7 +31,15 @@ class ClassicRenderer extends BasicRenderer<IClassicRendererParameter> {
     public override rendererParameterOption = {};
 	public override pointsParameterOption = {
         color: { type: "color", name: "", defaultValue: [0, 0, 0] },
-        size: { type: "number", name: "Common.Attr.Key.Size", defaultValue: 60, numberStep: 10, numberMin: 0 }
+        size: { type: "number", name: "Common.Attr.Key.Size", defaultValue: 60, numberStep: 10, numberMin: 0 },
+        shape: { type: "option", name: "Common.Render.Attr.Key.Display.Shape", defaultValue: "0", allOption: [
+            { key: "0", name: "Common.Render.Attr.Key.Display.Shape.Square" },
+            { key: "1", name: "Common.Render.Attr.Key.Display.Shape.Hollow.Square" },
+            { key: "2", name: "Common.Render.Attr.Key.Display.Shape.Hollow.Plus" },
+            { key: "3", name: "Common.Render.Attr.Key.Display.Shape.Hollow.Reduce" },
+            { key: "4", name: "Common.Render.Attr.Key.Display.Shape.Hollow.Cross" },
+            { key: "5", name: "Common.Render.Attr.Key.Display.Shape.Hollow.Checkerboard" }
+        ]}
     };
 	public override cubeParameterOption = {
         color: { type: "color", name: "", defaultValue: [0, 0, 0] },
@@ -243,6 +252,11 @@ class ClassicRenderer extends BasicRenderer<IClassicRendererParameter> {
             // 半径数据
             if (param.size) {
                 group.size = param.size;
+            }
+
+            // 半径数据
+            if (param.shape) {
+                group.shape = parseInt(param.shape);
             }
         }
 
