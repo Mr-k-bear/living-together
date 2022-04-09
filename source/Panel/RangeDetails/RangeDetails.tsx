@@ -8,6 +8,7 @@ import { ColorInput } from "@Input/ColorInput/ColorInput";
 import { TogglesInput } from "@Input/TogglesInput/TogglesInput";
 import { LabelPicker } from "@Input/LabelPicker/LabelPicker";
 import { ConfirmPopup } from "@Component/ConfirmPopup/ConfirmPopup";
+import { Parameter } from "@Input/Parameter/Parameter";
 import "./RangeDetails.scss";
 
 @useStatusWithEvent("rangeAttrChange", "focusObjectChange", "rangeLabelChange")
@@ -71,6 +72,23 @@ class RangeDetails extends Component<IMixinStatusProps> {
 					}
 				}}
 			/>
+
+            <Parameter
+                key={range.id}
+                option={this.props.status?.renderer.cubeParameterOption ?? {}}
+                title={"Common.Attr.Title.Render.Parameter"}
+                value={range.renderParameter}
+                renderKey={
+                    Object.getOwnPropertyNames(this.props.status?.renderer.cubeParameterOption ?? {})
+                    .filter((key) => key !== "color")
+                }
+                change={(key, value) => {
+                    range.renderParameter[key as any] = value;
+                    this.props.status?.changeRangeAttrib(
+                        range.id, "renderParameter", range.renderParameter
+                    );
+                }}
+            />
 
             <Message i18nKey="Common.Attr.Title.Spatial" isTitle/>
 

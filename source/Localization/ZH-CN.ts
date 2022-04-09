@@ -76,6 +76,7 @@ const ZH_CN = {
     "Common.Attr.Title.Individual.Generation": "生成个体",
     "Common.Attr.Title.Behaviors": "行为列表",
     "Common.Attr.Title.Individual.kill": "消除个体",
+    "Common.Attr.Title.Render.Parameter": "渲染参数",
     "Common.Attr.Key.Display.Name": "显示名称",
     "Common.Attr.Key.Position.X": "X 坐标",
     "Common.Attr.Key.Position.Y": "Y 坐标",

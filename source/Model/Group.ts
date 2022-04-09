@@ -3,6 +3,8 @@ import { CtrlObject } from "@Model/CtrlObject";
 import type { Behavior } from "@Model/Behavior"; 
 import { Label } from "@Model/Label";
 import { Range } from "@Model/Range";
+import { Model, ObjectID } from "@Model/Model";
+import { getDefaultValue } from "@Model/Parameter";
 
 enum GenMod {
     Point = "p",
@@ -380,11 +382,15 @@ class Group extends CtrlObject {
         });
         return dataBuffer;
     }
+    
+    public constructor(model: Model, id: ObjectID) {
 
-    /**
-     * 绘制大小 
-     */
-    public size: number = 60;
+        super(model, id);
+        
+        if (model.renderer) {
+            this.renderParameter = getDefaultValue(model.renderer.pointsParameterOption);
+        }
+    }
 }
 
 export default Group;

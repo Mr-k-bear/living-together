@@ -29,11 +29,11 @@ class ClassicRenderer extends BasicRenderer<IClassicRendererParameter> {
 
     public override rendererParameterOption = {};
 	public override pointsParameterOption = {
-        color: { type: "color", name: "" },
-        size: { type: "number", name: "Common.Attr.Key.Size" }
+        color: { type: "color", name: "", defaultValue: [0, 0, 0] },
+        size: { type: "number", name: "Common.Attr.Key.Size", defaultValue: 60, numberStep: 10, numberMin: 0 }
     };
 	public override cubeParameterOption = {
-        color: { type: "color", name: "" },
+        color: { type: "color", name: "", defaultValue: [0, 0, 0] },
     };
 
     private basicShader: BasicsShader = undefined as any;

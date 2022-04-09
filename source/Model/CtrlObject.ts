@@ -1,5 +1,5 @@
 import { LabelObject } from "@Model/Label"
-import type { Model } from "@Model/Model";
+import type { IAnyObject, Model } from "@Model/Model";
 import type { ObjectID } from "@Model/Model";
 
 /**
@@ -36,6 +36,11 @@ class CtrlObject extends LabelObject {
      * 控制模型
      */
     protected model: Model;
+
+    /**
+     * 渲染数据
+     */
+    public renderParameter: IAnyObject = {};
 
     /**
      * 构造器

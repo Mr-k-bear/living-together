@@ -76,6 +76,7 @@ const EN_US = {
     "Common.Attr.Title.Individual.Generation": "Individual generation",
     "Common.Attr.Title.Behaviors": "Behaviors list",
     "Common.Attr.Title.Individual.kill": "Individual kill",
+    "Common.Attr.Title.Render.Parameter": "Render parameters",
     "Common.Attr.Key.Display.Name": "Display name",
     "Common.Attr.Key.Position.X": "Position X",
     "Common.Attr.Key.Position.Y": "Position Y",
