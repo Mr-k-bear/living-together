@@ -35,9 +35,9 @@ class SimulatorWeb extends Component {
         (window as any).setting = (this.setting as any);
 
         // TODO: 这里要读取存档
+        const classicRender = new ClassicRenderer().onLoad();
         this.status = new Status();
-        this.status.renderer = new ClassicRenderer({ className: "canvas" }).onLoad();
-        this.status.bindRenderer(this.status.renderer);
+        this.status.bindRenderer(classicRender);
         this.status.setting = this.setting;
 
         // 测试代码

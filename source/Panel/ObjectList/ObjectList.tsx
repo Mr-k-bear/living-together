@@ -3,7 +3,7 @@ import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
 import { useSetting, IMixinSettingProps } from "@Context/Setting";
 import { Localization } from "@Component/Localization/Localization";
 import { DetailsList } from "@Component/DetailsList/DetailsList";
-import { ObjectID } from "@Model/Renderer";
+import { ObjectID } from "@Model/Model";
 import { Icon } from "@fluentui/react";
 import "./ObjectList.scss";
 

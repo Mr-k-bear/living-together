@@ -1,27 +1,49 @@
-import { ObjectID, ObjectData, ICommonParam } from "@Model/Renderer";
+import { ObjectData } from "@Model/Renderer";
+import { ObjectID } from "@Model/Model";
+import { IParameterValue, getDefaultValue } from "@Model/Parameter";
 import { BasicRenderer } from "./BasicRenderer";
 import { BasicsShader } from "./BasicShader";
 import { Axis } from "./Axis";
 import { BasicCube } from "./BasicCube";
 import { GroupShader } from "./GroupShader";
 import { BasicGroup } from "./BasicGroup";
-import DisplayObject from "./DisplayObject";
-
-interface IClassicRendererParams {
-    point: {
-        size: number;
-    }
-    cube: {
-        radius: number[];
-    }
-}
+import { DisplayObject } from "./DisplayObject";
 
 enum MouseMod {
     Drag = 1,
     click = 2
 }
 
-class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
+type IClassicRendererParameter = {
+	renderer: {};
+	points: {
+        color: "color",
+        size: "number",
+        shape: "option"
+    };
+	cube: {
+        color: "color"
+    };
+}
+
+class ClassicRenderer extends BasicRenderer<IClassicRendererParameter> {
+
+    public override rendererParameterOption = {};
+	public override pointsParameterOption = {
+        color: { type: "color", name: "", defaultValue: [0, 0, 0] },
+        size: { type: "number", name: "Common.Attr.Key.Size", defaultValue: 60, numberStep: 10, numberMin: 0 },
+        shape: { type: "option", name: "Common.Render.Attr.Key.Display.Shape", defaultValue: "0", allOption: [
+            { key: "0", name: "Common.Render.Attr.Key.Display.Shape.Square" },
+            { key: "1", name: "Common.Render.Attr.Key.Display.Shape.Hollow.Square" },
+            { key: "2", name: "Common.Render.Attr.Key.Display.Shape.Hollow.Plus" },
+            { key: "3", name: "Common.Render.Attr.Key.Display.Shape.Hollow.Reduce" },
+            { key: "4", name: "Common.Render.Attr.Key.Display.Shape.Hollow.Cross" },
+            { key: "5", name: "Common.Render.Attr.Key.Display.Shape.Hollow.Checkerboard" }
+        ]}
+    };
+	public override cubeParameterOption = {
+        color: { type: "color", name: "", defaultValue: [0, 0, 0] },
+    };
 
     private basicShader: BasicsShader = undefined as any;
     private axisObject: Axis = undefined as any;
@@ -51,6 +73,8 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
     }
 
     public onLoad(): this {
+
+        this.rendererParameter = getDefaultValue(this.rendererParameterOption);
         
         // 自动调节分辨率
         this.autoResize();
@@ -187,7 +211,7 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
 
     points(
         id: ObjectID, position?: ObjectData,
-        param?: Readonly<Partial<ICommonParam & IClassicRendererParams["point"]>>
+        param?: Readonly<IParameterValue<IClassicRendererParameter["points"]>>
     ): this {
         let object = this.objectPool.get(id);
         let group: BasicGroup;
@@ -229,14 +253,19 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
             if (param.size) {
                 group.size = param.size;
             }
+
+            // 半径数据
+            if (param.shape) {
+                group.shape = parseInt(param.shape);
+            }
         }
 
         return this;
     }
 
     cube(
-        id: ObjectID, position?: ObjectData,
-        param?: Readonly<Partial<ICommonParam & IClassicRendererParams["cube"]>>
+        id: ObjectID, position?: ObjectData, radius?: ObjectData,
+        param?: Readonly<IParameterValue<IClassicRendererParameter["cube"]>>
     ): this {
         let object = this.objectPool.get(id);
         let cube: BasicCube;
@@ -250,6 +279,13 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
                     cube.position[1] = position[1] ?? cube.position[1];
                     cube.position[2] = position[2] ?? cube.position[2];
                 }
+
+                if (radius) {
+                    cube.r[0] = radius[0] ?? cube.r[0];
+                    cube.r[1] = radius[1] ?? cube.r[1];
+                    cube.r[2] = radius[2] ?? cube.r[2];
+                }
+
             } else {
                 throw new Error("Renderer: Use duplicate ObjectID when drawing different types of objects");
             }
@@ -263,6 +299,12 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
                 cube.position[2] = position[2] ?? cube.position[2];
             }
 
+            if (radius) {
+                cube.r[0] = radius[0] ?? cube.r[0];
+                cube.r[1] = radius[1] ?? cube.r[1];
+                cube.r[2] = radius[2] ?? cube.r[2];
+            }
+
             this.objectPool.set(id, cube);
             console.log(`Renderer: Create new cube object with id ${id}`);
         }
@@ -271,21 +313,11 @@ class ClassicRenderer extends BasicRenderer<{}, IClassicRendererParams> {
         cube.isDraw = true;
 
         // 参数传递
-        if (param) {
+        if (param && param.color) {
 
-            // 颜色数据
-            if (param.color) {
-                cube.color[0] = param.color[0] ?? cube.color[0]
-                cube.color[1] = param.color[1] ?? cube.color[1]
-                cube.color[2] = param.color[2] ?? cube.color[2]
-            }
-
-            // 半径数据
-            if (param.radius) {
-                cube.r[0] = param.radius[0] ?? cube.r[0];
-                cube.r[1] = param.radius[1] ?? cube.r[1];
-                cube.r[2] = param.radius[2] ?? cube.r[2];
-            }
+            cube.color[0] = param.color[0] ?? cube.color[0];
+            cube.color[1] = param.color[1] ?? cube.color[1];
+            cube.color[2] = param.color[2] ?? cube.color[2];
         }
 
         return this;

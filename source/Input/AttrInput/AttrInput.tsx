@@ -1,7 +1,7 @@
 import { Component, ReactNode } from "react";
 import { Icon } from "@fluentui/react";
 import { AllI18nKeys } from "@Component/Localization/Localization";
-import { ObjectID } from "@Model/Renderer";
+import { ObjectID } from "@Model/Model";
 import { TextField, ITextFieldProps } from "@Input/TextField/TextField";
 import "./AttrInput.scss";
 

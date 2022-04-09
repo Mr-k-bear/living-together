@@ -4,7 +4,7 @@ import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
 import { useSetting, IMixinSettingProps } from "@Context/Setting";
 import { ComboInput, IDisplayItem } from "@Input/ComboInput/ComboInput";
 import { Message } from "@Input/Message/Message";
-import { ObjectID } from "@Model/Renderer";
+import { ObjectID } from "@Model/Model";
 import { ColorInput } from "@Input/ColorInput/ColorInput";
 import { TogglesInput } from "@Input/TogglesInput/TogglesInput";
 import { LabelPicker } from "@Input/LabelPicker/LabelPicker";
@@ -13,6 +13,7 @@ import { AllI18nKeys } from "@Component/Localization/Localization";
 import { ObjectPicker } from "@Input/ObjectPicker/ObjectPicker";
 import { ConfirmPopup } from "@Component/ConfirmPopup/ConfirmPopup";
 import { BehaviorPicker } from "@Input/BehaviorPicker/BehaviorPicker";
+import { Parameter } from "@Input/Parameter/Parameter";
 import "./GroupDetails.scss";
 
 interface IGroupDetailsProps {}
@@ -51,14 +52,6 @@ class GroupDetails extends Component<IGroupDetailsProps & IMixinStatusProps & IM
                 value={group.color} normal
                 valueChange={(color) => {
                     this.props.status?.changeGroupAttrib(group.id, "color", color);
-                }}
-            />
-
-            <AttrInput
-                id={group.id} isNumber={true} step={10} keyI18n="Common.Attr.Key.Size"
-                value={group.size} min={0}
-                valueChange={(val) => {
-                    this.props.status?.changeGroupAttrib(group.id, "size", (val as any) / 1);
                 }}
             />
 
@@ -114,6 +107,23 @@ class GroupDetails extends Component<IGroupDetailsProps & IMixinStatusProps & IM
 					}
 				}}
 			/>
+
+            <Parameter
+                key={group.id}
+                option={this.props.status?.renderer.pointsParameterOption ?? {}}
+                title={"Common.Attr.Title.Render.Parameter"}
+                value={group.renderParameter}
+                renderKey={
+                    Object.getOwnPropertyNames(this.props.status?.renderer.pointsParameterOption ?? {})
+                    .filter((key) => key !== "color")
+                }
+                change={(key, value) => {
+                    group.renderParameter[key as any] = value;
+                    this.props.status?.changeGroupAttrib(
+                        group.id, "renderParameter", group.renderParameter
+                    );
+                }}
+            />
             
             <Message i18nKey="Common.Attr.Title.Behaviors" isTitle/>
 

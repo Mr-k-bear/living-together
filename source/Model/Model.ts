@@ -5,8 +5,18 @@ import { IParamValue } from "@Model/Parameter";
 import { Individual } from "@Model/Individual";
 import { CtrlObject } from "@Model/CtrlObject";
 import { Emitter, EventType, EventMixin } from "@Model/Emitter";
-import { ObjectID, AbstractRenderer } from "@Model/Renderer";
+import { AbstractRenderer } from "@Model/Renderer";
 import { Behavior, IAnyBehavior, IAnyBehaviorRecorder } from "@Model/Behavior";
+
+/**
+ * 对象标识符
+ */
+type ObjectID = string;
+
+/**
+ * 任意类型对象
+ */
+type IAnyObject = Record<string, any>;
 
 type ModelEvent = {
     labelChange: Label[];
@@ -352,17 +362,12 @@ class Model extends Emitter<ModelEvent> {
         // 渲染
         for (let i = 0; i < this.objectPool.length; i++) {
             let object = this.objectPool[i];
+            object.renderParameter.color = object.color;
             if (object.display && object instanceof Group) {
-                this.renderer.points(object.id, object.exportPositionData(), {
-                    color: object.color,
-                    size: object.size
-                } as any);
+                this.renderer.points(object.id, object.exportPositionData(), object.renderParameter);
             }
             if (object.display && object instanceof Range) {
-                this.renderer.cube(object.id, object.position, {
-                    color: object.color,
-                    radius: object.radius
-                } as any);
+                this.renderer.cube(object.id, object.position, object.radius, object.renderParameter);
             }
         }
     }
@@ -376,5 +381,6 @@ export {
     EventMixin,
     Model,
     CtrlObject,
-    ObjectID
+    ObjectID,
+    IAnyObject
 }

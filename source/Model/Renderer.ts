@@ -1,9 +1,11 @@
 import { Emitter, EventType } from "@Model/Emitter";
+import { IAnyObject, ObjectID } from "@Model/Model"; 
+import { IParameter, IParameterOption, IParameterValue } from "@Model/Parameter";
 
 /**
- * 任意类型对象
+ * 默认类型
  */
-type IAnyObject = Record<string, any>;
+type IDefaultType<T, D> = T extends undefined ? D : T;
 
 /**
  * 渲染器参数
@@ -11,14 +13,19 @@ type IAnyObject = Record<string, any>;
 interface IRendererParam {
 
 	/**
+	 * 渲染器参数
+	 */
+	renderer?: IParameter;
+
+	/**
 	 * 绘制点需要的参数
 	 */
-	points?: IAnyObject
+	points?: IParameter;
 
 	/**
 	 * 绘制立方体需要的参数
 	 */
-	cube?: IAnyObject
+	cube?: IParameter;
 }
 
 /**
@@ -32,22 +39,15 @@ interface ICommonParam {
 	color?: ObjectData;
 }
 
-/**
- * 对象标识符
- */
-type ObjectID = string;
+
 
 /**
  * 接收的数据类型
  */
 type ObjectData = Array<number> | Float32Array;
 
-interface IRendererConstructor<
-	M extends IAnyObject = {}
-> {
-	new (canvas: HTMLCanvasElement, param?: M): AbstractRenderer<
-		IRendererParam, IAnyObject, AbstractRendererEvent
-	>
+interface IRendererConstructor {
+	new (): AbstractRenderer<IRendererParam, AbstractRendererEvent>
 }
 
 type AbstractRendererEvent = {
@@ -63,7 +63,6 @@ type AbstractRendererEvent = {
  */
 abstract class AbstractRenderer<
 	P extends IRendererParam = {},
-	M extends IAnyObject = {},
 	E extends AbstractRendererEvent = {loop: number}
 > extends Emitter<E> {
 
@@ -72,28 +71,17 @@ abstract class AbstractRenderer<
 	/**
 	 * 渲染器参数
 	 */
-	abstract param: Partial<M>;
+	public rendererParameterOption: IParameterOption<IDefaultType<P["renderer"], {}>> = {} as any;
+	public pointsParameterOption: IParameterOption<IDefaultType<P["points"], {}>> = {} as any;
+	public cubeParameterOption: IParameterOption<IDefaultType<P["cube"], {}>> = {} as any;
 
 	/**
-	 * 类型断言
+	 * 渲染器参数
 	 */
-	get isRenderer() {
-		return true;
-	}
+	public rendererParameter: IParameterValue<IDefaultType<P["renderer"], {}>> = {} as any;
 
 	/**
-	 * 断言对象是否是渲染器
-	 */
-	public static isRenderer(render: any): render is AbstractRenderer {
-		if (render instanceof Object) {
-			return !!(render as AbstractRenderer).isRenderer;
-		} else {
-			return false;
-		}
-	};
-
-	/**
-	 * @function start 
+	 * @function clean 
 	 * 开始一次数据更新 \
 	 * 此函数将清除固定对象的绘制状态 \
 	 * 在每次数据更新前调用 \
@@ -110,7 +98,9 @@ abstract class AbstractRenderer<
 	 * @param id 使用的标识符
 	 * @param position 做标集合
 	 */
-	abstract points(id: ObjectID, position?: ObjectData, param?: Readonly<P["points"] & ICommonParam>): this;
+	abstract points(id: ObjectID, position?: ObjectData, param?: 
+		Readonly<IParameterValue<IDefaultType<P["points"], {}>>>
+	): this;
 
 	/**
 	 * @function cube 绘制立方体
@@ -120,12 +110,13 @@ abstract class AbstractRenderer<
 	 * 
 	 * 注意: 这里的半径指的是立方体重心与立方体任意一面几何中心的距离
 	 */
-	abstract cube(id: ObjectID, position?: ObjectData, param?: Readonly<P["cube"] & ICommonParam>): this;
+	abstract cube(id: ObjectID, position?: ObjectData, radius?: ObjectData, param?:
+		Readonly<IParameterValue<IDefaultType<P["cube"], {}>>>
+	): this;
 }
 
 export default AbstractRenderer;
 export { 
-    AbstractRenderer, ObjectID, IAnyObject,
-    ICommonParam, IRendererParam, 
+    AbstractRenderer, ICommonParam, IRendererParam, 
     ObjectData, IRendererConstructor 
 };

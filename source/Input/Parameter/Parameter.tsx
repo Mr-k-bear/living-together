@@ -1,7 +1,7 @@
 import { Component, Fragment, ReactNode } from "react";
 import { useSettingWithEvent, IMixinSettingProps, Language } from "@Context/Setting";
 import { AttrInput } from "@Input/AttrInput/AttrInput";
-import { ObjectID } from "@Model/Renderer";
+import { ObjectID } from "@Model/Model";
 import { TogglesInput } from "@Input/TogglesInput/TogglesInput";
 import { ObjectPicker } from "@Input/ObjectPicker/ObjectPicker";
 import { AllI18nKeys, I18N } from "@Component/Localization/Localization";
@@ -10,7 +10,7 @@ import { ColorInput } from "@Input/ColorInput/ColorInput";
 import { ComboInput, IDisplayItem } from "@Input/ComboInput/ComboInput";
 import {
     IParameter, IParameterOption, IParameterOptionItem,
-    IParameterValue, IParamValue, isObjectType, isVectorType
+    IParameterValue, IParamValue, isObjectType
 } from "@Model/Parameter";
 import "./Parameter.scss";
 
@@ -20,6 +20,7 @@ interface IParameterProps<P extends IParameter = {}> {
     key: ObjectID;
     change: <K extends keyof P>(key: K, val: IParamValue<P[K]>) => any;
     i18n?: (key: string, language: Language) => string;
+    renderKey?: Array<keyof P>;
     title?: AllI18nKeys;
     titleOption?: Record<string, string>;
     isFirst?: boolean;
@@ -249,12 +250,18 @@ class Parameter<P extends IParameter> extends Component<IParameterProps<P> & IMi
     }
     
     public render(): ReactNode {
-        const allOptionKeys: Array<keyof P> = Object.getOwnPropertyNames(this.props.option);
         
+        let allOptionKeys: Array<keyof P>;
+        if (this.props.renderKey) {
+            allOptionKeys = this.props.renderKey;
+        } else {
+            allOptionKeys = Object.getOwnPropertyNames(this.props.option);
+        }
+
         return <>
         
             {
-                allOptionKeys.length <= 0 && this.props.title ?
+                allOptionKeys.length > 0 && this.props.title ?
                     <Message
                         isTitle
                         first={this.props.isFirst}
