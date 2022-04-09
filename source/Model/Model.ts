@@ -369,9 +369,8 @@ class Model extends Emitter<ModelEvent> {
                 } as any);
             }
             if (object.display && object instanceof Range) {
-                this.renderer.cube(object.id, object.position, {
-                    color: object.color,
-                    radius: object.radius
+                this.renderer.cube(object.id, object.position, object.radius, {
+                    color: object.color
                 } as any);
             }
         }

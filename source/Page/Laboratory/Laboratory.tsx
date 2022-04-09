@@ -21,7 +21,7 @@ class Laboratory extends Component {
             throw new Error("Laboratory: 重复引用 canvas 节点");
         }
 
-        const renderer = new ClassicRenderer({ className: "canvas" }).onLoad();
+        const renderer = new ClassicRenderer().onLoad();
         this.canvasContRef.current.appendChild(renderer.canvas.dom);
 
         let model = new Model().bindRenderer(renderer);
@@ -51,10 +51,12 @@ class Laboratory extends Component {
             });
             renderer.points("2");
             renderer.cube("4");
-            renderer.cube("5", new Array(3).fill(0).map(() => (Math.random() - .5) * 2), {
-                radius: new Array(3).fill(0).map(() => Math.random() * 1.2),
-                color: [1, 1, 0]
-            })
+            renderer.cube("5",
+                new Array(3).fill(0).map(() => (Math.random() - .5) * 2),
+                new Array(3).fill(0).map(() => Math.random() * 1.2), {
+                    color: [1, 1, 0]
+                }
+            )
         }
 
         (window as any).renderer = renderer;

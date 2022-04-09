@@ -1,5 +1,4 @@
 import { AbstractRenderer, IRendererParam } from "@Model/Renderer";
-import { IAnyObject } from "@Model/Model";
 import { EventType } from "@Model/Emitter";
 import { GLCanvas, GLCanvasOption } from "./GLCanvas";
 import { GLContext } from "./GLContext";
@@ -17,18 +16,12 @@ type IRendererParams = IRendererOwnParams & GLCanvasOption;
 
 abstract class BasicRenderer<
     P extends IRendererParam = {},
-    M extends IAnyObject = {},
     E extends Record<EventType, any> = {}
-> extends AbstractRenderer<P, M & IRendererParams, E & {loop: number}> {
+> extends AbstractRenderer<P, E & {loop: number}> {
 
     public get dom() {
         return this.canvas.dom
     }
-
-    /**
-	 * 渲染器参数
-	 */
-	public param: Partial<M & IRendererParams> = {};
 
     /**
 	 * 使用的画布
@@ -45,19 +38,16 @@ abstract class BasicRenderer<
      */
     protected clock: Clock;
 
-    public constructor(param: Partial<M & IRendererParams> = {}) {
+    public constructor() {
 		super();
-
-		// 初始化参数
-		this.param = {
-			autoResize: param.autoResize ?? true,
-			mouseEvent: param.autoResize ?? true,
-			eventLog: param.eventLog ?? false,
-			className: param.className ?? ""
-		} as M & IRendererParams;
 		
 		// 实例化画布对象
-		this.canvas = new GLCanvas(param.canvas, this.param);
+		this.canvas = new GLCanvas(undefined, {
+			autoResize: true,
+			mouseEvent: true,
+			eventLog: false,
+			className: "canvas"
+		});
 
         // 实例化摄像机
         this.camera = new Camera(this.canvas);
