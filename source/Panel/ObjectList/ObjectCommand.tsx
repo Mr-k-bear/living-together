@@ -2,7 +2,7 @@ import { Component, ReactNode } from "react";
 import { BackgroundLevel, FontLevel, Theme } from "@Component/Theme/Theme";
 import { useStatus, IMixinStatusProps } from "@Context/Status";
 import { ConfirmPopup } from "@Component/ConfirmPopup/ConfirmPopup";
-import { ObjectID } from "@Model/Renderer";
+import { ObjectID } from "@Model/Model";
 import { Icon } from "@fluentui/react";
 import "./ObjectList.scss";
 

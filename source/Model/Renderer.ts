@@ -1,9 +1,5 @@
 import { Emitter, EventType } from "@Model/Emitter";
-
-/**
- * 任意类型对象
- */
-type IAnyObject = Record<string, any>;
+import { IAnyObject, ObjectID } from "@Model/Model"; 
 
 /**
  * 渲染器参数
@@ -32,10 +28,7 @@ interface ICommonParam {
 	color?: ObjectData;
 }
 
-/**
- * 对象标识符
- */
-type ObjectID = string;
+
 
 /**
  * 接收的数据类型
@@ -125,7 +118,6 @@ abstract class AbstractRenderer<
 
 export default AbstractRenderer;
 export { 
-    AbstractRenderer, ObjectID, IAnyObject,
-    ICommonParam, IRendererParam, 
+    AbstractRenderer, ICommonParam, IRendererParam, 
     ObjectData, IRendererConstructor 
 };

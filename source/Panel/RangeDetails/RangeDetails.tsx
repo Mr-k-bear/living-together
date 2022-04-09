@@ -3,7 +3,7 @@ import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
 import { AttrInput } from "@Input/AttrInput/AttrInput";
 import { Message } from "@Input/Message/Message";
 import { Range } from "@Model/Range";
-import { ObjectID } from "@Model/Renderer";
+import { ObjectID } from "@Model/Model";
 import { ColorInput } from "@Input/ColorInput/ColorInput";
 import { TogglesInput } from "@Input/TogglesInput/TogglesInput";
 import { LabelPicker } from "@Input/LabelPicker/LabelPicker";

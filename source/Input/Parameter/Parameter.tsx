@@ -1,7 +1,7 @@
 import { Component, Fragment, ReactNode } from "react";
 import { useSettingWithEvent, IMixinSettingProps, Language } from "@Context/Setting";
 import { AttrInput } from "@Input/AttrInput/AttrInput";
-import { ObjectID } from "@Model/Renderer";
+import { ObjectID } from "@Model/Model";
 import { TogglesInput } from "@Input/TogglesInput/TogglesInput";
 import { ObjectPicker } from "@Input/ObjectPicker/ObjectPicker";
 import { AllI18nKeys, I18N } from "@Component/Localization/Localization";

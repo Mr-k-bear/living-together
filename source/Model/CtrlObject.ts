@@ -1,6 +1,6 @@
 import { LabelObject } from "@Model/Label"
 import type { Model } from "@Model/Model";
-import type { ObjectID } from "@Model/Renderer";
+import type { ObjectID } from "@Model/Model";
 
 /**
  * 可控对象

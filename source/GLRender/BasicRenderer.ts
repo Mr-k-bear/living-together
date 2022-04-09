@@ -1,4 +1,5 @@
-import { AbstractRenderer, IRendererParam, IAnyObject } from "@Model/Renderer";
+import { AbstractRenderer, IRendererParam } from "@Model/Renderer";
+import { IAnyObject } from "@Model/Model";
 import { EventType } from "@Model/Emitter";
 import { GLCanvas, GLCanvasOption } from "./GLCanvas";
 import { GLContext } from "./GLContext";

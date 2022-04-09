@@ -5,8 +5,18 @@ import { IParamValue } from "@Model/Parameter";
 import { Individual } from "@Model/Individual";
 import { CtrlObject } from "@Model/CtrlObject";
 import { Emitter, EventType, EventMixin } from "@Model/Emitter";
-import { ObjectID, AbstractRenderer } from "@Model/Renderer";
+import { AbstractRenderer } from "@Model/Renderer";
 import { Behavior, IAnyBehavior, IAnyBehaviorRecorder } from "@Model/Behavior";
+
+/**
+ * 对象标识符
+ */
+type ObjectID = string;
+
+/**
+ * 任意类型对象
+ */
+type IAnyObject = Record<string, any>;
 
 type ModelEvent = {
     labelChange: Label[];
@@ -376,5 +386,6 @@ export {
     EventMixin,
     Model,
     CtrlObject,
-    ObjectID
+    ObjectID,
+    IAnyObject
 }

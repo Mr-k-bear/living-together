@@ -1,4 +1,5 @@
-import { ObjectID, ObjectData, ICommonParam } from "@Model/Renderer";
+import { ObjectData, ICommonParam } from "@Model/Renderer";
+import { ObjectID } from "@Model/Model";
 import { BasicRenderer } from "./BasicRenderer";
 import { BasicsShader } from "./BasicShader";
 import { Axis } from "./Axis";

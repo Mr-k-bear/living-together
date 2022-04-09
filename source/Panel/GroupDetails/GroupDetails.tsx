@@ -4,7 +4,7 @@ import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
 import { useSetting, IMixinSettingProps } from "@Context/Setting";
 import { ComboInput, IDisplayItem } from "@Input/ComboInput/ComboInput";
 import { Message } from "@Input/Message/Message";
-import { ObjectID } from "@Model/Renderer";
+import { ObjectID } from "@Model/Model";
 import { ColorInput } from "@Input/ColorInput/ColorInput";
 import { TogglesInput } from "@Input/TogglesInput/TogglesInput";
 import { LabelPicker } from "@Input/LabelPicker/LabelPicker";

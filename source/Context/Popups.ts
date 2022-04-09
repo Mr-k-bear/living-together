@@ -1,7 +1,7 @@
 import { ReactNode, createElement } from "react";
 import { Emitter } from "@Model/Emitter";
 import { Localization } from "@Component/Localization/Localization";
-import { IAnyObject } from "@Model/Renderer";
+import { IAnyObject } from "@Model/Model";
 
 enum ResizeDragDirection {
     top = 1,
