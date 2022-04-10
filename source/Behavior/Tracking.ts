@@ -16,7 +16,7 @@ class Tracking extends Behavior<ITrackingBehaviorParameter, ITrackingBehaviorEve
 
     public override behaviorName: string = "$Title";
 
-    public override iconName: string = "BullseyeTarget";
+    public override iconName: string = "Bullseye";
 
     public override describe: string = "$Intro";
 

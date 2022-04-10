@@ -3,7 +3,7 @@ import Group from "@Model/Group";
 import Individual from "@Model/Individual";
 import { Model } from "@Model/Model";
 
-type IDynamicsBehaviorParameter = {
+type IPhysicsDynamicsBehaviorParameter = {
     mass: "number",
 	maxAcceleration: "number",
 	maxVelocity: "number",
@@ -11,15 +11,15 @@ type IDynamicsBehaviorParameter = {
 	limit: "boolean"
 }
 
-type IDynamicsBehaviorEvent = {}
+type IPhysicsDynamicsBehaviorEvent = {}
 
-class Dynamics extends Behavior<IDynamicsBehaviorParameter, IDynamicsBehaviorEvent> {
+class PhysicsDynamics extends Behavior<IPhysicsDynamicsBehaviorParameter, IPhysicsDynamicsBehaviorEvent> {
 
     public override behaviorId: string = "PhysicsDynamics";
 
     public override behaviorName: string = "$Title";
 
-    public override iconName: string = "AnalyticsLogo";
+    public override iconName: string = "SliderHandleSize";
 
     public override describe: string = "$Intro";
 
@@ -133,4 +133,4 @@ class Dynamics extends Behavior<IDynamicsBehaviorParameter, IDynamicsBehaviorEve
     };
 }
 
-export { Dynamics };
+export { PhysicsDynamics };
