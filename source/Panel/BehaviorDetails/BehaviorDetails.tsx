@@ -1,6 +1,7 @@
 import { Component, ReactNode} from "react";
 import { useSettingWithEvent, IMixinSettingProps } from "@Context/Setting";
 import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
+import { getDefaultValue } from "@Model/Parameter";
 import { IAnyBehavior } from "@Model/Behavior";
 import { Message } from "@Input/Message/Message";
 import { AttrInput } from "@Input/AttrInput/AttrInput";
@@ -12,9 +13,17 @@ import "./BehaviorDetails.scss";
 
 interface IBehaviorDetailsProps {}
 
+interface IBehaviorDetailsState {
+    updateId: number;
+}
+
 @useSettingWithEvent("language")
 @useStatusWithEvent("focusBehaviorChange", "behaviorAttrChange")
-class BehaviorDetails extends Component<IBehaviorDetailsProps & IMixinStatusProps & IMixinSettingProps> {
+class BehaviorDetails extends Component<IBehaviorDetailsProps & IMixinStatusProps & IMixinSettingProps, IBehaviorDetailsState> {
+
+    public state: Readonly<IBehaviorDetailsState> = {
+        updateId: 1
+    };
 
     private handelDeleteBehavior = (behavior: IAnyBehavior) => {
         if (this.props.status) {
@@ -27,6 +36,28 @@ class BehaviorDetails extends Component<IBehaviorDetailsProps & IMixinStatusProp
                 yes: () => {
                     status.model.deleteBehavior(behavior);
                     status.setBehaviorObject();
+                }
+            })
+        }
+    }
+
+    private handelRestoreBehavior = (behavior: IAnyBehavior) => {
+        if (this.props.status) {
+            const status = this.props.status;
+            status.popup.showPopup(ConfirmPopup, {
+                infoI18n: "Popup.Restore.Behavior.Confirm",
+                titleI18N: "Popup.Action.Objects.Confirm.Restore.Title",
+                yesI18n: "Popup.Action.Objects.Confirm.Restore",
+                red: "yes",
+                yes: () => {
+                    status.changeBehaviorAttrib(
+                        behavior.id, "parameter",
+                        getDefaultValue(behavior.parameterOption) as any,
+                        true
+                    );
+                    this.setState({
+                        updateId: this.state.updateId + 1
+                    });
                 }
             })
         }
@@ -60,9 +91,17 @@ class BehaviorDetails extends Component<IBehaviorDetailsProps & IMixinStatusProp
 					this.handelDeleteBehavior(behavior)
 				}}
 			/>
+
+            <TogglesInput
+				keyI18n="Common.Attr.Key.Behavior.Restore" red
+				onIconName="ReplyAll" offIconName="ReplyAll"
+				valueChange={() => {
+					this.handelRestoreBehavior(behavior)
+				}}
+			/>
             
             <Parameter
-                key={behavior.id}
+                key={`${behavior.id}-${this.state.updateId}`}
                 option={behavior.parameterOption}
                 value={behavior.parameter}
                 i18n={(name, language) => behavior.getTerms(name, language)}
