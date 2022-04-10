@@ -14,6 +14,8 @@ type ITemplateBehaviorParameter = {
     testLR: "LR";
     testLG: "LG";
     testVec: "vec";
+    testCG: "CG",
+    testCLG: "CLG",
 }
 
 type ITemplateBehaviorEvent = {}
@@ -42,10 +44,12 @@ class Template extends Behavior<ITemplateBehaviorParameter, ITemplateBehaviorEve
         testG: { name: "$Test", type: "G" },
         testLR: { name: "$Test", type: "LR" },
         testLG: { name: "$Test", type: "LG" },
+        testCG: { name: "$Test", type: "CG" },
+        testCLG: { name: "$Test", type: "CLG" },
         testVec: { name: "$Test", type: "vec", defaultValue: [1, 2, 3], numberMax: 10, numberMin: 0, numberStep: 1 }
     };
 
-    public effect(individual: Individual, group: Group, model: Model, t: number): void {
+    public effect = (individual: Individual, group: Group, model: Model, t: number): void => {
         
     }
 

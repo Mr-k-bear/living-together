@@ -31,7 +31,7 @@ class Dynamics extends Behavior<IDynamicsBehaviorParameter, IDynamicsBehaviorEve
 		resistance: { name: "$Resistance", type: "number", defaultValue: 0.5, numberStep: .1, numberMin: 0 }
 	};
 
-	public override finalEffect(individual: Individual, group: Group, model: Model, t: number): void {
+	public override finalEffect = (individual: Individual, group: Group, model: Model, t: number): void => {
 
 		// 计算当前速度
 		const currentV = individual.vectorLength(individual.velocity);

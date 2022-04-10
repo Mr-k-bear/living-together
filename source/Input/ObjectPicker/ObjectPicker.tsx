@@ -59,6 +59,10 @@ class ObjectPicker extends Component<IObjectPickerProps & IMixinStatusProps, IOb
                     option.push(this.props.status.model.objectPool[j]);
                 }
             }
+
+            if (this.props.type.includes("C")) {
+                option.push(this.props.status.model.currentGroupLabel);
+            }
         }
         
         return option;

@@ -51,16 +51,25 @@ function getObjectDisplayInfo(item?: IPickerListItem): IDisplayInfo {
 	if (item instanceof Label) {
 
 		if (item.isBuildIn) {
+
             internal = true;
             allLabel = true;
             color = "transparent";
+
             if (item.id === "AllRange") {
                 icon = "ProductList";
                 name = "Build.In.Label.Name.All.Range";
-            } else if (item.id === "AllGroup") {
+            }
+			
+			else if (item.id === "AllGroup") {
                 icon = "SizeLegacy";
                 name = "Build.In.Label.Name.All.Group";
             }
+
+			else if (item.id === "CurrentGroupLabel") {
+				icon = "TriangleShape";
+                name = "Build.In.Label.Name.Current.Group";
+			}
         } 
         
         else {

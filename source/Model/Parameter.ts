@@ -22,6 +22,8 @@ type IMapObjectParamTypeKeyToType = {
     "G": IObjectParamCacheType<Group | undefined>;
     "LR": IObjectParamCacheType<Label | Range | undefined, Range[]>;
     "LG": IObjectParamCacheType<Label | Group | undefined, Group[]>;
+    "CG": IObjectParamCacheType<Label | Group | undefined, Group | undefined>;
+    "CLG": IObjectParamCacheType<Label | Group | undefined, Group[]>;
 }
 
 type IMapVectorParamTypeKeyToType = {
@@ -41,7 +43,7 @@ type IParamValue<K extends IParamType> = AllMapType[K];
 /**
  * 特殊对象类型判定
  */
-const objectTypeListEnumSet = new Set<string>(["R", "G", "LR", "LG"]);
+const objectTypeListEnumSet = new Set<string>(["R", "G", "LR", "LG", "CG", "CLG"]);
 
  /**
   * 对象断言表达式
@@ -163,6 +165,7 @@ function getDefaultValue<P extends IParameter> (option: IParameterOption<P>): IP
                     defaultObj[key] = [0, 0, 0] as any;
                     break;
                 
+                case "CG":
                 case "G":
                 case "R":
                     defaultObj[key] = {
@@ -171,6 +174,7 @@ function getDefaultValue<P extends IParameter> (option: IParameterOption<P>): IP
                     } as any;
                     break;
 
+                case "CLG":
                 case "LR":
                 case "LG":
                     defaultObj[key] = {

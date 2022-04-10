@@ -28,7 +28,7 @@ class BoundaryConstraint extends Behavior<IBoundaryConstraintBehaviorParameter, 
 		strength: { type: "number", name: "$Strength", defaultValue: 1, numberMin: 0, numberStep: .1 }
 	};
 
-    public effect(individual: Individual, group: Group, model: Model, t: number): void {
+    public effect = (individual: Individual, group: Group, model: Model, t: number): void => {
         let rangeList: Range[] = this.parameter.range.objects;
 
 		let fx = 0;

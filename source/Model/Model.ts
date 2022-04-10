@@ -67,6 +67,11 @@ class Model extends Emitter<ModelEvent> {
     public allGroupLabel = new Label(this, "AllGroup").setBuildInLabel();
 
     /**
+     * 内置标签-全部群标签
+     */
+    public currentGroupLabel = new Label(this, "CurrentGroupLabel").setBuildInLabel();
+
+    /**
      * 添加标签
      */
     public addLabel(name: string): Label {
@@ -223,6 +228,7 @@ class Model extends Emitter<ModelEvent> {
     public updateBehaviorParameter() {
         for (let i = 0; i < this.behaviorPool.length; i++) {
             const behavior = this.behaviorPool[i];
+            behavior.currentGroupKey = [];
             
             for (let key in behavior.parameterOption) {
                 switch (behavior.parameterOption[key].type) {
@@ -236,11 +242,17 @@ class Model extends Emitter<ModelEvent> {
                         }
                         break;
 
+                    case "CG":
                     case "G":
-                        const dataG: IParamValue<"G"> = behavior.parameter[key];
+                        const dataG: IParamValue<"CG"> = behavior.parameter[key];
                         dataG.objects = undefined;
+
+                        if (dataG.picker instanceof Label && dataG.picker.id === this.currentGroupLabel.id) {
+                            behavior.currentGroupKey.push(key);
+                            dataG.objects = undefined;
+                        }
                         
-                        if (dataG.picker instanceof Group && !dataG.picker.isDeleted()) {
+                        else if (dataG.picker instanceof Group && !dataG.picker.isDeleted()) {
                             dataG.objects = dataG.picker;
                         }
                         break;
@@ -260,8 +272,9 @@ class Model extends Emitter<ModelEvent> {
                         }
                         break;
 
+                    case "CLG":
                     case "LG":
-                        const dataLG: IParamValue<"LG"> = behavior.parameter[key];
+                        const dataLG: IParamValue<"CLG"> = behavior.parameter[key];
                         dataLG.objects = [];
 
                         if (dataLG.picker instanceof Group && !dataLG.picker.isDeleted()) {
@@ -269,9 +282,16 @@ class Model extends Emitter<ModelEvent> {
                         }
 
                         if (dataLG.picker instanceof Label && !dataLG.picker.isDeleted()) {
-                            dataLG.objects = this.getObjectByLabel(dataLG.picker).filter((obj) => {
-                                return obj instanceof Group;
-                            }) as any;
+
+                            if (dataLG.picker.id === this.currentGroupLabel.id) {
+                                behavior.currentGroupKey.push(key);
+                                dataLG.objects = [];
+
+                            } else {
+                                dataLG.objects = this.getObjectByLabel(dataLG.picker).filter((obj) => {
+                                    return obj instanceof Group;
+                                }) as any;
+                            }
                         }
                         break;
                 }

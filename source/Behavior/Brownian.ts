@@ -31,7 +31,7 @@ class Brownian extends Behavior<IBrownianBehaviorParameter, IBrownianBehaviorEve
 		minStrength: { type: "number", name: "$Min.Strength", defaultValue: 0, numberStep: .01, numberMin: 0 }
 	};
 
-	public effect(individual: Individual, group: Group, model: Model, t: number): void {
+	public effect = (individual: Individual, group: Group, model: Model, t: number): void => {
 
 		const {maxFrequency, minFrequency, maxStrength, minStrength} = this.parameter;
 

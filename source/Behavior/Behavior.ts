@@ -3,12 +3,14 @@ import { Template } from "@Behavior/Template";
 import { Dynamics } from "@Behavior/Dynamics";
 import { Brownian } from "@Behavior/Brownian";
 import { BoundaryConstraint } from "@Behavior/BoundaryConstraint";
+import { Tracking } from "@Behavior/Tracking";
 
 const AllBehaviors: IAnyBehaviorRecorder[] = [
     new BehaviorRecorder(Template),
     new BehaviorRecorder(Dynamics),
     new BehaviorRecorder(Brownian),
     new BehaviorRecorder(BoundaryConstraint),
+    new BehaviorRecorder(Tracking),
 ]
 
 /**
@@ -54,4 +56,13 @@ function categoryBehaviors(behaviors: IAnyBehaviorRecorder[]): ICategory[] {
     return res;
 }
 
-export { AllBehaviors, AllBehaviorsWithCategory, ICategory as ICategoryBehavior };
+function getBehaviorById(id: string): IAnyBehaviorRecorder {
+    for (let i = 0; i < AllBehaviors.length; i++) {
+        if (AllBehaviors[i].behaviorId === id) {
+            return AllBehaviors[i];
+        }
+    }
+    return getBehaviorById("Template");
+}
+
+export { AllBehaviors, AllBehaviorsWithCategory, getBehaviorById, ICategory as ICategoryBehavior };
