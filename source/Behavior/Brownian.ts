@@ -18,7 +18,7 @@ class Brownian extends Behavior<IBrownianBehaviorParameter, IBrownianBehaviorEve
 
     public override behaviorName: string = "$Title";
 
-    public override iconName: string = "Running";
+    public override iconName: string = "ScatterChart";
 
     public override describe: string = "$Intro";
 

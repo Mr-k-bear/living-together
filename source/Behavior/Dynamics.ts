@@ -15,11 +15,11 @@ type IDynamicsBehaviorEvent = {}
 
 class Dynamics extends Behavior<IDynamicsBehaviorParameter, IDynamicsBehaviorEvent> {
 
-    public override behaviorId: string = "Dynamics";
+    public override behaviorId: string = "PhysicsDynamics";
 
     public override behaviorName: string = "$Title";
 
-    public override iconName: string = "Running";
+    public override iconName: string = "AnalyticsLogo";
 
     public override describe: string = "$Intro";
 
@@ -99,12 +99,12 @@ class Dynamics extends Behavior<IDynamicsBehaviorParameter, IDynamicsBehaviorEve
 	
     public override terms: Record<string, Record<string, string>> = {
         "$Title": {
-            "ZH_CN": "动力学",
-            "EN_US": "Dynamics"
+            "ZH_CN": "物理动力学",
+            "EN_US": "Physics dynamics"
         },
         "$Intro": {
-            "ZH_CN": "一切可以运动物体的必要行为，执行物理法则。",
-            "EN_US": "All necessary behaviors that can move objects and implement the laws of physics."
+            "ZH_CN": "一切按照物理规则运动物体的行为, 按照牛顿经典物理运动公式执行。",
+            "EN_US": "The behavior of all moving objects according to physical rules is carried out according to Newton's classical physical motion formula."
         },
 		"$Limit": {
 			"ZH_CN": "开启限制",

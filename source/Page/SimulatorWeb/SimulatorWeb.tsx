@@ -111,10 +111,10 @@ class SimulatorWeb extends Component {
             let template = this.status.model.addBehavior(getBehaviorById("Template"));
             template.name = "Template"; template.color = [150, 20, 220];
 
-            let dynamicFish = this.status.model.addBehavior(getBehaviorById("Dynamics"));
+            let dynamicFish = this.status.model.addBehavior(getBehaviorById("PhysicsDynamics"));
             dynamicFish.name = "Dynamic Fish"; dynamicFish.color = [250, 200, 80];
 
-            let dynamicShark = this.status.model.addBehavior(getBehaviorById("Dynamics"));
+            let dynamicShark = this.status.model.addBehavior(getBehaviorById("PhysicsDynamics"));
             dynamicShark.name = "Dynamic Shark"; dynamicShark.color = [250, 200, 80];
 
             let brownian = this.status.model.addBehavior(getBehaviorById("Brownian"));

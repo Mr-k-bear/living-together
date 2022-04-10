@@ -17,7 +17,7 @@ class BoundaryConstraint extends Behavior<IBoundaryConstraintBehaviorParameter, 
 
     public override behaviorName: string = "$Title";
 
-    public override iconName: string = "Running";
+    public override iconName: string = "Quantity";
 
     public override describe: string = "$Intro";
 
