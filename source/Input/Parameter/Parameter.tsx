@@ -32,9 +32,15 @@ class Parameter<P extends IParameter> extends Component<IParameterProps<P> & IMi
     private renderParameter<K extends keyof P>
     (key: K, option: IParameterOptionItem<P[K]>, value: IParamValue<P[K]>): ReactNode {
 
-        const language = this.props.setting?.language ?? "EN_US";
         const indexKey = `${this.props.key}-${key}`;
+
+        // 条件检测
+        if (option.condition && this.props.value[option.condition.key] !==  option.condition.value) {
+            return <Fragment key={indexKey}/>;
+        }
+
         const type = option.type;
+        const language = this.props.setting?.language ?? "EN_US";        
         let keyI18n: string, keyI18nOption: Record<string, string> | undefined;
 
         // Custom I18N

@@ -116,6 +116,11 @@ interface IParameterOptionItem<T extends IParamType = IParamType> {
     colorNormal?: boolean;
 
     /**
+     * 显示条件
+     */
+    condition?: {key: string, value: any};
+
+    /**
      * 全部选项
      */
     allOption?: Array<{key: string, name: string}>;
