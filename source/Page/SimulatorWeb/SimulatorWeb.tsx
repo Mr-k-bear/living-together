@@ -116,6 +116,9 @@ class SimulatorWeb extends Component {
 
             let dynamicShark = this.status.model.addBehavior(getBehaviorById("PhysicsDynamics"));
             dynamicShark.name = "Dynamic Shark"; dynamicShark.color = [250, 200, 80];
+            dynamicShark.parameter.maxAcceleration = 8.5;
+            dynamicShark.parameter.maxVelocity = 15.8;
+            dynamicShark.parameter.resistance = 3.6;
 
             let brownian = this.status.model.addBehavior(getBehaviorById("Brownian"));
             brownian.name = "Brownian"; brownian.color = [200, 80, 250];
@@ -128,6 +131,10 @@ class SimulatorWeb extends Component {
             tracking.name = "Tracking"; tracking.color = [80, 200, 250];
             tracking.parameter.target.picker = fishLabel;
 
+            let attacking = this.status.model.addBehavior(getBehaviorById("Attacking"));
+            attacking.name = "Attacking"; attacking.color = [120, 100, 250];
+            attacking.parameter.target.picker = fishLabel;
+
             fish1.addBehavior(dynamicFish);
             fish1.addBehavior(brownian);
             fish1.addBehavior(boundary);
@@ -139,6 +146,7 @@ class SimulatorWeb extends Component {
             shark.addBehavior(dynamicShark);
             shark.addBehavior(boundary);
             shark.addBehavior(tracking);
+            shark.addBehavior(attacking);
 
             setTimeout(() => {
                 this.status.model.updateBehaviorParameter();

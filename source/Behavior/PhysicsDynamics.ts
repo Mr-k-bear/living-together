@@ -27,14 +27,14 @@ class PhysicsDynamics extends Behavior<IPhysicsDynamicsBehaviorParameter, IPhysi
 
 	public override parameterOption = {
 		mass: { name: "$Mass", type: "number", defaultValue: 1, numberStep: .01, numberMin: .001 },
-		resistance: { name: "$Resistance", type: "number", defaultValue: 0.5, numberStep: .1, numberMin: 0 },
+		resistance: { name: "$Resistance", type: "number", defaultValue: 2.8, numberStep: .1, numberMin: 0 },
 		limit: { name: "$Limit", type: "boolean", defaultValue: true },
 		maxAcceleration: {
-			name: "$Max.Acceleration", type: "number", defaultValue: 5, 
+			name: "$Max.Acceleration", type: "number", defaultValue: 6.25, 
 			numberStep: .1, numberMin: 0, condition: { key: "limit", value: true }
 		},
 		maxVelocity: {
-			name: "$Max.Velocity", type: "number", defaultValue: 10,
+			name: "$Max.Velocity", type: "number", defaultValue: 12.5,
 			numberStep: .1, numberMin: 0, condition: { key: "limit", value: true }
 		},
 	};

@@ -39,7 +39,7 @@ class Group extends CtrlObject {
     /**
      * 生成个数
      */
-    public genCount: number = 1;
+    public genCount: number = 100;
 
     /**
      * 生成错误信息
@@ -54,7 +54,7 @@ class Group extends CtrlObject {
     /**
      * 删除个数
      */
-    public killCount: number = 1;
+    public killCount: number = 100;
 
     private genInSingleRange(count: number, range: Range) {
         for (let i = 0; i < count; i++) {

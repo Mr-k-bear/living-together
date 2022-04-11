@@ -4,7 +4,7 @@ import { Individual } from "@Model/Individual";
 import { Model } from "@Model/Model";
 
 type ITrackingBehaviorParameter = {
-    target: "LG",
+    target: "CLG",
 	strength: "number",
     range: "number",
     lock: "boolean"
@@ -136,8 +136,8 @@ class Tracking extends Behavior<ITrackingBehaviorParameter, ITrackingBehaviorEve
 			"EN_US": "Tracking lock"
         },
         "$Range": {
-            "ZH_CN": "追踪范围",
-			"EN_US": "Tracking range"
+            "ZH_CN": "追踪范围 (m)",
+			"EN_US": "Tracking range (m)"
         },
 		"$Strength": {
 			"ZH_CN": "追踪强度系数",
