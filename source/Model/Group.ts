@@ -272,9 +272,11 @@ class Group extends CtrlObject {
     public remove(individual: Individual[] | Individual): this {
         if (Array.isArray(individual)) {
             for (let i = 0; i < individual.length; i++) {
+                individual[i].group = undefined;
                 this.individuals.delete(individual[i]);
             }
         } else {
+            individual.group = undefined;
             this.individuals.delete(individual);
         }
         return this;

@@ -88,7 +88,7 @@ class Individual {
 	/**
 	 * 所属群组
 	 */
-	public group: Group;
+	public group: Group | undefined;
 
 	/**
 	 * 初始化
@@ -97,11 +97,16 @@ class Individual {
 		this.group = group;
 	}
 
+    public isDie(): boolean {
+        return !!this.group;
+    }
+
     /**
      * 死亡
      */
     public die(): this {
-        this.group.remove(this);
+        this.group?.remove(this);
+        this.group = undefined;
         return this;
     }
 
@@ -110,7 +115,7 @@ class Individual {
      * @param newGroup 新群体
      */
     public transfer(newGroup: Group): this {
-        this.group.remove(this);
+        this.group?.remove(this);
         newGroup.add(this);
         this.group = newGroup;
         return this;

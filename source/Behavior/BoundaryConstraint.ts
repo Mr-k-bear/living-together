@@ -57,7 +57,6 @@ class BoundaryConstraint extends Behavior<IBoundaryConstraintBehaviorParameter, 
 				}
 
 			} else {
-
 				fx = 0;
 				fy = 0;
 				fz = 0;
@@ -65,11 +64,13 @@ class BoundaryConstraint extends Behavior<IBoundaryConstraintBehaviorParameter, 
 			}
 		}
 
-		individual.applyForce(
-			fx * this.parameter.strength,
-			fy * this.parameter.strength,
-			fz * this.parameter.strength
-		);
+        if (fLen && fLen !== Infinity) {
+            individual.applyForce(
+                fx * this.parameter.strength / fLen,
+                fy * this.parameter.strength / fLen,
+                fz * this.parameter.strength / fLen
+            );
+        }
     }
 
 	public override terms: Record<string, Record<string, string>> = {
