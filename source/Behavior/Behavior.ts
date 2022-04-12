@@ -5,7 +5,8 @@ import { Brownian } from "@Behavior/Brownian";
 import { BoundaryConstraint } from "@Behavior/BoundaryConstraint";
 import { Tracking } from "@Behavior/Tracking";
 import { ContactAttacking } from "@Behavior/ContactAttacking";
-import { ContactAssimilate } from "@Behavior/ContactAssimilate"; 
+import { ContactAssimilate } from "@Behavior/ContactAssimilate";
+import { DelayAssimilate } from "@Behavior/DelayAssimilate";
 
 const AllBehaviors: IAnyBehaviorRecorder[] = [
     new BehaviorRecorder(Template),
@@ -15,6 +16,7 @@ const AllBehaviors: IAnyBehaviorRecorder[] = [
     new BehaviorRecorder(Tracking),
     new BehaviorRecorder(ContactAttacking),
     new BehaviorRecorder(ContactAssimilate),
+    new BehaviorRecorder(DelayAssimilate),
 ]
 
 /**

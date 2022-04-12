@@ -50,7 +50,7 @@ class ContactAssimilate extends Behavior<IContactAssimilateBehaviorParameter, IC
 					
                     // 成功判定
                     if (Math.random() * 100 < this.parameter.success) {
-                        targetIndividual.transfer(this.parameter.assimilate.objects!);
+                        targetIndividual.transfer(assimilateGroup!);
                     }
 				}
 			});
