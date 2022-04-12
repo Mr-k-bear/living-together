@@ -3,17 +3,17 @@ import { Group } from "@Model/Group";
 import { Individual } from "@Model/Individual";
 import { Model } from "@Model/Model";
 
-type IAttackingBehaviorParameter = {
+type IContactAttackingBehaviorParameter = {
     target: "CLG",
 	success: "number",
     range: "number"
 }
 
-type IAttackingBehaviorEvent = {}
+type IContactAttackingBehaviorEvent = {}
 
-class Attacking extends Behavior<IAttackingBehaviorParameter, IAttackingBehaviorEvent> {
+class ContactAttacking extends Behavior<IContactAttackingBehaviorParameter, IContactAttackingBehaviorEvent> {
 
-    public override behaviorId: string = "Attacking";
+    public override behaviorId: string = "ContactAttacking";
 
     public override behaviorName: string = "$Title";
 
@@ -54,8 +54,8 @@ class Attacking extends Behavior<IAttackingBehaviorParameter, IAttackingBehavior
 
 	public override terms: Record<string, Record<string, string>> = {
         "$Title": {
-            "ZH_CN": "攻击",
-            "EN_US": "Attacking"
+            "ZH_CN": "接触攻击",
+            "EN_US": "Contact Attacking"
         },
 		"$Target": {
 			"ZH_CN": "攻击目标",
@@ -76,4 +76,4 @@ class Attacking extends Behavior<IAttackingBehaviorParameter, IAttackingBehavior
     };
 }
 
-export { Attacking };
+export { ContactAttacking };

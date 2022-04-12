@@ -131,8 +131,8 @@ class SimulatorWeb extends Component {
             tracking.name = "Tracking"; tracking.color = [80, 200, 250];
             tracking.parameter.target.picker = fishLabel;
 
-            let attacking = this.status.model.addBehavior(getBehaviorById("Attacking"));
-            attacking.name = "Attacking"; attacking.color = [120, 100, 250];
+            let attacking = this.status.model.addBehavior(getBehaviorById("ContactAttacking"));
+            attacking.name = "Contact Attacking"; attacking.color = [120, 100, 250];
             attacking.parameter.target.picker = fishLabel;
 
             fish1.addBehavior(dynamicFish);
