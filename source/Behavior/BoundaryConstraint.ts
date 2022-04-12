@@ -17,7 +17,7 @@ class BoundaryConstraint extends Behavior<IBoundaryConstraintBehaviorParameter, 
 
     public override behaviorName: string = "$Title";
 
-    public override iconName: string = "Running";
+    public override iconName: string = "Quantity";
 
     public override describe: string = "$Intro";
 
@@ -28,7 +28,7 @@ class BoundaryConstraint extends Behavior<IBoundaryConstraintBehaviorParameter, 
 		strength: { type: "number", name: "$Strength", defaultValue: 1, numberMin: 0, numberStep: .1 }
 	};
 
-    public effect(individual: Individual, group: Group, model: Model, t: number): void {
+    public effect = (individual: Individual, group: Group, model: Model, t: number): void => {
         let rangeList: Range[] = this.parameter.range.objects;
 
 		let fx = 0;
@@ -57,7 +57,6 @@ class BoundaryConstraint extends Behavior<IBoundaryConstraintBehaviorParameter, 
 				}
 
 			} else {
-
 				fx = 0;
 				fy = 0;
 				fz = 0;
@@ -65,11 +64,13 @@ class BoundaryConstraint extends Behavior<IBoundaryConstraintBehaviorParameter, 
 			}
 		}
 
-		individual.applyForce(
-			fx * this.parameter.strength,
-			fy * this.parameter.strength,
-			fz * this.parameter.strength
-		);
+        if (fLen && fLen !== Infinity) {
+            individual.applyForce(
+                fx * this.parameter.strength / fLen,
+                fy * this.parameter.strength / fLen,
+                fz * this.parameter.strength / fLen
+            );
+        }
     }
 
 	public override terms: Record<string, Record<string, string>> = {

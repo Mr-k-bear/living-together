@@ -6,11 +6,12 @@ import { ClassicRenderer } from "@GLRender/ClassicRenderer";
 import { initializeIcons } from '@fluentui/font-icons-mdl2';
 import { RootContainer } from "@Component/Container/RootContainer";
 import { LayoutDirection } from "@Context/Layout";
-import { AllBehaviors } from "@Behavior/Behavior";
+import { AllBehaviors, getBehaviorById } from "@Behavior/Behavior";
 import { CommandBar } from "@Component/CommandBar/CommandBar";
 import { HeaderBar } from "@Component/HeaderBar/HeaderBar";
 import { Popup } from "@Component/Popup/Popup";
 import { Entry } from "../Entry/Entry";
+import { Group } from "@Model/Group";
 import "./SimulatorWeb.scss";
 
 initializeIcons("https://img.mrkbear.com/fabric-cdn-prod_20210407.001/");
@@ -40,18 +41,22 @@ class SimulatorWeb extends Component {
         this.status.bindRenderer(classicRender);
         this.status.setting = this.setting;
 
-        // 测试代码
-        if (true) {
-            let group = this.status.newGroup();
-            let range = this.status.newRange();
-            range.color = [.1, .5, .9];
-            group.new(100);
-            group.color = [.8, .1, .6];
+        const randomPosition = (group: Group) => {
             group.individuals.forEach((individual) => {
                 individual.position[0] = (Math.random() - .5) * 2;
                 individual.position[1] = (Math.random() - .5) * 2;
                 individual.position[2] = (Math.random() - .5) * 2;
             })
+        };
+
+        // 测试代码
+        if (false) {
+            let group = this.status.newGroup();
+            let range = this.status.newRange();
+            range.color = [.1, .5, .9];
+            group.new(100);
+            group.color = [.8, .1, .6];
+            randomPosition(group);
             this.status.model.update(0);
             this.status.newLabel().name = "New Label";
             this.status.newLabel().name = "Test Label 01";
@@ -68,6 +73,84 @@ class SimulatorWeb extends Component {
             group.addBehavior(dynamic);
             group.addBehavior(brownian);
             group.addBehavior(boundary);
+        }
+
+        // 鱼群模型测试
+        if (true) {
+            let fish1 = this.status.newGroup();
+            let fish2 = this.status.newGroup();
+            let shark = this.status.newGroup();
+            let range = this.status.newRange();
+
+            range.displayName = "Experimental site";
+            range.color = [.8, .1, .6];
+
+            fish1.new(100);
+            fish1.displayName = "Fish A";            
+            fish1.color = [.1, .5, .9];
+            randomPosition(fish1);
+
+            fish2.new(50);
+            fish2.displayName = "Fish B";            
+            fish2.color = [.3, .2, .9];
+            randomPosition(fish2);
+
+            shark.new(3);
+            shark.displayName = "Shark";
+            shark.color = [.8, .2, .3];
+            shark.renderParameter.size = 100;
+            shark.renderParameter.shape = "5";
+            randomPosition(shark);
+
+            this.status.model.update(0);
+            let fishLabel = this.status.newLabel();
+            fishLabel.name = "Fish";
+            fish1.addLabel(fishLabel);
+            fish2.addLabel(fishLabel);
+
+            let template = this.status.model.addBehavior(getBehaviorById("Template"));
+            template.name = "Template"; template.color = [150, 20, 220];
+
+            let dynamicFish = this.status.model.addBehavior(getBehaviorById("PhysicsDynamics"));
+            dynamicFish.name = "Dynamic Fish"; dynamicFish.color = [250, 200, 80];
+
+            let dynamicShark = this.status.model.addBehavior(getBehaviorById("PhysicsDynamics"));
+            dynamicShark.name = "Dynamic Shark"; dynamicShark.color = [250, 200, 80];
+            dynamicShark.parameter.maxAcceleration = 8.5;
+            dynamicShark.parameter.maxVelocity = 15.8;
+            dynamicShark.parameter.resistance = 3.6;
+
+            let brownian = this.status.model.addBehavior(getBehaviorById("Brownian"));
+            brownian.name = "Brownian"; brownian.color = [200, 80, 250];
+
+            let boundary = this.status.model.addBehavior(getBehaviorById("BoundaryConstraint"));
+            boundary.name = "Boundary"; boundary.color = [80, 200, 250];
+            boundary.parameter.range.picker = this.status.model.allRangeLabel;
+
+            let tracking = this.status.model.addBehavior(getBehaviorById("Tracking"));
+            tracking.name = "Tracking"; tracking.color = [80, 200, 250];
+            tracking.parameter.target.picker = fishLabel;
+
+            let attacking = this.status.model.addBehavior(getBehaviorById("ContactAttacking"));
+            attacking.name = "Contact Attacking"; attacking.color = [120, 100, 250];
+            attacking.parameter.target.picker = fishLabel;
+
+            fish1.addBehavior(dynamicFish);
+            fish1.addBehavior(brownian);
+            fish1.addBehavior(boundary);
+
+            fish2.addBehavior(dynamicFish);
+            fish2.addBehavior(brownian);
+            fish2.addBehavior(boundary);
+
+            shark.addBehavior(dynamicShark);
+            shark.addBehavior(boundary);
+            shark.addBehavior(tracking);
+            shark.addBehavior(attacking);
+
+            setTimeout(() => {
+                this.status.model.updateBehaviorParameter();
+            }, 200)
         }
 
         (window as any).s = this;

@@ -61,8 +61,8 @@ class CtrlObject extends LabelObject {
     /**
      * 判断是否为相同对象
      */
-    public equal(obj: CtrlObject): boolean {
-        return this === obj || this.id === obj.id;
+    public equal(obj?: CtrlObject): boolean {
+        return this === obj || this.id === obj?.id;
     }
 
     /**

@@ -159,6 +159,11 @@ class Behavior<
     public parameter: IParameterValue<P>;
 
     /**
+     * 指定当前群的 Key
+     */
+    public currentGroupKey: Array<keyof P> = [];
+
+    /**
      * 对象参数列表
      */
     public parameterOption: IParameterOption<P> = {} as any;
@@ -222,7 +227,7 @@ class Behavior<
      * @param model 模型
      * @param t 经过时间
      */
-    public effect(individual: Individual, group: Group, model: Model, t: number): void {};
+    public effect?: (individual: Individual, group: Group, model: Model, t: number) => void;
 
     /**
      * 作用影响于个体
@@ -231,7 +236,7 @@ class Behavior<
      * @param model 模型
      * @param t 经过时间
      */
-    public afterEffect(individual: Individual, group: Group, model: Model, t: number): void {};
+    public afterEffect?: (individual: Individual, group: Group, model: Model, t: number) => void;
 
     /**
      * 全部影响作用后
@@ -240,7 +245,7 @@ class Behavior<
      * @param model 模型
      * @param t 经过时间
      */
-    public finalEffect(individual: Individual, group: Group, model: Model, t: number): void {};
+    public finalEffect?: (individual: Individual, group: Group, model: Model, t: number) => void;
 
 }
 

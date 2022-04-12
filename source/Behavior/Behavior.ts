@@ -1,14 +1,22 @@
 import { BehaviorRecorder, IAnyBehaviorRecorder } from "@Model/Behavior";
 import { Template } from "@Behavior/Template";
-import { Dynamics } from "@Behavior/Dynamics";
+import { PhysicsDynamics } from "@Behavior/PhysicsDynamics";
 import { Brownian } from "@Behavior/Brownian";
 import { BoundaryConstraint } from "@Behavior/BoundaryConstraint";
+import { Tracking } from "@Behavior/Tracking";
+import { ContactAttacking } from "@Behavior/ContactAttacking";
+import { ContactAssimilate } from "@Behavior/ContactAssimilate";
+import { DelayAssimilate } from "@Behavior/DelayAssimilate";
 
 const AllBehaviors: IAnyBehaviorRecorder[] = [
     new BehaviorRecorder(Template),
-    new BehaviorRecorder(Dynamics),
+    new BehaviorRecorder(PhysicsDynamics),
     new BehaviorRecorder(Brownian),
     new BehaviorRecorder(BoundaryConstraint),
+    new BehaviorRecorder(Tracking),
+    new BehaviorRecorder(ContactAttacking),
+    new BehaviorRecorder(ContactAssimilate),
+    new BehaviorRecorder(DelayAssimilate),
 ]
 
 /**
@@ -54,4 +62,13 @@ function categoryBehaviors(behaviors: IAnyBehaviorRecorder[]): ICategory[] {
     return res;
 }
 
-export { AllBehaviors, AllBehaviorsWithCategory, ICategory as ICategoryBehavior };
+function getBehaviorById(id: string): IAnyBehaviorRecorder {
+    for (let i = 0; i < AllBehaviors.length; i++) {
+        if (AllBehaviors[i].behaviorId === id) {
+            return AllBehaviors[i];
+        }
+    }
+    return getBehaviorById("Template");
+}
+
+export { AllBehaviors, AllBehaviorsWithCategory, getBehaviorById, ICategory as ICategoryBehavior };

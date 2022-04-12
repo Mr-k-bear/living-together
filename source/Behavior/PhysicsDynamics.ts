@@ -3,22 +3,23 @@ import Group from "@Model/Group";
 import Individual from "@Model/Individual";
 import { Model } from "@Model/Model";
 
-type IDynamicsBehaviorParameter = {
+type IPhysicsDynamicsBehaviorParameter = {
     mass: "number",
 	maxAcceleration: "number",
 	maxVelocity: "number",
-	resistance: "number"
+	resistance: "number",
+	limit: "boolean"
 }
 
-type IDynamicsBehaviorEvent = {}
+type IPhysicsDynamicsBehaviorEvent = {}
 
-class Dynamics extends Behavior<IDynamicsBehaviorParameter, IDynamicsBehaviorEvent> {
+class PhysicsDynamics extends Behavior<IPhysicsDynamicsBehaviorParameter, IPhysicsDynamicsBehaviorEvent> {
 
-    public override behaviorId: string = "Dynamics";
+    public override behaviorId: string = "PhysicsDynamics";
 
     public override behaviorName: string = "$Title";
 
-    public override iconName: string = "Running";
+    public override iconName: string = "SliderHandleSize";
 
     public override describe: string = "$Intro";
 
@@ -26,12 +27,19 @@ class Dynamics extends Behavior<IDynamicsBehaviorParameter, IDynamicsBehaviorEve
 
 	public override parameterOption = {
 		mass: { name: "$Mass", type: "number", defaultValue: 1, numberStep: .01, numberMin: .001 },
-		maxAcceleration: { name: "$Max.Acceleration", type: "number", defaultValue: 5, numberStep: .1, numberMin: 0 },
-		maxVelocity: { name: "$Max.Velocity", type: "number", defaultValue: 10, numberStep: .1, numberMin: 0 },
-		resistance: { name: "$Resistance", type: "number", defaultValue: 0.5, numberStep: .1, numberMin: 0 }
+		resistance: { name: "$Resistance", type: "number", defaultValue: 2.8, numberStep: .1, numberMin: 0 },
+		limit: { name: "$Limit", type: "boolean", defaultValue: true },
+		maxAcceleration: {
+			name: "$Max.Acceleration", type: "number", defaultValue: 6.25, 
+			numberStep: .1, numberMin: 0, condition: { key: "limit", value: true }
+		},
+		maxVelocity: {
+			name: "$Max.Velocity", type: "number", defaultValue: 12.5,
+			numberStep: .1, numberMin: 0, condition: { key: "limit", value: true }
+		},
 	};
 
-	public override finalEffect(individual: Individual, group: Group, model: Model, t: number): void {
+	public override finalEffect = (individual: Individual, group: Group, model: Model, t: number): void => {
 
 		// 计算当前速度
 		const currentV = individual.vectorLength(individual.velocity);
@@ -54,24 +62,28 @@ class Dynamics extends Behavior<IDynamicsBehaviorParameter, IDynamicsBehaviorEve
 		individual.acceleration[2] = individual.force[2] / this.parameter.mass;
 
 		// 加速度约束
-		const lengthA = individual.vectorLength(individual.acceleration);
-		if (lengthA > this.parameter.maxAcceleration) {
-			individual.acceleration[0] = individual.acceleration[0] * this.parameter.maxAcceleration / lengthA;
-			individual.acceleration[1] = individual.acceleration[1] * this.parameter.maxAcceleration / lengthA;
-			individual.acceleration[2] = individual.acceleration[2] * this.parameter.maxAcceleration / lengthA;
+		if (this.parameter.limit) {
+			const lengthA = individual.vectorLength(individual.acceleration);
+			if (lengthA > this.parameter.maxAcceleration) {
+				individual.acceleration[0] = individual.acceleration[0] * this.parameter.maxAcceleration / lengthA;
+				individual.acceleration[1] = individual.acceleration[1] * this.parameter.maxAcceleration / lengthA;
+				individual.acceleration[2] = individual.acceleration[2] * this.parameter.maxAcceleration / lengthA;
+			}
 		}
-
+		
 		// 计算速度
 		individual.velocity[0] = individual.velocity[0] + individual.acceleration[0] * t;
 		individual.velocity[1] = individual.velocity[1] + individual.acceleration[1] * t;
 		individual.velocity[2] = individual.velocity[2] + individual.acceleration[2] * t;
 
 		// 速度约束
-		const lengthV = individual.vectorLength(individual.velocity);
-		if (lengthV > this.parameter.maxVelocity) {
-			individual.velocity[0] = individual.velocity[0] * this.parameter.maxVelocity / lengthV;
-			individual.velocity[1] = individual.velocity[1] * this.parameter.maxVelocity / lengthV;
-			individual.velocity[2] = individual.velocity[2] * this.parameter.maxVelocity / lengthV;
+		if (this.parameter.limit) {
+			const lengthV = individual.vectorLength(individual.velocity);
+			if (lengthV > this.parameter.maxVelocity) {
+				individual.velocity[0] = individual.velocity[0] * this.parameter.maxVelocity / lengthV;
+				individual.velocity[1] = individual.velocity[1] * this.parameter.maxVelocity / lengthV;
+				individual.velocity[2] = individual.velocity[2] * this.parameter.maxVelocity / lengthV;
+			}
 		}
 
 		// 应用速度
@@ -87,13 +99,17 @@ class Dynamics extends Behavior<IDynamicsBehaviorParameter, IDynamicsBehaviorEve
 	
     public override terms: Record<string, Record<string, string>> = {
         "$Title": {
-            "ZH_CN": "动力学",
-            "EN_US": "Dynamics"
+            "ZH_CN": "物理动力学",
+            "EN_US": "Physics dynamics"
         },
         "$Intro": {
-            "ZH_CN": "一切可以运动物体的必要行为，执行物理法则。",
-            "EN_US": "All necessary behaviors that can move objects and implement the laws of physics."
+            "ZH_CN": "一切按照物理规则运动物体的行为, 按照牛顿经典物理运动公式执行。",
+            "EN_US": "The behavior of all moving objects according to physical rules is carried out according to Newton's classical physical motion formula."
         },
+		"$Limit": {
+			"ZH_CN": "开启限制",
+            "EN_US": "Enable limit"
+		},
 		"$Mass": {
 			"ZH_CN": "质量 (Kg)",
             "EN_US": "Mass (Kg)"
@@ -117,4 +133,4 @@ class Dynamics extends Behavior<IDynamicsBehaviorParameter, IDynamicsBehaviorEve
     };
 }
 
-export { Dynamics };
+export { PhysicsDynamics };

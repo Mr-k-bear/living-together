@@ -1,6 +1,6 @@
 import { Individual } from "@Model/Individual";
 import { CtrlObject } from "@Model/CtrlObject";
-import type { Behavior } from "@Model/Behavior"; 
+import type { Behavior, IAnyBehavior } from "@Model/Behavior"; 
 import { Label } from "@Model/Label";
 import { Range } from "@Model/Range";
 import { Model, ObjectID } from "@Model/Model";
@@ -39,7 +39,7 @@ class Group extends CtrlObject {
     /**
      * 生成个数
      */
-    public genCount: number = 1;
+    public genCount: number = 100;
 
     /**
      * 生成错误信息
@@ -54,7 +54,7 @@ class Group extends CtrlObject {
     /**
      * 删除个数
      */
-    public killCount: number = 1;
+    public killCount: number = 100;
 
     private genInSingleRange(count: number, range: Range) {
         for (let i = 0; i < count; i++) {
@@ -272,9 +272,11 @@ class Group extends CtrlObject {
     public remove(individual: Individual[] | Individual): this {
         if (Array.isArray(individual)) {
             for (let i = 0; i < individual.length; i++) {
+                individual[i].group = undefined;
                 this.individuals.delete(individual[i]);
             }
         } else {
+            individual.group = undefined;
             this.individuals.delete(individual);
         }
         return this;
@@ -308,7 +310,7 @@ class Group extends CtrlObject {
 	/**
 	 * 行为列表
 	 */
-	public behaviors: Behavior[] = [];
+	public behaviors: IAnyBehavior[] = [];
 
 	/**
 	 * 添加行为
@@ -358,15 +360,37 @@ class Group extends CtrlObject {
 	 * @param
      */
 	public runner(t: number, effectType: "finalEffect" | "effect" | "afterEffect" ): void {
-		this.individuals.forEach((individual) => {
-			for(let j = 0; j < this.behaviors.length; j++) {
-                if (this.behaviors[j].isDeleted()) {
-                    continue;
+
+        for(let j = 0; j < this.behaviors.length; j++) {
+
+            const behavior = this.behaviors[j];
+            if (behavior.isDeleted()) {
+                continue;
+            }
+
+            const runnerFunction = behavior[effectType];
+            if (!runnerFunction) {
+                continue;
+            }
+            
+            for (let k = 0; k < behavior.currentGroupKey.length; k++) {
+
+                let parameterCache = behavior.parameter[
+                    behavior.currentGroupKey[k] as string
+                ];
+
+                if (Array.isArray(parameterCache?.objects)) {
+                    parameterCache.objects = [this];
+
                 } else {
-                    this.behaviors[j][effectType](individual, this, this.model, t);
+                    parameterCache.objects = this;
                 }
-			}
-		});
+            }
+
+            this.individuals.forEach((individual) => {
+                runnerFunction(individual, this, this.model, t);
+            });
+        }
 	}
 
     /**

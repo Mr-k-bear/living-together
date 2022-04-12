@@ -119,6 +119,10 @@ div.app-container {
 		flex-shrink: 1;
 	}
 
+	div.app-panel.hide-scrollbar {
+		overflow: hidden;
+	}
+
 	div.app-panel.hide-scrollbar::-webkit-scrollbar {
 		width : 0;  /*高宽分别对应横竖滚动条的尺寸*/
 		height: 0;
