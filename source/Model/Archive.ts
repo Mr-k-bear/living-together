@@ -1,8 +1,8 @@
 import { Emitter, EventType } from "@Model/Emitter";
+import { Model } from "./Model";
 
 interface IArchiveEvent {
-    save: Archive;
-    load: Archive;
+    fileChange: Archive;
 }
 
 class Archive<
@@ -34,13 +34,28 @@ class Archive<
      * 保存文件
      * 模型转换为文件
      */
-    public save() {};
+    public save(model: Model): string {
+        let fileData: Record<string, any> = {};
+
+        // 保存 Next ID
+        fileData.idIndex = model.idIndex;
+        
+        // 保存对象
+        fileData.objects = [];
+        
+        // 记录
+        model.objectPool.map((object) => {
+
+        })
+
+        return JSON.stringify(model);
+    }
 
     /**
      * 加载文件为模型
      * return Model
      */
-    public load() {};
+    public load(model: Model, data: string) {};
 }
 
 export { Archive };

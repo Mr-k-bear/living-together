@@ -1,6 +1,6 @@
 import { Component, ReactNode } from "react";
 import { Icon } from '@fluentui/react/lib/Icon';
-import { useStatus, IMixinStatusProps } from "@Context/Status";
+import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
 import { useSetting, IMixinSettingProps } from "@Context/Setting";
 import { Theme, BackgroundLevel, FontLevel } from "@Component/Theme/Theme";
 import { LocalizationTooltipHost } from "@Component/Localization/LocalizationTooltipHost";
@@ -20,7 +20,7 @@ interface HeaderBarState {
  * 头部信息栏
  */
 @useSetting
-@useStatus
+@useStatusWithEvent("fileChange")
 class HeaderBar extends Component<
     IHeaderBarProps & IMixinStatusProps & IMixinSettingProps,
     HeaderBarState
@@ -63,7 +63,6 @@ class HeaderBar extends Component<
             setting.on("language", this.changeListener);
         }
         if (status) {
-            status.archive.on("save", this.changeListener);
             status.on("physicsLoop", this.physicsFpsCalc);
             status.on("renderLoop", this.renderFpsCalc);
         }
@@ -75,7 +74,6 @@ class HeaderBar extends Component<
             setting.off("language", this.changeListener);
         }
         if (status) {
-            status.archive.off("save", this.changeListener);
             status.off("physicsLoop", this.physicsFpsCalc);
             status.off("renderLoop", this.renderFpsCalc);
         }
