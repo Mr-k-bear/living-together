@@ -1,10 +1,15 @@
-div.header-bar {
-    padding: 0 3px;
+@import "../Theme/Theme.scss";
+
+div.header-bar {   
     box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: space-between;
     user-select: none;
+
+    div.title {
+        padding-left: 3px;
+    }
 
     div.title > i, div.fps-view > i {
         font-size: 25px;
@@ -22,6 +27,45 @@ div.header-bar {
             text-overflow: ellipsis;
             word-break: keep-all;
             white-space: nowrap;
+        }
+    }
+
+    div.header-windows-action {
+        height: 100%;
+        width: 135px;
+        min-width: 135px;
+        display: flex;
+
+        div.action-button {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: .5em;
+        }
+
+        div.action-button:hover {
+            cursor: pointer;
+        }
+
+        div.action-button.close-button:hover {
+            color: #FFFFFF !important;
+            background-color: $lt-red !important;
+        }
+    }
+
+    div.header-windows-action.light {
+
+        div.action-button:hover {
+            background-color: rgba($color: #000000, $alpha: .1);
+        }
+    }
+
+    div.header-windows-action.dark {
+
+        div.action-button:hover {
+            background-color: rgba($color: #FFFFFF, $alpha: .1);
         }
     }
 }

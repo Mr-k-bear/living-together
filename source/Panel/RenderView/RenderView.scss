@@ -7,3 +7,16 @@ div.render-view {
 		height: 100%;
 	}
 }
+
+div.render-view-fps {
+    height: 0;
+    width: 100%;
+
+    div.fps-view {
+        position: relative;
+        opacity: .5;
+        top: 10px;
+        left: 10px;
+        user-select: none;
+    }
+}

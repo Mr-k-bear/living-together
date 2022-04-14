@@ -1,7 +1,7 @@
 import { Component, ReactNode } from "react";
 import { Icon } from '@fluentui/react/lib/Icon';
-import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
-import { useSetting, IMixinSettingProps } from "@Context/Setting";
+import { useStatusWithEvent, useStatus, IMixinStatusProps } from "@Context/Status";
+import { useSettingWithEvent, IMixinSettingProps, Platform } from "@Context/Setting";
 import { Theme, BackgroundLevel, FontLevel } from "@Component/Theme/Theme";
 import { LocalizationTooltipHost } from "@Component/Localization/LocalizationTooltipHost";
 import { I18N } from "@Component/Localization/Localization";
@@ -11,38 +11,48 @@ interface IHeaderBarProps {
     height: number;
 }
 
-interface HeaderBarState {
+interface IHeaderFpsViewState {
     renderFps: number;
     physicsFps: number;
 }
 
-/**
- * 头部信息栏
- */
-@useSetting
-@useStatusWithEvent("fileChange")
-class HeaderBar extends Component<
-    IHeaderBarProps & IMixinStatusProps & IMixinSettingProps,
-    HeaderBarState
-> {
+@useStatus
+class HeaderFpsView extends Component<IMixinStatusProps & IMixinSettingProps, IHeaderFpsViewState> {
 
     public state = {
         renderFps: 0,
         physicsFps: 0,
     }
 
-    private changeListener = () => {
-        this.forceUpdate();
+    private updateTime: number = 0;
+
+    private renderFpsCalc: (t: number) => void = () => {};
+    private physicsFpsCalc: (t: number) => void = () => {};
+
+    public componentDidMount() {
+        const { status } = this.props;
+        this.renderFpsCalc = this.createFpsCalc("renderFps");
+        this.physicsFpsCalc = this.createFpsCalc("physicsFps");
+        if (status) {
+            status.on("physicsLoop", this.physicsFpsCalc);
+            status.on("renderLoop", this.renderFpsCalc);
+        }
     }
 
-    private updateTime: number = 0;
+    public componentWillUnmount() {
+        const { status } = this.props;
+        if (status) {
+            status.off("physicsLoop", this.physicsFpsCalc);
+            status.off("renderLoop", this.renderFpsCalc);
+        }
+    }
 
     private createFpsCalc(type: "renderFps" | "physicsFps") {
         return (t: number) => {
             if (t === 0) {
                 return;
             }
-            let newState: HeaderBarState = {} as any;
+            let newState: IHeaderFpsViewState = {} as any;
             newState[type] = 1 / t;
             if (this.updateTime > 20) {
                 this.updateTime = 0;
@@ -52,48 +62,58 @@ class HeaderBar extends Component<
         }
     }
 
-    private renderFpsCalc: (t: number) => void = () => {};
-    private physicsFpsCalc: (t: number) => void = () => {};
-
-    public componentDidMount() {
-        const { setting, status } = this.props;
-        this.renderFpsCalc = this.createFpsCalc("renderFps");
-        this.physicsFpsCalc = this.createFpsCalc("physicsFps");
-        if (setting) {
-            setting.on("language", this.changeListener);
-        }
-        if (status) {
-            status.on("physicsLoop", this.physicsFpsCalc);
-            status.on("renderLoop", this.renderFpsCalc);
-        }
-    }
-
-    public componentWillUnmount() {
-        const { setting, status } = this.props;
-        if (setting) {
-            setting.off("language", this.changeListener);
-        }
-        if (status) {
-            status.off("physicsLoop", this.physicsFpsCalc);
-            status.off("renderLoop", this.renderFpsCalc);
-        }
-    }
-
-    public render(): ReactNode {
-        const { status } = this.props;
-        let fileName: string = "";
-        let isNewFile: boolean = true;
-        let isSaved: boolean = false;
-        if (status) {
-            isNewFile = status.archive.isNewFile;
-            fileName = status.archive.fileName ?? "";
-            isSaved = status.archive.isSaved;
-        }
+    public render() {
 
         const fpsInfo = {
             renderFps: Math.floor(this.state.renderFps).toString(),
             physicsFps: Math.floor(this.state.physicsFps).toString()
         };
+
+        return <LocalizationTooltipHost i18nKey="Header.Bar.Fps.Info" options={fpsInfo}>
+                <div className="fps-view">
+                    <Icon iconName="SpeedHigh"></Icon>
+                    <span>{I18N(this.props, "Header.Bar.Fps", fpsInfo)}</span>
+                </div>
+        </LocalizationTooltipHost>
+    }
+}
+
+class HeaderWindowsAction extends Component {
+
+    public render() {
+        return <Theme className="header-windows-action">
+            <div className="action-button">
+                <Icon iconName="ChromeMinimize"/>
+            </div>
+            <div className="action-button">
+                <Icon iconName="ChromeRestore"/>
+            </div>
+            <div className="action-button close-button">
+                <Icon iconName="ChromeClose"/>
+            </div>
+        </Theme>
+    }
+}
+
+/**
+ * 头部信息栏
+ */
+@useSettingWithEvent("language")
+@useStatusWithEvent("fileChange")
+class HeaderBar extends Component<IHeaderBarProps & IMixinStatusProps & IMixinSettingProps> {
+
+    public render(): ReactNode {
+        const { status, setting } = this.props;
+
+        let fileName: string = "";
+        let isNewFile: boolean = true;
+        let isSaved: boolean = false;
+
+        if (status) {
+            isNewFile = status.archive.isNewFile;
+            fileName = status.archive.fileName ?? "";
+            isSaved = status.archive.isSaved;
+        }
 
         return <Theme
             className="header-bar"
@@ -125,15 +145,15 @@ class HeaderBar extends Component<
                     isSaved ? "" : "*"
                 }</div>
             </LocalizationTooltipHost>
-            <LocalizationTooltipHost i18nKey="Header.Bar.Fps.Info" options={fpsInfo}>
-                <div className="fps-view">
-                    <Icon iconName="SpeedHigh"></Icon>
-                    <span>{I18N(this.props, "Header.Bar.Fps", fpsInfo)}</span>
-                </div>
-            </LocalizationTooltipHost>
+
+            {
+                setting?.platform === Platform.desktop ?
+                    <HeaderWindowsAction/> :
+                    <HeaderFpsView setting={setting}/>
+            }
+            
         </Theme>
     }
 }
 
-export default HeaderBar;
 export { HeaderBar };

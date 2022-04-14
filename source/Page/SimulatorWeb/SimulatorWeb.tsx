@@ -1,5 +1,5 @@
 import { Component, ReactNode } from "react";
-import { SettingProvider, Setting } from "@Context/Setting";
+import { SettingProvider, Setting, Platform } from "@Context/Setting";
 import { Theme, BackgroundLevel, FontLevel } from "@Component/Theme/Theme";
 import { StatusProvider, Status } from "@Context/Status";
 import { ClassicRenderer } from "@GLRender/ClassicRenderer";
@@ -33,7 +33,7 @@ class SimulatorWeb extends Component {
 
         // TODO: 这里要读取设置
         this.setting = new Setting();
-        (window as any).setting = (this.setting as any);
+        this.setting.platform = Platform.web;
 
         // TODO: 这里要读取存档
         const classicRender = new ClassicRenderer().onLoad();
