@@ -70,6 +70,15 @@ const Entry = () => ({
     SimulatorWeb: {
         import: source("./Page/SimulatorWeb/SimulatorWeb.tsx"),
         dependOn: ["Model", "GLRender"]
+    },
+
+    Service: {
+        import: source("./Service/Service.ts")
+    },
+
+    ServiceRunner: {
+        import: source("./Service/Runner.ts"),
+        dependOn: ["Service"]
     }
 });
 

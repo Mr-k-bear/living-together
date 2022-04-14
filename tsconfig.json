@@ -40,6 +40,9 @@
             ],
             "@Panel/*": [
                 "./source/Panel/*"
+            ],
+            "@Service/*": [
+                "./source/Service/*"
             ]
         }
     },
