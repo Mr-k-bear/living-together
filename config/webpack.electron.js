@@ -10,6 +10,7 @@ module.exports = (env) => {
         entry: {
             Service: AllEntry.Service,
 			Electron: AllEntry.Electron,
+            SimulatorWindow: AllEntry.SimulatorWindow
         },
 
         output: Output("[name].js"),

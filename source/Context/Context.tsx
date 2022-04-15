@@ -58,7 +58,7 @@ function superConnectWithEvent<C extends Emitter<E>, E extends Record<EventType,
 	}
 }
 
-function superConnect<C extends Emitter<any>>(consumer: Consumer<C>, keyName: string) {
+function superConnect<C>(consumer: Consumer<C>, keyName: string) {
 	return <R extends RenderComponent>(components: R): R => {
 		return ((props: any) => {
 

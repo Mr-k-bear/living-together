@@ -35,20 +35,20 @@ div.header-bar {
 
     div.header-windows-action {
         height: 100%;
-        width: 135px;
-        min-width: 135px;
+        width: 145px;
+        min-width: 145px;
         display: flex;
 
         // 在 Electron 中用于拖拽窗口
         -webkit-app-region: no-drag;
 
         div.action-button {
-            width: 45px;
-            height: 45px;
+            width: 100%;
+            height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: .5em;
+            font-size: .8em;
         }
 
         div.action-button:hover {
@@ -73,5 +73,22 @@ div.header-bar {
         div.action-button:hover {
             background-color: rgba($color: #FFFFFF, $alpha: .1);
         }
+    }
+}
+
+div.header-bar.desktop-header-bar {
+    font-size: .9em;
+
+    div.title > i, div.fps-view > i {
+        font-size: 18px;
+    }
+
+    div.title > span {
+        display: inline-block;
+        padding-left: 5px;
+    }
+
+    div.title {
+        padding-left: 5px;
     }
 }

@@ -4,6 +4,7 @@ import { useStatusWithEvent, useStatus, IMixinStatusProps } from "@Context/Statu
 import { useSettingWithEvent, IMixinSettingProps, Platform } from "@Context/Setting";
 import { Theme, BackgroundLevel, FontLevel } from "@Component/Theme/Theme";
 import { LocalizationTooltipHost } from "@Component/Localization/LocalizationTooltipHost";
+import { useElectron, IMixinElectronProps } from "@Context/Electron";
 import { I18N } from "@Component/Localization/Localization";
 import "./HeaderBar.scss";
 
@@ -78,7 +79,8 @@ class HeaderFpsView extends Component<IMixinStatusProps & IMixinSettingProps, IH
     }
 }
 
-class HeaderWindowsAction extends Component {
+@useElectron
+class HeaderWindowsAction extends Component<IMixinElectronProps> {
 
     public render() {
         return <Theme className="header-windows-action">
@@ -88,7 +90,10 @@ class HeaderWindowsAction extends Component {
             <div className="action-button">
                 <Icon iconName="ChromeRestore"/>
             </div>
-            <div className="action-button close-button">
+            <div
+                className="action-button close-button"
+                onClick={() => this.props.electron?.close()}
+            >
                 <Icon iconName="ChromeClose"/>
             </div>
         </Theme>
@@ -115,8 +120,13 @@ class HeaderBar extends Component<IHeaderBarProps & IMixinStatusProps & IMixinSe
             isSaved = status.archive.isSaved;
         }
 
+        const headerBarClassName = ["header-bar"];
+        if (setting?.platform === Platform.desktop) {
+            headerBarClassName.push("desktop-header-bar");
+        }
+
         return <Theme
-            className="header-bar"
+            className={headerBarClassName.join(" ")}
             backgroundLevel={BackgroundLevel.Level1}
             fontLevel={FontLevel.Level3}
             style={{ height: this.props.height }}
