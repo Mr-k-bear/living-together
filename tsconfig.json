@@ -43,7 +43,10 @@
             ],
             "@Service/*": [
                 "./source/Service/*"
-            ]
+            ],
+            "@Electron/*": [
+                "./source/Electron/*"
+            ],
         }
     },
     "include": [

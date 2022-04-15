@@ -1,0 +1,43 @@
+const { Entry, Output, resolve, TypeScriptRules } = require("./webpack.common");
+const nodeExternals = require("webpack-node-externals");
+
+const AllEntry = Entry();
+
+module.exports = (env) => {
+    
+    const config = {
+
+        entry: {
+			Electron: AllEntry.Electron,
+        },
+
+        output: Output("[name].js"),
+        devtool: 'source-map',
+        mode: "development",
+        resolve: resolve(),
+
+        optimization: {
+            splitChunks: {
+                chunks: 'all',
+                minSize: 1000
+            }
+        },
+
+        externals: [nodeExternals()],
+
+        module: {
+            rules: [
+                TypeScriptRules()
+            ]
+        },
+
+		node: {
+			__filename: false,
+			__dirname: false
+		},
+
+		target: 'node'
+    };
+
+    return config;
+};

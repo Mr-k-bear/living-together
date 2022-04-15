@@ -80,7 +80,11 @@ const Entry = () => ({
     ServiceRunner: {
         import: source("./Service/Runner.ts"),
         dependOn: ["Service"]
-    }
+    },
+
+    Electron: {
+        import: source("./Electron/Electron.ts")
+    },
 });
 
 /**
