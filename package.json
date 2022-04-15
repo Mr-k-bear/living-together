@@ -4,7 +4,7 @@
   "description": "An art interactive works for graduation design.",
   "main": "./source/LivingTogether.ts",
   "scripts": {
-    "clean": "rimraf ./build/*",
+    "clean": "fse emptyDir ./build/",
     "hmr-lab": "webpack serve --open --config ./config/webpack.lab.js",
     "build-lab": "npm run clean & webpack --mode development --config ./config/webpack.lab.js",
     "release-lab": "npm run clean & webpack --mode production --no-devtool --config ./config/webpack.lab.js",
@@ -15,7 +15,8 @@
     "release-service": "webpack --mode production --no-devtool --config ./config/webpack.service.js",
     "run-service": "node ./build/ServiceRunner.js --run --path ./build --port 12000",
     "build-run-web": "npm run build-web & npm run build-service & npm run run-service",
-    "release-run-web": "npm run release-web & npm run release-service & npm run run-service"
+    "release-run-web": "npm run release-web & npm run release-service & npm run run-service",
+    "copy-fluent-icon": "fse mkdirp ./build/font-icon/ && fse emptyDir ./build/font-icon/ && fse copy ./node_modules/@fluentui/font-icons-mdl2/fonts/ ./build/font-icon/"
   },
   "keywords": [
     "artwork",
@@ -26,6 +27,7 @@
   "author": "MrKBear",
   "license": "GPL",
   "devDependencies": {
+    "@atao60/fse-cli": "^0.1.7",
     "@types/detect-port": "^1.3.2",
     "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",
@@ -35,7 +37,6 @@
     "mini-css-extract-plugin": "^2.4.6",
     "node-sass": "^7.0.1",
     "postcss-loader": "^6.2.1",
-    "rimraf": "^3.0.2",
     "sass-loader": "^12.4.0",
     "ts-loader": "^9.2.6",
     "tsconfig-paths-webpack-plugin": "^3.5.2",
