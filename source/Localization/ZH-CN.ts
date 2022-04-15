@@ -9,6 +9,8 @@ const ZH_CN = {
     "Header.Bar.File.Save.Status.Unsaved": "未保存",
     "Header.Bar.Fps": "帧率: {renderFps} | {physicsFps}",
     "Header.Bar.Fps.Info": "左侧为渲染帧率 ({renderFps} fps), 右侧为模拟帧率 ({physicsFps} fps)。",
+    "Header.Bar.Fps.Render.Info": "渲染帧率 {fps}",
+    "Header.Bar.Fps.Simulate.Info": "模拟帧率 {fps}",
     "Command.Bar.Save.Info": "保存",
     "Command.Bar.Play.Info": "开始仿真",
     "Command.Bar.Drag.Info": "拖拽进行视角移动",

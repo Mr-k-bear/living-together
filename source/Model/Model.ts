@@ -33,7 +33,7 @@ class Model extends Emitter<ModelEvent> {
     /**
      * 下一个需要分配的 ID
      */
-    private idIndex: number = 1;
+    public idIndex: number = 1;
     public nextId(label: string = "U"): string {
         return `${label}-${this.idIndex ++}`;
     }

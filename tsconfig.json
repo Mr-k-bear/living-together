@@ -40,7 +40,13 @@
             ],
             "@Panel/*": [
                 "./source/Panel/*"
-            ]
+            ],
+            "@Service/*": [
+                "./source/Service/*"
+            ],
+            "@Electron/*": [
+                "./source/Electron/*"
+            ],
         }
     },
     "include": [

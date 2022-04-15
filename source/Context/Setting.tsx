@@ -11,6 +11,11 @@ enum Themes {
     dark = 2
 }
 
+enum Platform {
+    web = 1,
+    desktop = 2
+}
+
 type Language = "ZH_CN" | "EN_US";
 
 interface ISettingEvents extends Setting {
@@ -18,6 +23,11 @@ interface ISettingEvents extends Setting {
 }
 
 class Setting extends Emitter<ISettingEvents> {
+
+    /**
+     * 程序平台
+     */
+    public platform: Platform = Platform.web;
 
     /**
      * 主题
@@ -63,5 +73,5 @@ const useSettingWithEvent = superConnectWithEvent<Setting, ISettingEvents>(Setti
 
 export {
     Themes, Setting, SettingContext, useSetting, Language, useSettingWithEvent,
-    IMixinSettingProps, SettingProvider, SettingConsumer
+    IMixinSettingProps, SettingProvider, SettingConsumer, Platform
 };

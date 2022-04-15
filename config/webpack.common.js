@@ -58,10 +58,6 @@ const Entry = () => ({
         import: source("./GLRender/ClassicRenderer.ts")
     },
 
-    livingTogether: {
-        import: source("./livingTogether.ts")
-    },
-
     LaboratoryPage: {
         import: source("./Page/Laboratory/Laboratory.tsx"),
         dependOn: ["Model", "GLRender"]
@@ -70,7 +66,26 @@ const Entry = () => ({
     SimulatorWeb: {
         import: source("./Page/SimulatorWeb/SimulatorWeb.tsx"),
         dependOn: ["Model", "GLRender"]
-    }
+    },
+
+    SimulatorDesktop: {
+        import: source("./Page/SimulatorDesktop/SimulatorDesktop.tsx"),
+        dependOn: ["Model", "GLRender"]
+    },
+
+    Service: {
+        import: source("./Service/Service.ts")
+    },
+
+    ServiceRunner: {
+        import: source("./Service/Runner.ts"),
+        dependOn: ["Service"]
+    },
+
+    Electron: {
+        import: source("./Electron/Electron.ts"),
+        dependOn: ["Service"]
+    },
 });
 
 /**
