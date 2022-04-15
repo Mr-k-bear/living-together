@@ -20,7 +20,10 @@
     "release-run-web": "npm run release-web & npm run release-service & npm run run-service",
     "copy-fluent-icon": "fse mkdirp ./build/font-icon/ && fse emptyDir ./build/font-icon/ && fse copy ./node_modules/@fluentui/font-icons-mdl2/fonts/ ./build/font-icon/",
     "build-run-desktop-web": "npm run build-desktop-web & npm run copy-fluent-icon & npm run build-service & npm run run-service",
-    "release-run-desktop-web": "npm run release-desktop-web & npm run copy-fluent-icon & npm run release-service & npm run run-service"
+    "release-run-desktop-web": "npm run release-desktop-web & npm run copy-fluent-icon & npm run release-service & npm run run-service",
+    "skip-electron-ci": "set ELECTRON_SKIP_BINARY_DOWNLOAD=1& npm ci",
+    "electron-cache": "set ELECTRON_SKIP_BINARY_DOWNLOAD=& set ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/& set ELECTRON_CUSTOM_DIR={{ version }}& node ./node_modules/electron/install.js",
+    "electron-test": "electron"
   },
   "keywords": [
     "artwork",
@@ -37,6 +40,7 @@
     "@types/react-dom": "^17.0.11",
     "autoprefixer": "^10.4.2",
     "css-loader": "^6.5.1",
+    "electron": "^18.0.4",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.4.6",
     "node-sass": "^7.0.1",

@@ -58,10 +58,6 @@ const Entry = () => ({
         import: source("./GLRender/ClassicRenderer.ts")
     },
 
-    livingTogether: {
-        import: source("./livingTogether.ts")
-    },
-
     LaboratoryPage: {
         import: source("./Page/Laboratory/Laboratory.tsx"),
         dependOn: ["Model", "GLRender"]
