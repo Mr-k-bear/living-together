@@ -7,6 +7,9 @@ div.header-bar {
     justify-content: space-between;
     user-select: none;
 
+    // 在 Electron 中用于拖拽窗口
+    -webkit-app-region: drag;
+
     div.title {
         padding-left: 3px;
     }
@@ -35,6 +38,9 @@ div.header-bar {
         width: 135px;
         min-width: 135px;
         display: flex;
+
+        // 在 Electron 中用于拖拽窗口
+        -webkit-app-region: no-drag;
 
         div.action-button {
             width: 45px;

@@ -8,6 +8,7 @@ module.exports = (env) => {
     const config = {
 
         entry: {
+            Service: AllEntry.Service,
 			Electron: AllEntry.Electron,
         },
 

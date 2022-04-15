@@ -83,7 +83,8 @@ const Entry = () => ({
     },
 
     Electron: {
-        import: source("./Electron/Electron.ts")
+        import: source("./Electron/Electron.ts"),
+        dependOn: ["Service"]
     },
 });
 
