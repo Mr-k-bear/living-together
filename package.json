@@ -11,12 +11,16 @@
     "hmr-web": "webpack serve --open --config ./config/webpack.web.js",
     "build-web": "npm run clean & webpack --mode development --config ./config/webpack.web.js",
     "release-web": "npm run clean & webpack --mode production --no-devtool --config ./config/webpack.web.js",
+    "build-desktop-web": "npm run clean & webpack --mode development --config ./config/webpack.desktop.js",
+    "release-desktop-web": "npm run clean & webpack --mode production --no-devtool --config ./config/webpack.desktop.js",
     "build-service": "webpack --mode development --config ./config/webpack.service.js",
     "release-service": "webpack --mode production --no-devtool --config ./config/webpack.service.js",
     "run-service": "node ./build/ServiceRunner.js --run --path ./build --port 12000",
     "build-run-web": "npm run build-web & npm run build-service & npm run run-service",
     "release-run-web": "npm run release-web & npm run release-service & npm run run-service",
-    "copy-fluent-icon": "fse mkdirp ./build/font-icon/ && fse emptyDir ./build/font-icon/ && fse copy ./node_modules/@fluentui/font-icons-mdl2/fonts/ ./build/font-icon/"
+    "copy-fluent-icon": "fse mkdirp ./build/font-icon/ && fse emptyDir ./build/font-icon/ && fse copy ./node_modules/@fluentui/font-icons-mdl2/fonts/ ./build/font-icon/",
+    "build-run-desktop-web": "npm run build-desktop-web & npm run copy-fluent-icon & npm run build-service & npm run run-service",
+    "release-run-desktop-web": "npm run release-desktop-web & npm run copy-fluent-icon & npm run release-service & npm run run-service"
   },
   "keywords": [
     "artwork",

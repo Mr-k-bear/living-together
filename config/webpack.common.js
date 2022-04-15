@@ -72,6 +72,11 @@ const Entry = () => ({
         dependOn: ["Model", "GLRender"]
     },
 
+    SimulatorDesktop: {
+        import: source("./Page/SimulatorDesktop/SimulatorDesktop.tsx"),
+        dependOn: ["Model", "GLRender"]
+    },
+
     Service: {
         import: source("./Service/Service.ts")
     },
