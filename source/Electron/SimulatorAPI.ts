@@ -1,5 +1,10 @@
+import { Emitter } from "@Model/Emitter";
 
-interface ISimulatorAPI {
+type IApiEmitterEvent = {
+	windowsSizeStateChange: void;
+}
+
+interface ISimulatorAPI extends Emitter<IApiEmitterEvent> {
 
 	/**
 	 * 关闭窗口
@@ -20,6 +25,11 @@ interface ISimulatorAPI {
 	 * 是否处于最大化状态
 	 */
 	isMaximized: () => boolean;
+
+	/**
+	 * 是否处于最大化状态
+	 */
+	minimize: () => void;
 }
 
-export { ISimulatorAPI }
+export { ISimulatorAPI, IApiEmitterEvent }

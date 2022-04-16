@@ -4,7 +4,7 @@ import { useStatusWithEvent, useStatus, IMixinStatusProps } from "@Context/Statu
 import { useSettingWithEvent, IMixinSettingProps, Platform } from "@Context/Setting";
 import { Theme, BackgroundLevel, FontLevel } from "@Component/Theme/Theme";
 import { LocalizationTooltipHost } from "@Component/Localization/LocalizationTooltipHost";
-import { useElectron, IMixinElectronProps } from "@Context/Electron";
+import { useElectronWithEvent, IMixinElectronProps } from "@Context/Electron";
 import { I18N } from "@Component/Localization/Localization";
 import "./HeaderBar.scss";
 
@@ -79,22 +79,41 @@ class HeaderFpsView extends Component<IMixinStatusProps & IMixinSettingProps, IH
     }
 }
 
-@useElectron
+@useElectronWithEvent("windowsSizeStateChange")
 class HeaderWindowsAction extends Component<IMixinElectronProps> {
 
     public render() {
+
+        const isMaxSize = this.props.electron?.isMaximized();
+
         return <Theme className="header-windows-action">
-            <div className="action-button">
-                <Icon iconName="ChromeMinimize"/>
+            <div
+                className="action-button"
+                onClick={() => {
+                    this.props.electron?.minimize();
+                }}
+            >
+                <Icon iconName="Remove"/>
             </div>
-            <div className="action-button">
-                <Icon iconName="ChromeRestore"/>
+            <div
+                className="action-button"
+                onClick={() => {
+                    if (isMaxSize) {
+                        this.props.electron?.unMaximize();
+                    } else {
+                        this.props.electron?.maximize();
+                    }
+                }}
+            >
+                <Icon iconName={ isMaxSize ? "ArrangeSendBackward" : "Checkbox"}/>
             </div>
             <div
                 className="action-button close-button"
-                onClick={() => this.props.electron?.close()}
+                onClick={() => {
+                    this.props.electron?.close()
+                }}
             >
-                <Icon iconName="ChromeClose"/>
+                <Icon iconName="Clear"/>
             </div>
         </Theme>
     }

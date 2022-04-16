@@ -63,9 +63,32 @@ class ElectronApp {
 
 	private handelSimulatorWindowBehavior() {
 
-		ipcMain.on("close", () => {
+		ipcMain.on("windows.close", () => {
 			this.simulatorWindow?.close();
 		});
+
+		ipcMain.on("windows.maximize", () => {
+			this.simulatorWindow?.maximize();
+		});
+
+		ipcMain.on("windows.unMaximize", () => {
+			this.simulatorWindow?.unmaximize();
+		});
+
+		ipcMain.on("windows.isMaximized", (event) => {
+			event.returnValue = this.simulatorWindow?.isMaximized();
+		});
+
+		ipcMain.on("windows.minimize", (event) => {
+			this.simulatorWindow?.minimize();
+		});
+
+		const sendWindowsChangeMessage = () => {
+			this.simulatorWindow?.webContents.send("windows.windowsSizeStateChange");
+		}
+
+		this.simulatorWindow?.on("maximize", sendWindowsChangeMessage);
+		this.simulatorWindow?.on("unmaximize", sendWindowsChangeMessage);
 	}
 }
 
