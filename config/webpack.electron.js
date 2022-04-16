@@ -25,6 +25,7 @@ module.exports = (env) => {
             }
         },
 
+        // externals: [nodeExternals({ allowlist: [/^(((?!electron).)*)$/] })],
         externals: [nodeExternals()],
 
         module: {

@@ -52,13 +52,13 @@ class ElectronApp {
 			webPreferences: { preload }
 		});
 
-		this.simulatorWindow.loadURL(this.serviceUrl);
+		this.simulatorWindow.loadURL(this.serviceUrl + (ENV.LIVING_TOGETHER_WEB_PATH ?? "/resources/app/"));
 
 		this.handelSimulatorWindowBehavior();
 
 		app.on('window-all-closed', function () {
 			if (process.platform !== 'darwin') app.quit()
-		})
+		});
 	}
 
 	private handelSimulatorWindowBehavior() {
