@@ -52,7 +52,7 @@ class ElectronApp {
 			webPreferences: { preload }
 		});
 
-		this.simulatorWindow.loadURL(this.serviceUrl + (ENV.LIVING_TOGETHER_WEB_PATH ?? "/resources/app/"));
+		this.simulatorWindow.loadURL(this.serviceUrl + (ENV.LIVING_TOGETHER_WEB_PATH ?? "/resources/app.asar/"));
 
 		this.handelSimulatorWindowBehavior();
 

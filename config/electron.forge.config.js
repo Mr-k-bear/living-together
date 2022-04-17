@@ -29,7 +29,20 @@ const Config = {
 	"license": PackageJSON.license,
 	"config": {
 		"forge": {
-			"packagerConfig": {},
+			"packagerConfig": {
+				"appBundleId": "com.mrkbear.living-together",
+				"appCopyright": "2021-2022 © copyright MrKBear",
+				"download": {
+					"rejectUnauthorized": false,
+					"executableName": "LivingTogether",
+					"mirrorOptions": {
+						"mirror": 'https://npmmirror.com/mirrors/electron/',
+    					"customDir": '{{ version }}',
+					}
+				},
+				"asar": true,
+				"icon": "./living-together"
+			},
 			"makers": [
 				{
 					"name": "@electron-forge/maker-zip",

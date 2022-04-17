@@ -32,8 +32,9 @@
     "release-run-electron": "npm run release-desktop-web & npm run copy-fluent-icon & npm run release-electron & npm run electron",
     "copy-package-json": "fse mkdirp ./bundle/ & node ./config/electron.forge.config.js --out ./bundle",
     "copy-build-result": "fse mkdirp ./bundle/ & fse mkdirp ./build/ & fse copy ./build/ ./bundle/",
+    "copy-electron-icon": "fse mkdirp ./bundle/ & fse copy ./assets/living-together.ico ./bundle/living-together.ico & fse copy ./assets/living-together.icns ./bundle/living-together.icns",
     "electron-app-ci": "cd ./bundle & npm install & cd ../",
-    "gen-bundle": "fse emptyDir ./bundle/ & npm run copy-package-json & npm run electron-app-ci"
+    "gen-bundle": "fse emptyDir ./bundle/ & npm run copy-package-json & npm run copy-electron-icon & npm run electron-app-ci"
   },
   "keywords": [
     "artwork",
