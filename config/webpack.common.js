@@ -86,6 +86,10 @@ const Entry = () => ({
         import: source("./Electron/Electron.ts"),
         dependOn: ["Service"]
     },
+
+    SimulatorWindow: {
+        import: source("./Electron/SimulatorWindow.ts"),
+    }
 });
 
 /**

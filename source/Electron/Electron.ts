@@ -1,5 +1,6 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, ipcMain } from "electron";
 import { Service } from "@Service/Service";
+import { join as pathJoin } from "path";
 const ENV = process.env ?? {};
 
 class ElectronApp {
@@ -14,6 +15,11 @@ class ElectronApp {
 
 	public async runService() {
 
+		if (ENV.LIVING_TOGETHER_SERVICE) {
+			this.serviceUrl = ENV.LIVING_TOGETHER_SERVICE;
+			return;
+		}
+
 		let defaultPort: number | undefined = parseInt(ENV.LIVING_TOGETHER_DEFAULT_PORT ?? "");
 		if (isNaN(defaultPort)) defaultPort = undefined;
 
@@ -22,7 +28,7 @@ class ElectronApp {
 		);
 	}
 
-	public mainWindows?: BrowserWindow;
+	public simulatorWindow?: BrowserWindow;
 
 	public async runMainThread() {
 
@@ -30,14 +36,59 @@ class ElectronApp {
 
 		await this.runService();
 
-		this.mainWindows = new BrowserWindow({
+		let preload = pathJoin(__dirname, "./SimulatorWindow.js");
+
+		// if (ENV.LIVING_TOGETHER_BASE_PATH) {
+		// 	preload = pathJoin(__dirname, ENV.LIVING_TOGETHER_BASE_PATH, "./SimulatorWindow.js");
+		// }
+
+		this.simulatorWindow = new BrowserWindow({
 			width: 800,
 			height: 600,
 			titleBarStyle: 'hidden',
 			frame: false,
+			minWidth: 460,
+			minHeight: 300,
+			webPreferences: { preload }
 		});
 
-		this.mainWindows.loadURL(this.serviceUrl);
+		this.simulatorWindow.loadURL(this.serviceUrl + (ENV.LIVING_TOGETHER_WEB_PATH ?? "/resources/app.asar/"));
+
+		this.handelSimulatorWindowBehavior();
+
+		app.on('window-all-closed', function () {
+			if (process.platform !== 'darwin') app.quit()
+		});
+	}
+
+	private handelSimulatorWindowBehavior() {
+
+		ipcMain.on("windows.close", () => {
+			this.simulatorWindow?.close();
+		});
+
+		ipcMain.on("windows.maximize", () => {
+			this.simulatorWindow?.maximize();
+		});
+
+		ipcMain.on("windows.unMaximize", () => {
+			this.simulatorWindow?.unmaximize();
+		});
+
+		ipcMain.on("windows.isMaximized", (event) => {
+			event.returnValue = this.simulatorWindow?.isMaximized();
+		});
+
+		ipcMain.on("windows.minimize", (event) => {
+			this.simulatorWindow?.minimize();
+		});
+
+		const sendWindowsChangeMessage = () => {
+			this.simulatorWindow?.webContents.send("windows.windowsSizeStateChange");
+		}
+
+		this.simulatorWindow?.on("maximize", sendWindowsChangeMessage);
+		this.simulatorWindow?.on("unmaximize", sendWindowsChangeMessage);
 	}
 }
 

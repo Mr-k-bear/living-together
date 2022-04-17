@@ -42,7 +42,7 @@ class Service {
 
 		console.log("Service: service run in port " + this.servicePort);
 
-		return "http://127.0.0.1:" + this.servicePort + "/";
+		return "http://127.0.0.1:" + this.servicePort;
 	}
 }
 

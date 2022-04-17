@@ -1,7 +1,9 @@
 import { Component, ReactNode } from "react";
 import { SettingProvider, Setting, Platform } from "@Context/Setting";
 import { Theme, BackgroundLevel, FontLevel } from "@Component/Theme/Theme";
+import { ISimulatorAPI } from "@Electron/SimulatorAPI";
 import { StatusProvider, Status } from "@Context/Status";
+import { ElectronProvider } from "@Context/Electron";
 import { ClassicRenderer } from "@GLRender/ClassicRenderer";
 import { initializeIcons } from '@fluentui/font-icons-mdl2';
 import { RootContainer } from "@Component/Container/RootContainer";
@@ -16,6 +18,11 @@ import "./SimulatorDesktop.scss";
 initializeIcons("./font-icon/");
 
 class SimulatorDesktop extends Component {
+
+    /**
+     * Electron API
+     */
+    public electron: ISimulatorAPI;
     
     /**
      * 全局设置
@@ -47,6 +54,16 @@ class SimulatorDesktop extends Component {
                 individual.position[2] = (Math.random() - .5) * 2;
             })
         };
+
+        (window as any).setting = this.setting;
+        (window as any).status = this.status;
+
+        this.electron = {} as ISimulatorAPI;
+        if ((window as any).API) {
+            this.electron = (window as any).API;
+        } else {
+            console.error("SimulatorDesktop: Can't find electron API");
+        }
     }
 
     public componentDidMount() {
@@ -82,7 +99,9 @@ class SimulatorDesktop extends Component {
     public render(): ReactNode {
         return <SettingProvider value={this.setting}>
             <StatusProvider value={this.status}>
-                {this.renderContent()}
+                <ElectronProvider value={this.electron}>
+                    {this.renderContent()}
+                </ElectronProvider>
             </StatusProvider>
         </SettingProvider>
     }
@@ -94,9 +113,9 @@ class SimulatorDesktop extends Component {
             fontLevel={FontLevel.Level3}
         >
             <Popup/>
-            <HeaderBar height={45}/>
+            <HeaderBar height={35}/>
             <div className="app-root-space" style={{
-                height: `calc( 100% - ${45}px)`
+                height: `calc( 100% - ${35}px)`
             }}>
                 <CommandBar width={45}/>
                 <RootContainer />
