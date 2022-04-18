@@ -17,9 +17,9 @@ class Range extends CtrlObject {
      */
     public radius: number[] = [1, 1, 1];
 
-    public constructor(model: Model, id: ObjectID) {
+    public constructor(model: Model) {
 
-        super(model, id);
+        super(model);
         
         if (model.renderer) {
             this.renderParameter = getDefaultValue(model.renderer.cubeParameterOption);

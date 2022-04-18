@@ -1,4 +1,5 @@
 import { LabelObject } from "@Model/Label"
+import { v4 as uuid } from "uuid";
 import type { IAnyObject, Model } from "@Model/Model";
 import type { ObjectID } from "@Model/Model";
 
@@ -45,10 +46,10 @@ class CtrlObject extends LabelObject {
     /**
      * 构造器
      */
-    public constructor(model: Model, id: ObjectID) {
+    public constructor(model: Model) {
         super();
         this.model = model;
-        this.id = id;
+        this.id = uuid();
     }
 
     /**

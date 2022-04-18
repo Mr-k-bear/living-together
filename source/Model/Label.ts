@@ -1,4 +1,5 @@
 import type { Model, ObjectID } from "@Model/Model";
+import { v4 as uuid } from "uuid";
 
 /**
  * 数据标签
@@ -35,9 +36,9 @@ class Label {
      * @param id 标签 ID
      * @param name 用户定义的名称
      */
-    public constructor(model: Model, id: ObjectID, name?: string) {
+    public constructor(model: Model, name?: string) {
         this.model = model;
-        this.id = id;
+        this.id = uuid();
         this.name = name ?? this.name;
     }
 

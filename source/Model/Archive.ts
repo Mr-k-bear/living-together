@@ -36,9 +36,6 @@ class Archive<
      */
     public save(model: Model): string {
         let fileData: Record<string, any> = {};
-
-        // 保存 Next ID
-        fileData.idIndex = model.idIndex;
         
         // 保存对象
         fileData.objects = [];

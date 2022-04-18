@@ -1,4 +1,5 @@
 import { Emitter, EventType } from "@Model/Emitter";
+import { v4 as uuid } from "uuid";
 import type { Individual } from "@Model/Individual";
 import type { Group } from "@Model/Group";
 import type { Model } from "@Model/Model";
@@ -10,7 +11,7 @@ import { getDefaultValue, IParameter, IParameterOption, IParameterValue } from "
 type IBehaviorConstructor<
     P extends IParameter = {},
     E extends Record<EventType, any> = {}
-> = new (id: string, parameter: IParameterValue<P>) => Behavior<P, E>;
+> = new (parameter: IParameterValue<P>) => Behavior<P, E>;
 
 type IAnyBehavior = Behavior<any, any>;
 type IAnyBehaviorRecorder = BehaviorRecorder<any, any>;
@@ -77,18 +78,6 @@ class BehaviorRecorder<
 > extends BehaviorInfo<{}> {
 
     /**
-     * 命名序号
-     */
-    public nameIndex: number = 0;
-
-    /**
-     * 获取下一个 ID
-     */
-    public getNextId() {
-        return `B-${this.behaviorId}-${this.nameIndex ++}`;
-    }
-
-    /**
      * 行为类型
      */
     public behavior: IBehaviorConstructor<P, E>;
@@ -107,13 +96,13 @@ class BehaviorRecorder<
      * 创建一个新的行为实例
      */
     public new(): Behavior<P, E> {
-        return new this.behavior(this.getNextId(), getDefaultValue(this.parameterOption));
+        return new this.behavior(getDefaultValue(this.parameterOption));
     }
 
     public constructor(behavior: IBehaviorConstructor<P, E>) {
         super();
         this.behavior = behavior;
-        this.behaviorInstance = new this.behavior(this.getNextId(), {} as any);
+        this.behaviorInstance = new this.behavior({} as any);
         this.parameterOption = this.behaviorInstance.parameterOption;
         this.iconName = this.behaviorInstance.iconName;
         this.behaviorId = this.behaviorInstance.behaviorId;
@@ -168,9 +157,9 @@ class Behavior<
      */
     public parameterOption: IParameterOption<P> = {} as any;
 
-    public constructor(id: string, parameter: IParameterValue<P>) {
+    public constructor(parameter: IParameterValue<P>) {
         super();
-        this.id = id;
+        this.id = uuid();
         this.parameter = parameter;
     }
 

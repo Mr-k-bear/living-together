@@ -57,12 +57,6 @@ class Status extends Emitter<IStatusEvent> {
     public setting: Setting = undefined as any;
 
     /**
-     * 对象命名
-     */
-    public objectNameIndex = 1;
-    public labelNameIndex = 1;
-
-    /**
      * 渲染器
      */
     public renderer: AbstractRenderer = undefined as any;
@@ -300,34 +294,72 @@ class Status extends Emitter<IStatusEvent> {
      */
     public mouseMod: MouseMod = MouseMod.Drag;
 
+    private readonly SEARCH_NAME_KEY_REG = /(\d+)$/;
+    private getNextNumber(name: string, searchKey: string): number {
+        if (name.indexOf(searchKey) < 0) return 1;
+        let searchRes = name.match(this.SEARCH_NAME_KEY_REG);
+        if (searchRes) {
+            let nameNumber = parseInt(searchRes[1]);    
+            if (isNaN(nameNumber)) {
+                return 1;
+            } else {
+                return nameNumber + 1;
+            }
+        } else {
+            return 1;
+        }
+    }
+
     public newGroup() {
         const group = this.model.addGroup();
         group.color = randomColor();
-        group.displayName = I18N(this.setting.language, "Object.List.New.Group", {
-            id: this.objectNameIndex.toString()
+        let searchKey = I18N(this.setting.language, "Object.List.New.Group", { id: "" });
+        let nextIndex = 1;
+        this.model.objectPool.forEach((obj) => {
+            if (obj instanceof Group) {
+                nextIndex = Math.max(nextIndex, this.getNextNumber(
+                    obj.displayName, searchKey
+                ));
+            }
         });
-        this.objectNameIndex ++;
+        group.displayName = I18N(this.setting.language, "Object.List.New.Group", {
+            id: nextIndex.toString()
+        });
         return group;
     }
 
     public newRange() {
         const range = this.model.addRange();
         range.color = randomColor();
-        range.displayName = I18N(this.setting.language, "Object.List.New.Range", {
-            id: this.objectNameIndex.toString()
+        let searchKey = I18N(this.setting.language, "Object.List.New.Range", { id: "" });
+        let nextIndex = 1;
+        this.model.objectPool.forEach((obj) => {
+            if (obj instanceof Range) {
+                nextIndex = Math.max(nextIndex, this.getNextNumber(
+                    obj.displayName, searchKey
+                ));
+            }
         });
-        this.objectNameIndex ++;
+        range.displayName = I18N(this.setting.language, "Object.List.New.Range", {
+            id: nextIndex.toString()
+        });
         return range;
     }
 
     public newLabel() {
+        let searchKey = I18N(this.setting.language, "Object.List.New.Label", { id: "" });
+        let nextIndex = 1;
+        this.model.labelPool.forEach((obj) => {
+            nextIndex = Math.max(nextIndex, this.getNextNumber(
+                obj.name, searchKey
+            ));
+        });
         const label = this.model.addLabel(
             I18N(this.setting.language, "Object.List.New.Label", {
-                id: this.labelNameIndex.toString()
+                id: nextIndex.toString()
             })
         );
         label.color = randomColor(true);
-        this.labelNameIndex ++;
         return label;
     }
 

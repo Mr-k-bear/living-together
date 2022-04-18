@@ -117,10 +117,26 @@ class BehaviorPopupComponent extends Component<
             if (this.props.status && recorder instanceof BehaviorRecorder) {
                 let newBehavior = this.props.status.model.addBehavior(recorder);
 
-                // 初始化名字
-                newBehavior.name = recorder.getTerms(
+                // 根据用户的命名搜索下一个名字
+                let searchKey = recorder.getTerms(
                     recorder.behaviorName, this.props.setting?.language
-                ) + " " + (recorder.nameIndex - 1).toString();
+                );
+                
+                let nextIndex = 1;
+                this.props.status.model.behaviorPool.forEach((obj) => {
+                    if (obj.behaviorId === recorder.behaviorId && obj.name.indexOf(searchKey) >= 0) {
+                        let searchRes = obj.name.match(/(\d+)$/);
+                        if (searchRes) {
+                            let nameNumber = parseInt(searchRes[1]);
+                            if (!isNaN(nameNumber)) {
+                                nextIndex = Math.max(nextIndex, nameNumber + 1);
+                            }
+                        }
+                    }
+                });
+
+                // 初始化名字
+                newBehavior.name = `${searchKey} ${nextIndex}`;
 
                 // 赋予一个随机颜色
                 newBehavior.color = randomColor(true);

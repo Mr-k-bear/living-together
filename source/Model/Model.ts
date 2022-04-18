@@ -2,9 +2,8 @@ import { Label } from "@Model/Label";
 import { Group } from "@Model/Group";
 import { Range } from "@Model/Range";
 import { IParamValue } from "@Model/Parameter";
-import { Individual } from "@Model/Individual";
 import { CtrlObject } from "@Model/CtrlObject";
-import { Emitter, EventType, EventMixin } from "@Model/Emitter";
+import { Emitter } from "@Model/Emitter";
 import { AbstractRenderer } from "@Model/Renderer";
 import { Behavior, IAnyBehavior, IAnyBehaviorRecorder } from "@Model/Behavior";
 
@@ -29,14 +28,6 @@ type ModelEvent = {
  * 模型 全局控制器
  */
 class Model extends Emitter<ModelEvent> {
-
-    /**
-     * 下一个需要分配的 ID
-     */
-    public idIndex: number = 1;
-    public nextId(label: string = "U"): string {
-        return `${label}-${this.idIndex ++}`;
-    }
 
     /**
      * 对象列表
@@ -75,10 +66,10 @@ class Model extends Emitter<ModelEvent> {
      * 添加标签
      */
     public addLabel(name: string): Label {
-        console.log(`Model: Creat label with id ${this.idIndex}`);
-        let label = new Label(this, this.nextId("L"), name);
+        let label = new Label(this, name);
         this.labelPool.push(label);
         this.emit("labelChange", this.labelPool);
+        console.log(`Model: Creat label with id ${label.id}`);
         return label;
     }
 
@@ -140,10 +131,10 @@ class Model extends Emitter<ModelEvent> {
      * 添加组
      */
     public addGroup(): Group {
-        console.log(`Model: Creat group with id ${this.idIndex}`);
-        let group = new Group(this, this.nextId("G"));
+        let group = new Group(this);
         this.objectPool.push(group);
         this.emit("objectChange", this.objectPool);
+        console.log(`Model: Creat group with id ${group.id}`);
         return group;
     }
 
@@ -151,10 +142,10 @@ class Model extends Emitter<ModelEvent> {
      * 添加范围
      */
     public addRange(): Range {
-        console.log(`Model: Creat range with id ${this.idIndex}`);
-        let range = new Range(this, this.nextId("R"));
+        let range = new Range(this);
         this.objectPool.push(range);
         this.emit("objectChange", this.objectPool);
+        console.log(`Model: Creat range with id ${range.id}`);
         return range;
     }
 
@@ -393,14 +384,4 @@ class Model extends Emitter<ModelEvent> {
     }
 }
 
-export {
-    Individual,
-    Group,
-    Emitter,
-    EventType,
-    EventMixin,
-    Model,
-    CtrlObject,
-    ObjectID,
-    IAnyObject
-}
+export { Model, ObjectID, IAnyObject }
