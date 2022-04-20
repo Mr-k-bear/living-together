@@ -3,6 +3,16 @@ import { v4 as uuid } from "uuid";
 import type { IAnyObject, Model } from "@Model/Model";
 import type { ObjectID } from "@Model/Model";
 
+interface IArchiveCtrlObject {
+    displayName: CtrlObject["displayName"];
+    color: CtrlObject["color"];
+    display: CtrlObject["display"];
+    update: CtrlObject["update"];
+    id: string;
+    renderParameter: Record<string, string>;
+    deleteFlag: CtrlObject["deleteFlag"];
+}
+
 /**
  * 可控对象
  */
@@ -97,7 +107,14 @@ class CtrlObject extends LabelObject {
     public isDeleted(): boolean {
         return this.deleteFlag;
     }
+
+    public toArchive(): IArchiveCtrlObject {
+        return {} as any;
+    }
+
+    public fromArchive(archive: IArchiveCtrlObject): void {
+
+    }
 }
 
-export default CtrlObject;
-export { CtrlObject };
+export { CtrlObject, IArchiveCtrlObject };
