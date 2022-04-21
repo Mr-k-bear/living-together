@@ -109,7 +109,7 @@ class CtrlObject extends LabelObject {
         return this.deleteFlag;
     }
 
-    public toArchive(): IArchiveCtrlObject {
+    public toArchive<T>(): IArchiveCtrlObject & T {
         return {
             displayName: this.displayName,
             color: this.color.concat([]),
@@ -118,10 +118,10 @@ class CtrlObject extends LabelObject {
             id: this.id,
             renderParameter: parameter2ArchiveObject(this.renderParameter),
             deleteFlag: !!this.deleteFlag
-        };
+        } as any;
     }
 
-    public fromArchive(archive: IArchiveCtrlObject, paster?: IArchiveParseFn): void {
+    public fromArchive<T>(archive: IArchiveCtrlObject & T, paster?: IArchiveParseFn): void {
         this.displayName = archive.displayName;
         this.color = archive.color.concat([]);
         this.display = !!archive.display;
