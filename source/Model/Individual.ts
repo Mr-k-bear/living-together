@@ -47,6 +47,8 @@ class Individual {
         }
     }
 
+    public id: string;
+
 	/**
 	 * 坐标
 	 */
@@ -95,6 +97,7 @@ class Individual {
 	 */
 	public constructor(group: Group) {
 		this.group = group;
+        this.id = this.group.model.getNextIndividualId();
 	}
 
     public isDie(): boolean {
@@ -169,5 +172,4 @@ class Individual {
     }
 }
 
-export default Individual;
 export { Individual };

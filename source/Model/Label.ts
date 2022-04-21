@@ -78,7 +78,8 @@ class Label {
     /**
      * 设置为内置标签
      */
-    public setBuildInLabel(): this {
+    public setBuildInLabel(id: string): this {
+        this.id = id;
         this.isBuildIn = true;
         return this;
     }

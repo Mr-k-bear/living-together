@@ -47,7 +47,7 @@ class CtrlObject<A extends IAnyObject = IAnyObject> extends LabelObject {
     /**
      * 控制模型
      */
-    protected model: Model;
+    public model: Model;
 
     /**
      * 渲染数据

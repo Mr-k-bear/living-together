@@ -4,17 +4,29 @@ import type { Behavior, IAnyBehavior } from "@Model/Behavior";
 import { Label } from "@Model/Label";
 import { Range } from "@Model/Range";
 import { Model, ObjectID } from "@Model/Model";
-import { getDefaultValue } from "@Model/Parameter";
+import { getDefaultValue, IObjectParamArchiveType } from "@Model/Parameter";
 
 enum GenMod {
     Point = "p",
     Range = "R"
 }
 
+interface IArchiveGroup {
+    individuals: IObjectParamArchiveType[];
+    genMethod: Group["genMethod"];
+    genPoint: Group["genPoint"];
+    genRange: IObjectParamArchiveType | undefined;
+    genCount: Group["genCount"];
+    genErrorMessage: Group["genErrorMessage"];
+    genErrorMessageShowCount: Group["genErrorMessageShowCount"];
+    killCount: Group["killCount"];
+    behaviors: IObjectParamArchiveType[];
+}
+
 /**
  * 群体类型
  */
-class Group extends CtrlObject {
+class Group extends CtrlObject<IArchiveGroup> {
 
 	/**
 	 * 所有个体
@@ -417,5 +429,4 @@ class Group extends CtrlObject {
     }
 }
 
-export default Group;
 export { Group, GenMod };
