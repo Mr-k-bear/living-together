@@ -1,5 +1,6 @@
 import { LabelObject } from "@Model/Label"
 import { v4 as uuid } from "uuid";
+import { parameter2ArchiveObject, archiveObject2Parameter, IArchiveParseFn } from "@Model/Parameter";
 import type { IAnyObject, Model } from "@Model/Model";
 import type { ObjectID } from "@Model/Model";
 
@@ -9,7 +10,7 @@ interface IArchiveCtrlObject {
     display: CtrlObject["display"];
     update: CtrlObject["update"];
     id: string;
-    renderParameter: Record<string, string>;
+    renderParameter: any;
     deleteFlag: CtrlObject["deleteFlag"];
 }
 
@@ -109,11 +110,27 @@ class CtrlObject extends LabelObject {
     }
 
     public toArchive(): IArchiveCtrlObject {
-        return {} as any;
+        return {
+            displayName: this.displayName,
+            color: this.color.concat([]),
+            display: !!this.display,
+            update: !!this.update,
+            id: this.id,
+            renderParameter: parameter2ArchiveObject(this.renderParameter),
+            deleteFlag: !!this.deleteFlag
+        };
     }
 
-    public fromArchive(archive: IArchiveCtrlObject): void {
-
+    public fromArchive(archive: IArchiveCtrlObject, paster?: IArchiveParseFn): void {
+        this.displayName = archive.displayName;
+        this.color = archive.color.concat([]);
+        this.display = !!archive.display;
+        this.update = !!archive.update;
+        this.id = archive.id;
+        this.renderParameter = archiveObject2Parameter(
+            archive.renderParameter, paster ?? (() => undefined)
+        );
+        this.deleteFlag = !!archive.deleteFlag;
     }
 }
 

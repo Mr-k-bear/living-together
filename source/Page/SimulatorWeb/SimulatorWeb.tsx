@@ -153,7 +153,10 @@ class SimulatorWeb extends Component {
             }, 200)
         }
 
-        (window as any).s = this;
+        (window as any).LT = {
+            status: this.status,
+            setting: this.setting
+        };
     }
 
     public componentDidMount() {

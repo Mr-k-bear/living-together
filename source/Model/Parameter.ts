@@ -350,5 +350,6 @@ function archiveObject2Parameter<P extends IParameter>
 export {
     IParamType, IParamValue, isObjectType, isVectorType, getDefaultValue,
     IParameterOptionItem, IParameter, IParameterOption, IParameterValue,
-    object2ArchiveObject, parameter2ArchiveObject
+    object2ArchiveObject, parameter2ArchiveObject, archiveObject2Parameter,
+    IArchiveParseFn
 }
