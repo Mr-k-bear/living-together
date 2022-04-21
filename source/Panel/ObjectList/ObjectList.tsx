@@ -4,6 +4,8 @@ import { useSetting, IMixinSettingProps } from "@Context/Setting";
 import { Localization } from "@Component/Localization/Localization";
 import { DetailsList } from "@Component/DetailsList/DetailsList";
 import { ObjectID } from "@Model/Model";
+import { Group } from "@Model/Group";
+import { Range } from "@Model/Range";
 import { Icon } from "@fluentui/react";
 import "./ObjectList.scss";
 
@@ -24,12 +26,21 @@ class ObjectList extends Component<IMixinStatusProps & IMixinSettingProps> {
         return <DetailsList
             className="object-list"
             items={objList.concat([]).map((object => {
+
+                let objectType = "";
+                if (object instanceof Group) {
+                    objectType = "G";
+                } else if (object instanceof Range) {
+                    objectType = "R";
+                }
+
                 return {
                     key: object.id.toString(),
                     name: object.displayName,
                     color: object.color,
                     display: object.display,
                     update: object.update,
+                    type: objectType,
                     select: this.props.status ? 
                         this.props.status.focusObject.has(object.id.toString()) || 
                         this.props.status.focusObject.has(object.id) :
@@ -41,10 +52,10 @@ class ObjectList extends Component<IMixinStatusProps & IMixinSettingProps> {
                     this.props.status.setFocusObject(new Set<ObjectID>().add(item.key));
                 }
                 if (this.props.setting) {
-                    if (item.key.slice(0, 1) === "R") {
+                    if (item.type === "R") {
                         this.props.setting.layout.focus("RangeDetails");
                     }
-                    if (item.key.slice(0, 1) === "G") {
+                    else if (item.type === "G") {
                         this.props.setting.layout.focus("GroupDetails");
                     }
                     this.props.setting.layout.focus("ObjectList");
@@ -71,13 +82,13 @@ class ObjectList extends Component<IMixinStatusProps & IMixinSettingProps> {
             }}
             renderCheckbox={(item, click) => {
                 let icon = "CheckMark";
-                if (item.key.slice(0, 1) === "R") {
+                if (item.type === "R") {
                     icon = "CubeShape";
                 }
-                if (item.key.slice(0, 1) === "G") {
+                else if (item.type === "G") {
                     icon = "WebAppBuilderFragment";
                 }
-                return <div 
+                return <div
                     className="object-list-checkbox details-list-checkbox"
                     onClick={click}
                 >

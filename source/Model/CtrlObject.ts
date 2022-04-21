@@ -1,11 +1,23 @@
 import { LabelObject } from "@Model/Label"
+import { v4 as uuid } from "uuid";
+import { parameter2ArchiveObject, archiveObject2Parameter, IArchiveParseFn } from "@Model/Parameter";
 import type { IAnyObject, Model } from "@Model/Model";
 import type { ObjectID } from "@Model/Model";
+
+interface IArchiveCtrlObject {
+    displayName: CtrlObject["displayName"];
+    color: CtrlObject["color"];
+    display: CtrlObject["display"];
+    update: CtrlObject["update"];
+    id: string;
+    renderParameter: any;
+    deleteFlag: CtrlObject["deleteFlag"];
+}
 
 /**
  * 可控对象
  */
-class CtrlObject extends LabelObject {
+class CtrlObject<A extends IAnyObject = IAnyObject> extends LabelObject {
 
     /**
      * 显示名称
@@ -45,10 +57,10 @@ class CtrlObject extends LabelObject {
     /**
      * 构造器
      */
-    public constructor(model: Model, id: ObjectID) {
+    public constructor(model: Model) {
         super();
         this.model = model;
-        this.id = id;
+        this.id = uuid();
     }
 
     /**
@@ -96,7 +108,30 @@ class CtrlObject extends LabelObject {
     public isDeleted(): boolean {
         return this.deleteFlag;
     }
+
+    public toArchive(): IArchiveCtrlObject & A {
+        return {
+            displayName: this.displayName,
+            color: this.color.concat([]),
+            display: !!this.display,
+            update: !!this.update,
+            id: this.id,
+            renderParameter: parameter2ArchiveObject(this.renderParameter),
+            deleteFlag: !!this.deleteFlag
+        } as any;
+    }
+
+    public fromArchive(archive: IArchiveCtrlObject & A, paster?: IArchiveParseFn): void {
+        this.displayName = archive.displayName;
+        this.color = archive.color.concat([]);
+        this.display = !!archive.display;
+        this.update = !!archive.update;
+        this.id = archive.id;
+        this.renderParameter = archiveObject2Parameter(
+            archive.renderParameter, paster ?? (() => undefined)
+        );
+        this.deleteFlag = !!archive.deleteFlag;
+    }
 }
 
-export default CtrlObject;
-export { CtrlObject };
+export { CtrlObject, IArchiveCtrlObject };

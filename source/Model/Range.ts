@@ -1,11 +1,16 @@
-import { CtrlObject } from "@Model/CtrlObject";
-import { Model, ObjectID } from "@Model/Model";
-import { getDefaultValue } from "@Model/Parameter";
+import { CtrlObject, IArchiveCtrlObject } from "@Model/CtrlObject";
+import { Model } from "@Model/Model";
+import { getDefaultValue, IArchiveParseFn, parameter2ArchiveObject } from "@Model/Parameter";
+
+interface IArchiveRange {
+    position: Range["position"];
+    radius: Range["radius"];
+}
 
 /**
  * 范围
  */
-class Range extends CtrlObject {
+class Range extends CtrlObject<IArchiveRange> {
 
     /**
      * 坐标
@@ -17,16 +22,29 @@ class Range extends CtrlObject {
      */
     public radius: number[] = [1, 1, 1];
 
-    public constructor(model: Model, id: ObjectID) {
+    public constructor(model: Model) {
 
-        super(model, id);
+        super(model);
         
         if (model.renderer) {
             this.renderParameter = getDefaultValue(model.renderer.cubeParameterOption);
         }
     }
 
+    public override toArchive(): IArchiveCtrlObject & IArchiveRange {
+        return {
+            ...super.toArchive(),
+            position: this.position.concat([]),
+            radius: this.radius.concat([])
+        };
+    }
+
+    public override fromArchive(archive: IArchiveCtrlObject & IArchiveRange, paster?: IArchiveParseFn): void {
+        super.fromArchive(archive, paster);
+        this.position = archive.position.concat([]),
+        this.radius = archive.radius.concat([])
+    }
+
 }
 
-export default Range;
-export { Range }; 
+export { Range, IArchiveRange }; 

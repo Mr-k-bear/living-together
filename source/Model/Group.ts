@@ -407,9 +407,9 @@ class Group extends CtrlObject {
         return dataBuffer;
     }
     
-    public constructor(model: Model, id: ObjectID) {
+    public constructor(model: Model) {
 
-        super(model, id);
+        super(model);
         
         if (model.renderer) {
             this.renderParameter = getDefaultValue(model.renderer.pointsParameterOption);
