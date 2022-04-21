@@ -10,7 +10,7 @@ interface IArchiveRange {
 /**
  * 范围
  */
-class Range extends CtrlObject {
+class Range extends CtrlObject<IArchiveRange> {
 
     /**
      * 坐标
@@ -31,7 +31,7 @@ class Range extends CtrlObject {
         }
     }
 
-    public override toArchive<T>(): IArchiveCtrlObject & T {
+    public override toArchive(): IArchiveCtrlObject & IArchiveRange {
         return {
             ...super.toArchive(),
             position: this.position.concat([]),
@@ -39,10 +39,10 @@ class Range extends CtrlObject {
         };
     }
 
-    public override fromArchive<T>(archive: IArchiveCtrlObject & T, paster?: IArchiveParseFn): void {
+    public override fromArchive(archive: IArchiveCtrlObject & IArchiveRange, paster?: IArchiveParseFn): void {
         super.fromArchive(archive, paster);
-        this.position = (archive as any).position.concat([]),
-        this.radius = (archive as any).radius.concat([])
+        this.position = archive.position.concat([]),
+        this.radius = archive.radius.concat([])
     }
 
 }

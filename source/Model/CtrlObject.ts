@@ -17,7 +17,7 @@ interface IArchiveCtrlObject {
 /**
  * 可控对象
  */
-class CtrlObject extends LabelObject {
+class CtrlObject<A extends IAnyObject = IAnyObject> extends LabelObject {
 
     /**
      * 显示名称
@@ -109,7 +109,7 @@ class CtrlObject extends LabelObject {
         return this.deleteFlag;
     }
 
-    public toArchive<T>(): IArchiveCtrlObject & T {
+    public toArchive(): IArchiveCtrlObject & A {
         return {
             displayName: this.displayName,
             color: this.color.concat([]),
@@ -121,7 +121,7 @@ class CtrlObject extends LabelObject {
         } as any;
     }
 
-    public fromArchive<T>(archive: IArchiveCtrlObject & T, paster?: IArchiveParseFn): void {
+    public fromArchive(archive: IArchiveCtrlObject & A, paster?: IArchiveParseFn): void {
         this.displayName = archive.displayName;
         this.color = archive.color.concat([]);
         this.display = !!archive.display;
