@@ -443,7 +443,7 @@ class Group extends CtrlObject<IArchiveGroup> {
         this.killCount = archive.killCount,
         this.behaviors = archive.behaviors.map((item) => {
             return item ? paster(item) as any : undefined;
-        });
+        }).filter(c => !!c);
     }
     
     public constructor(model: Model) {

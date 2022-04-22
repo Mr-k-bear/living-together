@@ -1,8 +1,11 @@
 import { LabelObject } from "@Model/Label"
 import { v4 as uuid } from "uuid";
-import { parameter2ArchiveObject, archiveObject2Parameter, IArchiveParseFn } from "@Model/Parameter";
 import type { IAnyObject, Model } from "@Model/Model";
 import type { ObjectID } from "@Model/Model";
+import {
+    parameter2ArchiveObject, archiveObject2Parameter,
+    IArchiveParseFn, IObjectParamArchiveType, object2ArchiveObject
+} from "@Model/Parameter";
 
 interface IArchiveCtrlObject {
     displayName: CtrlObject["displayName"];
@@ -12,6 +15,7 @@ interface IArchiveCtrlObject {
     id: string;
     renderParameter: any;
     deleteFlag: CtrlObject["deleteFlag"];
+    labels: IObjectParamArchiveType[];
 }
 
 /**
@@ -117,20 +121,26 @@ class CtrlObject<A extends IAnyObject = IAnyObject> extends LabelObject {
             update: !!this.update,
             id: this.id,
             renderParameter: parameter2ArchiveObject(this.renderParameter),
-            deleteFlag: !!this.deleteFlag
+            deleteFlag: !!this.deleteFlag,
+            labels: this.labels.map((label) => {
+                return object2ArchiveObject(label);
+            })
         } as any;
     }
 
-    public fromArchive(archive: IArchiveCtrlObject & A, paster?: IArchiveParseFn): void {
+    public fromArchive(archive: IArchiveCtrlObject & A, paster: IArchiveParseFn): void {
         this.displayName = archive.displayName;
         this.color = archive.color.concat([]);
         this.display = !!archive.display;
         this.update = !!archive.update;
         this.id = archive.id;
-        this.renderParameter = archiveObject2Parameter(
-            archive.renderParameter, paster ?? (() => undefined)
-        );
         this.deleteFlag = !!archive.deleteFlag;
+        this.renderParameter = archiveObject2Parameter(
+            archive.renderParameter, paster
+        );
+        this.labels = archive.labels.map((obj) => {
+            return paster(obj) as any;
+        }).filter((c) => !!c);
     }
 }
 

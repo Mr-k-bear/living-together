@@ -39,7 +39,7 @@ class Range extends CtrlObject<IArchiveRange> {
         };
     }
 
-    public override fromArchive(archive: IArchiveCtrlObject & IArchiveRange, paster?: IArchiveParseFn): void {
+    public override fromArchive(archive: IArchiveCtrlObject & IArchiveRange, paster: IArchiveParseFn): void {
         super.fromArchive(archive, paster);
         this.position = archive.position.concat([]),
         this.radius = archive.radius.concat([])

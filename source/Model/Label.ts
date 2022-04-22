@@ -1,6 +1,14 @@
 import type { Model, ObjectID } from "@Model/Model";
 import { v4 as uuid } from "uuid";
 
+interface IArchiveLabel {
+    isBuildIn: boolean;
+    id: string;
+    name: string;
+    color: number[];
+    deleteFlag: boolean;
+}
+
 /**
  * 数据标签
  */
@@ -83,6 +91,24 @@ class Label {
         this.isBuildIn = true;
         return this;
     }
+
+    public toArchive(): IArchiveLabel {
+        return {
+            isBuildIn: this.isBuildIn,
+            id: this.id,
+            name: this.name,
+            color: this.color.concat([]),
+            deleteFlag: this.deleteFlag
+        } as any;
+    }
+
+    public fromArchive(archive: IArchiveLabel): void {
+        this.isBuildIn = archive.isBuildIn,
+        this.id = archive.id,
+        this.name = archive.name,
+        this.color = archive.color.concat([]),
+        this.deleteFlag = archive.deleteFlag
+    }
 }
 
 /**
@@ -93,7 +119,7 @@ class LabelObject {
     /**
      * 标签集合
      */
-    private labels: Label[] = [];
+    public labels: Label[] = [];
 
     /**
      * 获取全部 Label
@@ -133,4 +159,4 @@ class LabelObject {
     }
 }
 
-export { Label, LabelObject };
+export { Label, LabelObject, IArchiveLabel };
