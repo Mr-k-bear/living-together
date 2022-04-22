@@ -1,10 +1,10 @@
 import { Individual } from "@Model/Individual";
-import { CtrlObject } from "@Model/CtrlObject";
+import { CtrlObject, IArchiveCtrlObject } from "@Model/CtrlObject";
 import type { Behavior, IAnyBehavior } from "@Model/Behavior"; 
 import { Label } from "@Model/Label";
 import { Range } from "@Model/Range";
 import { Model, ObjectID } from "@Model/Model";
-import { getDefaultValue, IObjectParamArchiveType } from "@Model/Parameter";
+import { getDefaultValue, IArchiveParseFn, IObjectParamArchiveType, object2ArchiveObject } from "@Model/Parameter";
 
 enum GenMod {
     Point = "p",
@@ -12,7 +12,6 @@ enum GenMod {
 }
 
 interface IArchiveGroup {
-    individuals: IObjectParamArchiveType[];
     genMethod: Group["genMethod"];
     genPoint: Group["genPoint"];
     genRange: IObjectParamArchiveType | undefined;
@@ -417,6 +416,34 @@ class Group extends CtrlObject<IArchiveGroup> {
             dataBuffer[index ++] = individual.position[2];
         });
         return dataBuffer;
+    }
+
+    public override toArchive(): IArchiveCtrlObject & IArchiveGroup {
+        return {
+            ...super.toArchive(),
+            genMethod: this.genMethod,
+            genPoint: this.genPoint.concat([]),
+            genRange: object2ArchiveObject(this.genRange) as IObjectParamArchiveType,
+            genCount: this.genCount,
+            genErrorMessage: this.genErrorMessage,
+            genErrorMessageShowCount: this.genErrorMessageShowCount,
+            killCount: this.killCount,
+            behaviors: object2ArchiveObject(this.behaviors) as IObjectParamArchiveType[]
+        };
+    }
+
+    public override fromArchive(archive: IArchiveCtrlObject & IArchiveGroup, paster: IArchiveParseFn): void {
+        super.fromArchive(archive, paster);
+        this.genMethod = archive.genMethod,
+        this.genPoint = archive.genPoint.concat([]),
+        this.genRange = archive.genRange ? paster(archive.genRange) as any : undefined,
+        this.genCount = archive.genCount,
+        this.genErrorMessage = archive.genErrorMessage,
+        this.genErrorMessageShowCount = archive.genErrorMessageShowCount,
+        this.killCount = archive.killCount,
+        this.behaviors = archive.behaviors.map((item) => {
+            return item ? paster(item) as any : undefined;
+        });
     }
     
     public constructor(model: Model) {

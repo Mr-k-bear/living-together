@@ -1,5 +1,15 @@
 import type { Group } from "@Model/Group";
-import { ObjectID } from "@Model/Model";
+import { IAnyObject, ObjectID } from "@Model/Model";
+import { IArchiveParseFn, object2ArchiveObject, isArchiveObjectType } from "@Model/Parameter";
+
+interface IArchiveIndividual {
+    id: string;
+    position: number[];
+    velocity: number[];
+    acceleration: number[];
+    force: number[];
+    metaData: IAnyObject;
+}
 
 /**
  * 群中的个体类型
@@ -169,6 +179,67 @@ class Individual {
     public setData<T = any>(key: ObjectID, value: T): T {
         this.metaData.set(key, value);
         return value;
+    }
+
+    public toArchive(): IArchiveIndividual {
+
+        const metaDataArchive = {} as IAnyObject;
+        this.metaData.forEach((value, key) => {
+            
+            // 处理内置对象
+            let ltObject = object2ArchiveObject(value);
+            if (ltObject) {
+                metaDataArchive[key] = ltObject;
+            }
+
+            // 处理数组
+            else if (Array.isArray(value)) {
+                metaDataArchive[key] = value.concat([]);
+            }
+
+            // 处理值
+            else {
+                metaDataArchive[key] = value;
+            }
+        });
+
+        return {
+            id: this.id,
+            position: this.position.concat([]),
+            velocity: this.velocity.concat([]),
+            acceleration: this.acceleration.concat([]),
+            force: this.force.concat([]),
+            metaData: metaDataArchive
+        };
+    }
+
+    public fromArchive(archive: IArchiveIndividual, paster: IArchiveParseFn): void {
+
+        const metaData = new Map() as Map<ObjectID, any>;
+        for (const key in archive.metaData) {
+            
+            const value = archive.metaData[key];
+
+            // 处理内置对象
+            if (value instanceof Object && isArchiveObjectType(value)) {
+                metaData.set(key, paster(value));
+            }
+
+            else if (Array.isArray(value)) {
+                metaData.set(key, value.concat([]));
+            }
+
+            else {
+                metaData.set(key, value);
+            }
+        }
+
+        this.id = this.id,
+        this.position = this.position.concat([]),
+        this.velocity = this.velocity.concat([]),
+        this.acceleration = this.acceleration.concat([]),
+        this.force = this.force.concat([]),
+        this.metaData = metaData;
     }
 }
 

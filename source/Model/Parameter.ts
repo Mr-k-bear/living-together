@@ -1,7 +1,7 @@
 import { Group } from "@Model/Group";
 import { Range } from "@Model/Range";
 import { Label } from "@Model/Label";
-import { Behavior } from "@Model/Behavior";
+import { Behavior, IAnyBehavior } from "@Model/Behavior";
 import { Individual } from "@Model/Individual";
 
 type IObjectParamArchiveType = {
@@ -225,7 +225,7 @@ function getDefaultValue<P extends IParameter> (option: IParameterOption<P>): IP
     return defaultObj;
 }
 
-type IRealObjectType = Range | Group | Label | Behavior;
+type IRealObjectType = Range | Group | Label | IAnyBehavior;
 type IArchiveParseFn = (archive: IObjectParamArchiveType) => IRealObjectType | undefined;
 
 function object2ArchiveObject(object: IRealObjectType | IRealObjectType[] | any, testArray: boolean = true): 
@@ -358,5 +358,5 @@ export {
     IParamType, IParamValue, isObjectType, isVectorType, getDefaultValue,
     IParameterOptionItem, IParameter, IParameterOption, IParameterValue,
     object2ArchiveObject, parameter2ArchiveObject, archiveObject2Parameter,
-    IArchiveParseFn, IObjectParamArchiveType
+    IArchiveParseFn, IObjectParamArchiveType, isArchiveObjectType
 }
