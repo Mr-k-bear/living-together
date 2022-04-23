@@ -123,7 +123,7 @@ class HeaderWindowsAction extends Component<IMixinElectronProps> {
  * 头部信息栏
  */
 @useSettingWithEvent("language")
-@useStatusWithEvent("fileSave")
+@useStatusWithEvent("fileSave", "fileChange", "fileLoad")
 class HeaderBar extends Component<IHeaderBarProps & IMixinStatusProps & IMixinSettingProps> {
 
     public render(): ReactNode {

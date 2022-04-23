@@ -4,7 +4,7 @@ const EN_US = {
     "Header.Bar.Title": "Living Together | Emulator",
     "Header.Bar.Title.Info": "Group Behavior Research Emulator",
     "Header.Bar.File.Name.Info": "{file} ({status})",
-    "Header.Bar.New.File.Name": "New File",
+    "Header.Bar.New.File.Name": "NewFile.ltss",
     "Header.Bar.File.Save.Status.Saved": "Saved",
     "Header.Bar.File.Save.Status.Unsaved": "UnSaved",
     "Header.Bar.Fps": "FPS: {renderFps} | {physicsFps}",

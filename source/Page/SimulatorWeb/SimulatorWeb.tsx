@@ -208,8 +208,8 @@ class SimulatorWeb extends Component {
             <div className="app-root-space" style={{
                 height: `calc( 100% - ${45}px)`
             }}>
-                <CommandBar width={45}/>
-                <RootContainer />
+                <CommandBar/>
+                <RootContainer/>
             </div>
         </Theme>
     }

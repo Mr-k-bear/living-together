@@ -119,8 +119,8 @@ class SimulatorDesktop extends Component {
             <div className="app-root-space" style={{
                 height: `calc( 100% - ${35}px)`
             }}>
-                <CommandBar width={45}/>
-                <RootContainer />
+                <CommandBar/>
+                <RootContainer/>
             </div>
         </Theme>
     }

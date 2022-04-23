@@ -12,6 +12,7 @@ import { IArchiveParseFn, IObjectParamArchiveType, IRealObjectType } from "@Mode
 interface IArchiveEvent {
     fileSave: Archive;
     fileLoad: Archive;
+    fileChange: void;
 }
 
 interface IArchiveObject {
@@ -243,25 +244,34 @@ class Archive<M extends any = any> extends Emitter<IArchiveEvent> {
      * 保存文件
      * 模型转换为文件
      */
-    public save(model: Model): void {
-
-        console.log(this.parseModel2Archive(model));
-
+    public save(model: Model): string {
         this.isSaved = true;
         this.emit("fileSave", this);
+        return this.parseModel2Archive(model);
     }
 
     /**
      * 加载文件为模型
      * @return Model
      */
-    public load(model: Model, data: string) {
+    public load(model: Model, data: string): string | undefined {
 
-        this.loadArchiveIntoModel(model, data);
-
+        try {
+            this.loadArchiveIntoModel(model, data);
+        } catch (e) {
+            return e as string;
+        }
+        
         this.isSaved = true;
         this.emit("fileLoad", this);
     };
+
+    public constructor() {
+        super();
+        this.on("fileChange", () => {
+            this.isSaved = false;
+        })
+    }
 }
 
 export { Archive };

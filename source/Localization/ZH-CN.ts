@@ -4,7 +4,7 @@ const ZH_CN = {
     "Header.Bar.Title": "群生共进 | 仿真器",
     "Header.Bar.Title.Info": "群体行为研究仿真器",
     "Header.Bar.File.Name.Info": "{file} ({status})",
-    "Header.Bar.New.File.Name": "新存档",
+    "Header.Bar.New.File.Name": "新存档.ltss",
     "Header.Bar.File.Save.Status.Saved": "已保存",
     "Header.Bar.File.Save.Status.Unsaved": "未保存",
     "Header.Bar.Fps": "帧率: {renderFps} | {physicsFps}",

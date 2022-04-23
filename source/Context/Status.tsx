@@ -32,6 +32,7 @@ function randomColor(unNormal: boolean = false) {
 interface IStatusEvent {
     fileSave: void;
     fileLoad: void;
+    fileChange: void;
     renderLoop: number;
     physicsLoop: number;
     mouseModChange: void;
@@ -128,11 +129,15 @@ class Status extends Emitter<IStatusEvent> {
         this.popup.on("popupChange", () => this.emit("popupChange"));
 
         // 对象变换时执行渲染，更新渲染器数据
-        this.on("objectChange", this.delayDraw);
-        this.model.on("individualChange", this.delayDraw);
         this.model.on("individualChange", () => {
             this.emit("individualChange");
         });
+        
+        // 渲染器重绘
+        this.on("objectChange", this.delayDraw);
+        this.on("individualChange", this.delayDraw);
+        this.on("groupAttrChange", this.delayDraw);
+        this.on("rangeAttrChange", this.delayDraw);
 
         // 当模型中的标签和对象改变时，更新全部行为参数中的受控对象
         const updateBehaviorParameter = () => {
@@ -158,7 +163,24 @@ class Status extends Emitter<IStatusEvent> {
 
             // 映射
             this.emit("fileLoad");
-        })
+        });
+
+
+        // 处理存档事件
+        const handelFileChange = () => {
+            if (this.archive.isSaved) {
+                this.emit("fileChange");
+            }
+        }
+        this.on("objectChange", handelFileChange);
+        this.on("behaviorChange", handelFileChange);
+        this.on("labelChange", handelFileChange);
+        this.on("individualChange", handelFileChange);
+        this.on("groupAttrChange", handelFileChange);
+        this.on("rangeAttrChange", handelFileChange);
+        this.on("labelAttrChange", handelFileChange);
+        this.on("behaviorAttrChange", handelFileChange);
+        this.on("fileChange", () => this.archive.emit("fileChange"));
     }
 
     public bindRenderer(renderer: AbstractRenderer) {
@@ -200,7 +222,6 @@ class Status extends Emitter<IStatusEvent> {
         if (range && range instanceof Range) {
             range[key] = val;
             this.emit("rangeAttrChange");
-            this.model.draw();
         }
     }
 
@@ -213,7 +234,6 @@ class Status extends Emitter<IStatusEvent> {
         if (group && group instanceof Group) {
             group[key] = val;
             this.emit("groupAttrChange");
-            this.model.draw();
         }
     }
 
