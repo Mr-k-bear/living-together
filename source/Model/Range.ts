@@ -34,6 +34,7 @@ class Range extends CtrlObject<IArchiveRange> {
     public override toArchive(): IArchiveCtrlObject & IArchiveRange {
         return {
             ...super.toArchive(),
+            objectType: "R",
             position: this.position.concat([]),
             radius: this.radius.concat([])
         };

@@ -243,4 +243,4 @@ class Individual {
     }
 }
 
-export { Individual };
+export { Individual, IArchiveIndividual };

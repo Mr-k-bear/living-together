@@ -2,6 +2,9 @@ import { Emitter, EventType } from "@Model/Emitter";
 import { IArchiveCtrlObject } from "@Model/CtrlObject";
 import { Model } from "@Model/Model";
 import { IArchiveLabel } from "@Model/Label";
+import { Group, IArchiveGroup } from "@Model/Group";
+import { IArchiveIndividual } from "@Model/Individual";
+import { IArchiveBehavior } from "@Model/Behavior";
 
 interface IArchiveEvent {
     fileChange: Archive;
@@ -11,6 +14,7 @@ interface IArchiveObject {
     nextIndividualId: number;
     objectPool: IArchiveCtrlObject[];
     labelPool: IArchiveLabel[];
+    behaviorPool: IArchiveBehavior[];
 }
 
 class Archive<
@@ -47,19 +51,42 @@ class Archive<
         // 存贮 CtrlObject
         const objectPool: IArchiveCtrlObject[] = [];
         model.objectPool.forEach(obj => {
-            objectPool.push(obj.toArchive());
+            let archiveObject = obj.toArchive();
+
+            // 处理每个群的个体
+            if (archiveObject.objectType === "G") {
+                const archiveGroup: IArchiveGroup = archiveObject as any;
+                const group: Group = obj as Group;
+
+                const individuals: IArchiveIndividual[] = [];
+                group.individuals.forEach((item) => {
+                    individuals.push(item.toArchive());
+                });
+
+                archiveGroup.individuals = individuals;
+            }
+
+            objectPool.push(archiveObject);
         })
 
         // 存储 Label
         const labelPool: IArchiveLabel[] = [];
         model.labelPool.forEach(obj => {
             labelPool.push(obj.toArchive());
-        })
+        });
 
+        // 存储全部行为
+        const behaviorPool: IArchiveBehavior[] = [];
+        model.behaviorPool.forEach(obj => {
+            behaviorPool.push(obj.toArchive());
+        });
+
+        // 生成存档对象
         const fileData: IArchiveObject = {
             nextIndividualId: model.nextIndividualId,
             objectPool: objectPool,
-            labelPool: labelPool
+            labelPool: labelPool,
+            behaviorPool: behaviorPool
         };
 
         console.log(fileData);

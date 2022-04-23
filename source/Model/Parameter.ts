@@ -358,5 +358,6 @@ export {
     IParamType, IParamValue, isObjectType, isVectorType, getDefaultValue,
     IParameterOptionItem, IParameter, IParameterOption, IParameterValue,
     object2ArchiveObject, parameter2ArchiveObject, archiveObject2Parameter,
-    IArchiveParseFn, IObjectParamArchiveType, isArchiveObjectType
+    IArchiveParseFn, IObjectParamArchiveType, isArchiveObjectType,
+    IArchiveParameterValue
 }
