@@ -1,7 +1,8 @@
 import { Group } from "@Model/Group";
 import { Range } from "@Model/Range";
 import { Label } from "@Model/Label";
-import { Behavior } from "@Model/Behavior";
+import { Behavior, IAnyBehavior } from "@Model/Behavior";
+import { Individual } from "@Model/Individual";
 
 type IObjectParamArchiveType = {
     __LIVING_TOGETHER_OBJECT_ID: string;
@@ -224,12 +225,18 @@ function getDefaultValue<P extends IParameter> (option: IParameterOption<P>): IP
     return defaultObj;
 }
 
-type IRealObjectType = Range | Group | Label | Behavior;
+type IRealObjectType = Range | Group | Label | IAnyBehavior;
 type IArchiveParseFn = (archive: IObjectParamArchiveType) => IRealObjectType | undefined;
 
 function object2ArchiveObject(object: IRealObjectType | IRealObjectType[] | any, testArray: boolean = true): 
 IObjectParamArchiveType | IObjectParamArchiveType[] | undefined {
-    if (object instanceof Range) {
+    if (object instanceof Individual) {
+        return {
+            __LIVING_TOGETHER_OBJECT_ID: "Individual",
+            __LIVING_TOGETHER_OBJECT_TYPE: object.id
+        }
+    }
+    else if (object instanceof Range) {
         return {
             __LIVING_TOGETHER_OBJECT_ID: "Range",
             __LIVING_TOGETHER_OBJECT_TYPE: object.id
@@ -351,5 +358,5 @@ export {
     IParamType, IParamValue, isObjectType, isVectorType, getDefaultValue,
     IParameterOptionItem, IParameter, IParameterOption, IParameterValue,
     object2ArchiveObject, parameter2ArchiveObject, archiveObject2Parameter,
-    IArchiveParseFn
+    IArchiveParseFn, IObjectParamArchiveType, isArchiveObjectType
 }

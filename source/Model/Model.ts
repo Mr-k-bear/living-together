@@ -30,6 +30,17 @@ type ModelEvent = {
 class Model extends Emitter<ModelEvent> {
 
     /**
+     * 个体 ID 生成
+     */
+    public nextIndividualId: number = 0;
+
+    public getNextIndividualId() {
+        this.nextIndividualId ++;
+        const random = Math.random().toString(36).slice(-8);
+        return `${this.nextIndividualId}-${random}`;
+    }
+
+    /**
      * 对象列表
      */
     public objectPool: CtrlObject[] = [];
@@ -50,17 +61,17 @@ class Model extends Emitter<ModelEvent> {
     /**
      * 内置标签-全部范围标签
      */
-    public allRangeLabel = new Label(this, "AllRange").setBuildInLabel();
+    public allRangeLabel = new Label(this).setBuildInLabel("AllRange");
 
     /**
      * 内置标签-全部群标签
      */
-    public allGroupLabel = new Label(this, "AllGroup").setBuildInLabel();
+    public allGroupLabel = new Label(this).setBuildInLabel("AllGroup");
 
     /**
      * 内置标签-全部群标签
      */
-    public currentGroupLabel = new Label(this, "CurrentGroupLabel").setBuildInLabel();
+    public currentGroupLabel = new Label(this).setBuildInLabel("CurrentGroupLabel");
 
     /**
      * 添加标签

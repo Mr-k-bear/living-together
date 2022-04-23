@@ -1,20 +1,31 @@
 import { Individual } from "@Model/Individual";
-import { CtrlObject } from "@Model/CtrlObject";
+import { CtrlObject, IArchiveCtrlObject } from "@Model/CtrlObject";
 import type { Behavior, IAnyBehavior } from "@Model/Behavior"; 
 import { Label } from "@Model/Label";
 import { Range } from "@Model/Range";
 import { Model, ObjectID } from "@Model/Model";
-import { getDefaultValue } from "@Model/Parameter";
+import { getDefaultValue, IArchiveParseFn, IObjectParamArchiveType, object2ArchiveObject } from "@Model/Parameter";
 
 enum GenMod {
     Point = "p",
     Range = "R"
 }
 
+interface IArchiveGroup {
+    genMethod: Group["genMethod"];
+    genPoint: Group["genPoint"];
+    genRange: IObjectParamArchiveType | undefined;
+    genCount: Group["genCount"];
+    genErrorMessage: Group["genErrorMessage"];
+    genErrorMessageShowCount: Group["genErrorMessageShowCount"];
+    killCount: Group["killCount"];
+    behaviors: IObjectParamArchiveType[];
+}
+
 /**
  * 群体类型
  */
-class Group extends CtrlObject {
+class Group extends CtrlObject<IArchiveGroup> {
 
 	/**
 	 * 所有个体
@@ -406,6 +417,34 @@ class Group extends CtrlObject {
         });
         return dataBuffer;
     }
+
+    public override toArchive(): IArchiveCtrlObject & IArchiveGroup {
+        return {
+            ...super.toArchive(),
+            genMethod: this.genMethod,
+            genPoint: this.genPoint.concat([]),
+            genRange: object2ArchiveObject(this.genRange) as IObjectParamArchiveType,
+            genCount: this.genCount,
+            genErrorMessage: this.genErrorMessage,
+            genErrorMessageShowCount: this.genErrorMessageShowCount,
+            killCount: this.killCount,
+            behaviors: object2ArchiveObject(this.behaviors) as IObjectParamArchiveType[]
+        };
+    }
+
+    public override fromArchive(archive: IArchiveCtrlObject & IArchiveGroup, paster: IArchiveParseFn): void {
+        super.fromArchive(archive, paster);
+        this.genMethod = archive.genMethod,
+        this.genPoint = archive.genPoint.concat([]),
+        this.genRange = archive.genRange ? paster(archive.genRange) as any : undefined,
+        this.genCount = archive.genCount,
+        this.genErrorMessage = archive.genErrorMessage,
+        this.genErrorMessageShowCount = archive.genErrorMessageShowCount,
+        this.killCount = archive.killCount,
+        this.behaviors = archive.behaviors.map((item) => {
+            return item ? paster(item) as any : undefined;
+        }).filter(c => !!c);
+    }
     
     public constructor(model: Model) {
 
@@ -417,5 +456,4 @@ class Group extends CtrlObject {
     }
 }
 
-export default Group;
 export { Group, GenMod };

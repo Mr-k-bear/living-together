@@ -1,8 +1,16 @@
 import { Emitter, EventType } from "@Model/Emitter";
-import { Model } from "./Model";
+import { IArchiveCtrlObject } from "@Model/CtrlObject";
+import { Model } from "@Model/Model";
+import { IArchiveLabel } from "@Model/Label";
 
 interface IArchiveEvent {
     fileChange: Archive;
+}
+
+interface IArchiveObject {
+    nextIndividualId: number;
+    objectPool: IArchiveCtrlObject[];
+    labelPool: IArchiveLabel[];
 }
 
 class Archive<
@@ -35,17 +43,32 @@ class Archive<
      * 模型转换为文件
      */
     public save(model: Model): string {
-        let fileData: Record<string, any> = {};
-        
-        // 保存对象
-        fileData.objects = [];
-        
-        // 记录
-        model.objectPool.map((object) => {
 
+        // 存贮 CtrlObject
+        const objectPool: IArchiveCtrlObject[] = [];
+        model.objectPool.forEach(obj => {
+            objectPool.push(obj.toArchive());
         })
 
-        return JSON.stringify(model);
+        // 存储 Label
+        const labelPool: IArchiveLabel[] = [];
+        model.labelPool.forEach(obj => {
+            labelPool.push(obj.toArchive());
+        })
+
+        const fileData: IArchiveObject = {
+            nextIndividualId: model.nextIndividualId,
+            objectPool: objectPool,
+            labelPool: labelPool
+        };
+
+        console.log(fileData);
+        console.log({value: JSON.stringify(fileData)});
+
+        this.isSaved = true;
+        this.emit( ...["fileChange", this] as any );
+
+        return "";
     }
 
     /**

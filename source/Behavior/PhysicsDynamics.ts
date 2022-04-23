@@ -1,6 +1,6 @@
 import { Behavior } from "@Model/Behavior";
-import Group from "@Model/Group";
-import Individual from "@Model/Individual";
+import { Group } from "@Model/Group";
+import { Individual } from "@Model/Individual";
 import { Model } from "@Model/Model";
 
 type IPhysicsDynamicsBehaviorParameter = {

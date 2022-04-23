@@ -33,7 +33,13 @@ class CommandBar extends Component<ICommandBarProps & IMixinSettingProps & IMixi
             }}
         >
             <div>
-                {this.getRenderButton({ iconName: "Save", i18NKey: "Command.Bar.Save.Info" })}
+                {this.getRenderButton({
+                    iconName: "Save",
+                    i18NKey: "Command.Bar.Save.Info",
+                    click: () => {
+                        this.props.status?.archive.save(this.props.status.model);
+                    }
+                })}
                 {this.getRenderButton({
                     iconName: this.props.status?.actuator.start() ? "Pause" : "Play",
                     i18NKey: "Command.Bar.Play.Info",
