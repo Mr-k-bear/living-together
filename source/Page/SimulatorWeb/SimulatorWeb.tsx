@@ -76,7 +76,7 @@ class SimulatorWeb extends Component {
         }
 
         // 鱼群模型测试
-        if (true) {
+        if (false) {
             let fish1 = this.status.newGroup();
             let fish2 = this.status.newGroup();
             let shark = this.status.newGroup();
