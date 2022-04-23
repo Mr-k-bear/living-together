@@ -3,7 +3,11 @@ import { v4 as uuid } from "uuid";
 import type { Individual } from "@Model/Individual";
 import type { Group } from "@Model/Group";
 import type { Model } from "@Model/Model";
-import { getDefaultValue, IParameter, IParameterOption, IParameterValue } from "@Model/Parameter";
+import {
+    archiveObject2Parameter,
+    getDefaultValue, IArchiveParameterValue, IArchiveParseFn,
+    IParameter, IParameterOption, IParameterValue, parameter2ArchiveObject
+} from "@Model/Parameter";
 
 /**
  * 行为构造函数类型
@@ -113,6 +117,17 @@ class BehaviorRecorder<
     }
 }
 
+interface IArchiveBehavior {
+    behaviorId: string;
+    name: string;
+    id: string;
+    color: number[];
+    priority: number;
+    currentGroupKey: string[];
+    deleteFlag: boolean;
+    parameter: IArchiveParameterValue<IParameter>;
+}
+
 /**
  * 群体的某种行为
  */
@@ -189,6 +204,33 @@ class Behavior<
         return this.deleteFlag;
     }
 
+    public toArchive(): IArchiveBehavior {
+        return {
+            behaviorId: this.behaviorId,
+            name: this.name,
+            id: this.id,
+            color: this.color.concat([]),
+            priority: this.priority,
+            currentGroupKey: this.currentGroupKey.concat([]) as any,
+            deleteFlag: this.deleteFlag,
+            parameter: parameter2ArchiveObject(
+                this.parameter, this.parameterOption
+            )
+        };
+    }
+
+    public fromArchive(archive: IArchiveBehavior, paster: IArchiveParseFn): void {
+        this.name = archive.name,
+        this.id = archive.id,
+        this.color = archive.color.concat([]),
+        this.priority = archive.priority,
+        this.currentGroupKey = archive.currentGroupKey.concat([]) as any,
+        this.deleteFlag = archive.deleteFlag,
+        this.parameter = archiveObject2Parameter(
+            archive.parameter, paster
+        ) as any;
+    }
+
     /**
      * 加载时调用
      */
@@ -241,6 +283,6 @@ class Behavior<
 type IRenderBehavior = BehaviorInfo | Behavior;
 
 export {
-    Behavior, BehaviorRecorder, IAnyBehavior, IAnyBehaviorRecorder, BehaviorInfo, IRenderBehavior
+    Behavior, BehaviorRecorder, IAnyBehavior, IAnyBehaviorRecorder,
+    BehaviorInfo, IRenderBehavior, IArchiveBehavior
 };
-export default { Behavior };

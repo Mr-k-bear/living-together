@@ -55,8 +55,10 @@ class SimulatorDesktop extends Component {
             })
         };
 
-        (window as any).setting = this.setting;
-        (window as any).status = this.status;
+        (window as any).LT = {
+            status: this.status,
+            setting: this.setting
+        };
 
         this.electron = {} as ISimulatorAPI;
         if ((window as any).API) {

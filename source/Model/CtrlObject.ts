@@ -4,16 +4,18 @@ import type { IAnyObject, Model } from "@Model/Model";
 import type { ObjectID } from "@Model/Model";
 import {
     parameter2ArchiveObject, archiveObject2Parameter,
-    IArchiveParseFn, IObjectParamArchiveType, object2ArchiveObject
+    IArchiveParseFn, IObjectParamArchiveType, object2ArchiveObject,
+    IArchiveParameterValue, IParameter
 } from "@Model/Parameter";
 
 interface IArchiveCtrlObject {
+    objectType: "R" | "G";
     displayName: CtrlObject["displayName"];
     color: CtrlObject["color"];
     display: CtrlObject["display"];
     update: CtrlObject["update"];
     id: string;
-    renderParameter: any;
+    renderParameter: IArchiveParameterValue<IParameter>;
     deleteFlag: CtrlObject["deleteFlag"];
     labels: IObjectParamArchiveType[];
 }

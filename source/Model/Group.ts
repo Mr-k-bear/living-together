@@ -4,7 +4,11 @@ import type { Behavior, IAnyBehavior } from "@Model/Behavior";
 import { Label } from "@Model/Label";
 import { Range } from "@Model/Range";
 import { Model, ObjectID } from "@Model/Model";
-import { getDefaultValue, IArchiveParseFn, IObjectParamArchiveType, object2ArchiveObject } from "@Model/Parameter";
+import { IArchiveIndividual } from "@Model/Individual";
+import {
+    getDefaultValue, IArchiveParseFn,
+    IObjectParamArchiveType, object2ArchiveObject
+} from "@Model/Parameter";
 
 enum GenMod {
     Point = "p",
@@ -12,6 +16,7 @@ enum GenMod {
 }
 
 interface IArchiveGroup {
+    individuals: IArchiveIndividual[];
     genMethod: Group["genMethod"];
     genPoint: Group["genPoint"];
     genRange: IObjectParamArchiveType | undefined;
@@ -31,6 +36,11 @@ class Group extends CtrlObject<IArchiveGroup> {
 	 * 所有个体
 	 */
 	public individuals: Set<Individual> = new Set();
+
+    /**
+     * 缓存的 individuals 数组, 用于存档加载
+     */
+    public cacheIndividualsArray: Array<Individual> = [];
 
     /**
      * 个体生成方式
@@ -421,6 +431,7 @@ class Group extends CtrlObject<IArchiveGroup> {
     public override toArchive(): IArchiveCtrlObject & IArchiveGroup {
         return {
             ...super.toArchive(),
+            objectType: "G",
             genMethod: this.genMethod,
             genPoint: this.genPoint.concat([]),
             genRange: object2ArchiveObject(this.genRange) as IObjectParamArchiveType,
@@ -456,4 +467,4 @@ class Group extends CtrlObject<IArchiveGroup> {
     }
 }
 
-export { Group, GenMod };
+export { Group, GenMod, IArchiveGroup };

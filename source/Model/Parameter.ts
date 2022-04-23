@@ -3,10 +3,11 @@ import { Range } from "@Model/Range";
 import { Label } from "@Model/Label";
 import { Behavior, IAnyBehavior } from "@Model/Behavior";
 import { Individual } from "@Model/Individual";
+import { CtrlObject } from "@Model/CtrlObject";
 
 type IObjectParamArchiveType = {
     __LIVING_TOGETHER_OBJECT_ID: string;
-    __LIVING_TOGETHER_OBJECT_TYPE: string;
+    __LIVING_TOGETHER_OBJECT_TYPE: "Individual" | "Range" | "Group" | "Label" | "Behavior";
 }
 
 type IObjectParamCacheType<P, Q = P> = {
@@ -225,36 +226,36 @@ function getDefaultValue<P extends IParameter> (option: IParameterOption<P>): IP
     return defaultObj;
 }
 
-type IRealObjectType = Range | Group | Label | IAnyBehavior;
+type IRealObjectType = Range | Group | Label | IAnyBehavior | Individual | CtrlObject;
 type IArchiveParseFn = (archive: IObjectParamArchiveType) => IRealObjectType | undefined;
 
 function object2ArchiveObject(object: IRealObjectType | IRealObjectType[] | any, testArray: boolean = true): 
 IObjectParamArchiveType | IObjectParamArchiveType[] | undefined {
     if (object instanceof Individual) {
         return {
-            __LIVING_TOGETHER_OBJECT_ID: "Individual",
-            __LIVING_TOGETHER_OBJECT_TYPE: object.id
+            __LIVING_TOGETHER_OBJECT_ID: object.id,
+            __LIVING_TOGETHER_OBJECT_TYPE: "Individual"
         }
     }
     else if (object instanceof Range) {
         return {
-            __LIVING_TOGETHER_OBJECT_ID: "Range",
-            __LIVING_TOGETHER_OBJECT_TYPE: object.id
+            __LIVING_TOGETHER_OBJECT_ID: object.id,
+            __LIVING_TOGETHER_OBJECT_TYPE: "Range"
         }
     } else if (object instanceof Group) {
         return {
-            __LIVING_TOGETHER_OBJECT_ID: "Group",
-            __LIVING_TOGETHER_OBJECT_TYPE: object.id
+            __LIVING_TOGETHER_OBJECT_ID: object.id,
+            __LIVING_TOGETHER_OBJECT_TYPE: "Group"
         }
     } else if (object instanceof Label) {
         return {
-            __LIVING_TOGETHER_OBJECT_ID: "Label",
-            __LIVING_TOGETHER_OBJECT_TYPE: object.id
+            __LIVING_TOGETHER_OBJECT_ID: object.id,
+            __LIVING_TOGETHER_OBJECT_TYPE: "Label"
         }
     } else if (object instanceof Behavior) {
         return {
-            __LIVING_TOGETHER_OBJECT_ID: "Behavior",
-            __LIVING_TOGETHER_OBJECT_TYPE: object.id
+            __LIVING_TOGETHER_OBJECT_ID: object.id,
+            __LIVING_TOGETHER_OBJECT_TYPE: "Behavior"
         }
     } else if (Array.isArray(object) && testArray) {
         const hasValue = (item: any): item is IObjectParamArchiveType => !!item;
@@ -322,7 +323,7 @@ function archiveObject2Parameter<P extends IParameter>
 
             (parameter[key] as any) = {
                 picker: picker ? parse(picker) : picker,
-                objects: objects ? parse(objects) : objects
+                objects: objects ? Array.isArray(objects) ? objects.map(item => parse(item)) : parse(objects) : objects
             }
         }
 
@@ -358,5 +359,6 @@ export {
     IParamType, IParamValue, isObjectType, isVectorType, getDefaultValue,
     IParameterOptionItem, IParameter, IParameterOption, IParameterValue,
     object2ArchiveObject, parameter2ArchiveObject, archiveObject2Parameter,
-    IArchiveParseFn, IObjectParamArchiveType, isArchiveObjectType
+    IArchiveParseFn, IObjectParamArchiveType, isArchiveObjectType,
+    IArchiveParameterValue, IRealObjectType
 }
