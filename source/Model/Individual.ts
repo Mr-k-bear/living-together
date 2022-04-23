@@ -234,11 +234,11 @@ class Individual {
             }
         }
 
-        this.id = this.id,
-        this.position = this.position.concat([]),
-        this.velocity = this.velocity.concat([]),
-        this.acceleration = this.acceleration.concat([]),
-        this.force = this.force.concat([]),
+        this.id = archive.id,
+        this.position = archive.position.concat([]),
+        this.velocity = archive.velocity.concat([]),
+        this.acceleration = archive.acceleration.concat([]),
+        this.force = archive.force.concat([]),
         this.metaData = metaData;
     }
 }

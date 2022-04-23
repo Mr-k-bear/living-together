@@ -30,7 +30,7 @@ function randomColor(unNormal: boolean = false) {
 }
 
 interface IStatusEvent {
-    fileChange: void;
+    fileSave: void;
     renderLoop: number;
     physicsLoop: number;
     mouseModChange: void;
@@ -145,7 +145,7 @@ class Status extends Emitter<IStatusEvent> {
         this.on("behaviorAttrChange", updateBehaviorParameter);
 
         // 映射文件状态改变事件
-        this.archive.on("fileChange", () => this.emit("fileChange"));
+        this.archive.on("fileSave", () => this.emit("fileSave"));
     }
 
     public bindRenderer(renderer: AbstractRenderer) {

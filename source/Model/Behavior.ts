@@ -220,12 +220,12 @@ class Behavior<
     }
 
     public fromArchive(archive: IArchiveBehavior, paster: IArchiveParseFn): void {
-        this.name = this.name,
-        this.id = this.id,
-        this.color = this.color.concat([]),
-        this.priority = this.priority,
-        this.currentGroupKey = this.currentGroupKey.concat([]) as any,
-        this.deleteFlag = this.deleteFlag,
+        this.name = archive.name,
+        this.id = archive.id,
+        this.color = archive.color.concat([]),
+        this.priority = archive.priority,
+        this.currentGroupKey = archive.currentGroupKey.concat([]) as any,
+        this.deleteFlag = archive.deleteFlag,
         this.parameter = archiveObject2Parameter(
             archive.parameter, paster
         ) as any;

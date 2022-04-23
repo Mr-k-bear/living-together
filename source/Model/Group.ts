@@ -38,6 +38,11 @@ class Group extends CtrlObject<IArchiveGroup> {
 	public individuals: Set<Individual> = new Set();
 
     /**
+     * 缓存的 individuals 数组, 用于存档加载
+     */
+    public cacheIndividualsArray: Array<Individual> = [];
+
+    /**
      * 个体生成方式
      */
     public genMethod: GenMod = GenMod.Range;
