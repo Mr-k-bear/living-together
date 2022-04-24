@@ -172,6 +172,8 @@ class Status extends Emitter<IStatusEvent> {
                 this.emit("fileChange");
             }
         }
+
+        // 设置文件修改状态
         this.on("objectChange", handelFileChange);
         this.on("behaviorChange", handelFileChange);
         this.on("labelChange", handelFileChange);

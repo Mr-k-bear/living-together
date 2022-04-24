@@ -126,6 +126,30 @@ class HeaderWindowsAction extends Component<IMixinElectronProps> {
 @useStatusWithEvent("fileSave", "fileChange", "fileLoad")
 class HeaderBar extends Component<IHeaderBarProps & IMixinStatusProps & IMixinSettingProps> {
 
+    private showCloseMessage = (e: BeforeUnloadEvent) => {
+        if (!this.props.status?.archive.isSaved) {
+            const message = I18N(this.props, "ZH_CH");
+            (e || window.event).returnValue = message; // 兼容 Gecko + IE
+            return message; // 兼容 Gecko + Webkit, Safari, Chrome
+        }
+    }
+
+    public componentDidMount() {
+
+        if (this.props.setting?.platform === Platform.web) {
+            // 阻止页面关闭
+            window.addEventListener("beforeunload", this.showCloseMessage);
+        }
+    }
+
+    public componentWillUnmount() {
+
+        if (this.props.setting?.platform === Platform.web) {
+            // 阻止页面关闭
+            window.removeEventListener("beforeunload", this.showCloseMessage);
+        }
+    }
+
     public render(): ReactNode {
         const { status, setting } = this.props;
 
