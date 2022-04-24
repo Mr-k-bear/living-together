@@ -13,6 +13,7 @@ import { HeaderBar } from "@Component/HeaderBar/HeaderBar";
 import { Popup } from "@Component/Popup/Popup";
 import { Entry } from "../Entry/Entry";
 import { Group } from "@Model/Group";
+import DEMO from "../demo";
 import "./SimulatorDesktop.scss";
 
 initializeIcons("./font-icon/");
@@ -54,6 +55,10 @@ class SimulatorDesktop extends Component {
                 individual.position[2] = (Math.random() - .5) * 2;
             })
         };
+
+        setTimeout(() => {
+            this.status.archive.load(this.status.model, DEMO);
+        }, 200);
 
         (window as any).LT = {
             status: this.status,

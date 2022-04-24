@@ -13,6 +13,7 @@ import { HeaderBar } from "@Component/HeaderBar/HeaderBar";
 import { Popup } from "@Component/Popup/Popup";
 import { Entry } from "../Entry/Entry";
 import { Group } from "@Model/Group";
+import DEMO from "../demo";
 import "./SimulatorWeb.scss";
 
 initializeIcons("https://img.mrkbear.com/fabric-cdn-prod_20210407.001/");
@@ -153,6 +154,10 @@ class SimulatorWeb extends Component {
                 this.status.model.updateBehaviorParameter();
             }, 200)
         }
+
+        setTimeout(() => {
+            this.status.archive.load(this.status.model, DEMO);
+        }, 200);
 
         (window as any).LT = {
             status: this.status,
