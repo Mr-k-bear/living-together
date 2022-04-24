@@ -128,7 +128,7 @@ class HeaderBar extends Component<IHeaderBarProps & IMixinStatusProps & IMixinSe
 
     private showCloseMessage = (e: BeforeUnloadEvent) => {
         if (!this.props.status?.archive.isSaved) {
-            const message = I18N(this.props, "ZH_CH");
+            const message = I18N(this.props, "Info.Hint.Save.After.Close");
             (e || window.event).returnValue = message; // 兼容 Gecko + IE
             return message; // 兼容 Gecko + Webkit, Safari, Chrome
         }

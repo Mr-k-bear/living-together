@@ -133,5 +133,8 @@ const EN_US = {
     "Panel.Info.Behavior.Details.Parameter.Key.Vec.X": "{key} X",
     "Panel.Info.Behavior.Details.Parameter.Key.Vec.Y": "{key} Y",
     "Panel.Info.Behavior.Details.Parameter.Key.Vec.Z": "{key} Z",
+    "Info.Hint.Save.After.Close": "Any unsaved progress will be lost. Are you sure you want to continue?",
+    "Info.Hint.Load.File.Title": "Load save",
+    "Info.Hint.Load.File.Intro": "Release to load the dragged save file",
 }
 export default EN_US;

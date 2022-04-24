@@ -133,5 +133,8 @@ const ZH_CN = {
     "Panel.Info.Behavior.Details.Parameter.Key.Vec.X": "{key} X 坐标",
     "Panel.Info.Behavior.Details.Parameter.Key.Vec.Y": "{key} Y 坐标",
     "Panel.Info.Behavior.Details.Parameter.Key.Vec.Z": "{key} Z 坐标",
+    "Info.Hint.Save.After.Close": "任何未保存的进度都会丢失, 确定要继续吗?",
+    "Info.Hint.Load.File.Title": "加载存档",
+    "Info.Hint.Load.File.Intro": "释放以加载拽入的存档",
 }
 export default ZH_CN;
