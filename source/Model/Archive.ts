@@ -22,7 +22,7 @@ interface IArchiveObject {
     behaviorPool: IArchiveBehavior[];
 }
 
-class Archive<M extends any = any> extends Emitter<IArchiveEvent> {
+class Archive extends Emitter<IArchiveEvent> {
 
     /**
      * 是否为新文件
@@ -40,9 +40,9 @@ class Archive<M extends any = any> extends Emitter<IArchiveEvent> {
     public isSaved: boolean = false;
 
     /**
-     * 文件数据
+     * 文件路径
      */
-    public fileData?: M;
+    public fileUrl?: string;
 
     /**
      * 将模型转换为存档对象

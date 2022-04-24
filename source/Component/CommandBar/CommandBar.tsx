@@ -1,24 +1,30 @@
 import { Component, ReactNode } from "react";
 import { DirectionalHint, IconButton } from "@fluentui/react";
-import { useSetting, useSettingWithEvent, IMixinSettingProps } from "@Context/Setting";
+import { useSetting, IMixinSettingProps } from "@Context/Setting";
 import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
 import { BackgroundLevel, Theme } from "@Component/Theme/Theme";
 import { LocalizationTooltipHost } from "@Component/Localization/LocalizationTooltipHost";
-import { AllI18nKeys, I18N } from "@Component/Localization/Localization";
+import { AllI18nKeys } from "@Component/Localization/Localization";
 import { SettingPopup } from "@Component/SettingPopup/SettingPopup";
 import { BehaviorPopup } from "@Component/BehaviorPopup/BehaviorPopup";
 import { MouseMod } from "@GLRender/ClassicRenderer";
-import * as download from "downloadjs";
+import { ArchiveSave } from "@Context/Archive";
 import "./CommandBar.scss";
 
 const COMMAND_BAR_WIDTH = 45;
 
-function getRenderButton(param: {
+interface IRenderButtonParameter {
     i18NKey: AllI18nKeys;
     iconName?: string;
     click?: () => void;
     active?: boolean;
-}): ReactNode {
+}
+
+interface ICommandBarState {
+    isSaveRunning: boolean;
+}
+
+function getRenderButton(param: IRenderButtonParameter): ReactNode {
     return <LocalizationTooltipHost 
         i18nKey={param.i18NKey}
         directionalHint={DirectionalHint.rightCenter}
@@ -31,40 +37,15 @@ function getRenderButton(param: {
         />
     </LocalizationTooltipHost>
 }
-
-@useSettingWithEvent("language")
-@useStatusWithEvent()
-class SaveCommandView extends Component<IMixinStatusProps & IMixinSettingProps> {
-
-    public render(): ReactNode {
-        return getRenderButton({
-            iconName: "Save",
-            i18NKey: "Command.Bar.Save.Info",
-            click: () => {
-
-                let fileName: string = "";
-                let isNewFile: boolean = true;
-                let isSaved: boolean = false;
-        
-                if (this.props.status) {
-                    isNewFile = this.props.status.archive.isNewFile;
-                    fileName = this.props.status.archive.fileName ?? "";
-                    isSaved = this.props.status.archive.isSaved;
-                }
-                
-                const file = this.props.status?.archive.save(this.props.status.model) ?? "";
-                fileName = isNewFile ? I18N(this.props, "Header.Bar.New.File.Name") : fileName;
-                download(file, fileName, "text/json");
-            }
-        })
-    }
-}
-
 @useSetting
 @useStatusWithEvent("mouseModChange", "actuatorStartChange")
-class CommandBar extends Component<IMixinSettingProps & IMixinStatusProps> {
+class CommandBar extends Component<IMixinSettingProps & IMixinStatusProps, ICommandBarState> {
 
-    render(): ReactNode {
+    public state: Readonly<ICommandBarState> = {
+        isSaveRunning: false
+    };
+
+    public render(): ReactNode {
 
         const mouseMod = this.props.status?.mouseMod ?? MouseMod.Drag;
 
@@ -80,7 +61,22 @@ class CommandBar extends Component<IMixinSettingProps & IMixinStatusProps> {
         >
             <div>
 
-                <SaveCommandView/>
+                <ArchiveSave
+                    running={this.state.isSaveRunning}
+                    afterRunning={() => {
+                        this.setState({ isSaveRunning: false });
+                    }}
+                />
+
+                {getRenderButton({
+                    iconName: "Save",
+                    i18NKey: "Command.Bar.Save.Info",
+                    click: () => {
+                        this.setState({
+                            isSaveRunning: true
+                        });
+                    }
+                })}
 
                 {getRenderButton({
                     iconName: this.props.status?.actuator.start() ? "Pause" : "Play",
