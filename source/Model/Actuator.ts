@@ -19,7 +19,7 @@ class Actuator extends Emitter<IActuatorEvent> {
 	/**
 	 * 模拟帧率
 	 */
-	public fps: number = 36;
+	public fps: number = 42;
 
 	/**
 	 * 仿真是否进行

@@ -99,7 +99,7 @@ class CommandBar extends Component<IMixinSettingProps & IMixinStatusProps, IComm
                 })}
 
                 {getRenderButton({
-                    iconName: "WebAppBuilderFragmentCreate",
+                    iconName: "WebAppBuilderFragment",
                     i18NKey: "Command.Bar.Add.Group.Info",
                     click: () => {
                         this.props.status ? this.props.status.newGroup() : undefined;
@@ -107,7 +107,7 @@ class CommandBar extends Component<IMixinSettingProps & IMixinStatusProps, IComm
                 })}
 
                 {getRenderButton({
-                    iconName: "ProductVariant",
+                    iconName: "CubeShape",
                     i18NKey: "Command.Bar.Add.Range.Info",
                     click: () => {
                         this.props.status ? this.props.status.newRange() : undefined;
@@ -130,16 +130,16 @@ class CommandBar extends Component<IMixinSettingProps & IMixinStatusProps, IComm
                     }
                 })}
 
-                {getRenderButton({ iconName: "Camera", i18NKey: "Command.Bar.Camera.Info" })}
+                {/* {getRenderButton({ iconName: "Camera", i18NKey: "Command.Bar.Camera.Info" })} */}
             </div>
             <div>
-                {getRenderButton({
+                {/* {getRenderButton({
                     iconName: "Settings",
                     i18NKey: "Command.Bar.Setting.Info",
                     click: () => {
                         this.props.status?.popup.showPopup(SettingPopup, {});
                     }
-                })}
+                })} */}
             </div>
         </Theme>
     }

@@ -9,7 +9,7 @@ import { ContactAssimilate } from "@Behavior/ContactAssimilate";
 import { DelayAssimilate } from "@Behavior/DelayAssimilate";
 
 const AllBehaviors: IAnyBehaviorRecorder[] = [
-    new BehaviorRecorder(Template),
+    // new BehaviorRecorder(Template),
     new BehaviorRecorder(PhysicsDynamics),
     new BehaviorRecorder(Brownian),
     new BehaviorRecorder(BoundaryConstraint),

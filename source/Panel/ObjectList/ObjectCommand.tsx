@@ -44,7 +44,7 @@ class ObjectCommand extends Component<IMixinStatusProps> {
 					this.props.status ? this.props.status.newGroup() : undefined;
 				}}
 			>
-				<Icon iconName="WebAppBuilderFragmentCreate"></Icon>
+				<Icon iconName="WebAppBuilderFragment"></Icon>
 			</div>
 			<div
 				className="command-item"
@@ -52,7 +52,7 @@ class ObjectCommand extends Component<IMixinStatusProps> {
 					this.props.status ? this.props.status.newRange() : undefined;
 				}}
 			>
-				<Icon iconName="ProductVariant"></Icon>
+				<Icon iconName="CubeShape"></Icon>
 			</div>
 			<div
 				className="command-item red"
