@@ -4,7 +4,7 @@ const EN_US = {
     "Header.Bar.Title": "Living Together | Emulator",
     "Header.Bar.Title.Info": "Group Behavior Research Emulator",
     "Header.Bar.File.Name.Info": "{file} ({status})",
-    "Header.Bar.New.File.Name": "New File",
+    "Header.Bar.New.File.Name": "NewFile.ltss",
     "Header.Bar.File.Save.Status.Saved": "Saved",
     "Header.Bar.File.Save.Status.Unsaved": "UnSaved",
     "Header.Bar.Fps": "FPS: {renderFps} | {physicsFps}",
@@ -133,5 +133,8 @@ const EN_US = {
     "Panel.Info.Behavior.Details.Parameter.Key.Vec.X": "{key} X",
     "Panel.Info.Behavior.Details.Parameter.Key.Vec.Y": "{key} Y",
     "Panel.Info.Behavior.Details.Parameter.Key.Vec.Z": "{key} Z",
+    "Info.Hint.Save.After.Close": "Any unsaved progress will be lost. Are you sure you want to continue?",
+    "Info.Hint.Load.File.Title": "Load save",
+    "Info.Hint.Load.File.Intro": "Release to load the dragged save file",
 }
 export default EN_US;

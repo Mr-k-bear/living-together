@@ -6,6 +6,7 @@ import { ClassicRenderer } from "@GLRender/ClassicRenderer";
 import { initializeIcons } from '@fluentui/font-icons-mdl2';
 import { RootContainer } from "@Component/Container/RootContainer";
 import { LayoutDirection } from "@Context/Layout";
+import { LoadFile } from "@Component/LoadFile/LoadFile";
 import { AllBehaviors, getBehaviorById } from "@Behavior/Behavior";
 import { CommandBar } from "@Component/CommandBar/CommandBar";
 import { HeaderBar } from "@Component/HeaderBar/HeaderBar";
@@ -203,13 +204,14 @@ class SimulatorWeb extends Component {
             backgroundLevel={BackgroundLevel.Level5}
             fontLevel={FontLevel.Level3}
         >
+            <LoadFile/>
             <Popup/>
             <HeaderBar height={45}/>
             <div className="app-root-space" style={{
                 height: `calc( 100% - ${45}px)`
             }}>
-                <CommandBar width={45}/>
-                <RootContainer />
+                <CommandBar/>
+                <RootContainer/>
             </div>
         </Theme>
     }

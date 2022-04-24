@@ -12,6 +12,7 @@ import { IArchiveParseFn, IObjectParamArchiveType, IRealObjectType } from "@Mode
 interface IArchiveEvent {
     fileSave: Archive;
     fileLoad: Archive;
+    fileChange: void;
 }
 
 interface IArchiveObject {
@@ -21,7 +22,7 @@ interface IArchiveObject {
     behaviorPool: IArchiveBehavior[];
 }
 
-class Archive<M extends any = any> extends Emitter<IArchiveEvent> {
+class Archive extends Emitter<IArchiveEvent> {
 
     /**
      * 是否为新文件
@@ -39,9 +40,9 @@ class Archive<M extends any = any> extends Emitter<IArchiveEvent> {
     public isSaved: boolean = false;
 
     /**
-     * 文件数据
+     * 文件路径
      */
-    public fileData?: M;
+    public fileUrl?: string;
 
     /**
      * 将模型转换为存档对象
@@ -243,25 +244,34 @@ class Archive<M extends any = any> extends Emitter<IArchiveEvent> {
      * 保存文件
      * 模型转换为文件
      */
-    public save(model: Model): void {
-
-        console.log(this.parseModel2Archive(model));
-
+    public save(model: Model): string {
         this.isSaved = true;
         this.emit("fileSave", this);
+        return this.parseModel2Archive(model);
     }
 
     /**
      * 加载文件为模型
      * @return Model
      */
-    public load(model: Model, data: string) {
+    public load(model: Model, data: string): string | undefined {
 
-        this.loadArchiveIntoModel(model, data);
-
+        try {
+            this.loadArchiveIntoModel(model, data);
+        } catch (e) {
+            return e as string;
+        }
+        
         this.isSaved = true;
         this.emit("fileLoad", this);
     };
+
+    public constructor() {
+        super();
+        this.on("fileChange", () => {
+            this.isSaved = false;
+        })
+    }
 }
 
 export { Archive };
