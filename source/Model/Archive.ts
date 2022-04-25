@@ -37,7 +37,7 @@ class Archive extends Emitter<IArchiveEvent> {
     /**
      * 是否保存
      */
-    public isSaved: boolean = false;
+    public isSaved: boolean = true;
 
     /**
      * 文件路径
