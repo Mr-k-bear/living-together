@@ -123,6 +123,10 @@ const resolve = (plugins = []) => {
 
     let res = {
         extensions: [ ".tsx", '.ts', '.js' ],
+        fallback: {
+            'react/jsx-runtime': 'react/jsx-runtime.js',
+            'react/jsx-dev-runtime': 'react/jsx-dev-runtime.js',
+        },
         plugins: plugins
     };
 

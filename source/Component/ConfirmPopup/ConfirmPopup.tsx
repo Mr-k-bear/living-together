@@ -9,6 +9,7 @@ interface IConfirmPopupProps {
 	titleI18N?: AllI18nKeys;
 	titleI18NOption?: Record<string, string>;
 	infoI18n?: AllI18nKeys;
+	infoI18nOption?: Record<string, string>;
 	yesI18n?: AllI18nKeys;
 	noI18n?: AllI18nKeys;
     renderInfo?: () => ReactNode;
@@ -64,8 +65,10 @@ class ConfirmPopup extends Popup<IConfirmPopupProps> {
                 this.props.renderInfo ?
                     this.props.renderInfo() :
                         this.props.infoI18n ?
-                            <Message i18nKey={this.props.infoI18n}/> :
-                            null
+                            <Message
+								i18nKey={this.props.infoI18n}
+								options={this.props.infoI18nOption}
+							/> : null
             }
 		</ConfirmContent>
 	}

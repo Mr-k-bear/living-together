@@ -1,10 +1,16 @@
 @import "../Theme/Theme.scss";
 
+div.load-file-app-root {
+	width: 100%;
+	height: 100%;
+}
+
 div.load-file-layer-root {
 	position: fixed;
 	z-index: 1000;
 	width: 100%;
 	height: 100%;
+	pointer-events: none;
 	box-sizing: border-box;
 	padding: 20px;
 
@@ -19,7 +25,6 @@ div.load-file-layer-root {
 		border-radius: 3px;
 
 		div {
-			pointer-events: none;
 			user-select: none;
 			text-align: center;
 			width: 100%;
