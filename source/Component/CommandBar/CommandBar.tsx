@@ -1,5 +1,5 @@
-import { Component, ReactNode } from "react";
-import { DirectionalHint, IconButton } from "@fluentui/react";
+import { Component, ReactNode, FunctionComponent } from "react";
+import { DirectionalHint, Icon, Spinner } from "@fluentui/react";
 import { useSetting, IMixinSettingProps } from "@Context/Setting";
 import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
 import { BackgroundLevel, Theme } from "@Component/Theme/Theme";
@@ -18,23 +18,28 @@ interface IRenderButtonParameter {
     iconName?: string;
     click?: () => void;
     active?: boolean;
+    isLoading?: boolean;
 }
 
 interface ICommandBarState {
     isSaveRunning: boolean;
 }
 
-function getRenderButton(param: IRenderButtonParameter): ReactNode {
+const CommandButton: FunctionComponent<IRenderButtonParameter> = (param) => {
     return <LocalizationTooltipHost 
         i18nKey={param.i18NKey}
         directionalHint={DirectionalHint.rightCenter}
     >
-        <IconButton
+        <div
             style={{ height: COMMAND_BAR_WIDTH }}
-            iconProps={{ iconName: param.iconName }}
-            onClick={ param.click }
+            onClick={ param.isLoading ? undefined : param.click }
             className={"command-button on-end" + (param.active ? " active" : "")}
-        />
+        >
+            {param.isLoading ? 
+                <Spinner className="command-button-loading"/> :
+                <Icon iconName={param.iconName}/>
+            }
+        </div>
     </LocalizationTooltipHost>
 }
 @useSetting
@@ -68,78 +73,84 @@ class CommandBar extends Component<IMixinSettingProps & IMixinStatusProps, IComm
                     }}
                 />
 
-                {getRenderButton({
-                    iconName: "Save",
-                    i18NKey: "Command.Bar.Save.Info",
-                    click: () => {
+                <CommandButton
+                    iconName="Save"
+                    i18NKey="Command.Bar.Save.Info"
+                    isLoading={this.state.isSaveRunning}
+                    click={() => {
                         this.setState({
                             isSaveRunning: true
                         });
-                    }
-                })}
+                    }}
+                />
 
-                {getRenderButton({
-                    iconName: this.props.status?.actuator.start() ? "Pause" : "Play",
-                    i18NKey: "Command.Bar.Play.Info",
-                    click: () => this.props.status ? this.props.status.actuator.start(
+                <CommandButton
+                    iconName={this.props.status?.actuator.start() ? "Pause" : "Play"}
+                    i18NKey="Command.Bar.Play.Info"
+                    click={() => this.props.status ? this.props.status.actuator.start(
                         !this.props.status.actuator.start()
-                    ) : undefined
-                })}
+                    ) : undefined}
+                />
 
-                {getRenderButton({
-                    iconName: "HandsFree", i18NKey: "Command.Bar.Drag.Info", 
-                    active: mouseMod === MouseMod.Drag,
-                    click: () => this.props.status ? this.props.status.setMouseMod(MouseMod.Drag) : undefined
-                })}
+                <CommandButton
+                    iconName="HandsFree"
+                    i18NKey="Command.Bar.Drag.Info"
+                    active={mouseMod === MouseMod.Drag}
+                    click={() => this.props.status ? this.props.status.setMouseMod(MouseMod.Drag) : undefined}
+                />
 
-                {getRenderButton({
-                    iconName: "TouchPointer", i18NKey: "Command.Bar.Select.Info",
-                    active: mouseMod === MouseMod.click,
-                    click: () => this.props.status ? this.props.status.setMouseMod(MouseMod.click) : undefined
-                })}
+                <CommandButton
+                    iconName="TouchPointer"
+                    i18NKey="Command.Bar.Select.Info"
+                    active={mouseMod === MouseMod.click}
+                    click={() => this.props.status ? this.props.status.setMouseMod(MouseMod.click) : undefined}
+                />
 
-                {getRenderButton({
-                    iconName: "WebAppBuilderFragmentCreate",
-                    i18NKey: "Command.Bar.Add.Group.Info",
-                    click: () => {
+                <CommandButton
+                    iconName="WebAppBuilderFragmentCreate"
+                    i18NKey="Command.Bar.Add.Group.Info"
+                    click={() => {
                         this.props.status ? this.props.status.newGroup() : undefined;
-                    }
-                })}
+                    }}
+                />
 
-                {getRenderButton({
-                    iconName: "ProductVariant",
-                    i18NKey: "Command.Bar.Add.Range.Info",
-                    click: () => {
+                <CommandButton
+                    iconName="ProductVariant"
+                    i18NKey="Command.Bar.Add.Range.Info"
+                    click={() => {
                         this.props.status ? this.props.status.newRange() : undefined;
-                    }
-                })}
+                    }}
+                />
 
-                {getRenderButton({
-                    iconName: "Running",
-                    i18NKey: "Command.Bar.Add.Behavior.Info",
-                    click: () => {
+                <CommandButton
+                    iconName="Running"
+                    i18NKey="Command.Bar.Add.Behavior.Info"
+                    click={() => {
                         this.props.status?.popup.showPopup(BehaviorPopup, {});
-                    }
-                })}
+                    }}
+                />
 
-                {getRenderButton({
-                    iconName: "Tag",
-                    i18NKey: "Command.Bar.Add.Tag.Info",
-                    click: () => {
+                <CommandButton
+                    iconName="Tag"
+                    i18NKey="Command.Bar.Add.Tag.Info"
+                    click={() => {
                         this.props.status ? this.props.status.newLabel() : undefined;
-                    }
-                })}
+                    }}
+                />
 
-                {getRenderButton({ iconName: "Camera", i18NKey: "Command.Bar.Camera.Info" })}
+                <CommandButton
+                    iconName="Camera"
+                    i18NKey="Command.Bar.Camera.Info"
+                />
             </div>
             <div>
-                {getRenderButton({
-                    iconName: "Settings",
-                    i18NKey: "Command.Bar.Setting.Info",
-                    click: () => {
+                <CommandButton
+                    iconName="Settings"
+                    i18NKey="Command.Bar.Setting.Info"
+                    click={() => {
                         this.props.status?.popup.showPopup(SettingPopup, {});
-                    }
-                })}
+                    }}
+                />
             </div>
         </Theme>
     }

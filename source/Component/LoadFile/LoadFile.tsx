@@ -64,7 +64,7 @@ async function fileChecker(status: Status, file?: File) {
 			const loadFunc = () => {
 
 				// 进行转换
-				let errorMessage = status.archive.load(status.model, fileReader.result as string, file.name);
+				let errorMessage = status.archive.load(status.model, fileReader.result as string, file.name, file.path);
 				if (errorMessage) {
 					status.popup.showPopup(ConfirmPopup, {
 						infoI18n: "Popup.Load.Save.Error.Parse",

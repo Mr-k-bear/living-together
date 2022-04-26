@@ -29,7 +29,7 @@ const ArchiveSaveDownloadView: FunctionComponent<IFileInfo & ICallBackProps> = f
 		setTimeout(() => {
 			download(file, props.fileName, "text/json");
 			props.then();
-		}, 10);
+		}, 100);
 	}
 
 	useEffect(() => { runner() }, []);
@@ -44,15 +44,17 @@ function ArchiveSaveFsView(props) {
 
 	const runner = async () => {
 		const file = await props.fileData();
-		if (props.electron) {
-			props.electron.fileSave(
-				file,
-				I18N(props, "Popup.Load.Save.Select.File.Name"),
-				I18N(props, "Popup.Load.Save.Select.Path.Title"),
-				I18N(props, "Popup.Load.Save.Select.Path.Button"),
-				props.fileUrl
-			);
-		}
+		setTimeout(() => {
+			if (props.electron) {
+				props.electron.fileSave(
+					file,
+					I18N(props, "Popup.Load.Save.Select.File.Name"),
+					I18N(props, "Popup.Load.Save.Select.Path.Title"),
+					I18N(props, "Popup.Load.Save.Select.Path.Button"),
+					props.fileUrl
+				);
+			}
+		}, 100);
 	}
 
 	const saveEvent = ({name, url, success} : {name: string, url: string, success: boolean}) => {

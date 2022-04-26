@@ -266,6 +266,7 @@ class Archive extends Emitter<IArchiveEvent> {
         this.fileName = name;
         this.isSaved = true;
         this.isNewFile = false;
+        this.fileUrl = url;
         this.emit("fileSave", this);
     };
 
