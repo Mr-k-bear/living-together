@@ -37,7 +37,7 @@ class Archive extends Emitter<IArchiveEvent> {
     /**
      * 是否保存
      */
-    public isSaved: boolean = false;
+    public isSaved: boolean = true;
 
     /**
      * 文件路径
@@ -100,7 +100,7 @@ class Archive extends Emitter<IArchiveEvent> {
 
         // 解析为 JSON 对象
         const archive: IArchiveObject = JSON.parse(data);
-        console.log(archive);
+        // console.log(archive);
 
         // 实例化全部对象
         const objectPool: CtrlObject[] = [];
@@ -254,7 +254,7 @@ class Archive extends Emitter<IArchiveEvent> {
      * 加载文件为模型
      * @return Model
      */
-    public load(model: Model, data: string): string | undefined {
+    public load(model: Model, data: string, name: string, url?: string): string | undefined {
 
         try {
             this.loadArchiveIntoModel(model, data);
@@ -262,8 +262,12 @@ class Archive extends Emitter<IArchiveEvent> {
             return e as string;
         }
         
-        this.isSaved = true;
         this.emit("fileLoad", this);
+        this.fileName = name;
+        this.isSaved = true;
+        this.isNewFile = false;
+        this.fileUrl = url;
+        this.emit("fileSave", this);
     };
 
     public constructor() {

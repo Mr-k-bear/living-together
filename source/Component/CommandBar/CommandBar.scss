@@ -1,3 +1,5 @@
+@import "../Theme/Theme.scss";
+
 div.command-bar {
     height: 100%;
     user-select: none;
@@ -5,32 +7,53 @@ div.command-bar {
     flex-direction: column;
     justify-content: space-between;
     
-    button.ms-Button.command-button {
+    div.command-button {
         width: 100%;
-        text-align: center;
         display: flex;
         justify-content: center;
+        align-items: center;
         transition: all 100ms ease-in-out;
-        color:  inherit;
+        cursor: pointer;
         
-        span.ms-Button-flexContainer i.ms-Icon {
-            font-size: 25px;
+        i {
+            font-size: 22px;
+        }
+
+        div.command-button-loading {
+            
+            div.ms-Spinner-circle {
+                border-width: 2px;
+            }
         }
     }
 
-    button.ms-Button.command-button.on-end {
+    div.command-button.on-end {
         align-self: flex-end;
     }
 }
 
-div.command-bar.dark button.ms-Button.command-button.active,
-div.command-bar.dark button.ms-Button.command-button:hover {
+div.command-bar.dark div.command-button div.command-button-loading div.ms-Spinner-circle {
+    border-top-color: rgba($color: #FFFFFF, $alpha: .9);
+    border-left-color: rgba($color: #FFFFFF, $alpha: .4);
+    border-bottom-color: rgba($color: #FFFFFF, $alpha: .4);
+    border-right-color: rgba($color: #FFFFFF, $alpha: .4);
+}
+
+div.command-bar.light div.command-button div.command-button-loading div.ms-Spinner-circle {
+    border-top-color: rgba($color: #000000, $alpha: .9);
+    border-left-color: rgba($color: #000000, $alpha: .4);
+    border-bottom-color: rgba($color: #000000, $alpha: .4);
+    border-right-color: rgba($color: #000000, $alpha: .4);
+}
+
+div.command-bar.dark div.command-button.active,
+div.command-bar.dark div.command-button:hover {
     background-color: rgba($color: #FFFFFF, $alpha: .2);
     color: rgba($color: #FFFFFF, $alpha: 1);
 }
 
-div.command-bar.light button.ms-Button.command-button.active,
-div.command-bar.light button.ms-Button.command-button:hover {
+div.command-bar.light div.command-button.active,
+div.command-bar.light div.command-button:hover {
     background-color: rgba($color: #000000, $alpha: .08);
     color: rgba($color: #000000, $alpha: 1);
 }

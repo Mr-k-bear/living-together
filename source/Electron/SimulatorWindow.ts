@@ -1,23 +1,11 @@
 import { contextBridge, ipcRenderer } from "electron";
-import { ISimulatorAPI } from "@Electron/SimulatorAPI"
+import { ISimulatorAPI } from "@Electron/SimulatorAPI";
 
-const emitterMap: Array<[key: string, value: Function[]]> = [];
-const queryEmitter = (key: string) => {
-	let res: (typeof emitterMap)[0] | undefined;
-	emitterMap.forEach((item) => {
-		if (item[0] === key) res = item;
-	});
+const emitterMap: { fn?: Function } = { fn: undefined };
 
-	if (res) {
-		if (Array.isArray(res[1])) return res[1];
-		res[1] = [];
-		return res[1];
-	}
-
-	else {
-		res = [key, []];
-		emitterMap.push(res);
-		return res[1];
+const emit = (type: string, evt?: any) => {
+	if (emitterMap.fn) {
+		emitterMap.fn(type, evt);
 	}
 }
 
@@ -43,22 +31,19 @@ const API: ISimulatorAPI = {
 		ipcRenderer.send("windows.minimize");
 	},
 
-	all: new Map() as any,
-
-	resetAll: () => emitterMap.splice(0),
-	reset: (type) => queryEmitter(type).splice(0),
-	on: (type, handler) => queryEmitter(type).push(handler),
-	off: (type, handler) => {
-		const handlers = queryEmitter(type);
-		handlers.splice(handlers.indexOf(handler!) >>> 0, 1);
+	fileSave(text: string, name: string, title: string, button: string, url?: string) {
+		ipcRenderer.send("windows.fileSave", text, name, title, button, url);
 	},
-	emit: ((type: string, evt: any) => {
-		queryEmitter(type).slice().map((handler: any) => { handler(evt) });
-	}) as any,
-}
+
+	mapEmit: (fn: Function) => { emitterMap.fn = fn },
+} as any;
 
 ipcRenderer.on("windows.windowsSizeStateChange", () => {
-	API.emit("windowsSizeStateChange");
+	emit("windowsSizeStateChange");
+});
+
+ipcRenderer.on("windows.EndFileSave", (_, name: string, url: string, success: boolean) => {
+	emit("fileSave", {name, url, success});
 });
 
 contextBridge.exposeInMainWorld("API", API);

@@ -1,38 +1,60 @@
 @import "../Theme/Theme.scss";
 
+div.load-file-app-root {
+	width: 100%;
+	height: 100%;
+}
+
 div.load-file-layer-root {
 	position: fixed;
 	z-index: 1000;
 	width: 100%;
 	height: 100%;
-	display: flex;
-	align-content: center;
-	justify-content: center;
-	align-items: center;
-	flex-wrap: wrap;
+	pointer-events: none;
+	box-sizing: border-box;
+	padding: 20px;
 
-	div {
-		user-select: none;
-		text-align: center;
+	div.load-file-layer {
 		width: 100%;
-	}
+		height: 100%;
+		display: flex;
+		align-content: center;
+		justify-content: center;
+		align-items: center;
+		flex-wrap: wrap;
+		border-radius: 3px;
 
-	div.drag-icon {
-		font-weight: 200;
-		font-size: 2.8em;
-	}
+		div {
+			user-select: none;
+			text-align: center;
+			width: 100%;
+		}
 
-	div.drag-title {
-		margin-top: 5px;
-		margin-bottom: 5px;
-		font-size: 1.5em;
+		div.drag-icon {
+			font-weight: 200;
+			font-size: 2.8em;
+		}
+
+		div.drag-title {
+			margin-top: 5px;
+			margin-bottom: 5px;
+			font-size: 1.5em;
+		}
 	}
 }
 
 div.load-file-layer-root.light {
-	background-color: rgba($color: #FFFFFF, $alpha: .75);
+	background-color: rgba($color: #FFFFFF, $alpha: .6);
+
+	div.load-file-layer {
+		border: 2px dashed $lt-font-color-normal-light;
+	}
 }
 
 div.load-file-layer-root.dark {
-	background-color: rgba($color: #000000, $alpha: .75);
+	background-color: rgba($color: #000000, $alpha: .6);
+
+	div.load-file-layer {
+		border: 2px dashed $lt-font-color-normal-dark;
+	}
 }

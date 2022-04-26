@@ -1,18 +1,20 @@
 import { Component, ReactNode } from "react";
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 import { SettingProvider, Setting, Platform } from "@Context/Setting";
 import { Theme, BackgroundLevel, FontLevel } from "@Component/Theme/Theme";
 import { ISimulatorAPI } from "@Electron/SimulatorAPI";
 import { StatusProvider, Status } from "@Context/Status";
-import { ElectronProvider } from "@Context/Electron";
+import { ElectronProvider, getElectronAPI } from "@Context/Electron";
 import { ClassicRenderer } from "@GLRender/ClassicRenderer";
 import { initializeIcons } from '@fluentui/font-icons-mdl2';
 import { RootContainer } from "@Component/Container/RootContainer";
 import { LayoutDirection } from "@Context/Layout";
 import { CommandBar } from "@Component/CommandBar/CommandBar";
+import { LoadFile } from "@Component/LoadFile/LoadFile";
 import { HeaderBar } from "@Component/HeaderBar/HeaderBar";
 import { Popup } from "@Component/Popup/Popup";
 import { Entry } from "../Entry/Entry";
-import { Group } from "@Model/Group";
 import "./SimulatorDesktop.scss";
 
 initializeIcons("./font-icon/");
@@ -47,25 +49,12 @@ class SimulatorDesktop extends Component {
         this.status.bindRenderer(classicRender);
         this.status.setting = this.setting;
 
-        const randomPosition = (group: Group) => {
-            group.individuals.forEach((individual) => {
-                individual.position[0] = (Math.random() - .5) * 2;
-                individual.position[1] = (Math.random() - .5) * 2;
-                individual.position[2] = (Math.random() - .5) * 2;
-            })
-        };
-
         (window as any).LT = {
             status: this.status,
             setting: this.setting
         };
 
-        this.electron = {} as ISimulatorAPI;
-        if ((window as any).API) {
-            this.electron = (window as any).API;
-        } else {
-            console.error("SimulatorDesktop: Can't find electron API");
-        }
+        this.electron = getElectronAPI();
     }
 
     public componentDidMount() {
@@ -102,7 +91,9 @@ class SimulatorDesktop extends Component {
         return <SettingProvider value={this.setting}>
             <StatusProvider value={this.status}>
                 <ElectronProvider value={this.electron}>
-                    {this.renderContent()}
+                    <DndProvider backend={HTML5Backend}>
+                        {this.renderContent()}
+                    </DndProvider>
                 </ElectronProvider>
             </StatusProvider>
         </SettingProvider>
@@ -115,13 +106,15 @@ class SimulatorDesktop extends Component {
             fontLevel={FontLevel.Level3}
         >
             <Popup/>
-            <HeaderBar height={35}/>
-            <div className="app-root-space" style={{
-                height: `calc( 100% - ${35}px)`
-            }}>
-                <CommandBar/>
-                <RootContainer/>
-            </div>
+            <LoadFile>
+                <HeaderBar height={35}/>
+                <div className="app-root-space" style={{
+                    height: `calc( 100% - ${35}px)`
+                }}>
+                    <CommandBar/>
+                    <RootContainer/>
+                </div>
+            </LoadFile>
         </Theme>
     }
 }

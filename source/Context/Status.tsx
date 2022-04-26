@@ -161,6 +161,11 @@ class Status extends Emitter<IStatusEvent> {
             this.emit("labelChange");
             this.emit("behaviorChange");
 
+            // 清除焦点对象
+            this.setBehaviorObject();
+            this.setFocusObject(new Set());
+            this.setLabelObject();
+
             // 映射
             this.emit("fileLoad");
         });

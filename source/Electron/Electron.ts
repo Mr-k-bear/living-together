@@ -1,6 +1,7 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain, dialog } from "electron";
 import { Service } from "@Service/Service";
 import { join as pathJoin } from "path";
+import { writeFile } from "fs";
 const ENV = process.env ?? {};
 
 class ElectronApp {
@@ -55,6 +56,7 @@ class ElectronApp {
 		this.simulatorWindow.loadURL(this.serviceUrl + (ENV.LIVING_TOGETHER_WEB_PATH ?? "/resources/app.asar/"));
 
 		this.handelSimulatorWindowBehavior();
+		this.handelFileChange();
 
 		app.on('window-all-closed', function () {
 			if (process.platform !== 'darwin') app.quit()
@@ -89,6 +91,56 @@ class ElectronApp {
 
 		this.simulatorWindow?.on("maximize", sendWindowsChangeMessage);
 		this.simulatorWindow?.on("unmaximize", sendWindowsChangeMessage);
+	}
+
+	private handelFileChange() {
+
+		// 文件保存
+		const saveFile = async (path: string, text: string) => {
+			return new Promise((r) => {
+				writeFile(path ?? "", text, {}, (e) => {
+					this.simulatorWindow?.webContents.send(
+						"windows.EndFileSave",
+						(path.match(/.+(\/|\\)(.+)$/) ?? [])[2],
+						path, !e
+					);
+					r(undefined);
+				});
+			})
+		};
+
+		// 处理文件保存事件
+		ipcMain.on("windows.fileSave",
+			(_, text: string, name: string, title: string, button: string, url?: string) => {
+
+				// 如果没有路径，询问新的路径
+				if (url) {
+					saveFile(url, text);
+				}
+
+				// 询问保存位置
+				else {
+					dialog.showSaveDialog(this.simulatorWindow!, {
+						title: title,
+						buttonLabel: button,
+						filters: [
+							{ name: name, extensions: ["ltss"] }
+						]
+					}).then(res => {
+
+						// 用户选择后继续保存
+						if (!res.canceled && res.filePath) {
+							saveFile(res.filePath, text);
+						} else {
+							this.simulatorWindow?.webContents.send(
+								"windows.EndFileSave",
+								undefined, undefined, false
+							);
+						}
+					});
+				}
+			}
+		);
 	}
 }
 
