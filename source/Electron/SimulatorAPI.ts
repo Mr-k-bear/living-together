@@ -2,6 +2,7 @@ import { Emitter } from "@Model/Emitter";
 
 type IApiEmitterEvent = {
 	windowsSizeStateChange: void;
+	fileSave: {success: boolean, name: string, url: string};
 }
 
 interface ISimulatorAPI extends Emitter<IApiEmitterEvent> {
@@ -30,6 +31,11 @@ interface ISimulatorAPI extends Emitter<IApiEmitterEvent> {
 	 * 是否处于最大化状态
 	 */
 	minimize: () => void;
+
+	/**
+	 * 存档
+	 */
+	fileSave: (text: string, name: string, title: string, button: string, url?: string) => void;
 }
 
 export { ISimulatorAPI, IApiEmitterEvent }

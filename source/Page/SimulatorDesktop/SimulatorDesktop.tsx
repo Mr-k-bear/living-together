@@ -3,7 +3,7 @@ import { SettingProvider, Setting, Platform } from "@Context/Setting";
 import { Theme, BackgroundLevel, FontLevel } from "@Component/Theme/Theme";
 import { ISimulatorAPI } from "@Electron/SimulatorAPI";
 import { StatusProvider, Status } from "@Context/Status";
-import { ElectronProvider } from "@Context/Electron";
+import { ElectronProvider, getElectronAPI } from "@Context/Electron";
 import { ClassicRenderer } from "@GLRender/ClassicRenderer";
 import { initializeIcons } from '@fluentui/font-icons-mdl2';
 import { RootContainer } from "@Component/Container/RootContainer";
@@ -47,25 +47,12 @@ class SimulatorDesktop extends Component {
         this.status.bindRenderer(classicRender);
         this.status.setting = this.setting;
 
-        const randomPosition = (group: Group) => {
-            group.individuals.forEach((individual) => {
-                individual.position[0] = (Math.random() - .5) * 2;
-                individual.position[1] = (Math.random() - .5) * 2;
-                individual.position[2] = (Math.random() - .5) * 2;
-            })
-        };
-
         (window as any).LT = {
             status: this.status,
             setting: this.setting
         };
 
-        this.electron = {} as ISimulatorAPI;
-        if ((window as any).API) {
-            this.electron = (window as any).API;
-        } else {
-            console.error("SimulatorDesktop: Can't find electron API");
-        }
+        this.electron = getElectronAPI();
     }
 
     public componentDidMount() {

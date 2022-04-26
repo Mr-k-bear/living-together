@@ -1,8 +1,9 @@
 import { FunctionComponent, useEffect } from "react";
-import * as download from "downloadjs";
 import { useSetting, IMixinSettingProps, Platform } from "@Context/Setting";
 import { useStatus, IMixinStatusProps } from "@Context/Status";
+import { useElectron, IMixinElectronProps } from "@Context/Electron";
 import { I18N } from "@Component/Localization/Localization";
+import * as download from "downloadjs";
 
 interface IFileInfo {
 	fileName: string;
@@ -21,14 +22,14 @@ interface ICallBackProps {
 	then: () => any;
 }
 
-const ArchiveSaveDownloadView: FunctionComponent<IFileInfo & ICallBackProps> = function ArchiveSave(props) {
+const ArchiveSaveDownloadView: FunctionComponent<IFileInfo & ICallBackProps> = function ArchiveSaveDownloadView(props) {
 
 	const runner = async () => {
 		const file = await props.fileData();
 		setTimeout(() => {
 			download(file, props.fileName, "text/json");
 			props.then();
-		}, 100);
+		}, 10);
 	}
 
 	useEffect(() => { runner() }, []);
@@ -37,6 +38,45 @@ const ArchiveSaveDownloadView: FunctionComponent<IFileInfo & ICallBackProps> = f
 }
 
 const ArchiveSaveDownload = ArchiveSaveDownloadView;
+
+const ArchiveSaveFsView: FunctionComponent<IFileInfo & ICallBackProps & IMixinElectronProps & IMixinSettingProps & IMixinStatusProps> =
+function ArchiveSaveFsView(props) {
+
+	const runner = async () => {
+		const file = await props.fileData();
+		if (props.electron) {
+			props.electron.fileSave(
+				file,
+				I18N(props, "Popup.Load.Save.Select.File.Name"),
+				I18N(props, "Popup.Load.Save.Select.Path.Title"),
+				I18N(props, "Popup.Load.Save.Select.Path.Button"),
+				props.fileUrl
+			);
+		}
+	}
+
+	const saveEvent = ({name, url, success} : {name: string, url: string, success: boolean}) => {
+		if (success && props.status) {
+			props.status.archive.fileUrl = url;
+			props.status.archive.fileName = name;
+			props.status.archive.isNewFile = false;
+			props.status.archive.emit("fileSave", props.status.archive);
+		}
+		props.then();
+	}
+
+	useEffect(() => {
+		runner();
+		props.electron?.on("fileSave", saveEvent);
+		return () => {
+			props.electron?.off("fileSave", saveEvent);
+		};
+	}, []);
+
+	return <></>;
+}
+
+const ArchiveSaveFs = useSetting(useElectron(useStatus(ArchiveSaveFsView)));
 
 /**
  * 保存存档文件
@@ -81,7 +121,7 @@ const ArchiveSaveView: FunctionComponent<IMixinSettingProps & IMixinStatusProps 
 		{
 			props.setting?.platform === Platform.web ? 
 				<ArchiveSaveDownload {...fileData} then={callBack}/> :
-				<></>
+				<ArchiveSaveFs {...fileData} then={callBack}/>
 		}
 	</>
 }
