@@ -29,11 +29,37 @@ class ElectronApp {
 		);
 	}
 
+	public loadingPage?: BrowserWindow;
 	public simulatorWindow?: BrowserWindow;
+
+	public async showLoadingPage() {
+		return new Promise((r) => {
+
+			this.loadingPage = new BrowserWindow({
+				width: 603,
+				height: 432,
+				fullscreenable: false,
+				skipTaskbar: true,
+				resizable: false,
+				titleBarStyle: 'hidden',
+				frame: false,
+				show: false
+			});
+
+			this.loadingPage.loadFile(ENV.LIVING_TOGETHER_LOADING_PAGE ?? "./LoadingPage.html");
+
+			this.loadingPage.on("ready-to-show", () => {
+				this.loadingPage?.show();
+				r(undefined);
+			});
+		});
+	}
 
 	public async runMainThread() {
 
 		await app.whenReady();
+
+		await this.showLoadingPage();
 
 		await this.runService();
 
@@ -50,10 +76,18 @@ class ElectronApp {
 			frame: false,
 			minWidth: 460,
 			minHeight: 300,
-			webPreferences: { preload }
+			webPreferences: { preload },
+			show: false,
 		});
 
 		this.simulatorWindow.loadURL(this.serviceUrl + (ENV.LIVING_TOGETHER_WEB_PATH ?? "/resources/app.asar/"));
+
+		this.simulatorWindow.on("ready-to-show", () => {
+			setTimeout(() => {
+				this.loadingPage?.close();
+				this.simulatorWindow?.show();
+			}, 1220);
+		});
 
 		this.handelSimulatorWindowBehavior();
 		this.handelFileChange();
