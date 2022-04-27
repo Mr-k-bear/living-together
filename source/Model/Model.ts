@@ -5,6 +5,7 @@ import { IParamValue } from "@Model/Parameter";
 import { CtrlObject } from "@Model/CtrlObject";
 import { Emitter } from "@Model/Emitter";
 import { AbstractRenderer } from "@Model/Renderer";
+import { Clip } from "@Model/Clip";
 import { Behavior, IAnyBehavior, IAnyBehaviorRecorder } from "@Model/Behavior";
 
 /**
@@ -330,6 +331,8 @@ class Model extends Emitter<ModelEvent> {
         }
     }
 
+    public clipPool: Clip[] = [];
+
     /**
      * 渲染器
      */
@@ -347,7 +350,7 @@ class Model extends Emitter<ModelEvent> {
     /**
      * 更新渲染数据
      */
-    public update(t: number) {
+    public update(t: number, skipDraw: boolean = false) {
 
         // 第一轮更新
         for (let i = 0; i < this.objectPool.length; i++) {
@@ -373,7 +376,9 @@ class Model extends Emitter<ModelEvent> {
             }
         }
 
-        this.draw();
+        if (!skipDraw) {
+            this.draw();
+        }
     }
 
     public draw() {
