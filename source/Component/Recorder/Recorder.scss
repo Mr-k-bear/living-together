@@ -29,6 +29,10 @@ div.recorder-root {
 		}
 	}
 
+	div.recorder-slider.disable {
+		opacity: .6;
+	}
+
 	div.recorder-content {
 		width: 100%;
 		height: 32px;
@@ -68,6 +72,11 @@ div.recorder-root {
 			div.ctrl-action-main {
 				font-size: 1.5em;
 			}
+
+			div.ctrl-action.disable {
+				cursor: not-allowed;
+				opacity: .6;
+			}
 		}
 
 		div.speed-view {
@@ -105,6 +114,11 @@ div.recorder-root.light {
 			background-color: $lt-bg-color-lvl3-light;
 			color: $lt-font-color-lvl1-light;
 		}
+
+		div.ctrl-button div.ctrl-action.disable:hover {
+			background-color: $lt-bg-color-lvl4-light;
+			color: $lt-font-color-normal-light;
+		}
 	}
 }
 
@@ -131,6 +145,11 @@ div.recorder-root.dark {
 		div.ctrl-button div.ctrl-action:hover {
 			background-color: $lt-bg-color-lvl3-dark;
 			color: $lt-font-color-lvl1-dark;
+		}
+
+		div.ctrl-button div.ctrl-action.disable:hover {
+			background-color: $lt-bg-color-lvl4-dark;
+			color: $lt-font-color-normal-dark;
 		}
 	}
 }

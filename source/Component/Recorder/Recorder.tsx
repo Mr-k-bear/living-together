@@ -5,20 +5,22 @@ import { Component, ReactNode } from "react";
 import "./Recorder.scss";
 
 interface IRecorderProps {
-	mode?: "P" | "R",
+	mode: "P" | "R",
+	running?: boolean,
 	name?: string;
 	fps?: number;
 	allFrame?: number;
 	currentFrame?: number;
 	allTime?: number;
 	currentTime?: number;
+	action?: () => void;
 }
 
 class Recorder extends Component<IRecorderProps> {
 
 	private parseTime(time?: number): string {
 		if (time === undefined) {
-			return "--:--:--:--";
+			return "0:0:0:0";
 		}
 		const h = Math.floor(time / 3600);
 		const m = Math.floor((time % 3600) / 60);
@@ -27,7 +29,50 @@ class Recorder extends Component<IRecorderProps> {
 		return `${h}:${m}:${s}:${ms}`;
 	}
 
+	private getRecordInfo(): ReactNode {
+		if (this.props.mode === "P") {
+			return <Localization
+				i18nKey="Panel.Info.Behavior.Clip.Time.Formate"
+				options={{
+					current: this.parseTime(this.props.currentTime),
+					all: this.parseTime(this.props.allTime),
+					fps: this.props.fps ? this.props.fps.toString() : "0"
+				}}
+			/>;
+		}
+		else if (this.props.mode === "R") {
+			return <Localization
+				i18nKey="Panel.Info.Behavior.Clip.Record.Formate"
+				options={{
+					time: this.parseTime(this.props.currentTime),
+				}}
+			/>;
+		}
+	}
+
+	private getActionIcon(): string {
+		if (this.props.mode === "P") {
+			if (this.props.running) {
+				return "Pause";
+			} else {
+				return "Play";
+			}
+		}
+		else if (this.props.mode === "R") {
+			if (this.props.running) {
+				return "Stop";
+			} else {
+				return "CircleStop";
+			}
+		}
+		return "Play";
+	}
+
 	public render(): ReactNode {
+
+		const isSliderDisable = this.props.mode === "R";
+		const isJumpDisable = this.props.mode === "R";
+
 		return <Theme
 			className="recorder-root"
 			backgroundLevel={BackgroundLevel.Level4}
@@ -35,35 +80,33 @@ class Recorder extends Component<IRecorderProps> {
 		>
 			<Slider
 				min={0}
+				disabled={isSliderDisable}
 				value={this.props.currentFrame}
 				max={this.props.allFrame}
-				className="recorder-slider"
+				className={"recorder-slider" + (isSliderDisable ? " disable" : "")}
 				showValue={false}
 			/>
 			<div className="recorder-content">
 				<div className="time-view">
-					<Localization
-						i18nKey="Panel.Info.Behavior.Clip.Time.Formate"
-						options={{
-							current: this.parseTime(this.props.currentTime),
-							all: this.parseTime(this.props.allTime),
-							fps: this.props.fps ? this.props.fps.toString() : "--"
-						}}
-					/>
+					{this.getRecordInfo()}
 				</div>
 				<div className="ctrl-button">
-					<div className="ctrl-action">
+					<div className={"ctrl-action" + (isJumpDisable ? " disable" : "")}>
 						<Icon iconName="Back"/>
 					</div>
-					<div className="ctrl-action ctrl-action-main">
-						<Icon iconName="Play"/>
+					<div className="ctrl-action ctrl-action-main" onClick={this.props.action}>
+						<Icon iconName={this.getActionIcon()}/>
 					</div>
-					<div className="ctrl-action">
+					<div className={"ctrl-action" + (isJumpDisable ? " disable" : "")}>
 						<Icon iconName="Forward"/>
 					</div>
 				</div>
 				<div className="speed-view">
-					{this.props.name}
+					{
+						this.props.name ?
+							<span>{this.props.name}</span> :
+							<Localization i18nKey="Panel.Info.Behavior.Clip.Uname.Clip"/>
+					}
 				</div>
 			</div>
 		</Theme>;

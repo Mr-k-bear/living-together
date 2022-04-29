@@ -56,6 +56,8 @@ const EN_US = {
     "Panel.Title.Behavior.Clip.Player": "Recording",
     "Panel.Info.Behavior.Clip.Player": "Pre render recorded data",
     "Panel.Info.Behavior.Clip.Time.Formate": "{current} / {all} / {fps}fps",
+    "Panel.Info.Behavior.Clip.Record.Formate": "Record: {time}",
+    "Panel.Info.Behavior.Clip.Uname.Clip": "Waiting for recording...",
     "Popup.Title.Unnamed": "Popup message",
     "Popup.Title.Confirm": "Confirm message",
     "Popup.Action.Yes": "Confirm",

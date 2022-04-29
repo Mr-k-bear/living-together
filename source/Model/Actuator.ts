@@ -11,6 +11,7 @@ enum ActuatorModel {
 
 interface IActuatorEvent {
 	startChange: boolean;
+	record: number;
 	loop: number;
 }
 
@@ -130,6 +131,7 @@ class Actuator extends Emitter<IActuatorEvent> {
 							this.mod === ActuatorModel.Offline
 						) {
 							this.recordClip?.record(this.alignTimer * this.speed);
+							this.emit("record", this.alignTimer);
 						}
 
 						this.emit("loop", this.alignTimer);

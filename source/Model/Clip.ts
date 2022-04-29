@@ -25,6 +25,11 @@ class Clip {
 	public id: string;
 
 	/**
+	 * 时间
+	 */
+	public time: number = 0;
+
+	/**
 	 * 用户自定义名称
 	 */
 	public name: string = "";
@@ -76,6 +81,7 @@ class Clip {
 			duration: t
 		};
 
+		this.time += t;
 		this.frames.push(frame);
 
 		return frame;

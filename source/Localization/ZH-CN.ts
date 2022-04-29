@@ -56,6 +56,8 @@ const ZH_CN = {
     "Panel.Title.Behavior.Clip.Player": "录制",
     "Panel.Info.Behavior.Clip.Player": "预渲染录制数据",
     "Panel.Info.Behavior.Clip.Time.Formate": "{current} / {all} / {fps} fps",
+    "Panel.Info.Behavior.Clip.Record.Formate": "录制: {time}",
+    "Panel.Info.Behavior.Clip.Uname.Clip": "等待录制...",
     "Popup.Title.Unnamed": "弹窗消息",
     "Popup.Title.Confirm": "确认消息",
     "Popup.Action.Yes": "确定",
