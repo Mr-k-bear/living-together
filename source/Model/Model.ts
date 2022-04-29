@@ -23,6 +23,7 @@ type ModelEvent = {
     objectChange: CtrlObject[];
     individualChange: Group;
     behaviorChange: IAnyBehavior;
+    clipChange: Clip[];
 };
 
 /**
@@ -331,7 +332,50 @@ class Model extends Emitter<ModelEvent> {
         }
     }
 
+    /**
+     * 剪辑数据
+     */
     public clipPool: Clip[] = [];
+
+    /**
+     * 新建剪辑片段
+     */
+    public addClip(name?: string): Clip {
+        let newClip = new Clip(this);
+        newClip.name = name ?? "";
+        this.clipPool.push(newClip);
+        console.log(`Model: Create clip ${name ?? newClip.id}`);
+        this.emit("clipChange", this.clipPool);
+        return newClip;
+    }
+
+    /**
+     * 删除一个剪辑片段
+     */
+    public deleteClip(name: ObjectID | Clip) {
+        let deletedClip: Clip | undefined;
+        let index = 0;
+
+        for (let i = 0; i < this.clipPool.length; i++) {
+            if (name instanceof Clip) {
+                if (this.clipPool[i].equal(name)) {
+                    deletedClip = this.clipPool[i];
+                    index = i;
+                }
+            }
+            
+            else if (name === this.clipPool[i].id) {
+                deletedClip = this.clipPool[i];
+                index = i;
+            }
+        }
+
+        if (deletedClip) {
+            this.behaviorPool.splice(index, 1);
+            console.log(`Model: Delete clip ${deletedClip.name ?? deletedClip.id}`);
+            this.emit("clipChange", this.clipPool);
+        }
+    }
 
     /**
      * 渲染器
@@ -350,7 +394,7 @@ class Model extends Emitter<ModelEvent> {
     /**
      * 更新渲染数据
      */
-    public update(t: number, skipDraw: boolean = false) {
+    public update(t: number) {
 
         // 第一轮更新
         for (let i = 0; i < this.objectPool.length; i++) {
@@ -374,10 +418,6 @@ class Model extends Emitter<ModelEvent> {
             if (object instanceof Group && object.update) {
                 object.runner(t, "finalEffect");
             }
-        }
-
-        if (!skipDraw) {
-            this.draw();
         }
     }
 

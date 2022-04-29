@@ -1,4 +1,5 @@
 import { IAnyObject, Model } from "@Model/Model";
+import { v4 as uuid } from "uuid";
 import { Group } from "@Model/Group";
 import { Range } from "@Model/Range";
 
@@ -20,6 +21,8 @@ interface IFrame {
  * 剪辑片段
  */
 class Clip {
+
+	public id: string;
 
 	/**
 	 * 用户自定义名称
@@ -78,10 +81,13 @@ class Clip {
 		return frame;
 	}
 
-	
+	public equal(clip?: Clip) {
+		return clip === this || clip?.id === this.id;
+	}
 
 	public constructor(model: Model) {
 		this.model = model;
+		this.id = uuid();
 	}
 }
 
