@@ -4,6 +4,7 @@ import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
 import { Theme } from "@Component/Theme/Theme";
 import { Message } from "@Input/Message/Message";
 import { Clip } from "@Model/Clip";
+import { ActuatorModel } from "@Model/Actuator";
 import "./ClipPlayer.scss";
 
 @useStatusWithEvent("clipChange", "focusClipChange", "actuatorStartChange")
@@ -14,8 +15,17 @@ class ClipPlayer extends Component<IMixinStatusProps> {
 	}
 
 	private renderClipList(clipList: Clip[]): ReactNode {
+
+		const disable =
+			!this.props.status?.focusClip && 
+			(
+				this.props.status?.actuator.mod === ActuatorModel.Record ||
+				this.props.status?.actuator.mod === ActuatorModel.Offline
+			);
+
 		return <ClipList
 			clips={clipList}
+			disable={disable}
 		/>;
 	}
 

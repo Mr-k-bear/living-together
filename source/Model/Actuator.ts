@@ -52,6 +52,7 @@ class Actuator extends Emitter<IActuatorEvent> {
 
 		// 记录录制片段
 		this.recordClip = clip;
+		clip.isRecording = true;
 
 		// 如果仿真未开启，开启仿真
 		if (!this.start()) this.start(true);
@@ -64,6 +65,9 @@ class Actuator extends Emitter<IActuatorEvent> {
 	 * 结束录制
 	 */
 	public endRecord() {
+
+		this.recordClip && (this.recordClip.isRecording = false);
+		this.recordClip = undefined;
 
 		// 如果仿真未停止，停止仿真
 		if (this.start()) this.start(false);

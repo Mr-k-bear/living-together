@@ -57,15 +57,32 @@ div.clip-list-root {
 		}
 
 		div.clip-item-content {
+			width: calc( 100% - 65px );
+			padding-right: 10px;
+			max-width: 125px;
 			height: $clip-item-height;
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
-			
+
+			div {
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				width: 100%;
+			}
+
+			div.info {
+				opacity: .75;
+			}
 		}
 	}
 
-	div.clip-item:hover {
+	div.clip-item.disable {
+		cursor: not-allowed;
+	}
+
+	div.clip-item.able:hover {
 
 		div.clip-icon-view {
 
@@ -98,7 +115,7 @@ div.dark.clip-list-root {
 		}
 	}
 
-	div.clip-item:hover {
+	div.clip-item.able:hover {
 		color: $lt-font-color-lvl2-dark;
 		background-color: $lt-bg-color-lvl2-dark;
 	}
@@ -119,7 +136,7 @@ div.light.clip-list-root {
 		}
 	}
 
-	div.clip-item:hover {
+	div.clip-item.able:hover {
 		color: $lt-font-color-lvl2-light;
 		background-color: $lt-bg-color-lvl2-light;
 	}

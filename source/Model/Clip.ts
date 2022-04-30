@@ -45,6 +45,11 @@ class Clip {
 	public frames: IFrame[] = [];
 
 	/**
+	 * 是否正在录制
+	 */
+	public isRecording: boolean = false;
+
+	/**
 	 * 录制一帧
 	 */
 	public record(t: number): IFrame {
