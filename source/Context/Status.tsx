@@ -424,6 +424,22 @@ class Status extends Emitter<IStatusEvent> {
         return label;
     }
 
+    public newClip() {
+        let searchKey = I18N(this.setting.language, "Object.List.New.Clip", { id: "" });
+        let nextIndex = 1;
+        this.model.clipPool.forEach((obj) => {
+            nextIndex = Math.max(nextIndex, this.getNextNumber(
+                obj.name, searchKey
+            ));
+        });
+        const clip = this.model.addClip(
+            I18N(this.setting.language, "Object.List.New.Clip", {
+                id: nextIndex.toString()
+            })
+        );
+        return clip;
+    }
+
     public setMouseMod(mod: MouseMod) {
         this.mouseMod = mod;
         if (this.renderer instanceof ClassicRenderer) {

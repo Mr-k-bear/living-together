@@ -37,7 +37,7 @@ class ClipRecorder extends Component<IMixinStatusProps> {
 				if (mod === "R" && !runner) {
 
 					// 获取新实例
-					let newClip = this.props.status?.model.addClip();
+					let newClip = this.props.status?.newClip();
 					
 					// 开启录制时钟
 					this.props.status?.actuator.startRecord(newClip!);

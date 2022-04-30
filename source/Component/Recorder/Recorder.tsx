@@ -62,7 +62,7 @@ class Recorder extends Component<IRecorderProps> {
 			if (this.props.running) {
 				return "Stop";
 			} else {
-				return "CircleStop";
+				return "StatusCircleRing";
 			}
 		}
 		return "Play";
