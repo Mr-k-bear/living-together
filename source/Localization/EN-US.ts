@@ -69,6 +69,7 @@ const EN_US = {
     "Popup.Action.Objects.Confirm.Restore": "Restore",
     "Popup.Delete.Objects.Confirm": "Are you sure you want to delete this object(s)? The object is deleted and cannot be recalled.",
     "Popup.Delete.Behavior.Confirm": "Are you sure you want to delete this behavior? The behavior is deleted and cannot be recalled.",
+    "Popup.Delete.Clip.Confirm": "Are you sure you want to delete this clip? The clip cannot be restored after deletion.",
     "Popup.Restore.Behavior.Confirm": "Are you sure you want to reset all parameters of this behavior? This operation cannot be recalled.",
     "Popup.Setting.Title": "Preferences setting",
     "Popup.Load.Save.Title": "Load save",

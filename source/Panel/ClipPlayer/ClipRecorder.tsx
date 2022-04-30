@@ -10,6 +10,7 @@ class ClipRecorder extends Component<IMixinStatusProps> {
 		let mod: "P" | "R" = this.props.status?.focusClip ? "P" : "R";
 		let runner: boolean = false;
 		let currentTime: number = 0;
+		let name: string | undefined;
 
 		// 是否开始录制
 		if (mod === "R") {
@@ -19,15 +20,20 @@ class ClipRecorder extends Component<IMixinStatusProps> {
 			this.props.status?.actuator.mod === ActuatorModel.Offline;
 
 			currentTime = this.props.status?.actuator.recordClip?.time ?? 0;
+
+			name = this.props.status?.actuator.recordClip?.name;
 		}
 
 		else if (mod === "P") {
 
 			// 是否正在播放
 			runner = this.props.status?.actuator.mod === ActuatorModel.Play;
+
+			name = this.props.status?.focusClip?.name;
 		}
 
 		return <Recorder
+			name={name}
 			currentTime={currentTime}
 			mode={mod}
 			running={runner}

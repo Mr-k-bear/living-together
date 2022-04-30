@@ -69,6 +69,7 @@ const ZH_CN = {
     "Popup.Action.Objects.Confirm.Restore": "重置",
     "Popup.Delete.Objects.Confirm": "你确定要删除这个(些)对象吗？对象被删除将无法撤回。",
     "Popup.Delete.Behavior.Confirm": "你确定要删除这个行为吗？行为被删除将无法撤回。",
+    "Popup.Delete.Clip.Confirm": "你确定删除这个剪辑片段，剪辑片段删除后将无法恢复。",
     "Popup.Restore.Behavior.Confirm": "你确定要重置此行为的全部参数吗？此操作无法撤回。",
     "Popup.Setting.Title": "首选项设置",
     "Popup.Load.Save.Title": "加载存档",
