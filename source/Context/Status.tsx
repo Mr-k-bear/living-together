@@ -14,6 +14,7 @@ import { PopupController } from "@Context/Popups";
 import { Behavior } from "@Model/Behavior";
 import { IParameter, IParamValue } from "@Model/Parameter";
 import { Actuator } from "@Model/Actuator";
+import { Clip } from "@Model/Clip";
 
 function randomColor(unNormal: boolean = false) {
     const color = [
@@ -35,14 +36,17 @@ interface IStatusEvent {
     fileChange: void;
     renderLoop: number;
     physicsLoop: number;
+    recordLoop: number;
     mouseModChange: void;
     focusObjectChange: void;
     focusLabelChange: void;
     focusBehaviorChange: void;
     objectChange: void;
+    focusClipChange: void;
     rangeLabelChange: void;
     groupLabelChange: void;
     groupBehaviorChange: void;
+    clipChange: void;
     labelChange: void;
     rangeAttrChange: void;
     labelAttrChange: void;
@@ -98,6 +102,11 @@ class Status extends Emitter<IStatusEvent> {
      */
     public focusBehavior?: Behavior;
 
+    /**
+     * 焦点行为
+     */
+    public focusClip?: Clip;
+
     private drawTimer?: NodeJS.Timeout;
 
     private delayDraw = () => {
@@ -119,11 +128,13 @@ class Status extends Emitter<IStatusEvent> {
 
         // 循环事件
         this.actuator.on("loop", (t) => { this.emit("physicsLoop", t) });
+        this.actuator.on("record", (t) => { this.emit("recordLoop", t) });
 
         // 对象变化事件
         this.model.on("objectChange", () => this.emit("objectChange"));
         this.model.on("labelChange", () => this.emit("labelChange"));
         this.model.on("behaviorChange", () => this.emit("behaviorChange"));
+        this.model.on("clipChange", () => this.emit("clipChange"));
 
         // 弹窗事件
         this.popup.on("popupChange", () => this.emit("popupChange"));
@@ -218,6 +229,16 @@ class Status extends Emitter<IStatusEvent> {
     public setBehaviorObject(focusBehavior?: Behavior) {
         this.focusBehavior = focusBehavior;
         this.emit("focusBehaviorChange");
+    }
+
+    /**
+     * 更新焦点行为
+     */
+    public setClipObject(clip?: Clip) {
+        if (this.focusClip !== clip) {
+            this.focusClip = clip;
+        }
+        this.emit("focusClipChange");
     }
 
     /**
@@ -401,6 +422,22 @@ class Status extends Emitter<IStatusEvent> {
         );
         label.color = randomColor(true);
         return label;
+    }
+
+    public newClip() {
+        let searchKey = I18N(this.setting.language, "Object.List.New.Clip", { id: "" });
+        let nextIndex = 1;
+        this.model.clipPool.forEach((obj) => {
+            nextIndex = Math.max(nextIndex, this.getNextNumber(
+                obj.name, searchKey
+            ));
+        });
+        const clip = this.model.addClip(
+            I18N(this.setting.language, "Object.List.New.Clip", {
+                id: nextIndex.toString()
+            })
+        );
+        return clip;
     }
 
     public setMouseMod(mod: MouseMod) {

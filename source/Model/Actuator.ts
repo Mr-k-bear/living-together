@@ -1,8 +1,17 @@
 import { Model } from "@Model/Model";
 import { Emitter } from "@Model/Emitter";
+import { Clip } from "@Model/Clip";
+
+enum ActuatorModel {
+	Play = 1,
+	Record = 2,
+	View = 3,
+	Offline = 4
+}
 
 interface IActuatorEvent {
 	startChange: boolean;
+	record: number;
 	loop: number;
 }
 
@@ -25,6 +34,47 @@ class Actuator extends Emitter<IActuatorEvent> {
 	 * 仿真是否进行
 	 */
 	private startFlag: boolean = false;
+
+	/**
+	 * 模式
+	 */
+	public mod: ActuatorModel = ActuatorModel.View;
+
+	/**
+	 * 录制剪辑
+	 */
+	public recordClip?: Clip;
+
+	/**
+	 * 开始录制
+	 */
+	public startRecord(clip: Clip) {
+
+		// 记录录制片段
+		this.recordClip = clip;
+		clip.isRecording = true;
+
+		// 如果仿真未开启，开启仿真
+		if (!this.start()) this.start(true);
+
+		// 设置状态
+		this.mod = ActuatorModel.Record;
+	}
+
+	/**
+	 * 结束录制
+	 */
+	public endRecord() {
+
+		this.recordClip && (this.recordClip.isRecording = false);
+		this.recordClip = undefined;
+
+		// 如果仿真未停止，停止仿真
+		if (this.start()) this.start(false);
+
+		// 设置状态
+		this.mod = ActuatorModel.View;
+	}
 
 	/**
 	 * 主时钟状态控制
@@ -72,13 +122,30 @@ class Actuator extends Emitter<IActuatorEvent> {
 				} else {
 					this.alignTimer += durTime;
 					if (this.alignTimer > (1 / this.fps)) {
+
+						// 更新模型
 						this.model.update(this.alignTimer * this.speed);
+
+						// 绘制模型
+						this.model.draw();
+
+						// 录制模型
+						if (
+							this.mod === ActuatorModel.Record ||
+							this.mod === ActuatorModel.Offline
+						) {
+							this.recordClip?.record(this.alignTimer * this.speed);
+							this.emit("record", this.alignTimer);
+						}
+
 						this.emit("loop", this.alignTimer);
 						this.alignTimer = 0;
 					}
 				}
 			}
-		} else {
+		}
+		
+		else {
 			this.emit("loop", Infinity);
 		}
 	}
@@ -122,4 +189,4 @@ class Actuator extends Emitter<IActuatorEvent> {
 	}
 }
 
-export { Actuator }
+export { Actuator, ActuatorModel }

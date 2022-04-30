@@ -1,0 +1,148 @@
+@import "../Theme/Theme.scss";
+
+$clip-item-height: 45px;
+
+div.clip-list-root {
+	margin: -5px;
+	display: flex;
+	flex-wrap: wrap;
+
+	div.clip-item {
+		margin: 5px;
+		height: $clip-item-height;
+		user-select: none;
+		border-radius: 3px;
+        overflow: hidden;
+		cursor: pointer;
+		display: flex;
+
+		div.clip-item-hole-view {
+			height: 100%;
+			width: 10px;
+			box-sizing: border-box;
+			display: flex;
+			flex-direction: column;
+			justify-items: center;
+			justify-content: space-between;
+			padding: 5px;
+			padding-right: 0;
+
+			div.clip-item-hole {
+				width: 5px;
+				height: 5px;
+				background-color: #000000;
+				flex-shrink: 0;
+			}
+		}
+
+		div.clip-icon-view {
+			width: $clip-item-height;
+			height: $clip-item-height;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			i.icon {
+				display: inline-block;
+				font-size: 25px;
+			}
+
+			i.delete {
+				display: none;
+			}
+
+			i.delete:hover {
+				color: $lt-red;
+			}
+		}
+
+		div.clip-item-content {
+			width: calc( 100% - 65px );
+			padding-right: 10px;
+			max-width: 125px;
+			height: $clip-item-height;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+
+			div {
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				width: 100%;
+			}
+
+			div.info {
+				opacity: .75;
+			}
+		}
+	}
+
+	div.clip-item.disable {
+		cursor: not-allowed;
+	}
+
+	div.clip-item.able:hover {
+
+		div.clip-icon-view {
+
+			i.icon {
+				display: none;
+			}
+
+			i.delete {
+				display: inline-block;
+			}
+		}
+	}
+
+	div.add-button {
+        width: 26px;
+        height: 26px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+div.dark.clip-list-root {
+
+	div.clip-item {
+		background-color: $lt-bg-color-lvl3-dark;
+
+		div.clip-item-hole-view div.clip-item-hole {
+			background-color: $lt-bg-color-lvl4-dark;
+		}
+	}
+
+	div.clip-item.able:hover {
+		color: $lt-font-color-lvl2-dark;
+		background-color: $lt-bg-color-lvl2-dark;
+	}
+
+	div.clip-item.focus {
+		color: $lt-font-color-lvl1-dark;
+    	background-color: $lt-bg-color-lvl1-dark;
+	}
+}
+
+div.light.clip-list-root {
+	
+	div.clip-item {
+		background-color: $lt-bg-color-lvl3-light;
+
+		div.clip-item-hole-view div.clip-item-hole {
+			background-color: $lt-bg-color-lvl4-light;
+		}
+	}
+
+	div.clip-item.able:hover {
+		color: $lt-font-color-lvl2-light;
+		background-color: $lt-bg-color-lvl2-light;
+	}
+
+	div.clip-item.focus {
+		color: $lt-font-color-lvl1-light;
+    	background-color: $lt-bg-color-lvl1-light;
+	}
+}
