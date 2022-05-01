@@ -1,6 +1,6 @@
 import { Model } from "@Model/Model";
 import { Emitter } from "@Model/Emitter";
-import { Clip } from "@Model/Clip";
+import { Clip, IFrame } from "@Model/Clip";
 
 enum ActuatorModel {
 	Play = 1,
@@ -46,6 +46,21 @@ class Actuator extends Emitter<IActuatorEvent> {
 	public recordClip?: Clip;
 
 	/**
+	 * 播放剪辑
+	 */
+	public playClip?: Clip;
+
+	/**
+	 * 播放帧
+	 */
+	public playFrame?: IFrame;
+
+	/**
+	 * 播放帧数
+	 */
+	 public playFrameId: number = 0;
+
+	/**
 	 * 开始录制
 	 */
 	public startRecord(clip: Clip) {
@@ -74,6 +89,98 @@ class Actuator extends Emitter<IActuatorEvent> {
 
 		// 设置状态
 		this.mod = ActuatorModel.View;
+	}
+
+	public startPlay(clip: Clip) {
+
+		// 如果仿真正在进行，停止仿真
+		if (this.start()) this.start(false);
+
+		// 如果正在录制，阻止播放
+		if (this.mod === ActuatorModel.Record) {
+			return;
+		}
+
+		// 如果正在播放，暂停播放
+		if (this.mod === ActuatorModel.Play) {
+			this.pausePlay();
+		}
+
+		// 设置播放对象
+		this.playClip = clip;
+
+		// 设置播放帧数
+		this.playFrameId = 0;
+		this.playFrame = clip.frames[this.playFrameId];
+
+		// 播放第一帧
+		clip.play(this.playFrame);
+
+		// 激发时钟状态事件
+		this.emit("startChange", true);
+	}
+
+	public endPlay() {
+
+		// 如果正在播放，暂停播放
+		if (this.mod === ActuatorModel.Play) {
+			this.pausePlay();
+		}
+
+		// 更新模式
+		this.mod = ActuatorModel.View;
+
+		// 清除状态
+		this.playClip = undefined;
+		this.playFrameId = 0;
+		this.playFrame = undefined;
+
+		// 渲染模型
+		this.model.draw();
+
+		// 激发时钟状态事件
+		this.emit("startChange", false);
+	}
+
+	/**
+	 * 是否播放完毕
+	 */
+	public isPlayEnd() {
+		if (this.playClip && this.playFrame) {
+			if (this.playFrameId >= (this.playClip.frames.length - 1)) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return true;
+		}
+	}
+
+	public playing() {
+
+		// 如果播放完毕了，从头开始播放
+		if (this.isPlayEnd() && this.playClip) {
+			this.startPlay(this.playClip);
+		}
+
+		// 更新模式
+		this.mod = ActuatorModel.Play;
+
+		// 启动播放时钟
+		this.playTicker();
+
+		// 激发时钟状态事件
+		this.emit("startChange", false);
+	}
+
+	public pausePlay() {
+
+		// 更新模式
+		this.mod = ActuatorModel.View;
+
+		// 激发时钟状态事件
+		this.emit("startChange", false);
 	}
 
 	/**
@@ -107,6 +214,42 @@ class Actuator extends Emitter<IActuatorEvent> {
 	private alignTimer: number = 0;
 
 	public tickerType: 1 | 2 = 2;
+
+	private playTickerTimer?: number;
+
+	/**
+	 * 播放时钟
+	 */
+	private playTicker() {
+
+		if (this.playClip && this.playFrame && this.mod === ActuatorModel.Play) {
+
+			// 播放当前帧
+			this.playClip.play(this.playFrame);
+
+			// 没有完成播放，继续播放
+			if (!this.isPlayEnd()) {
+
+				// 跳转值下一帧
+				this.playFrameId ++;
+				this.playFrame = this.playClip.frames[this.playFrameId];
+				this.emit("record", this.playFrame.duration);
+
+				// 清除计时器，保证时钟唯一性
+				clearTimeout(this.playTickerTimer);
+
+				// 延时
+				this.playTickerTimer = setTimeout(() => {
+					this.playTicker();
+				}, this.playFrame.duration * 1000) as any;
+
+			} else {
+				this.pausePlay();
+			}
+		} else {
+			this.pausePlay();
+		}
+	}
 
 	private ticker(t: number) {
 		if (this.startFlag && t !== 0) {

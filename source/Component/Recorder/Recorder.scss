@@ -7,9 +7,11 @@ div.recorder-root {
 
 	div.recorder-slider {
 		width: 100%;
+		transition: none;
 
 		div.ms-Slider-slideBox {
 			height: 16px;
+			transition: none;
 		}
 
 		span.ms-Slider-thumb {
@@ -17,15 +19,18 @@ div.recorder-root {
 			height: 12px;
 			line-height: 16px;
 			border-width: 3px;
+			transition: none;
 			top: -4px;
 		}
 
 		span.ms-Slider-active {
 			height: 3px;
+			transition: none;
 		}
 		
 		span.ms-Slider-inactive {
 			height: 3px;
+			animation: none;
 		}
 	}
 

@@ -15,6 +15,7 @@ interface IDrawCommand {
 interface IFrame {
 	commands: IDrawCommand[];
 	duration: number;
+	process: number;
 }
 
 /**
@@ -81,15 +82,39 @@ class Clip {
             }
         }
 
+		const dt = this.frames.length <= 0 ? 0 : t;
+		this.time += dt;
+		
 		const frame: IFrame = {
 			commands: commands,
-			duration: t
+			duration: dt,
+			process: this.time
 		};
-
-		this.time += t;
+		
 		this.frames.push(frame);
-
 		return frame;
+	}
+
+	/**
+	 * 播放一帧
+	 */
+	public play(frame: IFrame) {
+
+		// 清除全部渲染状态
+        this.model.renderer.clean();
+
+		// 执行全部渲染指令
+		for (let i = 0; i < frame.commands.length; i++) {
+			const command: IDrawCommand = frame.commands[i];
+
+			if (command.type === "cube") {
+				this.model.renderer.cube(command.id, command.position, command.radius, command.parameter);
+			}
+
+			else if (frame.commands[i].type === "points") {
+				this.model.renderer.points(command.id, command.data, command.parameter);
+			}
+		}
 	}
 
 	public equal(clip?: Clip) {
@@ -102,4 +127,4 @@ class Clip {
 	}
 }
 
-export { Clip };
+export { Clip, IFrame };

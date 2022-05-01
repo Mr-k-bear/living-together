@@ -17,19 +17,20 @@ class ClipPlayer extends Component<IMixinStatusProps> {
 		return <Message i18nKey="Panel.Info.Clip.List.Error.Nodata"/>;
 	}
 
+	private isClipListDisable() {
+		return !this.props.status?.focusClip && 
+		(
+			this.props.status?.actuator.mod === ActuatorModel.Record ||
+			this.props.status?.actuator.mod === ActuatorModel.Offline
+		);
+	}
+
 	private renderClipList(clipList: Clip[]): ReactNode {
-   
-		const disable =
-			!this.props.status?.focusClip && 
-			(
-				this.props.status?.actuator.mod === ActuatorModel.Record ||
-				this.props.status?.actuator.mod === ActuatorModel.Offline
-			);
 
 		return <ClipList
 			focus={this.props.status?.focusClip}
 			clips={clipList}
-			disable={disable}
+			disable={this.isClipListDisable()}
 			delete={(clip) => {
 				this.isInnerClick = true;
 				const status = this.props.status;
@@ -40,7 +41,8 @@ class ClipPlayer extends Component<IMixinStatusProps> {
 						yesI18n: "Popup.Action.Objects.Confirm.Delete",
 						red: "yes",
 						yes: () => {
-							status.setClipObject()
+							status.setClipObject();
+							this.props.status?.actuator.endPlay();
 							status.model.deleteClip(clip.id);
 						}
 					});
@@ -52,6 +54,7 @@ class ClipPlayer extends Component<IMixinStatusProps> {
 			click={(clip) => {
 				this.isInnerClick = true;
 				this.props.status?.setClipObject(clip);
+				this.props.status?.actuator.startPlay(clip);
 			}}
 		/>;
 	}
@@ -64,11 +67,19 @@ class ClipPlayer extends Component<IMixinStatusProps> {
 			fontLevel={FontLevel.normal}
 			backgroundLevel={BackgroundLevel.Level4}
 			onClick={()=>{
+				
+				// 拦截禁用状态的事件
+				if (this.isClipListDisable()) {
+					return;
+				}
+				
 				if (this.isInnerClick) {
 					this.isInnerClick = false;
 				}
+
 				else {
 					this.props.status?.setClipObject();
+					this.props.status?.actuator.endPlay();
 				}
 			}}
 		>

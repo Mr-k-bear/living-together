@@ -9,8 +9,12 @@ class ClipRecorder extends Component<IMixinStatusProps> {
 
 		let mod: "P" | "R" = this.props.status?.focusClip ? "P" : "R";
 		let runner: boolean = false;
-		let currentTime: number = 0;
+		let currentTime: number | undefined = 0;
+		let allTime: number | undefined = 0;
 		let name: string | undefined;
+		let currentFrame: number | undefined = 0;
+		let allFrame: number | undefined = 0;
+		let fps: number | undefined = 0;
 
 		// 是否开始录制
 		if (mod === "R") {
@@ -28,15 +32,30 @@ class ClipRecorder extends Component<IMixinStatusProps> {
 
 			// 是否正在播放
 			runner = this.props.status?.actuator.mod === ActuatorModel.Play;
-
 			name = this.props.status?.focusClip?.name;
+			allTime = this.props.status?.focusClip?.time;
+			allFrame = this.props.status?.focusClip?.frames.length;
+			currentFrame = this.props.status?.actuator.playFrameId;
+			currentTime = this.props.status?.actuator.playFrame?.process;
+
+			if (allFrame !== undefined) {
+				allFrame --;
+			}
+
+			if (allTime !== undefined && allFrame !== undefined) {
+				fps = Math.round(allFrame / allTime);
+			}
 		}
 
 		return <Recorder
 			name={name}
 			currentTime={currentTime}
+			allTime={allTime}
+			currentFrame={currentFrame}
+			allFrame={allFrame}
 			mode={mod}
 			running={runner}
+			fps={fps}
 			action={() => {
 
 				// 开启录制
@@ -56,6 +75,22 @@ class ClipRecorder extends Component<IMixinStatusProps> {
 					// 暂停录制时钟
 					this.props.status?.actuator.endRecord();
 					console.log("ClipRecorder: Rec end...");
+				}
+
+				// 开始播放
+				if (mod === "P" && !runner) {
+
+					// 启动播放时钟
+					this.props.status?.actuator.playing();
+					console.log("ClipRecorder: Play start...");
+				}
+
+				// 暂停播放
+				if (mod === "P" && runner) {
+
+					// 启动播放时钟
+					this.props.status?.actuator.pausePlay();
+					console.log("ClipRecorder: Pause start...");
 				}
 			}}
 		/>
