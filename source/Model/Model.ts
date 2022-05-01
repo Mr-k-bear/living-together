@@ -371,7 +371,7 @@ class Model extends Emitter<ModelEvent> {
         }
 
         if (deletedClip) {
-            this.behaviorPool.splice(index, 1);
+            this.clipPool.splice(index, 1);
             console.log(`Model: Delete clip ${deletedClip.name ?? deletedClip.id}`);
             this.emit("clipChange", this.clipPool);
         }

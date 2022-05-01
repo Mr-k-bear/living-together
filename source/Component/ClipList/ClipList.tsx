@@ -39,7 +39,7 @@ class ClipList extends Component<IClipListProps> {
 	}
 
 	private getClipInfo(clip: Clip): string {
-		let fps = Math.floor(clip.frames.length / clip.time);
+		let fps = Math.round((clip.frames.length - 1) / clip.time);
 		if (isNaN(fps)) fps = 0;
 		return `${this.parseTime(clip.time)} ${fps}fps`;
 	}
