@@ -14,6 +14,7 @@ interface IRecorderProps {
 	allTime?: number;
 	currentTime?: number;
 	action?: () => void;
+	valueChange?: (value: number) => any;
 }
 
 class Recorder extends Component<IRecorderProps> {
@@ -85,19 +86,38 @@ class Recorder extends Component<IRecorderProps> {
 				max={this.props.allFrame}
 				className={"recorder-slider" + (isSliderDisable ? " disable" : "")}
 				showValue={false}
+				onChange={(value) => {
+					if (this.props.valueChange && !isSliderDisable) {
+						this.props.valueChange(value);
+					}
+				}}
 			/>
 			<div className="recorder-content">
 				<div className="time-view">
 					{this.getRecordInfo()}
 				</div>
 				<div className="ctrl-button">
-					<div className={"ctrl-action" + (isJumpDisable ? " disable" : "")}>
+					<div
+						className={"ctrl-action" + (isJumpDisable ? " disable" : "")}
+						onClick={() => {
+							if (this.props.valueChange && !isJumpDisable && this.props.currentFrame !== undefined) {
+								this.props.valueChange(this.props.currentFrame - 1);
+							}
+						}}
+					>
 						<Icon iconName="Back"/>
 					</div>
 					<div className="ctrl-action ctrl-action-main" onClick={this.props.action}>
 						<Icon iconName={this.getActionIcon()}/>
 					</div>
-					<div className={"ctrl-action" + (isJumpDisable ? " disable" : "")}>
+					<div
+						className={"ctrl-action" + (isJumpDisable ? " disable" : "")}
+						onClick={() => {
+							if (this.props.valueChange && !isJumpDisable && this.props.currentFrame !== undefined) {
+								this.props.valueChange(this.props.currentFrame + 1);
+							}
+						}}
+					>
 						<Icon iconName="Forward"/>
 					</div>
 				</div>

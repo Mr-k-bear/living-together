@@ -218,6 +218,23 @@ class Actuator extends Emitter<IActuatorEvent> {
 	private playTickerTimer?: number;
 
 	/**
+	 * 设置播放进度
+	 */
+	public setPlayProcess(id: number) {
+		if (this.playClip && id >= 0 && id < this.playClip.frames.length) {
+		
+			// 跳转值这帧
+			this.playFrameId = id;
+			this.playFrame = this.playClip.frames[this.playFrameId];
+			this.emit("record", this.playFrame.duration);
+
+			if (this.mod !== ActuatorModel.Play) {
+				this.playClip.play(this.playFrame);
+			}
+		}
+	}
+
+	/**
 	 * 播放时钟
 	 */
 	private playTicker() {
