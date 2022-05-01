@@ -6,6 +6,7 @@ import { Message } from "@Input/Message/Message";
 import { Clip } from "@Model/Clip";
 import { ActuatorModel } from "@Model/Actuator";
 import { ConfirmPopup } from "@Component/ConfirmPopup/ConfirmPopup";
+import { OfflineRender } from "@Component/OfflineRender/OfflineRender"
 import "./ClipPlayer.scss";
 
 @useStatusWithEvent("clipChange", "focusClipChange", "actuatorStartChange")
@@ -50,6 +51,7 @@ class ClipPlayer extends Component<IMixinStatusProps> {
 			}}
 			add={() => {
 				this.isInnerClick = true;
+				this.props.status?.popup.showPopup(OfflineRender, {});
 			}}
 			click={(clip) => {
 				this.isInnerClick = true;

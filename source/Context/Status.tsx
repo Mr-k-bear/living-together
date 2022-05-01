@@ -37,6 +37,7 @@ interface IStatusEvent {
     renderLoop: number;
     physicsLoop: number;
     recordLoop: number;
+    offlineLoop: number;
     mouseModChange: void;
     focusObjectChange: void;
     focusLabelChange: void;
@@ -129,6 +130,7 @@ class Status extends Emitter<IStatusEvent> {
         // 循环事件
         this.actuator.on("loop", (t) => { this.emit("physicsLoop", t) });
         this.actuator.on("record", (t) => { this.emit("recordLoop", t) });
+        this.actuator.on("offline", (t) => { this.emit("offlineLoop", t) });
 
         // 对象变化事件
         this.model.on("objectChange", () => this.emit("objectChange"));
@@ -424,7 +426,7 @@ class Status extends Emitter<IStatusEvent> {
         return label;
     }
 
-    public newClip() {
+    public getNewClipName() {
         let searchKey = I18N(this.setting.language, "Object.List.New.Clip", { id: "" });
         let nextIndex = 1;
         this.model.clipPool.forEach((obj) => {
@@ -432,11 +434,13 @@ class Status extends Emitter<IStatusEvent> {
                 obj.name, searchKey
             ));
         });
-        const clip = this.model.addClip(
-            I18N(this.setting.language, "Object.List.New.Clip", {
-                id: nextIndex.toString()
-            })
-        );
+        return I18N(this.setting.language, "Object.List.New.Clip", {
+            id: nextIndex.toString()
+        });
+    }
+
+    public newClip() {
+        const clip = this.model.addClip(this.getNewClipName());
         return clip;
     }
 

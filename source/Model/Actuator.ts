@@ -13,6 +13,7 @@ interface IActuatorEvent {
 	startChange: boolean;
 	record: number;
 	loop: number;
+	offline: number;
 }
 
 /**
@@ -232,6 +233,107 @@ class Actuator extends Emitter<IActuatorEvent> {
 				this.playClip.play(this.playFrame);
 			}
 		}
+	}
+
+	/**
+	 * 离线渲染参数
+	 */
+	public offlineAllFrame: number = 0;
+	public offlineCurrentFrame: number = 0;
+	private offlineRenderTickTimer?: number;
+
+	/**
+	 * 关闭离线渲染
+	 */
+	public endOfflineRender() {
+
+		// 清除 timer
+		clearTimeout(this.offlineRenderTickTimer);
+
+		this.recordClip && (this.recordClip.isRecording = false);
+		this.recordClip = undefined;
+		
+		// 设置状态
+		this.mod = ActuatorModel.View;
+
+		// 激发结束事件
+		this.start(false);
+		this.emit("record", 0);
+	}
+
+	/**
+	 * 离线渲染 tick
+	 */
+	private offlineRenderTick(dt: number) {
+
+		if (this.mod !== ActuatorModel.Offline) {
+			return;
+		}
+
+		if (this.offlineCurrentFrame >= this.offlineAllFrame) {
+			return this.endOfflineRender();
+		}
+		
+		// 更新模型
+		this.model.update(dt);
+
+		// 录制
+		this.recordClip?.record(dt);
+
+		// 限制更新频率
+		if (this.offlineCurrentFrame % 10 === 0) {
+			this.emit("offline", dt);
+		}
+
+		this.offlineCurrentFrame++
+
+		if (this.offlineCurrentFrame <= this.offlineAllFrame) {
+			
+			// 下一个 tick
+			this.offlineRenderTickTimer = setTimeout(() => this.offlineRenderTick(dt)) as any;
+
+		} else {
+			this.endOfflineRender();
+		}
+	}
+
+	/**
+	 * 离线渲染
+	 */
+	public offlineRender(clip: Clip, time: number, fps: number) {
+		
+		// 记录录制片段
+		this.recordClip = clip;
+		clip.isRecording = true;
+
+		// 如果仿真正在进行，停止仿真
+		if (this.start()) this.start(false);
+
+		// 如果正在录制，阻止
+		if (this.mod === ActuatorModel.Record || this.mod === ActuatorModel.Offline) {
+			return;
+		}
+
+		// 如果正在播放，暂停播放
+		if (this.mod === ActuatorModel.Play) {
+			this.pausePlay();
+		}
+
+		// 设置状态
+		this.mod = ActuatorModel.Offline;
+
+		// 计算帧数
+		this.offlineCurrentFrame = 0;
+		this.offlineAllFrame = Math.round(time * fps) - 1;
+		let dt = time / this.offlineAllFrame;
+
+		// 第一帧渲染
+		clip.record(0);
+
+		// 开启时钟
+		this.offlineRenderTick(dt);
+
+		this.emit("record", dt);
 	}
 
 	/**

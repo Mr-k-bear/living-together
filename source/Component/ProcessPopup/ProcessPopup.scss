@@ -1,0 +1,42 @@
+@import "../Theme/Theme.scss";
+
+div.process-popup {
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	padding: 10px;
+
+	div.ms-ProgressIndicator {
+		transform: none;
+
+		div.ms-ProgressIndicator-progressTrack {
+			transform: none;
+		}
+	
+		div.ms-ProgressIndicator-progressBar {
+			transform: none;
+		}
+	}
+}
+
+div.confirm-root.dark div.ms-ProgressIndicator {
+
+	div.ms-ProgressIndicator-progressTrack {
+		background-color: $lt-bg-color-lvl3-dark;
+	}
+
+	div.ms-ProgressIndicator-progressBar {
+		background-color: $lt-font-color-normal-dark;
+	}
+}
+
+div.confirm-root.light div.ms-ProgressIndicator {
+
+	div.ms-ProgressIndicator-progressTrack {
+		background-color: $lt-bg-color-lvl3-light;
+	}
+
+	div.ms-ProgressIndicator-progressBar {
+		background-color: $lt-font-color-normal-light;
+	}
+}
