@@ -90,7 +90,7 @@ class ClipRecorder extends Component<IMixinStatusProps> {
 
 					// 启动播放时钟
 					this.props.status?.actuator.pausePlay();
-					console.log("ClipRecorder: Pause start...");
+					console.log("ClipRecorder: Pause play...");
 				}
 			}}
 			valueChange={(value) => {

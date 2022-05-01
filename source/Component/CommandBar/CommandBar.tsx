@@ -9,6 +9,7 @@ import { SettingPopup } from "@Component/SettingPopup/SettingPopup";
 import { BehaviorPopup } from "@Component/BehaviorPopup/BehaviorPopup";
 import { MouseMod } from "@GLRender/ClassicRenderer";
 import { ArchiveSave } from "@Context/Archive";
+import { ActuatorModel } from "@Model/Actuator";
 import "./CommandBar.scss";
 
 const COMMAND_BAR_WIDTH = 45;
@@ -50,6 +51,62 @@ class CommandBar extends Component<IMixinSettingProps & IMixinStatusProps, IComm
         isSaveRunning: false
     };
 
+    private renderPlayActionButton(): ReactNode {
+
+        let icon: string = "Play";
+        let handel: () => any = () => {};
+
+        // 播放模式
+        if (this.props.status?.focusClip) {
+
+            // 暂停播放
+            if (this.props.status?.actuator.mod === ActuatorModel.Play) {
+                icon = "Pause";
+                handel = () => {
+                    this.props.status?.actuator.pausePlay();
+					console.log("ClipRecorder: Pause play...");
+                };
+            }
+
+            // 开始播放
+            else {
+                icon = "Play";
+                handel = () => {
+                    this.props.status?.actuator.playing();
+					console.log("ClipRecorder: Play start...");
+                };
+            }
+        }
+        
+        // 正在录制中
+        else if (
+            this.props.status?.actuator.mod === ActuatorModel.Record ||
+			this.props.status?.actuator.mod === ActuatorModel.Offline
+        ) {
+
+            // 暂停录制
+            icon = "Stop";
+            handel = () => {
+                this.props.status?.actuator.endRecord();
+                console.log("ClipRecorder: Rec end...");
+            };
+        }
+
+        // 正常控制主时钟
+        else {
+            icon = this.props.status?.actuator.start() ? "Pause" : "Play";
+            handel = () => this.props.status?.actuator.start(
+                !this.props.status?.actuator.start()
+            );
+        }
+
+        return <CommandButton
+            iconName={icon}
+            i18NKey="Command.Bar.Play.Info"
+            click={handel}
+        />;
+    }
+
     public render(): ReactNode {
 
         const mouseMod = this.props.status?.mouseMod ?? MouseMod.Drag;
@@ -84,13 +141,7 @@ class CommandBar extends Component<IMixinSettingProps & IMixinStatusProps, IComm
                     }}
                 />
 
-                <CommandButton
-                    iconName={this.props.status?.actuator.start() ? "Pause" : "Play"}
-                    i18NKey="Command.Bar.Play.Info"
-                    click={() => this.props.status ? this.props.status.actuator.start(
-                        !this.props.status.actuator.start()
-                    ) : undefined}
-                />
+                {this.renderPlayActionButton()}
 
                 <CommandButton
                     iconName="HandsFree"
