@@ -8,6 +8,7 @@ import { IArchiveIndividual, Individual } from "@Model/Individual";
 import { Behavior, IArchiveBehavior } from "@Model/Behavior";
 import { getBehaviorById } from "@Behavior/Behavior";
 import { IArchiveParseFn, IObjectParamArchiveType, IRealObjectType } from "@Model/Parameter";
+import { Clip, IArchiveClip } from "@Model/Clip";
 
 interface IArchiveEvent {
     fileSave: Archive;
@@ -20,6 +21,7 @@ interface IArchiveObject {
     objectPool: IArchiveCtrlObject[];
     labelPool: IArchiveLabel[];
     behaviorPool: IArchiveBehavior[];
+    clipPool: IArchiveClip[];
 }
 
 class Archive extends Emitter<IArchiveEvent> {
@@ -51,7 +53,7 @@ class Archive extends Emitter<IArchiveEvent> {
 
         // 存贮 CtrlObject
         const objectPool: IArchiveCtrlObject[] = [];
-        model.objectPool.forEach(obj => {
+        model.objectPool?.forEach(obj => {
             let archiveObject = obj.toArchive();
 
             // 处理每个群的个体
@@ -60,7 +62,7 @@ class Archive extends Emitter<IArchiveEvent> {
                 const group: Group = obj as Group;
 
                 const individuals: IArchiveIndividual[] = [];
-                group.individuals.forEach((item) => {
+                group.individuals?.forEach((item) => {
                     individuals.push(item.toArchive());
                 });
 
@@ -72,14 +74,20 @@ class Archive extends Emitter<IArchiveEvent> {
 
         // 存储 Label
         const labelPool: IArchiveLabel[] = [];
-        model.labelPool.forEach(obj => {
+        model.labelPool?.forEach(obj => {
             labelPool.push(obj.toArchive());
         });
 
         // 存储全部行为
         const behaviorPool: IArchiveBehavior[] = [];
-        model.behaviorPool.forEach(obj => {
+        model.behaviorPool?.forEach(obj => {
             behaviorPool.push(obj.toArchive());
+        });
+
+        // 存储全部剪辑片段
+        const clipPool: IArchiveClip[] = [];
+        model.clipPool?.forEach(obj => {
+            clipPool.push(obj.toArchive());
         });
 
         // 生成存档对象
@@ -87,7 +95,8 @@ class Archive extends Emitter<IArchiveEvent> {
             nextIndividualId: model.nextIndividualId,
             objectPool: objectPool,
             labelPool: labelPool,
-            behaviorPool: behaviorPool
+            behaviorPool: behaviorPool,
+            clipPool: clipPool
         };
 
         return JSON.stringify(fileData);
@@ -105,7 +114,7 @@ class Archive extends Emitter<IArchiveEvent> {
         // 实例化全部对象
         const objectPool: CtrlObject[] = [];
         const individualPool: Individual[] = [];
-        archive.objectPool.forEach((obj) => {
+        archive.objectPool?.forEach((obj) => {
 
             let ctrlObject: CtrlObject | undefined = undefined;
             
@@ -116,7 +125,7 @@ class Archive extends Emitter<IArchiveEvent> {
 
                 // 实例化全部个体
                 const individuals: Array<Individual> = [];
-                archiveGroup.individuals.forEach((item) => {
+                archiveGroup.individuals?.forEach((item) => {
                     const newIndividual = new Individual(newGroup);
                     newIndividual.id = item.id;
                     individuals.push(newIndividual);
@@ -140,7 +149,7 @@ class Archive extends Emitter<IArchiveEvent> {
 
         // 实例化全部标签
         const labelPool: Label[] = [];
-        archive.labelPool.forEach((item) => {
+        archive.labelPool?.forEach((item) => {
             const newLabel = new Label(model);
             newLabel.id = item.id;
             labelPool.push(newLabel);
@@ -148,11 +157,19 @@ class Archive extends Emitter<IArchiveEvent> {
 
         // 实例化全部行为
         const behaviorPool: Behavior[] = [];
-        archive.behaviorPool.forEach((item) => {
+        archive.behaviorPool?.forEach((item) => {
             const recorder = getBehaviorById(item.behaviorId);
             const newBehavior = recorder.new();
             newBehavior.id = item.id;
             behaviorPool.push(newBehavior);
+        });
+
+        // 实例化全部剪辑
+        const clipPool: Clip[] = [];
+        archive.clipPool?.forEach((item) => {
+            const newClip = new Clip(model);
+            newClip.id = item.id;
+            clipPool.push(newClip);
         });
 
         // 内置标签集合
@@ -236,6 +253,12 @@ class Archive extends Emitter<IArchiveEvent> {
         // 加载行为属性
         model.behaviorPool = behaviorPool.map((item, index) => {
             item.fromArchive(archive.behaviorPool[index], parseFunction);
+            return item;
+        });
+
+        // 加载剪辑
+        model.clipPool = clipPool.map((item, index) => {
+            item.fromArchive(archive.clipPool[index], parseFunction);
             return item;
         });
     }
