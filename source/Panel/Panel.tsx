@@ -12,6 +12,7 @@ import { BehaviorList } from "@Panel/BehaviorList/BehaviorList";
 import { BehaviorDetails } from "@Panel/BehaviorDetails/BehaviorDetails";
 import { ClipPlayer } from "@Panel/ClipPlayer/ClipPlayer";
 import { ClipRecorder } from "@Panel/ClipPlayer/ClipRecorder";
+import { ClipDetails } from "@Panel/ClipDetails/ClipDetails";
 
 interface IPanelInfo {
 	nameKey: string;
@@ -34,6 +35,7 @@ type PanelId = ""
 | "BehaviorList" // 行为列表
 | "BehaviorDetails" // 行为属性
 | "ClipPlayer" // 剪辑影片
+| "ClipDetails" // 剪辑详情
 ;
 
 const PanelInfoMap = new Map<PanelId, IPanelInfo>();
@@ -72,6 +74,10 @@ PanelInfoMap.set("BehaviorDetails", {
 PanelInfoMap.set("ClipPlayer", {
     nameKey: "Panel.Title.Behavior.Clip.Player", introKay: "Panel.Info.Behavior.Clip.Player",
     class: ClipPlayer, header: ClipRecorder, hidePadding: true
+});
+PanelInfoMap.set("ClipDetails", {
+    nameKey: "Panel.Title.Behavior.Clip.Details", introKay: "Panel.Info.Behavior.Clip.Details",
+    class: ClipDetails
 });
 
 function getPanelById(panelId: PanelId): ReactNode {
