@@ -53,6 +53,7 @@ interface IStatusEvent {
     labelAttrChange: void;
     groupAttrChange: void;
     behaviorAttrChange: void;
+    clipAttrChange: void;
     individualChange: void;
     behaviorChange: void;
     popupChange: void;
@@ -283,6 +284,18 @@ class Status extends Emitter<IStatusEvent> {
                     undefined;
             }
             this.emit("behaviorAttrChange");
+        }
+    }
+
+    /**
+     * 修改剪辑属性
+     */
+    public changeClipAttrib<K extends keyof Clip>
+    (id: ObjectID, key: K, val: Clip[K]) {
+        const clip = this.model.getClipById(id);
+        if (clip && clip instanceof Clip) {
+            clip[key] = val;
+            this.emit("clipAttrChange");
         }
     }
 

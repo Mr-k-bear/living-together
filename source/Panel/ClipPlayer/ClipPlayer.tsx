@@ -1,6 +1,7 @@
 import { Component, ReactNode } from "react";
 import { ClipList } from "@Component/ClipList/ClipList";
 import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
+import { useSetting, IMixinSettingProps } from "@Context/Setting";
 import { BackgroundLevel, FontLevel, Theme } from "@Component/Theme/Theme";
 import { Message } from "@Input/Message/Message";
 import { Clip } from "@Model/Clip";
@@ -9,8 +10,9 @@ import { ConfirmPopup } from "@Component/ConfirmPopup/ConfirmPopup";
 import { OfflineRender } from "@Component/OfflineRender/OfflineRender"
 import "./ClipPlayer.scss";
 
-@useStatusWithEvent("clipChange", "focusClipChange", "actuatorStartChange")
-class ClipPlayer extends Component<IMixinStatusProps> {
+@useSetting
+@useStatusWithEvent("clipChange", "focusClipChange", "actuatorStartChange", "clipAttrChange")
+class ClipPlayer extends Component<IMixinStatusProps & IMixinSettingProps> {
 
 	private isInnerClick: boolean = false;
 
@@ -57,6 +59,7 @@ class ClipPlayer extends Component<IMixinStatusProps> {
 				this.isInnerClick = true;
 				this.props.status?.setClipObject(clip);
 				this.props.status?.actuator.startPlay(clip);
+				this.props.setting?.layout.focus("ClipDetails");
 			}}
 		/>;
 	}

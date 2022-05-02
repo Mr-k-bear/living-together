@@ -3,7 +3,7 @@ import { useStatusWithEvent, IMixinStatusProps } from "@Context/Status";
 import { Recorder } from "@Component/Recorder/Recorder";
 import { ActuatorModel } from "@Model/Actuator";
 
-@useStatusWithEvent("actuatorStartChange", "focusClipChange", "recordLoop")
+@useStatusWithEvent("actuatorStartChange", "focusClipChange", "recordLoop", "clipAttrChange")
 class ClipRecorder extends Component<IMixinStatusProps> {
 	public render(): ReactNode {
 

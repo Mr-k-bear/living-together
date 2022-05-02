@@ -349,6 +349,14 @@ class Model extends Emitter<ModelEvent> {
         return newClip;
     }
 
+    public getClipById(id: ObjectID): Clip | undefined {
+        for (let i = 0; i < this.clipPool.length; i++) {
+            if (this.clipPool[i].id.toString() === id.toString()) {
+                return this.clipPool[i];
+            }
+        }
+    }
+
     /**
      * 删除一个剪辑片段
      */

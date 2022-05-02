@@ -55,7 +55,7 @@ class SimulatorWeb extends Component {
                     items: [
                         {panels: ["RenderView"]},
                         {
-                            items: [{panels: ["ClipPlayer", "BehaviorList"]}, {panels: ["LabelList"]}],
+                            items: [{panels: ["BehaviorList", "ClipPlayer"]}, {panels: ["LabelList"]}],
                             scale: 80,
                             layout: LayoutDirection.X
                         }
@@ -67,7 +67,7 @@ class SimulatorWeb extends Component {
                     items: [{
                         panels: ["ObjectList"]
                     }, {
-                        panels: ["GroupDetails", "RangeDetails", "LabelDetails", "BehaviorDetails"]
+                        panels: ["GroupDetails", "RangeDetails", "LabelDetails", "BehaviorDetails", "ClipDetails"]
                     }],
                     scale: 30,
                     layout: LayoutDirection.Y
