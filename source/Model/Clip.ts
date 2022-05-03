@@ -8,6 +8,7 @@ interface IDrawCommand {
 	type: "points" | "cube";
 	id: string;
 	data?: Float32Array;
+	mapId?: number[];
 	position?: number[];
 	radius?: number[];
 	parameter?: IAnyObject;
@@ -143,7 +144,7 @@ class Clip {
 		return res;
 	}
 
-	public isArrayEqual(a1?: number[], a2?: number[]): boolean {
+	public isArrayEqual(a1?: Array<number | string>, a2?: Array<number | string>): boolean {
 
 		if ((a1 && !a2) || (!a1 && a2)) {
 			return false;
@@ -180,6 +181,26 @@ class Clip {
 	}
 
 	/**
+	 * ID 映射
+	 */
+	private sorterIdMapper: Map<string, number> = new Map();
+	private sorterIdMapperNextId: number = 1;
+
+	/**
+	 * 获取映射ID
+	 */
+	private getMapperId = (id: string): number => {
+		let mapperId = this.sorterIdMapper.get(id);
+		if (mapperId === undefined) {
+			mapperId = this.sorterIdMapperNextId ++;
+			this.sorterIdMapper.set(id, mapperId);
+			return mapperId;
+		} else {
+			return mapperId;
+		}
+	}
+
+	/**
 	 * 录制一帧
 	 */
 	public record(t: number): IFrame {
@@ -196,10 +217,11 @@ class Clip {
 				const lastCommand = this.getCommandFromLastFrame("points", object.id);
 
 				// 记录
+				const dataBuffer = object.exportPositionId(this.getMapperId);
 				const recodeData: IDrawCommand = {
 					type: "points",
 					id: object.id,
-					data: object.exportPositionData()
+					data: dataBuffer[0]
 				}
 
 				// 对比校验
@@ -207,6 +229,12 @@ class Clip {
 					recodeData.parameter = lastCommand?.parameter;
 				} else {
 					recodeData.parameter = this.cloneRenderParameter(object.renderParameter);
+				}
+
+				if (this.isArrayEqual(dataBuffer[1], lastCommand?.mapId)) {
+					recodeData.mapId = lastCommand?.mapId;
+				} else {
+					recodeData.mapId = dataBuffer[1];
 				}
 
 				commands.push(recodeData);
@@ -290,6 +318,9 @@ class Clip {
 				command.data = (lastCommand?.data === commands[j].data) ?
 					this.LastFrameData as any : Array.from(commands[j].data ?? []);
 
+				command.mapId = (lastCommand?.mapId === commands[j].mapId) ?
+					this.LastFrameData as any : commands[j].mapId;
+
 				command.position = (lastCommand?.position === commands[j].position) ?
 					this.LastFrameData as any : commands[j].position?.concat([]);
 
@@ -336,11 +367,12 @@ class Clip {
 					this.getCommandFromLastFrame(command.type, command.id, resFrame[resFrame.length - 1]) :
 					undefined;
 
-				console.log(lastCommand);
-
 				// 记录
 				command.data = (this.LastFrameData as any === commands[j].data) ?
 					lastCommand?.data : new Float32Array(commands[j].data ?? []);
+
+				command.mapId = (this.LastFrameData as any === commands[j].mapId) ?
+					lastCommand?.mapId : commands[j].mapId;
 
 				command.position = (this.LastFrameData as any === commands[j].position) ?
 					lastCommand?.position : commands[j].position;
