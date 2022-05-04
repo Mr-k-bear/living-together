@@ -7,6 +7,7 @@ import { archiveObject2Parameter, IArchiveParseFn, parameter2ArchiveObject } fro
 interface IDrawCommand {
 	type: "points" | "cube";
 	id: string;
+	name?: string;
 	data?: Float32Array;
 	mapId?: number[];
 	position?: number[];
@@ -221,6 +222,7 @@ class Clip {
 				const recodeData: IDrawCommand = {
 					type: "points",
 					id: object.id,
+					name: object.displayName,
 					data: dataBuffer[0]
 				}
 
@@ -249,7 +251,8 @@ class Clip {
 				// 记录
 				const recodeData: IDrawCommand = {
 					type: "cube",
-					id: object.id
+					id: object.id,
+					name: object.displayName
 				}
 
 				// 释放上一帧的内存
@@ -288,7 +291,7 @@ class Clip {
 		return frame;
 	}
 
-	public readonly LastFrameData: "@L" = "@L";
+	public readonly LastFrameData: "@" = "@";
 
 	/**
 	 * 压缩帧数据
@@ -315,6 +318,9 @@ class Clip {
 					undefined;
 
 				// 记录
+				command.name = (lastCommand?.name === commands[j].name) ?
+					this.LastFrameData as any : commands[j].name;
+
 				command.data = (lastCommand?.data === commands[j].data) ?
 					this.LastFrameData as any : Array.from(commands[j].data ?? []);
 
@@ -368,6 +374,9 @@ class Clip {
 					undefined;
 
 				// 记录
+				command.name = (this.LastFrameData as any === commands[j].name) ?
+					lastCommand?.name : commands[j].name;
+				
 				command.data = (this.LastFrameData as any === commands[j].data) ?
 					lastCommand?.data : new Float32Array(commands[j].data ?? []);
 
