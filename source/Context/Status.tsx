@@ -174,11 +174,13 @@ class Status extends Emitter<IStatusEvent> {
             this.emit("objectChange");
             this.emit("labelChange");
             this.emit("behaviorChange");
+            this.emit("clipChange");
 
             // 清除焦点对象
             this.setBehaviorObject();
             this.setFocusObject(new Set());
             this.setLabelObject();
+            this.setClipObject();
 
             // 映射
             this.emit("fileLoad");
@@ -196,11 +198,13 @@ class Status extends Emitter<IStatusEvent> {
         this.on("objectChange", handelFileChange);
         this.on("behaviorChange", handelFileChange);
         this.on("labelChange", handelFileChange);
+        this.on("clipChange", handelFileChange);
         this.on("individualChange", handelFileChange);
         this.on("groupAttrChange", handelFileChange);
         this.on("rangeAttrChange", handelFileChange);
         this.on("labelAttrChange", handelFileChange);
         this.on("behaviorAttrChange", handelFileChange);
+        this.on("clipAttrChange", handelFileChange);
         this.on("fileChange", () => this.archive.emit("fileChange"));
     }
 

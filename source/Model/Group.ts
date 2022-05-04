@@ -428,6 +428,22 @@ class Group extends CtrlObject<IArchiveGroup> {
         return dataBuffer;
     }
 
+    /**
+     * 导出个体id列表
+     */
+    public exportPositionId(idMapper: (id: string) => number ): [Float32Array, number[]] {
+        let bi = 0; let ii = 0;
+        let dataBuffer = new Float32Array(this.individuals.size * 3);
+        let idBUffer: number[] = new Array(this.individuals.size).fill("");
+        this.individuals.forEach((individual) => {
+            idBUffer[ii ++] = idMapper(individual.id);
+            dataBuffer[bi ++] = individual.position[0];
+            dataBuffer[bi ++] = individual.position[1];
+            dataBuffer[bi ++] = individual.position[2];
+        });
+        return [dataBuffer, idBUffer];
+    }
+
     public override toArchive(): IArchiveCtrlObject & IArchiveGroup {
         return {
             ...super.toArchive(),

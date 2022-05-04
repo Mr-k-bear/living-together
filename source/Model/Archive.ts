@@ -301,4 +301,4 @@ class Archive extends Emitter<IArchiveEvent> {
     }
 }
 
-export { Archive };
+export { Archive, IArchiveObject };
