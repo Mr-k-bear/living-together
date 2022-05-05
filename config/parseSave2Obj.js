@@ -280,7 +280,11 @@ objectLineMapper.forEach((item, key) => {
         fileStr += ("o " + objectMapper.get(key).name + " " + item[i].id + "\r\n");
         fileStr += "usemtl default\r\n";
         fileStr += "l ";
-        // fileStr += (getPointID(item[i].id, item[i].start, item[i].last) + " ");
+        fileStr += getPointID(
+            item[i].start / (F.length - 1),
+            item[i].last / (F.length - 1),
+            (item[i].last - item[i].start) / (F.length - 1)
+        ) + " ";
         fileStr += item[i].point.join(" ");
         fileStr += "\r\n";
     }
