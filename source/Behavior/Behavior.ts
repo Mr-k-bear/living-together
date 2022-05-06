@@ -7,6 +7,7 @@ import { Tracking } from "@Behavior/Tracking";
 import { ContactAttacking } from "@Behavior/ContactAttacking";
 import { ContactAssimilate } from "@Behavior/ContactAssimilate";
 import { DelayAssimilate } from "@Behavior/DelayAssimilate";
+import { Avoidance } from "@Behavior/Avoidance";
 
 const AllBehaviors: IAnyBehaviorRecorder[] = [
     new BehaviorRecorder(Template),
@@ -17,6 +18,7 @@ const AllBehaviors: IAnyBehaviorRecorder[] = [
     new BehaviorRecorder(ContactAttacking),
     new BehaviorRecorder(ContactAssimilate),
     new BehaviorRecorder(DelayAssimilate),
+    new BehaviorRecorder(Avoidance),
 ]
 
 /**
