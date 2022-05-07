@@ -31,11 +31,11 @@ class PhysicsDynamics extends Behavior<IPhysicsDynamicsBehaviorParameter, IPhysi
 		limit: { name: "$Limit", type: "boolean", defaultValue: true },
 		maxAcceleration: {
 			name: "$Max.Acceleration", type: "number", defaultValue: 6.25, 
-			numberStep: .1, numberMin: 0, condition: { key: "limit", value: true }
+			numberStep: .1, numberMin: 0.0001, condition: { key: "limit", value: true }
 		},
 		maxVelocity: {
 			name: "$Max.Velocity", type: "number", defaultValue: 12.5,
-			numberStep: .1, numberMin: 0, condition: { key: "limit", value: true }
+			numberStep: .1, numberMin: 0.0001, condition: { key: "limit", value: true }
 		},
 	};
 
@@ -64,7 +64,7 @@ class PhysicsDynamics extends Behavior<IPhysicsDynamicsBehaviorParameter, IPhysi
 		// 加速度约束
 		if (this.parameter.limit) {
 			const lengthA = individual.vectorLength(individual.acceleration);
-			if (lengthA > this.parameter.maxAcceleration) {
+			if (lengthA > this.parameter.maxAcceleration && lengthA) {
 				individual.acceleration[0] = individual.acceleration[0] * this.parameter.maxAcceleration / lengthA;
 				individual.acceleration[1] = individual.acceleration[1] * this.parameter.maxAcceleration / lengthA;
 				individual.acceleration[2] = individual.acceleration[2] * this.parameter.maxAcceleration / lengthA;
@@ -79,7 +79,7 @@ class PhysicsDynamics extends Behavior<IPhysicsDynamicsBehaviorParameter, IPhysi
 		// 速度约束
 		if (this.parameter.limit) {
 			const lengthV = individual.vectorLength(individual.velocity);
-			if (lengthV > this.parameter.maxVelocity) {
+			if (lengthV > this.parameter.maxVelocity && lengthV) {
 				individual.velocity[0] = individual.velocity[0] * this.parameter.maxVelocity / lengthV;
 				individual.velocity[1] = individual.velocity[1] * this.parameter.maxVelocity / lengthV;
 				individual.velocity[2] = individual.velocity[2] * this.parameter.maxVelocity / lengthV;

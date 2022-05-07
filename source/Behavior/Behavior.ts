@@ -7,6 +7,9 @@ import { Tracking } from "@Behavior/Tracking";
 import { ContactAttacking } from "@Behavior/ContactAttacking";
 import { ContactAssimilate } from "@Behavior/ContactAssimilate";
 import { DelayAssimilate } from "@Behavior/DelayAssimilate";
+import { Avoidance } from "@Behavior/Avoidance";
+import { DirectionCluster } from "@Behavior/DirectionCluster";
+import { CentralCluster } from "@Behavior/CentralCluster";
 
 const AllBehaviors: IAnyBehaviorRecorder[] = [
     new BehaviorRecorder(Template),
@@ -17,6 +20,9 @@ const AllBehaviors: IAnyBehaviorRecorder[] = [
     new BehaviorRecorder(ContactAttacking),
     new BehaviorRecorder(ContactAssimilate),
     new BehaviorRecorder(DelayAssimilate),
+    new BehaviorRecorder(Avoidance),
+    new BehaviorRecorder(DirectionCluster),
+    new BehaviorRecorder(CentralCluster),
 ]
 
 /**
