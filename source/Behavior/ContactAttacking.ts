@@ -6,7 +6,8 @@ import { Model } from "@Model/Model";
 type IContactAttackingBehaviorParameter = {
     target: "CLG",
 	success: "number",
-    range: "number"
+    range: "number",
+    assimilate: "CG",
 }
 
 type IContactAttackingBehaviorEvent = {}
@@ -26,7 +27,8 @@ class ContactAttacking extends Behavior<IContactAttackingBehaviorParameter, ICon
 	public override parameterOption = {
 		target: { type: "CLG", name: "$Target" },
         range: { type: "number", name: "$Range", defaultValue: .05, numberMin: 0, numberStep: .01 },
-        success: { type: "number", name: "$Success", defaultValue: 90, numberMin: 0, numberMax: 100, numberStep: 5 }
+        success: { type: "number", name: "$Success", defaultValue: 90, numberMin: 0, numberMax: 100, numberStep: 5 },
+        assimilate: { type: "CG", name: "$Assimilate"}
 	};
 
     public effect = (individual: Individual, group: Group, model: Model, t: number): void => {
@@ -46,6 +48,10 @@ class ContactAttacking extends Behavior<IContactAttackingBehaviorParameter, ICon
                     // 成功判定
                     if (Math.random() * 100 < this.parameter.success) {
                         targetIndividual.die();
+
+                        if (this.parameter.assimilate?.objects) {
+                            individual.transfer(this.parameter.assimilate.objects);
+                        }
                     }
 				}
 			});
@@ -72,6 +78,10 @@ class ContactAttacking extends Behavior<IContactAttackingBehaviorParameter, ICon
         "$Intro": {
             "ZH_CN": "攻击进入共进范围的目标群个体",
             "EN_US": "Attack the target group and individual entering the range"
+        },
+        "$Assimilate": {
+            "ZH_CN": "同化",
+            "EN_US": "Assimilate"
         }
     };
 }
