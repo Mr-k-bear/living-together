@@ -6,6 +6,7 @@ import { Model } from "@Model/Model";
 type IContactAssimilateBehaviorParameter = {
     target: "CLG",
     assimilate: "CG",
+    self: "CG",
 	success: "number",
     range: "number"
 }
@@ -27,14 +28,12 @@ class ContactAssimilate extends Behavior<IContactAssimilateBehaviorParameter, IC
 	public override parameterOption = {
 		target: { type: "CLG", name: "$Target" },
         assimilate: { type: "CG", name: "$Assimilate" },
+        self: { type: "CG", name: "$Self" },
         range: { type: "number", name: "$Range", defaultValue: .05, numberMin: 0, numberStep: .01 },
         success: { type: "number", name: "$Success", defaultValue: 90, numberMin: 0, numberMax: 100, numberStep: 5 }
 	};
 
     public effect = (individual: Individual, group: Group, model: Model, t: number): void => {
-
-        let assimilateGroup = this.parameter.assimilate.objects;
-        if (!assimilateGroup) return;
 
         for (let i = 0; i < this.parameter.target.objects.length; i++) {
 			const targetGroup = this.parameter.target.objects[i];
@@ -50,7 +49,18 @@ class ContactAssimilate extends Behavior<IContactAssimilateBehaviorParameter, IC
 					
                     // 成功判定
                     if (Math.random() * 100 < this.parameter.success) {
-                        targetIndividual.transfer(assimilateGroup!);
+
+                        // 同化目标
+                        let assimilateGroup = this.parameter.assimilate.objects;
+                        if (assimilateGroup) {
+                            targetIndividual.transfer(assimilateGroup);
+                        }
+
+                        // 同化目标
+                        let selfGroup = this.parameter.self.objects;
+                        if (selfGroup) {
+                            individual.transfer(selfGroup);
+                        }
                     }
 				}
 			});
@@ -69,6 +79,10 @@ class ContactAssimilate extends Behavior<IContactAssimilateBehaviorParameter, IC
         "$Assimilate": {
             "ZH_CN": "到哪个群...",
 			"EN_US": "To group..."
+        },
+        "$Self": {
+            "ZH_CN": "自身同化到...",
+			"EN_US": "Self assimilate to..."
         },
         "$Range": {
             "ZH_CN": "同化范围 (m)",
