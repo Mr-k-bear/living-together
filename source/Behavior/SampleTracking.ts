@@ -5,6 +5,7 @@ import { Model } from "@Model/Model";
 
 type ISampleTrackingBehaviorParameter = {
     target: "CLG",
+    key: "string",
 	strength: "number",
     range: "number",
     angle: "number",
@@ -27,6 +28,7 @@ class SampleTracking extends Behavior<ISampleTrackingBehaviorParameter, ISampleT
 
 	public override parameterOption = {
 		target: { type: "CLG", name: "$Target" },
+        key: { type: "string", name: "$Key"},
         range: { type: "number", name: "$Range", defaultValue: 4, numberMin: 0, numberStep: .1 },
         angle: { type: "number", name: "$Angle", defaultValue: 180, numberMin: 0, numberMax: 360, numberStep: 5 },
 		strength: { type: "number", name: "$Strength", defaultValue: 1, numberMin: 0, numberStep: .1 },
@@ -81,7 +83,7 @@ class SampleTracking extends Behavior<ISampleTrackingBehaviorParameter, ISampleT
                             dirArr[i][0] += targetDir[0];
                             dirArr[i][1] += targetDir[1];
                             dirArr[i][2] += targetDir[2];
-                            valArr[i] += targetIndividual.getData("Wastage.Pheromone") ?? 0;
+                            valArr[i] += targetIndividual.getData(this.parameter.key) ?? 0;
                             isFindNest = true;
                         }
                     }
@@ -90,7 +92,7 @@ class SampleTracking extends Behavior<ISampleTrackingBehaviorParameter, ISampleT
 
                         // 保存
                         dirArr.push(targetDir);
-                        valArr.push(targetIndividual.getData("Wastage.Pheromone") ?? 0);
+                        valArr.push(targetIndividual.getData(this.parameter.key) ?? 0);
                     }
                 }
             });
@@ -124,6 +126,10 @@ class SampleTracking extends Behavior<ISampleTrackingBehaviorParameter, ISampleT
 			"ZH_CN": "追踪目标",
 			"EN_US": "Tracking target"
 		},
+        "$Key": {
+            "ZH_CN": "计算键值",
+			"EN_US": "Calculate key value"
+        },
         "$Accuracy": {
             "ZH_CN": "采样精度",
 			"EN_US": "Sampling accuracy"
