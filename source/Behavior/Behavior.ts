@@ -12,6 +12,7 @@ import { DirectionCluster } from "@Behavior/DirectionCluster";
 import { CentralCluster } from "@Behavior/CentralCluster";
 import { Manufacture } from "@Behavior/Manufacture";
 import { Wastage } from "@Behavior/Wastage";
+import { SampleTracking } from "@Behavior/SampleTracking";
 
 const AllBehaviors: IAnyBehaviorRecorder[] = [
     new BehaviorRecorder(Template),
@@ -27,6 +28,7 @@ const AllBehaviors: IAnyBehaviorRecorder[] = [
     new BehaviorRecorder(CentralCluster),
     new BehaviorRecorder(Manufacture),
     new BehaviorRecorder(Wastage),
+    new BehaviorRecorder(SampleTracking),
 ]
 
 /**
