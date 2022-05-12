@@ -7,6 +7,7 @@ type ITrackingBehaviorParameter = {
     target: "CLG",
 	strength: "number",
     range: "number",
+    angle: "number",
     lock: "boolean"
 }
 
@@ -28,11 +29,22 @@ class Tracking extends Behavior<ITrackingBehaviorParameter, ITrackingBehaviorEve
 		target: { type: "CLG", name: "$Target" },
         lock: { type: "boolean", name: "$Lock", defaultValue: false },
         range: { type: "number", name: "$Range", defaultValue: 4, numberMin: 0, numberStep: .1 },
+        angle: { type: "number", name: "$Angle", defaultValue: 180, numberMin: 0, numberMax: 360, numberStep: 5 },
 		strength: { type: "number", name: "$Strength", defaultValue: 1, numberMin: 0, numberStep: .1 }
 	};
 
     private target: Individual | undefined = undefined;
     private currentDistant: number = Infinity;
+
+    private angle2Vector(v1: number[], v2: number[]): number {
+		return Math.acos(
+			(v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2]) /
+			(
+				(v1[0] ** 2 + v1[1] ** 2 + v1[2] ** 2) ** 0.5 *
+				(v2[0] ** 2 + v2[1] ** 2 + v2[2] ** 2) ** 0.5
+			)
+		) * 180 / Math.PI;
+	}
 
     private searchTarget(individual: Individual) {
 
@@ -46,8 +58,21 @@ class Tracking extends Behavior<ITrackingBehaviorParameter, ITrackingBehaviorEve
 				let dis = targetIndividual.distanceTo(individual);
 
 				if (dis < this.currentDistant && dis <= this.parameter.range) {
-					this.target = targetIndividual;
-					this.currentDistant = dis;
+
+                    // 计算目标方位
+                    const targetDir = [
+                        targetIndividual.position[0] - individual.position[0],
+                        targetIndividual.position[1] - individual.position[1],
+                        targetIndividual.position[2] - individual.position[2]
+                    ];
+
+                    // 计算角度
+                    const angle = this.angle2Vector(individual.velocity, targetDir);
+
+                    if (angle < (this.parameter.angle ?? 360) / 2) {
+                        this.target = targetIndividual;
+					    this.currentDistant = dis;
+                    }
 				}
 
 			});
@@ -150,7 +175,11 @@ class Tracking extends Behavior<ITrackingBehaviorParameter, ITrackingBehaviorEve
 		"$Interactive": {
 			"ZH_CN": "交互",
             "EN_US": "Interactive"
-		}
+		},
+        "$Angle": {
+            "ZH_CN": "可视角度",
+            "EN_US": "Viewing angle"
+        }
     };
 }
 

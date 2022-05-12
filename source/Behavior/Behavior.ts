@@ -10,6 +10,9 @@ import { DelayAssimilate } from "@Behavior/DelayAssimilate";
 import { Avoidance } from "@Behavior/Avoidance";
 import { DirectionCluster } from "@Behavior/DirectionCluster";
 import { CentralCluster } from "@Behavior/CentralCluster";
+import { Manufacture } from "@Behavior/Manufacture";
+import { Wastage } from "@Behavior/Wastage";
+import { SampleTracking } from "@Behavior/SampleTracking";
 
 const AllBehaviors: IAnyBehaviorRecorder[] = [
     new BehaviorRecorder(Template),
@@ -23,6 +26,9 @@ const AllBehaviors: IAnyBehaviorRecorder[] = [
     new BehaviorRecorder(Avoidance),
     new BehaviorRecorder(DirectionCluster),
     new BehaviorRecorder(CentralCluster),
+    new BehaviorRecorder(Manufacture),
+    new BehaviorRecorder(Wastage),
+    new BehaviorRecorder(SampleTracking),
 ]
 
 /**

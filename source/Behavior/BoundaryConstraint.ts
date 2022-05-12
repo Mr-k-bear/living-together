@@ -48,11 +48,17 @@ class BoundaryConstraint extends Behavior<IBoundaryConstraintBehaviorParameter, 
 
 			if (ox || oy || oz) {
 
-				let currentFLen = individual.vectorLength(rx, ry, rz);
+				const backFocus: number[] = [0, 0, 0];
+
+				if (ox) backFocus[0] = rx - rx * rangeList[i].radius[0] / Math.abs(rx);
+				if (oy) backFocus[1] = ry - ry * rangeList[i].radius[1] / Math.abs(ry);
+				if (oz) backFocus[2] = rz - rz * rangeList[i].radius[2] / Math.abs(rz);
+
+				let currentFLen = individual.vectorLength(backFocus);
 				if (currentFLen < fLen) {
-					fx = rx;
-					fy = ry;
-					fz = rz;
+					fx = backFocus[0];
+					fy = backFocus[1];
+					fz = backFocus[2];
 					fLen = currentFLen;
 				}
 
