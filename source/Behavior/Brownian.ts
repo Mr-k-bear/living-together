@@ -132,7 +132,7 @@ class Brownian extends Behavior<IBrownianBehaviorParameter, IBrownianBehaviorEve
 				const vLen = individual.vectorLength(individual.velocity);
 
 				// 随机旋转算法
-				if (vLen !== 0) {
+				if (vLen > 0) {
 					randomDir = this.randomFocusRange(
 						[
 							individual.velocity[0] / vLen,
@@ -141,6 +141,10 @@ class Brownian extends Behavior<IBrownianBehaviorParameter, IBrownianBehaviorEve
 						],
 						this.parameter.angle / 2
 					);
+
+					if (isNaN(randomDir[0]) || isNaN(randomDir[1]) || isNaN(randomDir[2])) {
+						randomDir = this.randomFocus360()
+					}
 				}
 
 				else {
@@ -153,10 +157,12 @@ class Brownian extends Behavior<IBrownianBehaviorParameter, IBrownianBehaviorEve
 				randomDir = this.randomFocus360()
 			}
 
+			const randomLength = minStrength + Math.random() * (maxStrength - minStrength);
+
 			individual.applyForce(
-				minStrength + randomDir[0] * (maxStrength - minStrength),
-				minStrength + randomDir[1] * (maxStrength - minStrength),
-				minStrength + randomDir[2] * (maxStrength - minStrength)
+				randomDir[0] * randomLength,
+				randomDir[1] * randomLength,
+				randomDir[2] * randomLength
 			);
 
 			nextTime = minFrequency +  Math.random() * (maxFrequency - minFrequency);
