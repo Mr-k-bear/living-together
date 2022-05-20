@@ -1,6 +1,10 @@
 const ZH_CN = {
+    "Language": "语言",
     "EN_US": "英语 (美国)",
     "ZH_CN": "中文 (简体)",
+    "Themes": "主题",
+    "Themes.Dark": "黑暗",
+    "Themes.Light": "亮色",
     "Header.Bar.Title": "群生共进 | 仿真器",
     "Header.Bar.Title.Info": "群体行为研究仿真器",
     "Header.Bar.File.Name.Info": "{file} ({status})",

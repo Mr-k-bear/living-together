@@ -188,11 +188,6 @@ class CommandBar extends Component<IMixinSettingProps & IMixinStatusProps, IComm
                         this.props.status ? this.props.status.newLabel() : undefined;
                     }}
                 />
-
-                <CommandButton
-                    iconName="Camera"
-                    i18NKey="Command.Bar.Camera.Info"
-                />
             </div>
             <div>
                 <CommandButton
