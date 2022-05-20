@@ -1,6 +1,10 @@
 const EN_US = {
+    "Language": "Language",
     "EN_US": "English (US)",
     "ZH_CN": "Chinese (Simplified)",
+    "Themes": "Themes",
+    "Themes.Dark": "Dark",
+    "Themes.Light": "Light",
     "Header.Bar.Title": "Living Together | Emulator",
     "Header.Bar.Title.Info": "Group Behavior Research Emulator",
     "Header.Bar.File.Name.Info": "{file} ({status})",
