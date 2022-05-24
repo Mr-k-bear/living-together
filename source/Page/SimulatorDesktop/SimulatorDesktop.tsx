@@ -74,7 +74,7 @@ class SimulatorDesktop extends Component {
                 },
                 {
                     items: [{
-                        panels: ["ObjectList"]
+                        panels: ["ObjectList", "Statistics"]
                     }, {
                         panels: ["GroupDetails", "RangeDetails", "LabelDetails", "BehaviorDetails", "ClipDetails"]
                     }],

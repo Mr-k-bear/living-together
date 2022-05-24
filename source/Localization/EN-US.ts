@@ -62,6 +62,8 @@ const EN_US = {
     "Panel.Info.Behavior.Clip.Player": "Pre render recorded data",
     "Panel.Title.Behavior.Clip.Details": "Clip",
     "Panel.Info.Behavior.Clip.Details": "Edit view clip attributes",
+    "Panel.Info.Statistics": "View statistics",
+    "Panel.Title.Statistics": "Statistics",
     "Panel.Info.Behavior.Clip.Time.Formate": "{current} / {all} / {fps}fps",
     "Panel.Info.Behavior.Clip.Record.Formate": "Record: {time}",
     "Panel.Info.Behavior.Clip.Uname.Clip": "Waiting for recording...",

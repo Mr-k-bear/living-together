@@ -62,6 +62,8 @@ const ZH_CN = {
     "Panel.Info.Behavior.Clip.Player": "预渲染录制数据",
     "Panel.Title.Behavior.Clip.Details": "剪辑",
     "Panel.Info.Behavior.Clip.Details": "编辑查看剪辑片段属性",
+    "Panel.Info.Statistics": "查看统计信息",
+    "Panel.Title.Statistics": "统计",
     "Panel.Info.Behavior.Clip.Time.Formate": "{current} / {all} / {fps} fps",
     "Panel.Info.Behavior.Clip.Record.Formate": "录制: {time}",
     "Panel.Info.Behavior.Clip.Uname.Clip": "等待录制...",
