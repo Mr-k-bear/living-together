@@ -170,6 +170,7 @@ const EN_US = {
     "Panel.Info.Behavior.Details.Parameter.Key.Vec.Z": "{key} Z",
     "Panel.Info.Clip.List.Error.Nodata": "There is no clip, please click the record button to record, or click the plus sign to create",
     "Panel.Info.Clip.Details.Error.Nodata": "Specify a clip to view an attribute",
+    "Panel.Info.Statistics.Nodata": "There are no groups in the model or clip",
     "Info.Hint.Save.After.Close": "Any unsaved progress will be lost. Are you sure you want to continue?",
     "Info.Hint.Load.File.Title": "Load save",
     "Info.Hint.Load.File.Intro": "Release to load the dragged save file",

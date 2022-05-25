@@ -14,6 +14,7 @@ interface IActuatorEvent {
 	record: number;
 	loop: number;
 	offline: number;
+	modelUpdate: void;
 }
 
 /**
@@ -401,6 +402,7 @@ class Actuator extends Emitter<IActuatorEvent> {
 						}
 
 						this.emit("loop", this.alignTimer);
+						this.emit("modelUpdate");
 						this.alignTimer = 0;
 					}
 				}

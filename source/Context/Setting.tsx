@@ -45,6 +45,11 @@ class Setting extends Emitter<ISettingEvents> {
     public layout: Layout = new Layout();
 
     /**
+     * 是否显示线性图表
+     */
+    public lineChartType: boolean = false;
+
+    /**
      * 设置参数
      */
     public setProps<P extends keyof Setting>(key: P, value: Setting[P]) {

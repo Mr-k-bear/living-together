@@ -170,6 +170,7 @@ const ZH_CN = {
     "Panel.Info.Behavior.Details.Parameter.Key.Vec.Z": "{key} Z 坐标",
     "Panel.Info.Clip.List.Error.Nodata": "没有剪辑片段，请点击录制按钮录制，或者点击加号创建",
     "Panel.Info.Clip.Details.Error.Nodata": "请指定一个剪辑片段以查看属性",
+    "Panel.Info.Statistics.Nodata": "模型或剪辑中不存在任何群",
     "Info.Hint.Save.After.Close": "任何未保存的进度都会丢失, 确定要继续吗?",
     "Info.Hint.Load.File.Title": "加载存档",
     "Info.Hint.Load.File.Intro": "释放以加载拽入的存档",
