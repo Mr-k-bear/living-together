@@ -9,7 +9,7 @@ import {
 import { Bar, Line } from 'react-chartjs-2';
 import { Theme } from "@Component/Theme/Theme";
 import { Icon } from "@fluentui/react";
-import { Model } from "@Model/Model";
+import { IAnyObject, Model } from "@Model/Model";
 import { Group } from "@Model/Group";
 import { ActuatorModel } from "@Model/Actuator";
 import { Message } from "@Input/Message/Message";
@@ -147,13 +147,18 @@ class Statistics extends Component<IStatisticsProps & IMixinStatusProps & IMixin
 
     private clipLineChart(clip: Clip, theme: boolean) {
 
-        type IDataSet = {label: string, data: number[], backgroundColor: string, id: string};
+        type IDataSet = {label: string, data: number[], id: string} & IAnyObject;
         const datasets: IDataSet[] = [];
         const labels: number[] = [];
+        let frameLen: number = 0;
+        let lastDataSet: Map<string, number> | undefined;
+        let lastProcess: number | undefined;
         
         // 收集数据
         clip.frames.forEach((frame) => {
-            labels.push(frame.process);
+            
+            const frameData = new Map<string, number>();
+
             frame.commands.forEach((command) => {
 
                 if (command.type !== "points") return;
@@ -165,19 +170,63 @@ class Statistics extends Component<IStatisticsProps & IMixinStatusProps & IMixin
                         break;
                     }
                 }
+                
+                // 记录当前数据
+                frameData.set(command.id, (command.data?.length ?? 0) / 3);
 
-                if (findKey) {
-                    findKey.data.push((command.data?.length ?? 0) / 3);
-                } else {
+                // 新建数据
+                if (!findKey) {
+
+                    const color = `rgb(${command.parameter?.color.map((v: number) => Math.floor(v * 255)).join(",")})`;
+
                     findKey = {} as any;
-                    findKey!.data = [(command.data?.length ?? 0) / 3];
                     findKey!.label = command.name ?? "";
-                    findKey!.backgroundColor = `rgb(${command.parameter?.color.map((v: number) => Math.floor(v * 255)).join(",")})`;
+                    findKey!.backgroundColor = color;
+                    findKey!.borderColor = color;
                     findKey!.id = command.id;
+                    findKey!.pointRadius = 0;
+                    findKey!.borderWidth = 1.5;
+                    findKey!.borderCapStyle = "round";
+                    findKey!.borderJoinStyle = "round";
+                    findKey!.pointHitRadius = 8;
+
+                    // 补充数据
+                    findKey!.data = new Array(frameLen).fill(0);
+
                     datasets.push(findKey!);
                 }
-            })
+            });
+
+            // 与上一帧数据进行对比
+            const isSameData = datasets.every((value: IDataSet) => {
+                if (value.data[frameLen - 1] === frameData.get(value.id)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+
+            lastDataSet = frameData;
+            lastProcess = frame.process;
+
+            // 如果是不同数据 纪录
+            if (!isSameData) {
+                datasets.forEach((value: IDataSet) => {
+                    value.data.push(frameData.get(value.id) ?? 0);
+                });
+                frameLen ++;
+                labels.push(frame.process);
+            }
         });
+
+        // 记录最后一帧数据
+        if (lastDataSet && lastProcess !== labels[labels.length - 1]) {
+            datasets.forEach((value: IDataSet) => {
+                value.data.push(lastDataSet!.get(value.id) ?? 0);
+            });
+            frameLen ++;
+            labels.push(lastProcess!);
+        }
 
         if (datasets.length <= 0) {
             return <Message i18nKey="Panel.Info.Statistics.Nodata"/>
@@ -185,7 +234,7 @@ class Statistics extends Component<IStatisticsProps & IMixinStatusProps & IMixin
 
         return <Line
             options={ theme ? this.lineLightOption : this.lineDarkOption }
-            data={{labels, datasets:[{data: [1], }] }}
+            data={{labels, datasets }}
         />;
     }
 
