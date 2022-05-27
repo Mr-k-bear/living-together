@@ -1,0 +1,63 @@
+@import "../../Component/Theme/Theme.scss";
+
+div.statistics-panel {
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+
+    div.statistics-chart {
+        box-sizing: border-box;
+        padding-top: 10px;
+        max-width: 400px;
+        min-height: 100%;
+        height: 100%;
+        width: 100%;
+    }
+
+    div.statistics-switch {
+        width: 100%;
+        height: 0;
+        display: flex;
+        justify-content: flex-end;
+
+        div.switch-button {
+            width: 24px;
+            height: 24px;
+            position: relative;
+            user-select: none;
+            right: -10px;
+            top: -2px;
+            border-radius: 3px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}
+
+div.statistics-panel.dark {
+
+    div.switch-button {
+        background-color: $lt-bg-color-lvl2-dark;
+        color: $lt-font-color-lvl2-dark;
+    }
+
+    div.switch-button:hover {
+        background-color: $lt-bg-color-lvl1-dark;
+        color: $lt-font-color-lvl1-dark;
+    }
+}
+
+div.statistics-panel.light {
+
+    div.switch-button {
+        background-color: $lt-bg-color-lvl2-light;
+        color: $lt-font-color-lvl2-light;
+    }
+
+    div.switch-button:hover {
+        background-color: $lt-bg-color-lvl1-light;
+        color: $lt-font-color-lvl1-light;
+    }
+}

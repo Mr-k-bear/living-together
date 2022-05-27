@@ -38,6 +38,7 @@ interface IStatusEvent {
     physicsLoop: number;
     recordLoop: number;
     offlineLoop: number;
+    modelUpdate: void;
     mouseModChange: void;
     focusObjectChange: void;
     focusLabelChange: void;
@@ -132,6 +133,7 @@ class Status extends Emitter<IStatusEvent> {
         this.actuator.on("loop", (t) => { this.emit("physicsLoop", t) });
         this.actuator.on("record", (t) => { this.emit("recordLoop", t) });
         this.actuator.on("offline", (t) => { this.emit("offlineLoop", t) });
+        this.actuator.on("modelUpdate", () => { this.emit("modelUpdate") });
 
         // 对象变化事件
         this.model.on("objectChange", () => this.emit("objectChange"));
