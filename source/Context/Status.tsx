@@ -183,6 +183,8 @@ class Status extends Emitter<IStatusEvent> {
             this.setFocusObject(new Set());
             this.setLabelObject();
             this.setClipObject();
+            this.actuator.endPlay();
+            this.actuator.start(false);
 
             // 映射
             this.emit("fileLoad");

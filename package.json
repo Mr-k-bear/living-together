@@ -34,7 +34,7 @@
     "copy-package-json": "fse mkdirp ./bundle/ & node ./config/electron.forge.config.js --out ./bundle",
     "copy-build-result": "fse mkdirp ./bundle/ & fse mkdirp ./build/ & fse copy ./build/ ./bundle/",
     "copy-electron-icon": "fse mkdirp ./bundle/ & fse copy ./assets/living-together.ico ./bundle/living-together.ico & fse copy ./assets/living-together.icns ./bundle/living-together.icns",
-    "electron-app-ci": "cd ./bundle & npm install & cd ../",
+    "electron-app-ci": "cd ./bundle & set ELECTRON_SKIP_BINARY_DOWNLOAD=1& npm i & set ELECTRON_SKIP_BINARY_DOWNLOAD=& set ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/& set ELECTRON_CUSTOM_DIR={{ version }}& node ./node_modules/electron/install.js & cd ../",
     "gen-bundle": "fse emptyDir ./bundle/ & npm run copy-package-json & npm run copy-electron-icon & npm run electron-app-ci"
   },
   "keywords": [
